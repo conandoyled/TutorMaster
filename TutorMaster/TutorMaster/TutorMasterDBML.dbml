@@ -1,0 +1,83 @@
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="TutorMasterDB" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Table Name="Classes">
+    <Type Name="Classes">
+      <Column Name="ClassCode" Type="System.String" DbType="NVarChar(100) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="ClassName" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="Department" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Association Name="Classes_FacultyClasses" Member="FacultyClasses" ThisKey="ClassCode" OtherKey="ClassCode" Type="FacultyClasses" />
+      <Association Name="Classes_StudentClasses" Member="StudentClasses" ThisKey="ClassCode" OtherKey="ClassCode" Type="StudentClasses" />
+    </Type>
+  </Table>
+  <Table Name="Commitments">
+    <Type Name="Commitments">
+      <Column Name="CmtID" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="StartTime" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="EndTime" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="Class" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="Location" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="Open" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="Tutoring" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="Weekly" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="ID1" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="ID2" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Association Name="Commitments_StudentCommitments" Member="StudentCommitments" ThisKey="CmtID" OtherKey="CmtID" Type="StudentCommitments" />
+    </Type>
+  </Table>
+  <Table Name="Faculty">
+    <Type Name="Faculty">
+      <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Department" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Association Name="Faculty_FacultyClasses" Member="FacultyClasses" ThisKey="ID" OtherKey="FacultyID" Type="FacultyClasses" />
+      <Association Name="Users_Faculty" Member="Users" ThisKey="ID" OtherKey="ID" Type="Users" IsForeignKey="true" DeleteOnNull="true" />
+    </Type>
+  </Table>
+  <Table Name="FacultyClasses">
+    <Type Name="FacultyClasses">
+      <Column Name="Key" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="FacultyID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="ClassCode" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Association Name="Classes_FacultyClasses" Member="Classes" ThisKey="ClassCode" OtherKey="ClassCode" Type="Classes" IsForeignKey="true" />
+      <Association Name="Faculty_FacultyClasses" Member="Faculty" ThisKey="FacultyID" OtherKey="ID" Type="Faculty" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="StudentClasses">
+    <Type Name="StudentClasses">
+      <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="ClassCode" Type="System.String" DbType="NVarChar(100) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Association Name="Classes_StudentClasses" Member="Classes" ThisKey="ClassCode" OtherKey="ClassCode" Type="Classes" IsForeignKey="true" DeleteOnNull="true" />
+      <Association Name="Students_StudentClasses" Member="Students" ThisKey="ID" OtherKey="ID" Type="Students" IsForeignKey="true" DeleteOnNull="true" />
+    </Type>
+  </Table>
+  <Table Name="StudentCommitments">
+    <Type Name="StudentCommitments">
+      <Column Name="CmtID" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Association Name="Commitments_StudentCommitments" Member="Commitments" ThisKey="CmtID" OtherKey="CmtID" Type="Commitments" IsForeignKey="true" DeleteOnNull="true" />
+      <Association Name="Students_StudentCommitments" Member="Students" ThisKey="ID" OtherKey="ID" Type="Students" IsForeignKey="true" DeleteOnNull="true" />
+    </Type>
+  </Table>
+  <Table Name="Students">
+    <Type Name="Students">
+      <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Tutee" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="Tutor" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Association Name="Students_StudentClasses" Member="StudentClasses" ThisKey="ID" OtherKey="ID" Type="StudentClasses" />
+      <Association Name="Students_StudentCommitments" Member="StudentCommitments" ThisKey="ID" OtherKey="ID" Type="StudentCommitments" />
+      <Association Name="Users_Students" Member="Users" ThisKey="ID" OtherKey="ID" Type="Users" IsForeignKey="true" DeleteOnNull="true" />
+    </Type>
+  </Table>
+  <Table Name="Users">
+    <Type Name="Users">
+      <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="FirstName" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="LastName" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="Email" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="PhoneNumber" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="AccountType" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="Password" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="Username" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Association Name="Users_Faculty" Member="Faculty" ThisKey="ID" OtherKey="ID" Type="Faculty" Cardinality="One" />
+      <Association Name="Users_Students" Member="Students" ThisKey="ID" OtherKey="ID" Type="Students" Cardinality="One" />
+    </Type>
+  </Table>
+</Database>
