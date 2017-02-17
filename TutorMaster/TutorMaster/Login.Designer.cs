@@ -28,57 +28,61 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.TextBoxUsername = new System.Windows.Forms.TextBox();
-            this.TextBoxPassword = new System.Windows.Forms.TextBox();
-            this.LabelUsername = new System.Windows.Forms.Label();
-            this.LabelPassword = new System.Windows.Forms.Label();
-            this.LabelTitle = new System.Windows.Forms.Label();
+            this.txtUsername = new System.Windows.Forms.TextBox();
+            this.txtPassword = new System.Windows.Forms.TextBox();
+            this.lblUsername = new System.Windows.Forms.Label();
+            this.lblPassword = new System.Windows.Forms.Label();
+            this.lblTitle = new System.Windows.Forms.Label();
             this.btnSignIn = new System.Windows.Forms.Button();
+            this.lblErrMsg = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
-            // TextBoxUsername
+            // txtUsername
             // 
-            this.TextBoxUsername.Location = new System.Drawing.Point(162, 101);
-            this.TextBoxUsername.Name = "TextBoxUsername";
-            this.TextBoxUsername.Size = new System.Drawing.Size(100, 20);
-            this.TextBoxUsername.TabIndex = 2;
+            this.txtUsername.Location = new System.Drawing.Point(162, 101);
+            this.txtUsername.Name = "txtUsername";
+            this.txtUsername.Size = new System.Drawing.Size(100, 20);
+            this.txtUsername.TabIndex = 2;
+            this.txtUsername.TextChanged += new System.EventHandler(this.clearErrMsg);
             // 
-            // TextBoxPassword
+            // txtPassword
             // 
-            this.TextBoxPassword.Location = new System.Drawing.Point(162, 131);
-            this.TextBoxPassword.Name = "TextBoxPassword";
-            this.TextBoxPassword.Size = new System.Drawing.Size(100, 20);
-            this.TextBoxPassword.TabIndex = 3;
+            this.txtPassword.Location = new System.Drawing.Point(162, 131);
+            this.txtPassword.Name = "txtPassword";
+            this.txtPassword.PasswordChar = '*';
+            this.txtPassword.Size = new System.Drawing.Size(100, 20);
+            this.txtPassword.TabIndex = 3;
+            this.txtPassword.TextChanged += new System.EventHandler(this.clearErrMsg);
             // 
-            // LabelUsername
+            // lblUsername
             // 
-            this.LabelUsername.AutoSize = true;
-            this.LabelUsername.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.LabelUsername.Location = new System.Drawing.Point(69, 101);
-            this.LabelUsername.Name = "LabelUsername";
-            this.LabelUsername.Size = new System.Drawing.Size(87, 20);
-            this.LabelUsername.TabIndex = 4;
-            this.LabelUsername.Text = "Username:";
+            this.lblUsername.AutoSize = true;
+            this.lblUsername.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblUsername.Location = new System.Drawing.Point(69, 101);
+            this.lblUsername.Name = "lblUsername";
+            this.lblUsername.Size = new System.Drawing.Size(87, 20);
+            this.lblUsername.TabIndex = 4;
+            this.lblUsername.Text = "Username:";
             // 
-            // LabelPassword
+            // lblPassword
             // 
-            this.LabelPassword.AutoSize = true;
-            this.LabelPassword.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.LabelPassword.Location = new System.Drawing.Point(74, 131);
-            this.LabelPassword.Name = "LabelPassword";
-            this.LabelPassword.Size = new System.Drawing.Size(82, 20);
-            this.LabelPassword.TabIndex = 5;
-            this.LabelPassword.Text = "Password:";
+            this.lblPassword.AutoSize = true;
+            this.lblPassword.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblPassword.Location = new System.Drawing.Point(74, 131);
+            this.lblPassword.Name = "lblPassword";
+            this.lblPassword.Size = new System.Drawing.Size(82, 20);
+            this.lblPassword.TabIndex = 5;
+            this.lblPassword.Text = "Password:";
             // 
-            // LabelTitle
+            // lblTitle
             // 
-            this.LabelTitle.AutoSize = true;
-            this.LabelTitle.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.LabelTitle.Location = new System.Drawing.Point(87, 43);
-            this.LabelTitle.Name = "LabelTitle";
-            this.LabelTitle.Size = new System.Drawing.Size(161, 31);
-            this.LabelTitle.TabIndex = 6;
-            this.LabelTitle.Text = "TutorMaster";
+            this.lblTitle.AutoSize = true;
+            this.lblTitle.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblTitle.Location = new System.Drawing.Point(87, 43);
+            this.lblTitle.Name = "lblTitle";
+            this.lblTitle.Size = new System.Drawing.Size(161, 31);
+            this.lblTitle.TabIndex = 6;
+            this.lblTitle.Text = "TutorMaster";
             // 
             // btnSignIn
             // 
@@ -90,17 +94,28 @@
             this.btnSignIn.UseVisualStyleBackColor = true;
             this.btnSignIn.Click += new System.EventHandler(this.btnSignIn_Click);
             // 
+            // lblErrMsg
+            // 
+            this.lblErrMsg.AutoSize = true;
+            this.lblErrMsg.ForeColor = System.Drawing.Color.DarkRed;
+            this.lblErrMsg.Location = new System.Drawing.Point(13, 207);
+            this.lblErrMsg.Name = "lblErrMsg";
+            this.lblErrMsg.Size = new System.Drawing.Size(10, 13);
+            this.lblErrMsg.TabIndex = 8;
+            this.lblErrMsg.Text = " ";
+            // 
             // Login
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(344, 199);
+            this.ClientSize = new System.Drawing.Size(344, 232);
+            this.Controls.Add(this.lblErrMsg);
             this.Controls.Add(this.btnSignIn);
-            this.Controls.Add(this.LabelTitle);
-            this.Controls.Add(this.LabelPassword);
-            this.Controls.Add(this.LabelUsername);
-            this.Controls.Add(this.TextBoxPassword);
-            this.Controls.Add(this.TextBoxUsername);
+            this.Controls.Add(this.lblTitle);
+            this.Controls.Add(this.lblPassword);
+            this.Controls.Add(this.lblUsername);
+            this.Controls.Add(this.txtPassword);
+            this.Controls.Add(this.txtUsername);
             this.Name = "Login";
             this.Text = "Login";
             this.ResumeLayout(false);
@@ -110,12 +125,13 @@
 
         #endregion
 
-        private System.Windows.Forms.TextBox TextBoxUsername;
-        private System.Windows.Forms.TextBox TextBoxPassword;
-        private System.Windows.Forms.Label LabelUsername;
-        private System.Windows.Forms.Label LabelPassword;
-        private System.Windows.Forms.Label LabelTitle;
+        private System.Windows.Forms.TextBox txtUsername;
+        private System.Windows.Forms.TextBox txtPassword;
+        private System.Windows.Forms.Label lblUsername;
+        private System.Windows.Forms.Label lblPassword;
+        private System.Windows.Forms.Label lblTitle;
         private System.Windows.Forms.Button btnSignIn;
+        private System.Windows.Forms.Label lblErrMsg;
 
     }
 }

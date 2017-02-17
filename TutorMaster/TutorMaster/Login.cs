@@ -19,16 +19,18 @@ namespace TutorMaster
 
         private void btnSignIn_Click(object sender, EventArgs e)
         {
-            string username = TextBoxUsername.Text;
-            string password = TextBoxPassword.Text;
+            string username = txtUsername.Text;
+            string password = txtPassword.Text;
 
             if (isValidUser(username, password))
             {
-                LabelTitle.Text = "True";
+                string accType = getAccType(username);
+                int accID = getID(username);
+                lblErrMsg.Text = accType + accID.ToString();
             }
             else
             {
-                LabelTitle.Text = "False";
+                lblErrMsg.Text = "Invalid Username or Password. Try again.";
             }
         }
 
@@ -37,6 +39,31 @@ namespace TutorMaster
             TutorMasterDBEntities1 db = new TutorMasterDBEntities1();
 
             return (db.Users.Any(u => u.Username == username && u.Password == password));
+        }
+
+        private string getAccType(string username)
+        {
+            TutorMasterDBEntities1 db = new TutorMasterDBEntities1();
+
+            string accType = (from row in db.Users where row.Username == username select row.AccountType).Single();
+
+            return (accType);
+        }
+
+        private int getID(string username)
+        {
+            TutorMasterDBEntities1 db = new TutorMasterDBEntities1();
+
+            int accID = (from row in db.Users where row.Username == username select row.ID).First();
+
+            return accID;
+        }
+
+
+
+        private void clearErrMsg(object sender, EventArgs e)
+        {
+            lblErrMsg.Text = "";
         }
 
 
