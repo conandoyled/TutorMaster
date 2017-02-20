@@ -9,18 +9,11 @@ using System.Windows.Forms;
 
 namespace TutorMaster
 {
-    public partial class CreateStudent : Form
+    public partial class FacultyMain : Form
     {
-        public CreateStudent()
+        public FacultyMain()
         {
             InitializeComponent();
-        }
-
-        private void btnExit_Click(object sender, EventArgs e)
-        {
-            AdminMain g = new AdminMain();
-            g.Show();
-            this.Hide();
         }
     }
 }

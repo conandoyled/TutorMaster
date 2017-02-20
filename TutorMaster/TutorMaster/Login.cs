@@ -26,6 +26,12 @@ namespace TutorMaster
             {
                 string accType = getAccType(username);
                 int accID = getID(username);
+                if (accID == 1)
+                {
+                    AdminMain g = new AdminMain();
+                    g.Show();
+                    this.Hide();
+                }
                 lblErrMsg.Text = accType + accID.ToString();
             }
             else

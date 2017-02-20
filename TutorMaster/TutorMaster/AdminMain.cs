@@ -15,5 +15,19 @@ namespace TutorMaster
         {
             InitializeComponent();
         }
+
+        private void btnCreateStudent_Click(object sender, EventArgs e)
+        {
+            CreateStudent g = new CreateStudent();
+            g.Show();
+            this.Hide();
+        }
+
+        private void btnLogout_Click(object sender, EventArgs e)
+        {
+            Login g = new Login();
+            g.Show();
+            this.Hide();
+        }
     }
 }
