@@ -27,6 +27,18 @@ namespace TutorMaster
                 string accType = getAccType(username);
                 int accID = getID(username);
                 lblErrMsg.Text = accType + accID.ToString();
+                switch (accType)
+                {
+                    case "Student":
+                        //send ID to student form
+                        break;
+                    case "Faculty":
+                        //send ID to faculty form
+                        break;
+                    default:        //Admin account
+                        //open admin form (shouldn't need ID?)
+                        break;
+                }
             }
             else
             {
