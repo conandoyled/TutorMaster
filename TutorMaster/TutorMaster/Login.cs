@@ -26,12 +26,19 @@ namespace TutorMaster
             {
                 string accType = getAccType(username);
                 int accID = getID(username);
-                if (accID == 1)
+                if (accType == "Administrator")
                 {
                     AdminMain g = new AdminMain();
                     g.Show();
                     this.Hide();
                 }
+                else if (accType == "Faculty")
+                {
+                    FacultyMain g = new FacultyMain();
+                    g.Show();
+                    this.Hide();
+                }
+
                 lblErrMsg.Text = accType + accID.ToString();
             }
             else

@@ -9,16 +9,16 @@ using System.Windows.Forms;
 
 namespace TutorMaster
 {
-    public partial class CreateStudent : Form
+    public partial class StudentMain : Form
     {
-        public CreateStudent()
+        public StudentMain()
         {
             InitializeComponent();
         }
 
-        private void btnExit_Click(object sender, EventArgs e)
+        private void btnLogout_Click(object sender, EventArgs e)
         {
-            AdminMain g = new AdminMain();
+            Login g = new Login();
             g.Show();
             this.Close();
         }

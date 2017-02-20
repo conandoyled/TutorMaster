@@ -20,14 +20,14 @@ namespace TutorMaster
         {
             CreateStudent g = new CreateStudent();
             g.Show();
-            this.Hide();
+            this.Close();
         }
 
         private void btnLogout_Click(object sender, EventArgs e)
         {
             Login g = new Login();
             g.Show();
-            this.Hide();
+            this.Close();
         }
     }
 }
