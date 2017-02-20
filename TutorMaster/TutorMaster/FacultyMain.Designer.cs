@@ -69,6 +69,7 @@
             this.Controls.Add(this.checkedListBox1);
             this.Name = "FacultyMain";
             this.Text = "FacultyMain";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.FacultyMain_FormClosed);
             this.ResumeLayout(false);
 
         }

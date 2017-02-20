@@ -15,5 +15,10 @@ namespace TutorMaster
         {
             InitializeComponent();
         }
+
+        private void FacultyMain_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            //System.Windows.Forms.Application.Exit();
+        }
     }
 }

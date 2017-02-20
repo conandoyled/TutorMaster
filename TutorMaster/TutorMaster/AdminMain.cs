@@ -29,5 +29,10 @@ namespace TutorMaster
             g.Show();
             this.Close();
         }
+
+        private void AdminMain_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            //System.Windows.Forms.Application.Exit();
+        }
     }
 }

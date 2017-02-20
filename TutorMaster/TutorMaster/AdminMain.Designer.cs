@@ -220,6 +220,7 @@
             this.Controls.Add(this.tabAdmin);
             this.Name = "AdminMain";
             this.Text = "AdminMain";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.AdminMain_FormClosed);
             this.tabAdmin.ResumeLayout(false);
             this.tabStudent.ResumeLayout(false);
             this.tabCommitments.ResumeLayout(false);

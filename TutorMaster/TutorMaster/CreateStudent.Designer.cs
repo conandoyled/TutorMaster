@@ -40,7 +40,7 @@
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
-            this.checkedListBox1 = new System.Windows.Forms.CheckedListBox();
+            this.cbxTutorTutee = new System.Windows.Forms.CheckedListBox();
             this.btnAdd = new System.Windows.Forms.Button();
             this.btnExit = new System.Windows.Forms.Button();
             this.label7 = new System.Windows.Forms.Label();
@@ -142,16 +142,16 @@
             this.label6.TabIndex = 11;
             this.label6.Text = "Email";
             // 
-            // checkedListBox1
+            // cbxTutorTutee
             // 
-            this.checkedListBox1.FormattingEnabled = true;
-            this.checkedListBox1.Items.AddRange(new object[] {
+            this.cbxTutorTutee.FormattingEnabled = true;
+            this.cbxTutorTutee.Items.AddRange(new object[] {
             "Tutor",
             "Tutee"});
-            this.checkedListBox1.Location = new System.Drawing.Point(40, 305);
-            this.checkedListBox1.Name = "checkedListBox1";
-            this.checkedListBox1.Size = new System.Drawing.Size(100, 34);
-            this.checkedListBox1.TabIndex = 12;
+            this.cbxTutorTutee.Location = new System.Drawing.Point(40, 305);
+            this.cbxTutorTutee.Name = "cbxTutorTutee";
+            this.cbxTutorTutee.Size = new System.Drawing.Size(100, 34);
+            this.cbxTutorTutee.TabIndex = 12;
             // 
             // btnAdd
             // 
@@ -161,6 +161,7 @@
             this.btnAdd.TabIndex = 13;
             this.btnAdd.Text = "Add Student";
             this.btnAdd.UseVisualStyleBackColor = true;
+            this.btnAdd.Click += new System.EventHandler(this.btnAdd_Click);
             // 
             // btnExit
             // 
@@ -189,7 +190,7 @@
             this.Controls.Add(this.label7);
             this.Controls.Add(this.btnExit);
             this.Controls.Add(this.btnAdd);
-            this.Controls.Add(this.checkedListBox1);
+            this.Controls.Add(this.cbxTutorTutee);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.label4);
@@ -204,6 +205,7 @@
             this.Controls.Add(this.txtFirstname);
             this.Name = "CreateStudent";
             this.Text = "CreateStudent";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.CreateStudent_FormClosed);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -223,7 +225,7 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.CheckedListBox checkedListBox1;
+        private System.Windows.Forms.CheckedListBox cbxTutorTutee;
         private System.Windows.Forms.Button btnAdd;
         private System.Windows.Forms.Button btnExit;
         private System.Windows.Forms.Label label7;
