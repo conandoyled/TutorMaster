@@ -15,5 +15,12 @@ namespace TutorMaster
         {
             InitializeComponent();
         }
+
+        private void btnExit_Click(object sender, EventArgs e)
+        {
+            StudentMain f = new StudentMain();
+            f.Show();
+            this.Close();
+        }
     }
 }
