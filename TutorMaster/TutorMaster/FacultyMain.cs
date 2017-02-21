@@ -20,5 +20,12 @@ namespace TutorMaster
         {
             //System.Windows.Forms.Application.Exit();
         }
+
+        private void btnLogout_Click(object sender, EventArgs e)
+        {
+            Login g = new Login();
+            g.Show();
+            this.Close();
+        }
     }
 }

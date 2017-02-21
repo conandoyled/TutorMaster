@@ -30,6 +30,9 @@ namespace TutorMaster
                 {
                     case "Student":
                         //send ID to student form
+                        StudentMain a = new StudentMain();
+                        a.Show();
+                        this.Hide();
                         break;
                     case "Faculty":
                         //send ID to faculty form
@@ -38,10 +41,11 @@ namespace TutorMaster
                         this.Hide();
                         break;
                     default:        //Admin account
+                    //open admin form (shouldn't need ID?)
                         AdminMain f = new AdminMain();
                         f.Show();
                         this.Hide();
-                        //open admin form (shouldn't need ID?)
+                        
                         break;
                 }
 

@@ -6,6 +6,8 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using System.Data.Entity;
+
 
 namespace TutorMaster
 {
@@ -36,14 +38,39 @@ namespace TutorMaster
             string password = txtPassword.Text;
             string phone = txtPassword.Text;
             string email = txtEmail.Text;
+            string accounttype = "NULL";
             bool tutor = cbxTutorTutee.GetItemChecked(0);
             bool tutee = cbxTutorTutee.GetItemChecked(1);
-            addStudent(fname, lname, username, password, phone, email, tutor, tutee);
+
+            if (!tutor && !tutee)
+            {
+                MessageBox.Show("Please select at least one of tutor and/or tutee");
+            }
+            else
+            {
+
+                if (tutor)
+                {
+                    accounttype = "Tutor";
+                }
+
+                else if (tutee)
+                {
+                    accounttype = "Tutee";
+                }
+                else
+                {
+                    accounttype = "Tutor/Tutee";
+                }
+                
+                User newStudent = new User(2, fname, lname, email, phone, accounttype, password, username);
+                addStudent(newStudent);
+            }
         }
 
-        private void addStudent(string fname, string lname, string username, string password, string phone, string email, bool tutor, bool tutee)
+        private void addStudent(User student)
         {
-            MessageBox.Show(tutor.ToString() + tutee.ToString());
+
         }
     }
 }
