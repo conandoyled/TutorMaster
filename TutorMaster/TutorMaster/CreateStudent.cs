@@ -36,9 +36,9 @@ namespace TutorMaster
             string lname = txtLastname.Text;
             string username = txtUsername.Text;
             string password = txtPassword.Text;
-            string phone = txtPassword.Text;
+            string phone = txtPhoneNumber.Text;
             string email = txtEmail.Text;
-            string accounttype = "NULL";
+            string accounttype = "Student";
             bool tutor = cbxTutorTutee.GetItemChecked(0);
             bool tutee = cbxTutorTutee.GetItemChecked(1);
 
@@ -48,29 +48,45 @@ namespace TutorMaster
             }
             else
             {
-                User newStudent = new User(4, fname, lname, email, phone, accounttype, password, username);
-                addUser(newStudent);
+                TutorMaster.User newUser = new TutorMaster.User();
+                newUser.ID = getNextID();
+                newUser.FirstName = fname;
+                newUser.LastName = lname;
+                newUser.Username = username;
+                newUser.Password = password;
+                newUser.PhoneNumber = phone;
+                newUser.Email = email;
+                newUser.AccountType = accounttype;
+                addUser(newUser);
 
-                if (tutor && tutee)
-                {
-                    accounttype = "Tutor/Tutee";
-                }
-
-                else if (tutee)
-                {
-                    accounttype = "Tutee";
-                }
-                else
-                {
-                    accounttype = "Tutor";
-                }
+                TutorMaster.Student newStudent = new TutorMaster.Student();
+                newStudent.ID = newUser.ID;
+                newStudent.Tutee = tutee;
+                newStudent.Tutor = tutor;
+                addStudent(newStudent);
             }
         }
 
-        private void addUser(User student)
+        private void addUser(TutorMaster.User user)
         {
             TutorMasterDBEntities1 db = new TutorMasterDBEntities1();
-            db.Users.
+            db.Users.AddObject(user);
+            db.SaveChanges();
+        }
+
+        private void addStudent(TutorMaster.Student student)
+        {
+            TutorMasterDBEntities1 db = new TutorMasterDBEntities1();
+            db.Students.AddObject(student);
+            db.SaveChanges();
+        }
+
+        private int getNextID()
+        {
+            TutorMasterDBEntities1 db = new TutorMasterDBEntities1();
+            int rowNum = db.Users.Count();
+            var lastRow = db.Users.Skip(rowNum - 1).FirstOrDefault();
+            return lastRow.ID;
         }
     }
 }
