@@ -48,8 +48,7 @@ namespace TutorMaster
             }
             else
             {
-                User newStudent = new User(4, fname, lname, email, phone, accounttype, password, username);
-                addUser(newStudent);
+                TutorMaster.User newStudent = new TutorMaster.User();
 
                 if (tutor && tutee)
                 {
@@ -64,13 +63,26 @@ namespace TutorMaster
                 {
                     accounttype = "Tutor";
                 }
+                
+                newStudent.Email = email;
+                newStudent.AccountType = accounttype;
+                newStudent.FirstName = fname;
+                newStudent.LastName = lname;
+                newStudent.ID = 4;
+                newStudent.Password = password;
+                newStudent.PhoneNumber = phone;
+                newStudent.Username = username;
+
+                addUser(newStudent);
             }
         }
 
-        private void addUser(User student)
+        private void addUser(TutorMaster.User student)
         {
             TutorMasterDBEntities1 db = new TutorMasterDBEntities1();
-            //db.Users.
+            db.AddToUsers(student);
+            db.SaveChanges();
+            
         }
     }
 }

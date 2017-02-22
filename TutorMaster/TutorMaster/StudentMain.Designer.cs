@@ -49,6 +49,23 @@
             this.cbxPendingTutee = new System.Windows.Forms.CheckedListBox();
             this.btnLogout = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
+            this.tabControl3 = new System.Windows.Forms.TabControl();
+            this.tabSunday = new System.Windows.Forms.TabPage();
+            this.tabMonday = new System.Windows.Forms.TabPage();
+            this.tabTuesday = new System.Windows.Forms.TabPage();
+            this.tabWednesday = new System.Windows.Forms.TabPage();
+            this.tabThursday = new System.Windows.Forms.TabPage();
+            this.combStartDay = new System.Windows.Forms.ComboBox();
+            this.combEndDay = new System.Windows.Forms.ComboBox();
+            this.tabFriday = new System.Windows.Forms.TabPage();
+            this.tabSaturday = new System.Windows.Forms.TabPage();
+            this.lbxSunday = new System.Windows.Forms.ListBox();
+            this.lbxMonday = new System.Windows.Forms.ListBox();
+            this.lbxTuesday = new System.Windows.Forms.ListBox();
+            this.lbxWednesday = new System.Windows.Forms.ListBox();
+            this.lbxThursday = new System.Windows.Forms.ListBox();
+            this.lbxFriday = new System.Windows.Forms.ListBox();
+            this.lbxSaturday = new System.Windows.Forms.ListBox();
             this.tabControl1.SuspendLayout();
             this.tabAvailability.SuspendLayout();
             this.tabAppointments.SuspendLayout();
@@ -56,6 +73,14 @@
             this.tabAccepted.SuspendLayout();
             this.tabPendingTutor.SuspendLayout();
             this.tabPendingTutee.SuspendLayout();
+            this.tabControl3.SuspendLayout();
+            this.tabSunday.SuspendLayout();
+            this.tabMonday.SuspendLayout();
+            this.tabTuesday.SuspendLayout();
+            this.tabWednesday.SuspendLayout();
+            this.tabThursday.SuspendLayout();
+            this.tabFriday.SuspendLayout();
+            this.tabSaturday.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -65,12 +90,15 @@
             this.tabControl1.Location = new System.Drawing.Point(13, 69);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(473, 332);
+            this.tabControl1.Size = new System.Drawing.Size(837, 332);
             this.tabControl1.TabIndex = 0;
             // 
             // tabAvailability
             // 
             this.tabAvailability.BackColor = System.Drawing.Color.Transparent;
+            this.tabAvailability.Controls.Add(this.combEndDay);
+            this.tabAvailability.Controls.Add(this.combStartDay);
+            this.tabAvailability.Controls.Add(this.tabControl3);
             this.tabAvailability.Controls.Add(this.label2);
             this.tabAvailability.Controls.Add(this.label1);
             this.tabAvailability.Controls.Add(this.btnAddOpenBlock);
@@ -83,14 +111,14 @@
             this.tabAvailability.Location = new System.Drawing.Point(4, 22);
             this.tabAvailability.Name = "tabAvailability";
             this.tabAvailability.Padding = new System.Windows.Forms.Padding(3);
-            this.tabAvailability.Size = new System.Drawing.Size(465, 306);
+            this.tabAvailability.Size = new System.Drawing.Size(829, 306);
             this.tabAvailability.TabIndex = 0;
             this.tabAvailability.Text = "Availability";
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(391, 84);
+            this.label2.Location = new System.Drawing.Point(654, 68);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(52, 13);
             this.label2.TabIndex = 8;
@@ -99,7 +127,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(391, 57);
+            this.label1.Location = new System.Drawing.Point(654, 41);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(55, 13);
             this.label1.TabIndex = 7;
@@ -107,7 +135,7 @@
             // 
             // btnAddOpenBlock
             // 
-            this.btnAddOpenBlock.Location = new System.Drawing.Point(279, 131);
+            this.btnAddOpenBlock.Location = new System.Drawing.Point(542, 103);
             this.btnAddOpenBlock.Name = "btnAddOpenBlock";
             this.btnAddOpenBlock.Size = new System.Drawing.Size(105, 23);
             this.btnAddOpenBlock.TabIndex = 6;
@@ -121,7 +149,7 @@
             this.combEndAmPm.Items.AddRange(new object[] {
             "AM",
             "PM"});
-            this.combEndAmPm.Location = new System.Drawing.Point(334, 77);
+            this.combEndAmPm.Location = new System.Drawing.Point(597, 61);
             this.combEndAmPm.Name = "combEndAmPm";
             this.combEndAmPm.Size = new System.Drawing.Size(50, 21);
             this.combEndAmPm.TabIndex = 5;
@@ -134,7 +162,7 @@
             "15",
             "30",
             "45"});
-            this.combEndMinute.Location = new System.Drawing.Point(279, 77);
+            this.combEndMinute.Location = new System.Drawing.Point(542, 61);
             this.combEndMinute.Name = "combEndMinute";
             this.combEndMinute.Size = new System.Drawing.Size(49, 21);
             this.combEndMinute.TabIndex = 4;
@@ -155,7 +183,7 @@
             "10",
             "11",
             "12"});
-            this.combEndHour.Location = new System.Drawing.Point(229, 77);
+            this.combEndHour.Location = new System.Drawing.Point(492, 61);
             this.combEndHour.Name = "combEndHour";
             this.combEndHour.Size = new System.Drawing.Size(44, 21);
             this.combEndHour.TabIndex = 3;
@@ -166,7 +194,7 @@
             this.combStartAmPm.Items.AddRange(new object[] {
             "AM",
             "PM"});
-            this.combStartAmPm.Location = new System.Drawing.Point(334, 50);
+            this.combStartAmPm.Location = new System.Drawing.Point(597, 34);
             this.combStartAmPm.Name = "combStartAmPm";
             this.combStartAmPm.Size = new System.Drawing.Size(50, 21);
             this.combStartAmPm.TabIndex = 2;
@@ -179,7 +207,7 @@
             "15",
             "30",
             "45"});
-            this.combStartMinute.Location = new System.Drawing.Point(279, 51);
+            this.combStartMinute.Location = new System.Drawing.Point(542, 35);
             this.combStartMinute.Name = "combStartMinute";
             this.combStartMinute.Size = new System.Drawing.Size(49, 21);
             this.combStartMinute.TabIndex = 1;
@@ -200,7 +228,7 @@
             "10",
             "11",
             "12"});
-            this.combStartHour.Location = new System.Drawing.Point(229, 51);
+            this.combStartHour.Location = new System.Drawing.Point(492, 35);
             this.combStartHour.Name = "combStartHour";
             this.combStartHour.Size = new System.Drawing.Size(44, 21);
             this.combStartHour.TabIndex = 0;
@@ -285,7 +313,7 @@
             // 
             // btnLogout
             // 
-            this.btnLogout.Location = new System.Drawing.Point(493, 374);
+            this.btnLogout.Location = new System.Drawing.Point(991, 380);
             this.btnLogout.Name = "btnLogout";
             this.btnLogout.Size = new System.Drawing.Size(97, 23);
             this.btnLogout.TabIndex = 1;
@@ -295,18 +323,193 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(493, 331);
+            this.button1.Location = new System.Drawing.Point(991, 342);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(97, 23);
             this.button1.TabIndex = 2;
             this.button1.Text = "Make Request";
             this.button1.UseVisualStyleBackColor = true;
             // 
+            // tabControl3
+            // 
+            this.tabControl3.Controls.Add(this.tabSunday);
+            this.tabControl3.Controls.Add(this.tabMonday);
+            this.tabControl3.Controls.Add(this.tabTuesday);
+            this.tabControl3.Controls.Add(this.tabWednesday);
+            this.tabControl3.Controls.Add(this.tabThursday);
+            this.tabControl3.Controls.Add(this.tabFriday);
+            this.tabControl3.Controls.Add(this.tabSaturday);
+            this.tabControl3.Location = new System.Drawing.Point(3, 13);
+            this.tabControl3.Name = "tabControl3";
+            this.tabControl3.SelectedIndex = 0;
+            this.tabControl3.Size = new System.Drawing.Size(376, 287);
+            this.tabControl3.TabIndex = 9;
+            // 
+            // tabSunday
+            // 
+            this.tabSunday.Controls.Add(this.lbxSunday);
+            this.tabSunday.Location = new System.Drawing.Point(4, 22);
+            this.tabSunday.Name = "tabSunday";
+            this.tabSunday.Padding = new System.Windows.Forms.Padding(3);
+            this.tabSunday.Size = new System.Drawing.Size(368, 261);
+            this.tabSunday.TabIndex = 0;
+            this.tabSunday.Text = "Sunday";
+            this.tabSunday.UseVisualStyleBackColor = true;
+            // 
+            // tabMonday
+            // 
+            this.tabMonday.Controls.Add(this.lbxMonday);
+            this.tabMonday.Location = new System.Drawing.Point(4, 22);
+            this.tabMonday.Name = "tabMonday";
+            this.tabMonday.Padding = new System.Windows.Forms.Padding(3);
+            this.tabMonday.Size = new System.Drawing.Size(368, 261);
+            this.tabMonday.TabIndex = 1;
+            this.tabMonday.Text = "Monday";
+            this.tabMonday.UseVisualStyleBackColor = true;
+            // 
+            // tabTuesday
+            // 
+            this.tabTuesday.Controls.Add(this.lbxTuesday);
+            this.tabTuesday.Location = new System.Drawing.Point(4, 22);
+            this.tabTuesday.Name = "tabTuesday";
+            this.tabTuesday.Size = new System.Drawing.Size(368, 261);
+            this.tabTuesday.TabIndex = 2;
+            this.tabTuesday.Text = "Tuesday";
+            this.tabTuesday.UseVisualStyleBackColor = true;
+            // 
+            // tabWednesday
+            // 
+            this.tabWednesday.Controls.Add(this.lbxWednesday);
+            this.tabWednesday.Location = new System.Drawing.Point(4, 22);
+            this.tabWednesday.Name = "tabWednesday";
+            this.tabWednesday.Size = new System.Drawing.Size(368, 261);
+            this.tabWednesday.TabIndex = 3;
+            this.tabWednesday.Text = "Wednesday";
+            this.tabWednesday.UseVisualStyleBackColor = true;
+            // 
+            // tabThursday
+            // 
+            this.tabThursday.Controls.Add(this.lbxThursday);
+            this.tabThursday.Location = new System.Drawing.Point(4, 22);
+            this.tabThursday.Name = "tabThursday";
+            this.tabThursday.Size = new System.Drawing.Size(368, 261);
+            this.tabThursday.TabIndex = 4;
+            this.tabThursday.Text = "Thursday";
+            this.tabThursday.UseVisualStyleBackColor = true;
+            // 
+            // combStartDay
+            // 
+            this.combStartDay.FormattingEnabled = true;
+            this.combStartDay.Items.AddRange(new object[] {
+            "Sunday",
+            "Monday",
+            "Tuesday",
+            "Wednesday",
+            "Thursday",
+            "Friday",
+            "Saturday"});
+            this.combStartDay.Location = new System.Drawing.Point(385, 35);
+            this.combStartDay.Name = "combStartDay";
+            this.combStartDay.Size = new System.Drawing.Size(101, 21);
+            this.combStartDay.TabIndex = 10;
+            // 
+            // combEndDay
+            // 
+            this.combEndDay.FormattingEnabled = true;
+            this.combEndDay.Items.AddRange(new object[] {
+            "Sunday",
+            "Monday",
+            "Tuesday",
+            "Wednesday",
+            "Thursday",
+            "Friday",
+            "Saturday"});
+            this.combEndDay.Location = new System.Drawing.Point(385, 62);
+            this.combEndDay.Name = "combEndDay";
+            this.combEndDay.Size = new System.Drawing.Size(101, 21);
+            this.combEndDay.TabIndex = 11;
+            // 
+            // tabFriday
+            // 
+            this.tabFriday.Controls.Add(this.lbxFriday);
+            this.tabFriday.Location = new System.Drawing.Point(4, 22);
+            this.tabFriday.Name = "tabFriday";
+            this.tabFriday.Size = new System.Drawing.Size(368, 261);
+            this.tabFriday.TabIndex = 5;
+            this.tabFriday.Text = "Friday";
+            this.tabFriday.UseVisualStyleBackColor = true;
+            // 
+            // tabSaturday
+            // 
+            this.tabSaturday.Controls.Add(this.lbxSaturday);
+            this.tabSaturday.Location = new System.Drawing.Point(4, 22);
+            this.tabSaturday.Name = "tabSaturday";
+            this.tabSaturday.Size = new System.Drawing.Size(368, 261);
+            this.tabSaturday.TabIndex = 6;
+            this.tabSaturday.Text = "Saturday";
+            this.tabSaturday.UseVisualStyleBackColor = true;
+            // 
+            // lbxSunday
+            // 
+            this.lbxSunday.FormattingEnabled = true;
+            this.lbxSunday.Location = new System.Drawing.Point(3, 3);
+            this.lbxSunday.Name = "lbxSunday";
+            this.lbxSunday.Size = new System.Drawing.Size(257, 251);
+            this.lbxSunday.TabIndex = 0;
+            // 
+            // lbxMonday
+            // 
+            this.lbxMonday.FormattingEnabled = true;
+            this.lbxMonday.Location = new System.Drawing.Point(3, 6);
+            this.lbxMonday.Name = "lbxMonday";
+            this.lbxMonday.Size = new System.Drawing.Size(262, 251);
+            this.lbxMonday.TabIndex = 12;
+            // 
+            // lbxTuesday
+            // 
+            this.lbxTuesday.FormattingEnabled = true;
+            this.lbxTuesday.Location = new System.Drawing.Point(3, 6);
+            this.lbxTuesday.Name = "lbxTuesday";
+            this.lbxTuesday.Size = new System.Drawing.Size(262, 251);
+            this.lbxTuesday.TabIndex = 12;
+            // 
+            // lbxWednesday
+            // 
+            this.lbxWednesday.FormattingEnabled = true;
+            this.lbxWednesday.Location = new System.Drawing.Point(3, 7);
+            this.lbxWednesday.Name = "lbxWednesday";
+            this.lbxWednesday.Size = new System.Drawing.Size(262, 251);
+            this.lbxWednesday.TabIndex = 12;
+            // 
+            // lbxThursday
+            // 
+            this.lbxThursday.FormattingEnabled = true;
+            this.lbxThursday.Location = new System.Drawing.Point(3, 7);
+            this.lbxThursday.Name = "lbxThursday";
+            this.lbxThursday.Size = new System.Drawing.Size(262, 251);
+            this.lbxThursday.TabIndex = 12;
+            // 
+            // lbxFriday
+            // 
+            this.lbxFriday.FormattingEnabled = true;
+            this.lbxFriday.Location = new System.Drawing.Point(3, 6);
+            this.lbxFriday.Name = "lbxFriday";
+            this.lbxFriday.Size = new System.Drawing.Size(262, 251);
+            this.lbxFriday.TabIndex = 12;
+            // 
+            // lbxSaturday
+            // 
+            this.lbxSaturday.FormattingEnabled = true;
+            this.lbxSaturday.Location = new System.Drawing.Point(3, 3);
+            this.lbxSaturday.Name = "lbxSaturday";
+            this.lbxSaturday.Size = new System.Drawing.Size(262, 251);
+            this.lbxSaturday.TabIndex = 12;
+            // 
             // StudentMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(629, 427);
+            this.ClientSize = new System.Drawing.Size(1167, 464);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.btnLogout);
             this.Controls.Add(this.tabControl1);
@@ -320,6 +523,14 @@
             this.tabAccepted.ResumeLayout(false);
             this.tabPendingTutor.ResumeLayout(false);
             this.tabPendingTutee.ResumeLayout(false);
+            this.tabControl3.ResumeLayout(false);
+            this.tabSunday.ResumeLayout(false);
+            this.tabMonday.ResumeLayout(false);
+            this.tabTuesday.ResumeLayout(false);
+            this.tabWednesday.ResumeLayout(false);
+            this.tabThursday.ResumeLayout(false);
+            this.tabFriday.ResumeLayout(false);
+            this.tabSaturday.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -347,5 +558,22 @@
         private System.Windows.Forms.ComboBox combStartHour;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.ComboBox combEndDay;
+        private System.Windows.Forms.ComboBox combStartDay;
+        private System.Windows.Forms.TabControl tabControl3;
+        private System.Windows.Forms.TabPage tabSunday;
+        private System.Windows.Forms.ListBox lbxSunday;
+        private System.Windows.Forms.TabPage tabMonday;
+        private System.Windows.Forms.ListBox lbxMonday;
+        private System.Windows.Forms.TabPage tabTuesday;
+        private System.Windows.Forms.ListBox lbxTuesday;
+        private System.Windows.Forms.TabPage tabWednesday;
+        private System.Windows.Forms.ListBox lbxWednesday;
+        private System.Windows.Forms.TabPage tabThursday;
+        private System.Windows.Forms.ListBox lbxThursday;
+        private System.Windows.Forms.TabPage tabFriday;
+        private System.Windows.Forms.ListBox lbxFriday;
+        private System.Windows.Forms.TabPage tabSaturday;
+        private System.Windows.Forms.ListBox lbxSaturday;
     }
 }
