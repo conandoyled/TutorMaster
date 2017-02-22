@@ -36,7 +36,7 @@ namespace TutorMaster
                         break;
                     case "Faculty":
                         //send ID to faculty form
-                        FacultyMain g = new FacultyMain();
+                        FacultyMain g = new FacultyMain(accID);
                         g.Show();
                         this.Hide();
                         break;
@@ -48,8 +48,6 @@ namespace TutorMaster
                         
                         break;
                 }
-
-                lblErrMsg.Text = accType + accID.ToString();
             }
             else
             {

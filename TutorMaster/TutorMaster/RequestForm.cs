@@ -11,7 +11,7 @@ namespace TutorMaster
 {
     public partial class RequestForm : Form
     {
-        public RequestForm()
+        public RequestForm(int id)
         {
             InitializeComponent();
         }

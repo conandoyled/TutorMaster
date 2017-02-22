@@ -11,7 +11,7 @@ namespace TutorMaster
 {
     public partial class FacultyMain : Form
     {
-        public FacultyMain()
+        public FacultyMain(int id)
         {
             InitializeComponent();
         }
