@@ -22,7 +22,12 @@ namespace TutorMaster
             string username = txtUsername.Text;
             string password = txtPassword.Text;
 
-            if (isValidUser(username, password))
+            if (string.IsNullOrWhiteSpace(username) || string.IsNullOrWhiteSpace(password))
+            {
+                MessageBox.Show("Please enter in both a username and password.");
+            }
+
+            else if (isValidUser(username, password))
             {
                 string accType = getAccType(username);
                 int accID = getID(username);
@@ -30,13 +35,14 @@ namespace TutorMaster
                 {
                     case "Student":
                         //send ID to student form
-                        StudentMain a = new StudentMain();
+                        StudentMain a = new StudentMain(accID);
                         a.Show();
                         this.Hide();
                         break;
                     case "Faculty":
                         //send ID to faculty form
                         FacultyMain g = new FacultyMain(accID);
+                        
                         g.Show();
                         this.Hide();
                         break;

@@ -70,7 +70,7 @@ namespace TutorMaster
         private void addUser(User student)
         {
             TutorMasterDBEntities1 db = new TutorMasterDBEntities1();
-            db.Users.
+            //db.Users.
         }
     }
 }
