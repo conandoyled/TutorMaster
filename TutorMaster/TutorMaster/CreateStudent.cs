@@ -86,7 +86,17 @@ namespace TutorMaster
             TutorMasterDBEntities1 db = new TutorMasterDBEntities1();
             int rowNum = db.Users.Count();
             var lastRow = db.Users.Skip(rowNum - 1).FirstOrDefault();
-            return lastRow.ID;
+            return lastRow.ID+1;
+        }
+
+        private void cbxTutorTutee_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (cbxTutorTutee.GetItemChecked(0).Equals(true))
+            {
+                this.Width += 500;
+
+            }
+
         }
     }
 }

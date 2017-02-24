@@ -152,6 +152,7 @@
             this.cbxTutorTutee.Name = "cbxTutorTutee";
             this.cbxTutorTutee.Size = new System.Drawing.Size(100, 34);
             this.cbxTutorTutee.TabIndex = 12;
+            this.cbxTutorTutee.SelectedIndexChanged += new System.EventHandler(this.cbxTutorTutee_SelectedIndexChanged);
             // 
             // btnAdd
             // 
