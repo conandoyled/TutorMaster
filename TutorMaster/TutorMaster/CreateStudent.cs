@@ -89,14 +89,17 @@ namespace TutorMaster
             return lastRow.ID+1;
         }
 
-        private void cbxTutorTutee_SelectedIndexChanged(object sender, EventArgs e)
+
+        private void cbxTutorTutee_ItemChecked(object sender, ItemCheckEventArgs e)
         {
-            if (cbxTutorTutee.GetItemChecked(0).Equals(true))
+            if (!cbxTutorTutee.GetItemChecked(0))
             {
-                this.Width += 500;
-
+                this.Width += 400;
             }
-
+            if (cbxTutorTutee.GetItemChecked(0))
+            {
+                this.Width -= 400;
+            }
         }
     }
 }
