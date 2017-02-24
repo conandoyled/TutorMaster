@@ -49,12 +49,15 @@ namespace TutorMaster
                 string stringEndDay = combEndDay.Text;
                 int intEndDay = getDayIndex(stringEndDay);
 
-                int endhour = int.Parse(combEndHour.Text);
-                int endminute = int.Parse(combEndMinute.Text);
-                string endampm = combEndAmPm.Text;
+                int endHour = int.Parse(combEndHour.Text);
+                int endMinute = int.Parse(combEndMinute.Text);
+                string endAmPm = combEndAmPm.Text;
 
-                DateTime startTime = new DateTime(2010, 1, intStartDay, startHour, startMinute, 0);
-                MessageBox.Show(startTime.ToString());
+                //MessageBox.Show(DateTime.Now.ToString("D"));
+                DateTime startTime = new DateTime(2017, 1, intStartDay, startHour, startMinute, 0);
+                DateTime endTime = new DateTime(2017, 1, intEndDay, endHour, endMinute, 0);
+                getAvail(startTime, endTime);
+                //MessageBox.Show(startTime.ToString());
             }
         }
 
@@ -64,28 +67,50 @@ namespace TutorMaster
             switch (day)
             {
                 case "Sunday":
-                    numDay = 0; 
+                    numDay = 1; 
                     break;
                 case "Monday":
-                    numDay = 1;
-                    break;
-                case "Tuesday":
                     numDay = 2;
                     break;
-                case "Wednesday":
+                case "Tuesday":
                     numDay = 3;
                     break;
-                case "Thursday":
+                case "Wednesday":
                     numDay = 4;
                     break;
-                case "Friday":
+                case "Thursday":
                     numDay = 5;
                     break;
-                case "Saturday":
+                case "Friday":
                     numDay = 6;
+                    break;
+                case "Saturday":
+                    numDay = 7;
                     break;
             }
             return numDay;
+        }
+
+        private void getAvail(DateTime startTime, DateTime endTime)
+        {
+            DateTime begin = startTime;
+            DateTime fifteen = startTime;
+            fifteen.AddMinutes(15);
+            MessageBox.Show(begin.ToString());
+            MessageBox.Show(fifteen.ToString());
+            int compare = begin.CompareTo(endTime);
+            string add = "";
+            
+            while (compare < 0) //if the first date is less than the second date
+            {
+                add += begin.ToString() + fifteen.ToString();
+                lbxSunday.Items.Add(add);
+                add = "";
+                begin.AddMinutes(15);
+                fifteen.AddMinutes(15);
+                compare = begin.CompareTo(endTime);
+                compare = 1;
+            }
         }
     }
 }
