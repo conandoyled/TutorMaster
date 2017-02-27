@@ -11,8 +11,11 @@ namespace TutorMaster
 {
     public partial class FacultyMain : Form
     {
-        public FacultyMain(int id)
+        private int id;
+        
+        public FacultyMain(int accID)
         {
+            id = accID;
             InitializeComponent();
         }
 
@@ -21,8 +24,10 @@ namespace TutorMaster
             //System.Windows.Forms.Application.Exit();
         }
 
+
         private void btnLogout_Click(object sender, EventArgs e)
         {
+            MessageBox.Show(id.ToString());
             Login g = new Login();
             g.Show();
             this.Close();

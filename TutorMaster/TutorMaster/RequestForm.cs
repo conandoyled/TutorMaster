@@ -11,14 +11,17 @@ namespace TutorMaster
 {
     public partial class RequestForm : Form
     {
-        public RequestForm(int id)
+        private int id;
+
+        public RequestForm(int accID)
         {
+            id = accID;
             InitializeComponent();
         }
 
         private void btnExit_Click(object sender, EventArgs e)
         {
-            StudentMain f = new StudentMain();
+            StudentMain f = new StudentMain(id);
             f.Show();
             this.Close();
         }
