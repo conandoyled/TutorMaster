@@ -39,12 +39,18 @@ namespace TutorMaster
             string phone = txtPhoneNumber.Text;
             string email = txtEmail.Text;
             string accounttype = "Student";
-            bool tutor = cbxTutorTutee.GetItemChecked(0);
-            bool tutee = cbxTutorTutee.GetItemChecked(1);
+            bool tutor = cbxTutor.Checked;
+            bool tutee = cbxTutee.Checked;
 
             if (!tutor && !tutee)
             {
                 MessageBox.Show("Please select at least one of tutor and/or tutee");
+            }
+            else if (string.IsNullOrEmpty(fname) || string.IsNullOrWhiteSpace(lname) ||
+                string.IsNullOrWhiteSpace(username) || string.IsNullOrWhiteSpace(password) ||
+                    string.IsNullOrWhiteSpace(phone) || string.IsNullOrWhiteSpace(email))
+            {
+                MessageBox.Show("Please fill in all of the textboxes with the approriate information");
             }
             else
             {
@@ -65,6 +71,15 @@ namespace TutorMaster
                 newStudent.Tutor = tutor;
                 addStudent(newStudent);
             }
+
+            txtFirstname.Text = "";
+            txtLastname.Text = "";
+            txtUsername.Text = "";
+            txtPassword.Text = "";
+            txtPhoneNumber.Text = "";
+            txtEmail.Text = "";
+            cbxTutor.Checked = false;
+            cbxTutee.Checked = false;
         }
 
         private void addUser(TutorMaster.User user)
@@ -85,32 +100,20 @@ namespace TutorMaster
         {
             TutorMasterDBEntities1 db = new TutorMasterDBEntities1();
             int rowNum = db.Users.Count();
-            var lastRow = db.Users.Skip(rowNum - 1).FirstOrDefault();
-            return lastRow.ID+1;
+            var lastRow = db.Users.OrderBy(u => 1).Skip(rowNum - 1).FirstOrDefault();
+            return lastRow.ID + 1;
         }
 
-
-        private void cbxTutorTutee_ItemChecked(object sender, ItemCheckEventArgs e)
+        private void cbxTutor_CheckStateChanged(object sender, EventArgs e)
         {
-            if (!cbxTutorTutee.GetItemChecked(0))
-            {
-                this.Width += 400;
-            }
-            if (cbxTutorTutee.GetItemChecked(0))
+            if (!cbxTutor.Checked)
             {
                 this.Width -= 400;
             }
-
+            else
+            {
+                this.Width += 400;
             }
-        }
-
-        private void addUser(TutorMaster.User student)
-        {
-            TutorMasterDBEntities1 db = new TutorMasterDBEntities1();
-            db.AddToUsers(student);
-            db.SaveChanges();
-            
->>>>>>> origin/ErrorCheckBranch
         }
     }
 }
