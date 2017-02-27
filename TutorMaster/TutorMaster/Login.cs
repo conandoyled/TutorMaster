@@ -35,12 +35,8 @@ namespace TutorMaster
                 switch (accType)
                 {
                     case "Student":
-<<<<<<< HEAD
-                        StudentMain a = new StudentMain();
-=======
                         //send ID to student form
                         StudentMain a = new StudentMain(accID);
->>>>>>> origin/ErrorCheckBranch
                         a.Show();
                         this.Hide();
                         break;

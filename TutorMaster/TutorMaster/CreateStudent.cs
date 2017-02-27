@@ -48,7 +48,6 @@ namespace TutorMaster
             }
             else
             {
-<<<<<<< HEAD
                 TutorMaster.User newUser = new TutorMaster.User();
                 newUser.ID = getNextID();
                 newUser.FirstName = fname;
@@ -101,33 +100,7 @@ namespace TutorMaster
             {
                 this.Width -= 400;
             }
-=======
-                TutorMaster.User newStudent = new TutorMaster.User();
 
-                if (tutor && tutee)
-                {
-                    accounttype = "Tutor/Tutee";
-                }
-
-                else if (tutee)
-                {
-                    accounttype = "Tutee";
-                }
-                else
-                {
-                    accounttype = "Tutor";
-                }
-                
-                newStudent.Email = email;
-                newStudent.AccountType = accounttype;
-                newStudent.FirstName = fname;
-                newStudent.LastName = lname;
-                newStudent.ID = 4;
-                newStudent.Password = password;
-                newStudent.PhoneNumber = phone;
-                newStudent.Username = username;
-
-                addUser(newStudent);
             }
         }
 
