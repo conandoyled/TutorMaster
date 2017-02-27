@@ -86,7 +86,7 @@ namespace TutorMaster
             TutorMasterDBEntities1 db = new TutorMasterDBEntities1();
             int rowNum = db.Users.Count();
             var lastRow = db.Users.Skip(rowNum - 1).FirstOrDefault();
-            return lastRow.ID+1;
+            return lastRow.ID + 1;
         }
 
 
@@ -101,16 +101,7 @@ namespace TutorMaster
                 this.Width -= 400;
             }
 
-            }
-        }
-
-        private void addUser(TutorMaster.User student)
-        {
-            TutorMasterDBEntities1 db = new TutorMasterDBEntities1();
-            db.AddToUsers(student);
-            db.SaveChanges();
-            
->>>>>>> origin/ErrorCheckBranch
         }
     }
 }
+

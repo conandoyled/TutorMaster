@@ -30,7 +30,6 @@
         {
             this.tabAdmin = new System.Windows.Forms.TabControl();
             this.tabStudent = new System.Windows.Forms.TabPage();
-            this.lbxStudents = new System.Windows.Forms.ListBox();
             this.tabCommitments = new System.Windows.Forms.TabPage();
             this.tabAppointments = new System.Windows.Forms.TabControl();
             this.tabAccepted = new System.Windows.Forms.TabPage();
@@ -44,6 +43,7 @@
             this.btnEdit = new System.Windows.Forms.Button();
             this.btnDelete = new System.Windows.Forms.Button();
             this.btnLogout = new System.Windows.Forms.Button();
+            this.lvStudent = new System.Windows.Forms.ListView();
             this.tabAdmin.SuspendLayout();
             this.tabStudent.SuspendLayout();
             this.tabCommitments.SuspendLayout();
@@ -60,35 +60,31 @@
             this.tabAdmin.Location = new System.Drawing.Point(12, 39);
             this.tabAdmin.Name = "tabAdmin";
             this.tabAdmin.SelectedIndex = 0;
-            this.tabAdmin.Size = new System.Drawing.Size(299, 345);
+            this.tabAdmin.Size = new System.Drawing.Size(625, 373);
             this.tabAdmin.TabIndex = 0;
             // 
             // tabStudent
             // 
-            this.tabStudent.Controls.Add(this.lbxStudents);
+            this.tabStudent.Controls.Add(this.lvStudent);
+            this.tabStudent.Controls.Add(this.btnDelete);
+            this.tabStudent.Controls.Add(this.btnCreateStudent);
+            this.tabStudent.Controls.Add(this.btnEdit);
             this.tabStudent.Location = new System.Drawing.Point(4, 22);
             this.tabStudent.Name = "tabStudent";
             this.tabStudent.Padding = new System.Windows.Forms.Padding(3);
-            this.tabStudent.Size = new System.Drawing.Size(291, 319);
+            this.tabStudent.Size = new System.Drawing.Size(617, 347);
             this.tabStudent.TabIndex = 0;
             this.tabStudent.Text = "Students";
             this.tabStudent.UseVisualStyleBackColor = true;
             // 
-            // lbxStudents
-            // 
-            this.lbxStudents.FormattingEnabled = true;
-            this.lbxStudents.Location = new System.Drawing.Point(6, 9);
-            this.lbxStudents.Name = "lbxStudents";
-            this.lbxStudents.Size = new System.Drawing.Size(279, 303);
-            this.lbxStudents.TabIndex = 0;
-            // 
             // tabCommitments
             // 
             this.tabCommitments.Controls.Add(this.tabAppointments);
+            this.tabCommitments.Controls.Add(this.btnCreateSession);
             this.tabCommitments.Location = new System.Drawing.Point(4, 22);
             this.tabCommitments.Name = "tabCommitments";
             this.tabCommitments.Padding = new System.Windows.Forms.Padding(3);
-            this.tabCommitments.Size = new System.Drawing.Size(291, 319);
+            this.tabCommitments.Size = new System.Drawing.Size(617, 347);
             this.tabCommitments.TabIndex = 1;
             this.tabCommitments.Text = "Commitments";
             this.tabCommitments.UseVisualStyleBackColor = true;
@@ -101,7 +97,7 @@
             this.tabAppointments.Location = new System.Drawing.Point(7, 7);
             this.tabAppointments.Name = "tabAppointments";
             this.tabAppointments.SelectedIndex = 0;
-            this.tabAppointments.Size = new System.Drawing.Size(261, 306);
+            this.tabAppointments.Size = new System.Drawing.Size(599, 306);
             this.tabAppointments.TabIndex = 0;
             // 
             // tabAccepted
@@ -110,7 +106,7 @@
             this.tabAccepted.Location = new System.Drawing.Point(4, 22);
             this.tabAccepted.Name = "tabAccepted";
             this.tabAccepted.Padding = new System.Windows.Forms.Padding(3);
-            this.tabAccepted.Size = new System.Drawing.Size(253, 280);
+            this.tabAccepted.Size = new System.Drawing.Size(591, 280);
             this.tabAccepted.TabIndex = 0;
             this.tabAccepted.Text = "Accepted";
             this.tabAccepted.UseVisualStyleBackColor = true;
@@ -118,7 +114,7 @@
             // cbxAccepted
             // 
             this.cbxAccepted.FormattingEnabled = true;
-            this.cbxAccepted.Location = new System.Drawing.Point(7, 37);
+            this.cbxAccepted.Location = new System.Drawing.Point(3, 6);
             this.cbxAccepted.Name = "cbxAccepted";
             this.cbxAccepted.Size = new System.Drawing.Size(219, 244);
             this.cbxAccepted.TabIndex = 0;
@@ -162,7 +158,7 @@
             // 
             // btnCreateSession
             // 
-            this.btnCreateSession.Location = new System.Drawing.Point(335, 70);
+            this.btnCreateSession.Location = new System.Drawing.Point(7, 319);
             this.btnCreateSession.Name = "btnCreateSession";
             this.btnCreateSession.Size = new System.Drawing.Size(144, 23);
             this.btnCreateSession.TabIndex = 1;
@@ -171,35 +167,35 @@
             // 
             // btnCreateStudent
             // 
-            this.btnCreateStudent.Location = new System.Drawing.Point(335, 131);
+            this.btnCreateStudent.Location = new System.Drawing.Point(7, 318);
             this.btnCreateStudent.Name = "btnCreateStudent";
-            this.btnCreateStudent.Size = new System.Drawing.Size(144, 23);
+            this.btnCreateStudent.Size = new System.Drawing.Size(130, 23);
             this.btnCreateStudent.TabIndex = 2;
-            this.btnCreateStudent.Text = "Create new Student";
+            this.btnCreateStudent.Text = "Create New Student";
             this.btnCreateStudent.UseVisualStyleBackColor = true;
             this.btnCreateStudent.Click += new System.EventHandler(this.btnCreateStudent_Click);
             // 
             // btnEdit
             // 
-            this.btnEdit.Location = new System.Drawing.Point(335, 194);
+            this.btnEdit.Location = new System.Drawing.Point(143, 318);
             this.btnEdit.Name = "btnEdit";
-            this.btnEdit.Size = new System.Drawing.Size(144, 23);
+            this.btnEdit.Size = new System.Drawing.Size(130, 23);
             this.btnEdit.TabIndex = 3;
             this.btnEdit.Text = "Edit Student Account";
             this.btnEdit.UseVisualStyleBackColor = true;
             // 
             // btnDelete
             // 
-            this.btnDelete.Location = new System.Drawing.Point(335, 253);
+            this.btnDelete.Location = new System.Drawing.Point(279, 318);
             this.btnDelete.Name = "btnDelete";
-            this.btnDelete.Size = new System.Drawing.Size(144, 23);
+            this.btnDelete.Size = new System.Drawing.Size(130, 23);
             this.btnDelete.TabIndex = 4;
-            this.btnDelete.Text = "Delete";
+            this.btnDelete.Text = "Delete Student";
             this.btnDelete.UseVisualStyleBackColor = true;
             // 
             // btnLogout
             // 
-            this.btnLogout.Location = new System.Drawing.Point(335, 306);
+            this.btnLogout.Location = new System.Drawing.Point(479, 10);
             this.btnLogout.Name = "btnLogout";
             this.btnLogout.Size = new System.Drawing.Size(144, 23);
             this.btnLogout.TabIndex = 5;
@@ -207,16 +203,21 @@
             this.btnLogout.UseVisualStyleBackColor = true;
             this.btnLogout.Click += new System.EventHandler(this.btnLogout_Click);
             // 
+            // lvStudent
+            // 
+            this.lvStudent.Location = new System.Drawing.Point(6, 7);
+            this.lvStudent.Name = "lvStudent";
+            this.lvStudent.Size = new System.Drawing.Size(604, 306);
+            this.lvStudent.TabIndex = 0;
+            this.lvStudent.UseCompatibleStateImageBehavior = false;
+            this.lvStudent.View = System.Windows.Forms.View.Details;
+            // 
             // AdminMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(657, 510);
+            this.ClientSize = new System.Drawing.Size(648, 422);
             this.Controls.Add(this.btnLogout);
-            this.Controls.Add(this.btnDelete);
-            this.Controls.Add(this.btnEdit);
-            this.Controls.Add(this.btnCreateStudent);
-            this.Controls.Add(this.btnCreateSession);
             this.Controls.Add(this.tabAdmin);
             this.Name = "AdminMain";
             this.Text = "AdminMain";
@@ -237,7 +238,6 @@
         private System.Windows.Forms.TabControl tabAdmin;
         private System.Windows.Forms.TabPage tabStudent;
         private System.Windows.Forms.TabPage tabCommitments;
-        private System.Windows.Forms.ListBox lbxStudents;
         private System.Windows.Forms.TabControl tabAppointments;
         private System.Windows.Forms.TabPage tabAccepted;
         private System.Windows.Forms.CheckedListBox cbxAccepted;
@@ -250,5 +250,6 @@
         private System.Windows.Forms.Button btnEdit;
         private System.Windows.Forms.Button btnDelete;
         private System.Windows.Forms.Button btnLogout;
+        private System.Windows.Forms.ListView lvStudent;
     }
 }
