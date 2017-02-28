@@ -32,7 +32,6 @@
             this.txtLastname = new System.Windows.Forms.TextBox();
             this.txtUsername = new System.Windows.Forms.TextBox();
             this.txtPassword = new System.Windows.Forms.TextBox();
-            this.txtPhoneNumber = new System.Windows.Forms.TextBox();
             this.txtEmail = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
@@ -40,10 +39,12 @@
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
-            this.cbxTutorTutee = new System.Windows.Forms.CheckedListBox();
             this.btnAdd = new System.Windows.Forms.Button();
             this.btnExit = new System.Windows.Forms.Button();
             this.label7 = new System.Windows.Forms.Label();
+            this.cbxTutor = new System.Windows.Forms.CheckBox();
+            this.cbxTutee = new System.Windows.Forms.CheckBox();
+            this.txtPhoneNumber = new System.Windows.Forms.MaskedTextBox();
             this.SuspendLayout();
             // 
             // txtFirstname
@@ -74,13 +75,6 @@
             this.txtPassword.Size = new System.Drawing.Size(100, 20);
             this.txtPassword.TabIndex = 3;
             // 
-            // txtPhoneNumber
-            // 
-            this.txtPhoneNumber.Location = new System.Drawing.Point(40, 225);
-            this.txtPhoneNumber.Name = "txtPhoneNumber";
-            this.txtPhoneNumber.Size = new System.Drawing.Size(100, 20);
-            this.txtPhoneNumber.TabIndex = 4;
-            // 
             // txtEmail
             // 
             this.txtEmail.Location = new System.Drawing.Point(40, 263);
@@ -93,18 +87,18 @@
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(147, 65);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(52, 13);
+            this.label1.Size = new System.Drawing.Size(57, 13);
             this.label1.TabIndex = 6;
-            this.label1.Text = "Firstname";
+            this.label1.Text = "First Name";
             // 
             // label2
             // 
             this.label2.AutoSize = true;
             this.label2.Location = new System.Drawing.Point(147, 105);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(53, 13);
+            this.label2.Size = new System.Drawing.Size(58, 13);
             this.label2.TabIndex = 7;
-            this.label2.Text = "Lastname";
+            this.label2.Text = "Last Name";
             // 
             // label3
             // 
@@ -142,18 +136,6 @@
             this.label6.TabIndex = 11;
             this.label6.Text = "Email";
             // 
-            // cbxTutorTutee
-            // 
-            this.cbxTutorTutee.FormattingEnabled = true;
-            this.cbxTutorTutee.Items.AddRange(new object[] {
-            "Tutor",
-            "Tutee"});
-            this.cbxTutorTutee.Location = new System.Drawing.Point(40, 305);
-            this.cbxTutorTutee.Name = "cbxTutorTutee";
-            this.cbxTutorTutee.Size = new System.Drawing.Size(100, 34);
-            this.cbxTutorTutee.TabIndex = 12;
-            this.cbxTutorTutee.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.cbxTutorTutee_ItemChecked);
-            // 
             // btnAdd
             // 
             this.btnAdd.Location = new System.Drawing.Point(40, 346);
@@ -183,15 +165,46 @@
             this.label7.TabIndex = 15;
             this.label7.Text = "Create New Student!";
             // 
+            // cbxTutor
+            // 
+            this.cbxTutor.AutoSize = true;
+            this.cbxTutor.Location = new System.Drawing.Point(43, 290);
+            this.cbxTutor.Name = "cbxTutor";
+            this.cbxTutor.Size = new System.Drawing.Size(51, 17);
+            this.cbxTutor.TabIndex = 16;
+            this.cbxTutor.Text = "Tutor";
+            this.cbxTutor.UseVisualStyleBackColor = true;
+            this.cbxTutor.CheckStateChanged += new System.EventHandler(this.cbxTutor_CheckStateChanged);
+            // 
+            // cbxTutee
+            // 
+            this.cbxTutee.AutoSize = true;
+            this.cbxTutee.Location = new System.Drawing.Point(43, 314);
+            this.cbxTutee.Name = "cbxTutee";
+            this.cbxTutee.Size = new System.Drawing.Size(54, 17);
+            this.cbxTutee.TabIndex = 17;
+            this.cbxTutee.Text = "Tutee";
+            this.cbxTutee.UseVisualStyleBackColor = true;
+            // 
+            // txtPhoneNumber
+            // 
+            this.txtPhoneNumber.Location = new System.Drawing.Point(40, 225);
+            this.txtPhoneNumber.Mask = "(999) 000-0000";
+            this.txtPhoneNumber.Name = "txtPhoneNumber";
+            this.txtPhoneNumber.Size = new System.Drawing.Size(100, 20);
+            this.txtPhoneNumber.TabIndex = 18;
+            // 
             // CreateStudent
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(277, 415);
+            this.Controls.Add(this.txtPhoneNumber);
+            this.Controls.Add(this.cbxTutee);
+            this.Controls.Add(this.cbxTutor);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.btnExit);
             this.Controls.Add(this.btnAdd);
-            this.Controls.Add(this.cbxTutorTutee);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.label4);
@@ -199,7 +212,6 @@
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.txtEmail);
-            this.Controls.Add(this.txtPhoneNumber);
             this.Controls.Add(this.txtPassword);
             this.Controls.Add(this.txtUsername);
             this.Controls.Add(this.txtLastname);
@@ -218,7 +230,6 @@
         private System.Windows.Forms.TextBox txtLastname;
         private System.Windows.Forms.TextBox txtUsername;
         private System.Windows.Forms.TextBox txtPassword;
-        private System.Windows.Forms.TextBox txtPhoneNumber;
         private System.Windows.Forms.TextBox txtEmail;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
@@ -226,9 +237,11 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.CheckedListBox cbxTutorTutee;
         private System.Windows.Forms.Button btnAdd;
         private System.Windows.Forms.Button btnExit;
         private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.CheckBox cbxTutor;
+        private System.Windows.Forms.CheckBox cbxTutee;
+        private System.Windows.Forms.MaskedTextBox txtPhoneNumber;
     }
 }
