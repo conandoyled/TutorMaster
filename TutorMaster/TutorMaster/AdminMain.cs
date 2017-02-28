@@ -16,6 +16,7 @@ namespace TutorMaster
             InitializeComponent();
 
             setupStudentLV();
+            disableButtons();
         }
 
         private void setupStudentLV()
@@ -54,6 +55,12 @@ namespace TutorMaster
             }
         }
 
+        private void disableButtons()
+        {
+            btnDelete.Enabled = false;
+            btnEdit.Enabled = false;
+        }
+
         private void btnCreateStudent_Click(object sender, EventArgs e)
         {
             CreateStudent g = new CreateStudent();
@@ -71,6 +78,27 @@ namespace TutorMaster
         private void AdminMain_FormClosed(object sender, FormClosedEventArgs e)
         {
             //System.Windows.Forms.Application.Exit();
+        }
+
+        private void lvStudent_ItemChecked(object sender, ItemCheckedEventArgs e)
+        {
+            int itemsChecked = lvStudent.CheckedItems.Count;
+            if (itemsChecked == 1)
+            {
+                btnEdit.Enabled = true;
+            }
+            else
+            {
+                btnEdit.Enabled = false;
+            }
+            if (itemsChecked > 0)
+            {
+                btnDelete.Enabled = true;
+            }
+            else
+            {
+                btnDelete.Enabled = false;
+            }
         }
     }
 }

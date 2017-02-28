@@ -116,7 +116,7 @@
             this.cbxAccepted.FormattingEnabled = true;
             this.cbxAccepted.Location = new System.Drawing.Point(3, 6);
             this.cbxAccepted.Name = "cbxAccepted";
-            this.cbxAccepted.Size = new System.Drawing.Size(219, 244);
+            this.cbxAccepted.Size = new System.Drawing.Size(582, 274);
             this.cbxAccepted.TabIndex = 0;
             // 
             // tabPendingTutee
@@ -125,7 +125,7 @@
             this.tabPendingTutee.Location = new System.Drawing.Point(4, 22);
             this.tabPendingTutee.Name = "tabPendingTutee";
             this.tabPendingTutee.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPendingTutee.Size = new System.Drawing.Size(253, 280);
+            this.tabPendingTutee.Size = new System.Drawing.Size(591, 280);
             this.tabPendingTutee.TabIndex = 1;
             this.tabPendingTutee.Text = "Pending Tutee";
             this.tabPendingTutee.UseVisualStyleBackColor = true;
@@ -133,9 +133,9 @@
             // cbxPendingTutee
             // 
             this.cbxPendingTutee.FormattingEnabled = true;
-            this.cbxPendingTutee.Location = new System.Drawing.Point(3, 34);
+            this.cbxPendingTutee.Location = new System.Drawing.Point(3, 3);
             this.cbxPendingTutee.Name = "cbxPendingTutee";
-            this.cbxPendingTutee.Size = new System.Drawing.Size(223, 244);
+            this.cbxPendingTutee.Size = new System.Drawing.Size(582, 274);
             this.cbxPendingTutee.TabIndex = 0;
             // 
             // tabPendingTutor
@@ -143,7 +143,7 @@
             this.tabPendingTutor.Controls.Add(this.cbxPendingTutor);
             this.tabPendingTutor.Location = new System.Drawing.Point(4, 22);
             this.tabPendingTutor.Name = "tabPendingTutor";
-            this.tabPendingTutor.Size = new System.Drawing.Size(253, 280);
+            this.tabPendingTutor.Size = new System.Drawing.Size(591, 280);
             this.tabPendingTutor.TabIndex = 2;
             this.tabPendingTutor.Text = "Pending Tutor";
             this.tabPendingTutor.UseVisualStyleBackColor = true;
@@ -151,9 +151,9 @@
             // cbxPendingTutor
             // 
             this.cbxPendingTutor.FormattingEnabled = true;
-            this.cbxPendingTutor.Location = new System.Drawing.Point(4, 34);
+            this.cbxPendingTutor.Location = new System.Drawing.Point(0, 3);
             this.cbxPendingTutor.Name = "cbxPendingTutor";
-            this.cbxPendingTutor.Size = new System.Drawing.Size(226, 244);
+            this.cbxPendingTutor.Size = new System.Drawing.Size(591, 274);
             this.cbxPendingTutor.TabIndex = 0;
             // 
             // btnCreateSession
@@ -211,6 +211,7 @@
             this.lvStudent.TabIndex = 0;
             this.lvStudent.UseCompatibleStateImageBehavior = false;
             this.lvStudent.View = System.Windows.Forms.View.Details;
+            this.lvStudent.ItemChecked += new System.Windows.Forms.ItemCheckedEventHandler(this.lvStudent_ItemChecked);
             // 
             // AdminMain
             // 
