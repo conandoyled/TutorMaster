@@ -52,6 +52,10 @@ namespace TutorMaster
             {
                 MessageBox.Show("Please fill in all of the textboxes with the approriate information");
             }
+            else if (!validateInfo(email, phone))
+            {
+                MessageBox.Show("Please put in a valid email address and phone number");
+            }
             else
             {
                 TutorMaster.User newUser = new TutorMaster.User();
@@ -70,7 +74,7 @@ namespace TutorMaster
                 newStudent.Tutee = tutee;
                 newStudent.Tutor = tutor;
                 addStudent(newStudent);
-                
+
                 txtFirstname.Text = "";
                 txtLastname.Text = "";
                 txtUsername.Text = "";
@@ -115,6 +119,16 @@ namespace TutorMaster
             {
                 this.Width += 400;
             }
+        }
+
+        private bool validateInfo(string email, string phone)
+        {
+            string address = email.Substring(email.Length - 4);
+            if ((email.Contains('@')) && (phone.Length == 14) && (address == ".edu" || address == ".com"))
+            {
+                return true;
+            }
+            return false;
         }
     }
 }
