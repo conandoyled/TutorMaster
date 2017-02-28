@@ -70,16 +70,17 @@ namespace TutorMaster
                 newStudent.Tutee = tutee;
                 newStudent.Tutor = tutor;
                 addStudent(newStudent);
+                
+                txtFirstname.Text = "";
+                txtLastname.Text = "";
+                txtUsername.Text = "";
+                txtPassword.Text = "";
+                txtPhoneNumber.Text = "";
+                txtEmail.Text = "";
+                cbxTutor.Checked = false;
+                cbxTutee.Checked = false;
+                MessageBox.Show("Student has been added to the database");
             }
-
-            txtFirstname.Text = "";
-            txtLastname.Text = "";
-            txtUsername.Text = "";
-            txtPassword.Text = "";
-            txtPhoneNumber.Text = "";
-            txtEmail.Text = "";
-            cbxTutor.Checked = false;
-            cbxTutee.Checked = false;
         }
 
         private void addUser(TutorMaster.User user)
@@ -100,8 +101,8 @@ namespace TutorMaster
         {
             TutorMasterDBEntities1 db = new TutorMasterDBEntities1();
             int rowNum = db.Users.Count();
-            var lastRow = db.Users.OrderBy(u => 1).Skip(rowNum - 1).FirstOrDefault();
-            return lastRow.ID + 1;
+            var lastRow = db.Users.OrderByDescending(u => u.ID).Select(r => r.ID).First();
+            return lastRow + 1;
         }
 
         private void cbxTutor_CheckStateChanged(object sender, EventArgs e)
