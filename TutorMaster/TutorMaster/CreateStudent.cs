@@ -105,6 +105,7 @@ namespace TutorMaster
         {
             TutorMasterDBEntities1 db = new TutorMasterDBEntities1();
             int rowNum = db.Users.Count();
+            
             var lastRow = db.Users.OrderByDescending(u => u.ID).Select(r => r.ID).First();
             return lastRow + 1;
         }
@@ -132,3 +133,4 @@ namespace TutorMaster
         }
     }
 }
+
