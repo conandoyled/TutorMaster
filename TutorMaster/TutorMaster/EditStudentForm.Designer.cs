@@ -46,6 +46,8 @@
             this.txtLastname = new System.Windows.Forms.TextBox();
             this.txtFirstname = new System.Windows.Forms.TextBox();
             this.btnEditAvail = new System.Windows.Forms.Button();
+            this.lblTClasses = new System.Windows.Forms.Label();
+            this.tvClasses = new System.Windows.Forms.TreeView();
             this.SuspendLayout();
             // 
             // txtPhoneNumber
@@ -75,6 +77,7 @@
             this.cbxTutor.TabIndex = 33;
             this.cbxTutor.Text = "Tutor";
             this.cbxTutor.UseVisualStyleBackColor = true;
+            this.cbxTutor.CheckStateChanged += new System.EventHandler(this.cbxTutor_CheckStateChanged);
             // 
             // label7
             // 
@@ -93,6 +96,7 @@
             this.btnExit.TabIndex = 31;
             this.btnExit.Text = "Exit";
             this.btnExit.UseVisualStyleBackColor = true;
+            this.btnExit.Click += new System.EventHandler(this.btnExit_Click);
             // 
             // btnSave
             // 
@@ -202,11 +206,32 @@
             this.btnEditAvail.Text = "Edit Availability";
             this.btnEditAvail.UseVisualStyleBackColor = true;
             // 
+            // lblTClasses
+            // 
+            this.lblTClasses.AutoSize = true;
+            this.lblTClasses.Location = new System.Drawing.Point(297, 45);
+            this.lblTClasses.Name = "lblTClasses";
+            this.lblTClasses.Size = new System.Drawing.Size(74, 13);
+            this.lblTClasses.TabIndex = 37;
+            this.lblTClasses.Text = "Tutor Classes:";
+            this.lblTClasses.Visible = false;
+            // 
+            // tvClasses
+            // 
+            this.tvClasses.Location = new System.Drawing.Point(297, 64);
+            this.tvClasses.Name = "tvClasses";
+            this.tvClasses.Size = new System.Drawing.Size(205, 304);
+            this.tvClasses.TabIndex = 36;
+            this.tvClasses.Visible = false;
+            this.tvClasses.AfterCheck += new System.Windows.Forms.TreeViewEventHandler(this.tvClasses_AfterCheck);
+            // 
             // EditStudentForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(277, 416);
+            this.ClientSize = new System.Drawing.Size(274, 409);
+            this.Controls.Add(this.lblTClasses);
+            this.Controls.Add(this.tvClasses);
             this.Controls.Add(this.btnEditAvail);
             this.Controls.Add(this.txtPhoneNumber);
             this.Controls.Add(this.cbxTutee);
@@ -252,5 +277,7 @@
         private System.Windows.Forms.TextBox txtLastname;
         private System.Windows.Forms.TextBox txtFirstname;
         private System.Windows.Forms.Button btnEditAvail;
+        private System.Windows.Forms.Label lblTClasses;
+        private System.Windows.Forms.TreeView tvClasses;
     }
 }

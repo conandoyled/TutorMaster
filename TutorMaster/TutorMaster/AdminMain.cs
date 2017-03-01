@@ -100,7 +100,7 @@ namespace TutorMaster
 
         private void btnEdit_Click(object sender, EventArgs e)
         {
-            EditStudentForm g = new EditStudentForm(1);
+            EditStudentForm g = new EditStudentForm(3);
             g.Show();
             this.Close();
         }
