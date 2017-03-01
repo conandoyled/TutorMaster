@@ -97,5 +97,12 @@ namespace TutorMaster
                 btnDelete.Enabled = false;
             }
         }
+
+        private void btnEdit_Click(object sender, EventArgs e)
+        {
+            EditStudentForm g = new EditStudentForm(1);
+            g.Show();
+            this.Close();
+        }
     }
 }
