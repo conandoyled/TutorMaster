@@ -65,7 +65,17 @@ namespace TutorMaster
         {
             TutorMasterDBEntities1 db = new TutorMasterDBEntities1();
 
-            return (db.Users.Any(u => u.Username == username && u.Password == password));
+            bool found = false;
+            if (db.Users.Any(u => u.Username == username))
+            {
+                string pw = (from row in db.Users where row.Username == username select row.Password).Single();
+                if (password == pw)
+                {
+                    found = true;
+                }
+            }
+
+            return (found);
         }
 
         private string getAccType(string username)
