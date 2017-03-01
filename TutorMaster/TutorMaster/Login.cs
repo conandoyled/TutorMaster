@@ -63,7 +63,7 @@ namespace TutorMaster
 
         private bool isValidUser(string username, string password)
         {
-            TutorMasterDBEntities1 db = new TutorMasterDBEntities1();
+            TutorMasterDBEntities2 db = new TutorMasterDBEntities2();
 
             bool found = false;
             if (db.Users.Any(u => u.Username == username))
@@ -80,7 +80,7 @@ namespace TutorMaster
 
         private string getAccType(string username)
         {
-            TutorMasterDBEntities1 db = new TutorMasterDBEntities1();
+            TutorMasterDBEntities2 db = new TutorMasterDBEntities2();
 
             string accType = (from row in db.Users where row.Username == username select row.AccountType).Single();
 
@@ -89,7 +89,7 @@ namespace TutorMaster
 
         private int getID(string username)
         {
-            TutorMasterDBEntities1 db = new TutorMasterDBEntities1();
+            TutorMasterDBEntities2 db = new TutorMasterDBEntities2();
 
             int accID = (from row in db.Users where row.Username == username select row.ID).First();
 

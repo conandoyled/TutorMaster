@@ -24,7 +24,7 @@ namespace TutorMaster
         {
             tvClasses.CheckBoxes = true;
 
-            TutorMasterDBEntities1 db = new TutorMasterDBEntities1();
+            TutorMasterDBEntities2 db = new TutorMasterDBEntities2();
             var classes = from c in db.Classes select c;
             List<Class> cls = new List<Class>();
             cls = classes.ToList();
@@ -70,6 +70,7 @@ namespace TutorMaster
             string accounttype = "Student";
             bool tutor = cbxTutor.Checked;
             bool tutee = cbxTutee.Checked;
+            TutorMasterDBEntities2 db = new TutorMasterDBEntities2();
 
             if (!tutor && !tutee)
             {
@@ -104,6 +105,28 @@ namespace TutorMaster
                 newStudent.Tutor = tutor;
                 addStudent(newStudent);
 
+                if (tutor)
+                {
+                    int numDepartments = tvClasses.Nodes.Count;
+                    for (int i = 0; i < numDepartments; i++)
+                    {
+                        int numNodes = tvClasses.Nodes[i].Nodes.Count;
+                        for (int j = 0; j < numNodes; j++)
+                        {
+                            TreeNode tn = tvClasses.Nodes[i].Nodes[j];
+                            if (tn.Checked)
+                            {
+                                TutorMaster.TutorRequest request = new TutorMaster.TutorRequest();
+                                request.Key = getNextRequestKey();
+                                request.ID = newStudent.ID;
+                                string classCode = (from row in db.Classes where row.ClassName == tn.Text select row.ClassCode).First();
+                                request.ClassCode = classCode;
+                                addRequest(request);
+                            }
+                        }
+                    }
+                }
+
                 txtFirstname.Text = "";
                 txtLastname.Text = "";
                 txtUsername.Text = "";
@@ -118,24 +141,48 @@ namespace TutorMaster
 
         private void addUser(TutorMaster.User user)
         {
-            TutorMasterDBEntities1 db = new TutorMasterDBEntities1();
+            TutorMasterDBEntities2 db = new TutorMasterDBEntities2();
             db.Users.AddObject(user);
             db.SaveChanges();
         }
 
         private void addStudent(TutorMaster.Student student)
         {
-            TutorMasterDBEntities1 db = new TutorMasterDBEntities1();
+            TutorMasterDBEntities2 db = new TutorMasterDBEntities2();
             db.Students.AddObject(student);
+            db.SaveChanges();
+        }
+
+        private void addRequest(TutorMaster.TutorRequest request)
+        {
+            TutorMasterDBEntities2 db = new TutorMasterDBEntities2();
+            db.TutorRequests.AddObject(request);
             db.SaveChanges();
         }
 
         private int getNextID()
         {
-            TutorMasterDBEntities1 db = new TutorMasterDBEntities1();
+            TutorMasterDBEntities2 db = new TutorMasterDBEntities2();
             int rowNum = db.Users.Count();
             
             var lastRow = db.Users.OrderByDescending(u => u.ID).Select(r => r.ID).First();
+            return lastRow + 1;
+        }
+
+        private int getNextRequestKey()
+        {
+            TutorMasterDBEntities2 db = new TutorMasterDBEntities2();
+            int rowNum = db.TutorRequests.Count();
+            int lastRow;
+
+            if (rowNum > 0)
+            {
+                lastRow = db.TutorRequests.OrderByDescending(u => u.Key).Select(r => r.Key).First();
+            }
+            else
+            {
+                lastRow = 0;
+            }
             return lastRow + 1;
         }
 
@@ -165,7 +212,7 @@ namespace TutorMaster
             return false;
         }
 
-        //Doesn't work when checked too fast
+        //Doesn't work on double click
         private void tvClasses_AfterCheck(object sender, TreeViewEventArgs e)
         {
             if (e.Action != TreeViewAction.Unknown)

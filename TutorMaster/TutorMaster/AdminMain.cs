@@ -30,7 +30,7 @@ namespace TutorMaster
             lvStudent.Columns.Add("Email", 100);
             lvStudent.Columns.Add("Phone Number", 100);
 
-            TutorMasterDBEntities1 db = new TutorMasterDBEntities1();
+            TutorMasterDBEntities2 db = new TutorMasterDBEntities2();
             var students = from c in db.Students select c;
             List<Student> stus = new List<Student>();
             stus = students.ToList();

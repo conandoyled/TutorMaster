@@ -13,7 +13,7 @@
           <EntitySet Name="StudentClasses" EntityType="TutorMasterDBModel.Store.StudentClasses" store:Type="Tables" />
           <EntitySet Name="StudentCommitments" EntityType="TutorMasterDBModel.Store.StudentCommitments" store:Type="Tables" />
           <EntitySet Name="Students" EntityType="TutorMasterDBModel.Store.Students" store:Type="Tables" />
-          <EntitySet Name="TutorRequests" EntityType="TutorMasterDBModel.Store.TutorRequests" store:Type="Tables" />
+          <EntitySet Name="TutorRequest" EntityType="TutorMasterDBModel.Store.TutorRequest" store:Type="Tables" />
           <EntitySet Name="Users" EntityType="TutorMasterDBModel.Store.Users" store:Type="Tables" />
           <AssociationSet Name="ClassesToFaculty" Association="TutorMasterDBModel.Store.ClassesToFaculty">
             <End Role="Classes" EntitySet="Classes" />
@@ -25,7 +25,7 @@
           </AssociationSet>
           <AssociationSet Name="ClassToRequest" Association="TutorMasterDBModel.Store.ClassToRequest">
             <End Role="Classes" EntitySet="Classes" />
-            <End Role="TutorRequests" EntitySet="TutorRequests" />
+            <End Role="TutorRequest" EntitySet="TutorRequest" />
           </AssociationSet>
           <AssociationSet Name="CmtToStudents" Association="TutorMasterDBModel.Store.CmtToStudents">
             <End Role="Commitments" EntitySet="Commitments" />
@@ -45,13 +45,13 @@
           </AssociationSet>
           <AssociationSet Name="StudentToRequest" Association="TutorMasterDBModel.Store.StudentToRequest">
             <End Role="Students" EntitySet="Students" />
-            <End Role="TutorRequests" EntitySet="TutorRequests" />
+            <End Role="TutorRequest" EntitySet="TutorRequest" />
           </AssociationSet>
-          <AssociationSet Name="UsersToFaculty" Association="TutorMasterDBModel.Store.UsersToFaculty">
+          <AssociationSet Name="UsersToFac" Association="TutorMasterDBModel.Store.UsersToFac">
             <End Role="Users" EntitySet="Users" />
             <End Role="Faculty" EntitySet="Faculty" />
           </AssociationSet>
-          <AssociationSet Name="UsersToStudents" Association="TutorMasterDBModel.Store.UsersToStudents">
+          <AssociationSet Name="UserToStudents" Association="TutorMasterDBModel.Store.UserToStudents">
             <End Role="Users" EntitySet="Users" />
             <End Role="Students" EntitySet="Students" />
           </AssociationSet>
@@ -73,7 +73,11 @@
           <Property Name="EndTime" Type="nvarchar" MaxLength="100" />
           <Property Name="Class" Type="nvarchar" MaxLength="100" />
           <Property Name="Location" Type="nvarchar" MaxLength="100" />
+          <Property Name="Open" Type="nvarchar" MaxLength="100" />
+          <Property Name="Tutoring" Type="nvarchar" MaxLength="100" />
           <Property Name="Weekly" Type="nvarchar" MaxLength="100" />
+          <Property Name="ID1" Type="nvarchar" MaxLength="100" />
+          <Property Name="ID2" Type="nvarchar" MaxLength="100" />
         </EntityType>
         <EntityType Name="Faculty">
           <Key>
@@ -86,7 +90,7 @@
           <Key>
             <PropertyRef Name="Key" />
           </Key>
-          <Property Name="Key" Type="int" Nullable="false" />
+          <Property Name="Key" Type="nvarchar" Nullable="false" MaxLength="100" />
           <Property Name="FacultyID" Type="int" />
           <Property Name="ClassCode" Type="nvarchar" MaxLength="100" />
         </EntityType>
@@ -105,7 +109,6 @@
           </Key>
           <Property Name="CmtID" Type="int" Nullable="false" />
           <Property Name="ID" Type="int" Nullable="false" />
-          <Property Name="Status" Type="int" />
         </EntityType>
         <EntityType Name="Students">
           <Key>
@@ -115,13 +118,13 @@
           <Property Name="Tutee" Type="bit" />
           <Property Name="Tutor" Type="bit" />
         </EntityType>
-        <EntityType Name="TutorRequests">
+        <EntityType Name="TutorRequest">
           <Key>
-            <PropertyRef Name="StudentID" />
-            <PropertyRef Name="ClassCode" />
+            <PropertyRef Name="Key" />
           </Key>
-          <Property Name="StudentID" Type="int" Nullable="false" />
-          <Property Name="ClassCode" Type="nvarchar" Nullable="false" MaxLength="100" />
+          <Property Name="Key" Type="int" Nullable="false" />
+          <Property Name="ID" Type="int" />
+          <Property Name="ClassCode" Type="nvarchar" MaxLength="100" />
         </EntityType>
         <EntityType Name="Users">
           <Key>
@@ -165,15 +168,15 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="ClassToRequest">
-          <End Role="Classes" Type="TutorMasterDBModel.Store.Classes" Multiplicity="1">
+          <End Role="Classes" Type="TutorMasterDBModel.Store.Classes" Multiplicity="0..1">
             <OnDelete Action="Cascade" />
           </End>
-          <End Role="TutorRequests" Type="TutorMasterDBModel.Store.TutorRequests" Multiplicity="*" />
+          <End Role="TutorRequest" Type="TutorMasterDBModel.Store.TutorRequest" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Classes">
               <PropertyRef Name="ClassCode" />
             </Principal>
-            <Dependent Role="TutorRequests">
+            <Dependent Role="TutorRequest">
               <PropertyRef Name="ClassCode" />
             </Dependent>
           </ReferentialConstraint>
@@ -233,20 +236,20 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="StudentToRequest">
-          <End Role="Students" Type="TutorMasterDBModel.Store.Students" Multiplicity="1">
+          <End Role="Students" Type="TutorMasterDBModel.Store.Students" Multiplicity="0..1">
             <OnDelete Action="Cascade" />
           </End>
-          <End Role="TutorRequests" Type="TutorMasterDBModel.Store.TutorRequests" Multiplicity="*" />
+          <End Role="TutorRequest" Type="TutorMasterDBModel.Store.TutorRequest" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Students">
               <PropertyRef Name="ID" />
             </Principal>
-            <Dependent Role="TutorRequests">
-              <PropertyRef Name="StudentID" />
+            <Dependent Role="TutorRequest">
+              <PropertyRef Name="ID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="UsersToFaculty">
+        <Association Name="UsersToFac">
           <End Role="Users" Type="TutorMasterDBModel.Store.Users" Multiplicity="1">
             <OnDelete Action="Cascade" />
           </End>
@@ -260,7 +263,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="UsersToStudents">
+        <Association Name="UserToStudents">
           <End Role="Users" Type="TutorMasterDBModel.Store.Users" Multiplicity="1">
             <OnDelete Action="Cascade" />
           </End>
@@ -279,35 +282,35 @@
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="TutorMasterDBModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
-        <EntityContainer Name="TutorMasterDBEntities1" annotation:LazyLoadingEnabled="true">
+        <EntityContainer Name="TutorMasterDBEntities2" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Classes" EntityType="TutorMasterDBModel.Class" />
           <EntitySet Name="Commitments" EntityType="TutorMasterDBModel.Commitment" />
           <EntitySet Name="Faculties" EntityType="TutorMasterDBModel.Faculty" />
           <EntitySet Name="FacultyClasses" EntityType="TutorMasterDBModel.FacultyClass" />
-          <EntitySet Name="StudentCommitments" EntityType="TutorMasterDBModel.StudentCommitment" />
           <EntitySet Name="Students" EntityType="TutorMasterDBModel.Student" />
+          <EntitySet Name="TutorRequests" EntityType="TutorMasterDBModel.TutorRequest" />
           <EntitySet Name="Users" EntityType="TutorMasterDBModel.User" />
           <AssociationSet Name="ClassesToFaculty" Association="TutorMasterDBModel.ClassesToFaculty">
             <End Role="Classes" EntitySet="Classes" />
             <End Role="FacultyClasses" EntitySet="FacultyClasses" />
           </AssociationSet>
-          <AssociationSet Name="CmtToStudents" Association="TutorMasterDBModel.CmtToStudents">
-            <End Role="Commitments" EntitySet="Commitments" />
-            <End Role="StudentCommitments" EntitySet="StudentCommitments" />
+          <AssociationSet Name="ClassToRequest" Association="TutorMasterDBModel.ClassToRequest">
+            <End Role="Classes" EntitySet="Classes" />
+            <End Role="TutorRequest" EntitySet="TutorRequests" />
           </AssociationSet>
           <AssociationSet Name="FacultyToClasses" Association="TutorMasterDBModel.FacultyToClasses">
             <End Role="Faculty" EntitySet="Faculties" />
             <End Role="FacultyClasses" EntitySet="FacultyClasses" />
           </AssociationSet>
-          <AssociationSet Name="UsersToFaculty" Association="TutorMasterDBModel.UsersToFaculty">
+          <AssociationSet Name="UsersToFac" Association="TutorMasterDBModel.UsersToFac">
             <End Role="Users" EntitySet="Users" />
             <End Role="Faculty" EntitySet="Faculties" />
           </AssociationSet>
-          <AssociationSet Name="StudentsToCmt" Association="TutorMasterDBModel.StudentsToCmt">
+          <AssociationSet Name="StudentToRequest" Association="TutorMasterDBModel.StudentToRequest">
             <End Role="Students" EntitySet="Students" />
-            <End Role="StudentCommitments" EntitySet="StudentCommitments" />
+            <End Role="TutorRequest" EntitySet="TutorRequests" />
           </AssociationSet>
-          <AssociationSet Name="UsersToStudents" Association="TutorMasterDBModel.UsersToStudents">
+          <AssociationSet Name="UserToStudents" Association="TutorMasterDBModel.UserToStudents">
             <End Role="Users" EntitySet="Users" />
             <End Role="Students" EntitySet="Students" />
           </AssociationSet>
@@ -315,8 +318,8 @@
             <End Role="Classes" EntitySet="Classes" />
             <End Role="Students" EntitySet="Students" />
           </AssociationSet>
-          <AssociationSet Name="TutorRequests" Association="TutorMasterDBModel.TutorRequests">
-            <End Role="Classes" EntitySet="Classes" />
+          <AssociationSet Name="StudentCommitments" Association="TutorMasterDBModel.StudentCommitments">
+            <End Role="Commitments" EntitySet="Commitments" />
             <End Role="Students" EntitySet="Students" />
           </AssociationSet>
         </EntityContainer>
@@ -328,8 +331,8 @@
           <Property Name="ClassName" Type="String" MaxLength="100" Unicode="true" FixedLength="false" />
           <Property Name="Department" Type="String" MaxLength="100" Unicode="true" FixedLength="false" />
           <NavigationProperty Name="FacultyClasses" Relationship="TutorMasterDBModel.ClassesToFaculty" FromRole="Classes" ToRole="FacultyClasses" />
+          <NavigationProperty Name="TutorRequests" Relationship="TutorMasterDBModel.ClassToRequest" FromRole="Classes" ToRole="TutorRequest" />
           <NavigationProperty Name="Students" Relationship="TutorMasterDBModel.StudentClasses" FromRole="Classes" ToRole="Students" />
-          <NavigationProperty Name="Students1" Relationship="TutorMasterDBModel.TutorRequests" FromRole="Classes" ToRole="Students" />
         </EntityType>
         <EntityType Name="Commitment">
           <Key>
@@ -340,8 +343,12 @@
           <Property Name="EndTime" Type="String" MaxLength="100" Unicode="true" FixedLength="false" />
           <Property Name="Class" Type="String" MaxLength="100" Unicode="true" FixedLength="false" />
           <Property Name="Location" Type="String" MaxLength="100" Unicode="true" FixedLength="false" />
+          <Property Name="Open" Type="String" MaxLength="100" Unicode="true" FixedLength="false" />
+          <Property Name="Tutoring" Type="String" MaxLength="100" Unicode="true" FixedLength="false" />
           <Property Name="Weekly" Type="String" MaxLength="100" Unicode="true" FixedLength="false" />
-          <NavigationProperty Name="StudentCommitments" Relationship="TutorMasterDBModel.CmtToStudents" FromRole="Commitments" ToRole="StudentCommitments" />
+          <Property Name="ID1" Type="String" MaxLength="100" Unicode="true" FixedLength="false" />
+          <Property Name="ID2" Type="String" MaxLength="100" Unicode="true" FixedLength="false" />
+          <NavigationProperty Name="Students" Relationship="TutorMasterDBModel.StudentCommitments" FromRole="Commitments" ToRole="Students" />
         </EntityType>
         <EntityType Name="Faculty">
           <Key>
@@ -350,28 +357,17 @@
           <Property Name="ID" Type="Int32" Nullable="false" />
           <Property Name="Department" Type="String" MaxLength="100" Unicode="true" FixedLength="false" />
           <NavigationProperty Name="FacultyClasses" Relationship="TutorMasterDBModel.FacultyToClasses" FromRole="Faculty" ToRole="FacultyClasses" />
-          <NavigationProperty Name="User" Relationship="TutorMasterDBModel.UsersToFaculty" FromRole="Faculty" ToRole="Users" />
+          <NavigationProperty Name="User" Relationship="TutorMasterDBModel.UsersToFac" FromRole="Faculty" ToRole="Users" />
         </EntityType>
         <EntityType Name="FacultyClass">
           <Key>
             <PropertyRef Name="Key" />
           </Key>
-          <Property Name="Key" Type="Int32" Nullable="false" />
+          <Property Name="Key" Type="String" Nullable="false" MaxLength="100" Unicode="true" FixedLength="false" />
           <Property Name="FacultyID" Type="Int32" />
           <Property Name="ClassCode" Type="String" MaxLength="100" Unicode="true" FixedLength="false" />
           <NavigationProperty Name="Class" Relationship="TutorMasterDBModel.ClassesToFaculty" FromRole="FacultyClasses" ToRole="Classes" />
           <NavigationProperty Name="Faculty" Relationship="TutorMasterDBModel.FacultyToClasses" FromRole="FacultyClasses" ToRole="Faculty" />
-        </EntityType>
-        <EntityType Name="StudentCommitment">
-          <Key>
-            <PropertyRef Name="CmtID" />
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="CmtID" Type="Int32" Nullable="false" />
-          <Property Name="ID" Type="Int32" Nullable="false" />
-          <Property Name="Status" Type="Int32" />
-          <NavigationProperty Name="Commitment" Relationship="TutorMasterDBModel.CmtToStudents" FromRole="StudentCommitments" ToRole="Commitments" />
-          <NavigationProperty Name="Student" Relationship="TutorMasterDBModel.StudentsToCmt" FromRole="StudentCommitments" ToRole="Students" />
         </EntityType>
         <EntityType Name="Student">
           <Key>
@@ -380,10 +376,20 @@
           <Property Name="ID" Type="Int32" Nullable="false" />
           <Property Name="Tutee" Type="Boolean" />
           <Property Name="Tutor" Type="Boolean" />
-          <NavigationProperty Name="StudentCommitments" Relationship="TutorMasterDBModel.StudentsToCmt" FromRole="Students" ToRole="StudentCommitments" />
-          <NavigationProperty Name="User" Relationship="TutorMasterDBModel.UsersToStudents" FromRole="Students" ToRole="Users" />
+          <NavigationProperty Name="TutorRequests" Relationship="TutorMasterDBModel.StudentToRequest" FromRole="Students" ToRole="TutorRequest" />
+          <NavigationProperty Name="User" Relationship="TutorMasterDBModel.UserToStudents" FromRole="Students" ToRole="Users" />
           <NavigationProperty Name="Classes" Relationship="TutorMasterDBModel.StudentClasses" FromRole="Students" ToRole="Classes" />
-          <NavigationProperty Name="Classes1" Relationship="TutorMasterDBModel.TutorRequests" FromRole="Students" ToRole="Classes" />
+          <NavigationProperty Name="Commitments" Relationship="TutorMasterDBModel.StudentCommitments" FromRole="Students" ToRole="Commitments" />
+        </EntityType>
+        <EntityType Name="TutorRequest">
+          <Key>
+            <PropertyRef Name="Key" />
+          </Key>
+          <Property Name="Key" Type="Int32" Nullable="false" />
+          <Property Name="ID" Type="Int32" />
+          <Property Name="ClassCode" Type="String" MaxLength="100" Unicode="true" FixedLength="false" />
+          <NavigationProperty Name="Class" Relationship="TutorMasterDBModel.ClassToRequest" FromRole="TutorRequest" ToRole="Classes" />
+          <NavigationProperty Name="Student" Relationship="TutorMasterDBModel.StudentToRequest" FromRole="TutorRequest" ToRole="Students" />
         </EntityType>
         <EntityType Name="User">
           <Key>
@@ -397,8 +403,8 @@
           <Property Name="AccountType" Type="String" MaxLength="100" Unicode="true" FixedLength="false" />
           <Property Name="Password" Type="String" MaxLength="100" Unicode="true" FixedLength="false" />
           <Property Name="Username" Type="String" MaxLength="100" Unicode="true" FixedLength="false" />
-          <NavigationProperty Name="Faculty" Relationship="TutorMasterDBModel.UsersToFaculty" FromRole="Users" ToRole="Faculty" />
-          <NavigationProperty Name="Student" Relationship="TutorMasterDBModel.UsersToStudents" FromRole="Users" ToRole="Students" />
+          <NavigationProperty Name="Faculty" Relationship="TutorMasterDBModel.UsersToFac" FromRole="Users" ToRole="Faculty" />
+          <NavigationProperty Name="Student" Relationship="TutorMasterDBModel.UserToStudents" FromRole="Users" ToRole="Students" />
         </EntityType>
         <Association Name="ClassesToFaculty">
           <End Role="Classes" Type="TutorMasterDBModel.Class" Multiplicity="0..1">
@@ -414,17 +420,17 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="CmtToStudents">
-          <End Role="Commitments" Type="TutorMasterDBModel.Commitment" Multiplicity="1">
+        <Association Name="ClassToRequest">
+          <End Role="Classes" Type="TutorMasterDBModel.Class" Multiplicity="0..1">
             <OnDelete Action="Cascade" />
           </End>
-          <End Role="StudentCommitments" Type="TutorMasterDBModel.StudentCommitment" Multiplicity="*" />
+          <End Role="TutorRequest" Type="TutorMasterDBModel.TutorRequest" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Commitments">
-              <PropertyRef Name="CmtID" />
+            <Principal Role="Classes">
+              <PropertyRef Name="ClassCode" />
             </Principal>
-            <Dependent Role="StudentCommitments">
-              <PropertyRef Name="CmtID" />
+            <Dependent Role="TutorRequest">
+              <PropertyRef Name="ClassCode" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -440,7 +446,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="UsersToFaculty">
+        <Association Name="UsersToFac">
           <End Role="Users" Type="TutorMasterDBModel.User" Multiplicity="1">
             <OnDelete Action="Cascade" />
           </End>
@@ -454,21 +460,21 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="StudentsToCmt">
-          <End Role="Students" Type="TutorMasterDBModel.Student" Multiplicity="1">
+        <Association Name="StudentToRequest">
+          <End Role="Students" Type="TutorMasterDBModel.Student" Multiplicity="0..1">
             <OnDelete Action="Cascade" />
           </End>
-          <End Role="StudentCommitments" Type="TutorMasterDBModel.StudentCommitment" Multiplicity="*" />
+          <End Role="TutorRequest" Type="TutorMasterDBModel.TutorRequest" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Students">
               <PropertyRef Name="ID" />
             </Principal>
-            <Dependent Role="StudentCommitments">
+            <Dependent Role="TutorRequest">
               <PropertyRef Name="ID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="UsersToStudents">
+        <Association Name="UserToStudents">
           <End Role="Users" Type="TutorMasterDBModel.User" Multiplicity="1">
             <OnDelete Action="Cascade" />
           </End>
@@ -486,8 +492,8 @@
           <End Role="Classes" Type="TutorMasterDBModel.Class" Multiplicity="*" />
           <End Role="Students" Type="TutorMasterDBModel.Student" Multiplicity="*" />
         </Association>
-        <Association Name="TutorRequests">
-          <End Role="Classes" Type="TutorMasterDBModel.Class" Multiplicity="*" />
+        <Association Name="StudentCommitments">
+          <End Role="Commitments" Type="TutorMasterDBModel.Commitment" Multiplicity="*" />
           <End Role="Students" Type="TutorMasterDBModel.Student" Multiplicity="*" />
         </Association>
       </Schema>
@@ -495,7 +501,7 @@
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="TutorMasterDBModelStoreContainer" CdmEntityContainer="TutorMasterDBEntities1">
+        <EntityContainerMapping StorageEntityContainer="TutorMasterDBModelStoreContainer" CdmEntityContainer="TutorMasterDBEntities2">
           <EntitySetMapping Name="Classes">
             <EntityTypeMapping TypeName="TutorMasterDBModel.Class">
               <MappingFragment StoreEntitySet="Classes">
@@ -513,7 +519,11 @@
                 <ScalarProperty Name="EndTime" ColumnName="EndTime" />
                 <ScalarProperty Name="Class" ColumnName="Class" />
                 <ScalarProperty Name="Location" ColumnName="Location" />
+                <ScalarProperty Name="Open" ColumnName="Open" />
+                <ScalarProperty Name="Tutoring" ColumnName="Tutoring" />
                 <ScalarProperty Name="Weekly" ColumnName="Weekly" />
+                <ScalarProperty Name="ID1" ColumnName="ID1" />
+                <ScalarProperty Name="ID2" ColumnName="ID2" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -534,21 +544,21 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="StudentCommitments">
-            <EntityTypeMapping TypeName="TutorMasterDBModel.StudentCommitment">
-              <MappingFragment StoreEntitySet="StudentCommitments">
-                <ScalarProperty Name="CmtID" ColumnName="CmtID" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="Status" ColumnName="Status" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="Students">
             <EntityTypeMapping TypeName="TutorMasterDBModel.Student">
               <MappingFragment StoreEntitySet="Students">
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="Tutee" ColumnName="Tutee" />
                 <ScalarProperty Name="Tutor" ColumnName="Tutor" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TutorRequests">
+            <EntityTypeMapping TypeName="TutorMasterDBModel.TutorRequest">
+              <MappingFragment StoreEntitySet="TutorRequest">
+                <ScalarProperty Name="Key" ColumnName="Key" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="ClassCode" ColumnName="ClassCode" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -574,12 +584,12 @@
               <ScalarProperty Name="ID" ColumnName="ID" />
             </EndProperty>
           </AssociationSetMapping>
-          <AssociationSetMapping Name="TutorRequests" TypeName="TutorMasterDBModel.TutorRequests" StoreEntitySet="TutorRequests">
-            <EndProperty Name="Classes">
-              <ScalarProperty Name="ClassCode" ColumnName="ClassCode" />
+          <AssociationSetMapping Name="StudentCommitments" TypeName="TutorMasterDBModel.StudentCommitments" StoreEntitySet="StudentCommitments">
+            <EndProperty Name="Commitments">
+              <ScalarProperty Name="CmtID" ColumnName="CmtID" />
             </EndProperty>
             <EndProperty Name="Students">
-              <ScalarProperty Name="ID" ColumnName="StudentID" />
+              <ScalarProperty Name="ID" ColumnName="ID" />
             </EndProperty>
           </AssociationSetMapping>
         </EntityContainerMapping>
@@ -603,46 +613,47 @@
     <!-- Diagram content (shape and connector positions) -->
     <Diagrams>
       <Diagram Name="Model1">
-        <EntityTypeShape EntityType="TutorMasterDBModel.Class" Width="1.5" PointX="4.875" PointY="3.875" Height="2.172587890625" IsExpanded="true" />
-        <EntityTypeShape EntityType="TutorMasterDBModel.Commitment" Width="1.5" PointX="8.125" PointY="0.5" Height="2.3648893229166674" IsExpanded="true" />
-        <EntityTypeShape EntityType="TutorMasterDBModel.Faculty" Width="1.5" PointX="0.5" PointY="3.875" Height="1.7879850260416657" IsExpanded="true" />
-        <EntityTypeShape EntityType="TutorMasterDBModel.FacultyClass" Width="1.5" PointX="2.625" PointY="3.875" Height="1.9802864583333331" IsExpanded="true" />
-        <EntityTypeShape EntityType="TutorMasterDBModel.StudentCommitment" Width="1.5" PointX="6" PointY="0.5" Height="1.9802864583333317" IsExpanded="true" />
-        <EntityTypeShape EntityType="TutorMasterDBModel.Student" Width="1.5" PointX="2.625" PointY="0.5" Height="2.3648893229166665" IsExpanded="true" />
-        <EntityTypeShape EntityType="TutorMasterDBModel.User" Width="1.5" PointX="0.5" PointY="0.5" Height="2.9417936197916674" IsExpanded="true" />
+        <EntityTypeShape EntityType="TutorMasterDBModel.Class" Width="1.5" PointX="5.5" PointY="4.25" Height="2.1725878906249996" IsExpanded="true" />
+        <EntityTypeShape EntityType="TutorMasterDBModel.Commitment" Width="1.5" PointX="8" PointY="0.5" Height="3.1340950520833317" IsExpanded="true" />
+        <EntityTypeShape EntityType="TutorMasterDBModel.Faculty" Width="1.5" PointX="0.625" PointY="4.25" Height="1.7879850260416657" IsExpanded="true" />
+        <EntityTypeShape EntityType="TutorMasterDBModel.FacultyClass" Width="1.5" PointX="2.75" PointY="4.25" Height="1.9802864583333335" IsExpanded="true" />
+        <EntityTypeShape EntityType="TutorMasterDBModel.Student" Width="1.5" PointX="2.875" PointY="0.5" Height="2.3648893229166656" IsExpanded="true" />
+        <EntityTypeShape EntityType="TutorMasterDBModel.TutorRequest" Width="1.5" PointX="5.5" PointY="1.75" Height="1.9802864583333326" IsExpanded="true" />
+        <EntityTypeShape EntityType="TutorMasterDBModel.User" Width="1.5" PointX="0.625" PointY="0.5" Height="2.9417936197916674" IsExpanded="true" />
         <AssociationConnector Association="TutorMasterDBModel.ClassesToFaculty" ManuallyRouted="false">
-          <ConnectorPoint PointX="4.875" PointY="4.8651432291666667" />
-          <ConnectorPoint PointX="4.125" PointY="4.8651432291666667" />
+          <ConnectorPoint PointX="5.5" PointY="5.3559009645696278" />
+          <ConnectorPoint PointX="4.25" PointY="5.3559009645696278" />
         </AssociationConnector>
-        <AssociationConnector Association="TutorMasterDBModel.CmtToStudents" ManuallyRouted="false">
-          <ConnectorPoint PointX="8.125" PointY="1.4901432291666659" />
-          <ConnectorPoint PointX="7.5" PointY="1.4901432291666659" />
+        <AssociationConnector Association="TutorMasterDBModel.ClassToRequest" ManuallyRouted="false">
+          <ConnectorPoint PointX="6.25" PointY="4.25" />
+          <ConnectorPoint PointX="6.25" PointY="3.7302864583333326" />
         </AssociationConnector>
         <AssociationConnector Association="TutorMasterDBModel.FacultyToClasses" ManuallyRouted="false">
-          <ConnectorPoint PointX="2" PointY="4.7689925130208328" />
-          <ConnectorPoint PointX="2.625" PointY="4.7689925130208328" />
+          <ConnectorPoint PointX="2.125" PointY="5.1439925130208328" />
+          <ConnectorPoint PointX="2.75" PointY="5.1439925130208328" />
         </AssociationConnector>
-        <AssociationConnector Association="TutorMasterDBModel.UsersToFaculty" ManuallyRouted="false">
-          <ConnectorPoint PointX="1.25" PointY="3.4417936197916674" />
-          <ConnectorPoint PointX="1.25" PointY="3.875" />
+        <AssociationConnector Association="TutorMasterDBModel.UsersToFac" ManuallyRouted="false">
+          <ConnectorPoint PointX="1.375" PointY="3.4417936197916674" />
+          <ConnectorPoint PointX="1.375" PointY="4.25" />
         </AssociationConnector>
-        <AssociationConnector Association="TutorMasterDBModel.StudentsToCmt" ManuallyRouted="false">
-          <ConnectorPoint PointX="4.125" PointY="1.0359181400767539" />
-          <ConnectorPoint PointX="6" PointY="1.0359181400767539" />
+        <AssociationConnector Association="TutorMasterDBModel.StudentToRequest" ManuallyRouted="false">
+          <ConnectorPoint PointX="4.375" PointY="2.3074446614583328" />
+          <ConnectorPoint PointX="5.5" PointY="2.3074446614583328" />
         </AssociationConnector>
-        <AssociationConnector Association="TutorMasterDBModel.UsersToStudents" ManuallyRouted="false">
-          <ConnectorPoint PointX="2" PointY="1.6824446614583333" />
-          <ConnectorPoint PointX="2.625" PointY="1.6824446614583333" />
+        <AssociationConnector Association="TutorMasterDBModel.UserToStudents" ManuallyRouted="false">
+          <ConnectorPoint PointX="2.125" PointY="1.6824446614583328" />
+          <ConnectorPoint PointX="2.875" PointY="1.6824446614583328" />
         </AssociationConnector>
-        <AssociationConnector Association="TutorMasterDBModel.StudentClasses" ManuallyRouted="false">
-          <ConnectorPoint PointX="5.0729166666666661" PointY="3.875" />
-          <ConnectorPoint PointX="5.0729166666666661" PointY="2.2709888281250006" />
-          <ConnectorPoint PointX="4.125" PointY="2.2709888281250006" />
+        <AssociationConnector Association="TutorMasterDBModel.StudentClasses" ManuallyRouted="true">
+          <ConnectorPoint PointX="5.5" PointY="4.3565154708059213" />
+          <ConnectorPoint PointX="4.8633739583333337" PointY="4.3565154708059213" />
+          <ConnectorPoint PointX="4.8633739583333337" PointY="3.8368538411458335" />
+          <ConnectorPoint PointX="3.625" PointY="3.8368538411458335" />
+          <ConnectorPoint PointX="3.625" PointY="2.8648893229166656" />
         </AssociationConnector>
-        <AssociationConnector Association="TutorMasterDBModel.TutorRequests" ManuallyRouted="false">
-          <ConnectorPoint PointX="5.5820991825293609" PointY="3.875" />
-          <ConnectorPoint PointX="5.5820991825293609" PointY="1.6145833333333333" />
-          <ConnectorPoint PointX="4.125" PointY="1.6145833333333333" />
+        <AssociationConnector Association="TutorMasterDBModel.StudentCommitments" ManuallyRouted="false">
+          <ConnectorPoint PointX="8" PointY="1.09375" />
+          <ConnectorPoint PointX="4.375" PointY="1.09375" />
         </AssociationConnector>
       </Diagram>
     </Diagrams>
