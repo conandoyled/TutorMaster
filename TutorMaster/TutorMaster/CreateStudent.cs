@@ -16,6 +16,35 @@ namespace TutorMaster
         public CreateStudent()
         {
             InitializeComponent();
+
+            setupClasses();
+        }
+
+        private void setupClasses()
+        {
+            tvClasses.CheckBoxes = true;
+
+            TutorMasterDBEntities1 db = new TutorMasterDBEntities1();
+            var classes = from c in db.Classes select c;
+            List<Class> cls = new List<Class>();
+            cls = classes.ToList();
+
+            foreach (Class cl in cls)
+            {
+                if (tvClasses.Nodes.ContainsKey(cl.Department))
+                {
+                    tvClasses.Nodes[cl.Department].Nodes.Add(new TreeNode(cl.ClassName));
+                }
+                else
+                {
+                    TreeNode nNode = new TreeNode(cl.Department);
+                    nNode.Name = cl.Department;
+                    nNode.Nodes.Add(cl.ClassName);
+                    tvClasses.Nodes.Add(nNode);
+                }
+            }
+
+            tvClasses.Sort();
         }
 
         private void btnExit_Click(object sender, EventArgs e)
@@ -114,11 +143,15 @@ namespace TutorMaster
         {
             if (!cbxTutor.Checked)
             {
-                this.Width -= 400;
+                this.Width -= 250;
+                lblTClasses.Hide();
+                tvClasses.Hide();
             }
             else
             {
-                this.Width += 400;
+                this.Width += 250;
+                tvClasses.Show();
+                lblTClasses.Show();
             }
         }
 
@@ -130,6 +163,20 @@ namespace TutorMaster
                 return true;
             }
             return false;
+        }
+
+        private void tvClasses_AfterCheck(object sender, TreeViewEventArgs e)
+        {
+            //if (e.Action != TreeViewAction.Unknown)
+            {
+                if (e.Node.Nodes.Count > 0)
+                {
+                    foreach (TreeNode node in e.Node.Nodes)
+                    {
+                        node.Checked = e.Node.Checked;
+                    }
+                }
+            }
         }
     }
 }

@@ -35,10 +35,7 @@ namespace TutorMaster
             List<Student> stus = new List<Student>();
             stus = students.ToList();
 
-            ListViewItem item = new ListViewItem(new string[] { "asmarek", "Marek", "Anna", "Yes", "Yes", "asmarek@coe.edu", "(319)480-1414" });
-            lvStudent.Items.Add(item);
-
-            foreach(Student stu in students)
+            foreach(Student stu in stus)
             {
                 string tutee = "No";
                 string tutor = "Yes";

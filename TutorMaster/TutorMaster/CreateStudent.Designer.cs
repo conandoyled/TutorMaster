@@ -45,6 +45,8 @@
             this.cbxTutor = new System.Windows.Forms.CheckBox();
             this.cbxTutee = new System.Windows.Forms.CheckBox();
             this.txtPhoneNumber = new System.Windows.Forms.MaskedTextBox();
+            this.tvClasses = new System.Windows.Forms.TreeView();
+            this.lblTClasses = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // txtFirstname
@@ -194,11 +196,32 @@
             this.txtPhoneNumber.Size = new System.Drawing.Size(100, 20);
             this.txtPhoneNumber.TabIndex = 18;
             // 
+            // tvClasses
+            // 
+            this.tvClasses.Location = new System.Drawing.Point(296, 65);
+            this.tvClasses.Name = "tvClasses";
+            this.tvClasses.Size = new System.Drawing.Size(205, 304);
+            this.tvClasses.TabIndex = 19;
+            this.tvClasses.Visible = false;
+            this.tvClasses.AfterCheck += new System.Windows.Forms.TreeViewEventHandler(this.tvClasses_AfterCheck);
+            // 
+            // lblTClasses
+            // 
+            this.lblTClasses.AutoSize = true;
+            this.lblTClasses.Location = new System.Drawing.Point(296, 46);
+            this.lblTClasses.Name = "lblTClasses";
+            this.lblTClasses.Size = new System.Drawing.Size(74, 13);
+            this.lblTClasses.TabIndex = 20;
+            this.lblTClasses.Text = "Tutor Classes:";
+            this.lblTClasses.Visible = false;
+            // 
             // CreateStudent
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(277, 415);
+            this.ClientSize = new System.Drawing.Size(969, 415);
+            this.Controls.Add(this.lblTClasses);
+            this.Controls.Add(this.tvClasses);
             this.Controls.Add(this.txtPhoneNumber);
             this.Controls.Add(this.cbxTutee);
             this.Controls.Add(this.cbxTutor);
@@ -243,5 +266,7 @@
         private System.Windows.Forms.CheckBox cbxTutor;
         private System.Windows.Forms.CheckBox cbxTutee;
         private System.Windows.Forms.MaskedTextBox txtPhoneNumber;
+        private System.Windows.Forms.TreeView tvClasses;
+        private System.Windows.Forms.Label lblTClasses;
     }
 }
