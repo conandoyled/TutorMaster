@@ -165,9 +165,10 @@ namespace TutorMaster
             return false;
         }
 
+        //Doesn't work when checked too fast
         private void tvClasses_AfterCheck(object sender, TreeViewEventArgs e)
         {
-            //if (e.Action != TreeViewAction.Unknown)
+            if (e.Action != TreeViewAction.Unknown)
             {
                 if (e.Node.Nodes.Count > 0)
                 {
