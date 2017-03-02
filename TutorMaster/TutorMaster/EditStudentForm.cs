@@ -112,6 +112,9 @@ namespace TutorMaster
             cbxTutor.Checked = Convert.ToBoolean((from row in db.Students where row.ID == accID select row.Tutor).First());
             cbxTutee.Checked = Convert.ToBoolean((from row in db.Students where row.ID == accID select row.Tutee).First());
 
+            getClassRequests(accID);
+
+
         }
 
         private void btnExit_Click(object sender, EventArgs e)
@@ -161,6 +164,16 @@ namespace TutorMaster
                 }
             }
         }
+
+        private void getClassRequests(int accID)
+        {
+            TutorMasterDBEntities2 db = new TutorMasterDBEntities2();
+            var numReq = db.TutorRequests.Count(x => x.ID == accID); //(from row in db.TutorRequests group row.ID by row.ID into rowsByValue where rowsByValue.Count > (accID-1) && rowsByValue.Count < (accID+1)
+            //var numReqList = numReq.ToList();
+            //var countsWithTotal = numReqList.Concat(new[] { numReqList.Sum() });
+            MessageBox.Show(Convert.ToString(numReq));
+
+            
+        }
     }
-    
 }
