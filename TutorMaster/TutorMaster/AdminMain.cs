@@ -97,5 +97,21 @@ namespace TutorMaster
                 btnDelete.Enabled = false;
             }
         }
+
+        private void btnDelete_Click(object sender, EventArgs e)
+        {
+            TutorMasterDBEntities2 db = new TutorMasterDBEntities2();
+            int stuNum = lvStudent.CheckedItems.Count;
+            for (int i = 0; i < stuNum; i++)
+            {
+                string username = lvStudent.CheckedItems[i].SubItems[0].Text;
+                User delU = (from row in db.Users where row.Username == username select row).First();
+                db.Users.DeleteObject(delU);
+                db.SaveChanges();
+            }
+
+            lvStudent.Clear();
+            setupStudentLV();
+        }
     }
 }
