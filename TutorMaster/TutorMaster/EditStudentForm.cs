@@ -16,8 +16,8 @@ namespace TutorMaster
         {
             InitializeComponent();
             accID = id;
-            loadFormInfo(accID);
             setupClasses();
+            loadFormInfo(accID);
 
         }
 
@@ -168,12 +168,36 @@ namespace TutorMaster
         private void getClassRequests(int accID)
         {
             TutorMasterDBEntities2 db = new TutorMasterDBEntities2();
-            var numReq = db.TutorRequests.Count(x => x.ID == accID); //(from row in db.TutorRequests group row.ID by row.ID into rowsByValue where rowsByValue.Count > (accID-1) && rowsByValue.Count < (accID+1)
-            //var numReqList = numReq.ToList();
-            //var countsWithTotal = numReqList.Concat(new[] { numReqList.Sum() });
-            MessageBox.Show(Convert.ToString(numReq));
-
+            //var numReq = db.TutorRequests.Count(x => x.ID == accID);
+            var requestCodes = (from row in db.TutorRequests.AsEnumerable() where row.ID == accID select row.ClassCode).ToArray();
             
+            int numCourses = requestCodes.Length;
+            string[] requestClasses = new string[numCourses];
+            for(int n = 0; n < numCourses; n++)
+            {
+                requestClasses[n] = (from row in db.Classes.AsEnumerable() where requestCodes[n] == row.ClassCode select row.ClassName).First();
+            }
+            
+            int numDepartments = tvClasses.Nodes.Count;
+            for (int i = 0; i < numDepartments; i++)
+            {
+                int numNodes = tvClasses.Nodes[i].Nodes.Count;
+                int count = 0;
+                for (int j = 0; j < numNodes; j++)
+                {
+                    TreeNode tn = tvClasses.Nodes[i].Nodes[j];
+                    MessageBox.Show(tn.Text);
+                    if (requestClasses.Contains(tn.Text))
+                    {
+                        tn.Checked = true;
+                        count++;
+                    }
+                }
+                if (count == numNodes)
+                {
+                    tvClasses.Nodes[i].Checked = true;
+                }
+            }
         }
     }
 }
