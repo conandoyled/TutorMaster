@@ -186,7 +186,6 @@ namespace TutorMaster
                 for (int j = 0; j < numNodes; j++)
                 {
                     TreeNode tn = tvClasses.Nodes[i].Nodes[j];
-                    MessageBox.Show(tn.Text);
                     if (requestClasses.Contains(tn.Text))
                     {
                         tn.Checked = true;
