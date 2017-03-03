@@ -92,6 +92,7 @@ namespace TutorMaster
                 var updateStudent = (from row in db.Students where row.ID == accID select row).Single();
                 updateStudent.Tutor = tutor;
                 updateStudent.Tutee = tutee;
+                db.SaveChanges();
 
                 AdminMain g = new AdminMain();
                 g.Show();
