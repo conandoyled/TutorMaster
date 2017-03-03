@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AdminMain));
             this.tabAdmin = new System.Windows.Forms.TabControl();
             this.tabStudent = new System.Windows.Forms.TabPage();
             this.lvStudent = new System.Windows.Forms.ListView();
@@ -222,6 +223,7 @@
             this.ClientSize = new System.Drawing.Size(648, 422);
             this.Controls.Add(this.btnLogout);
             this.Controls.Add(this.tabAdmin);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "AdminMain";
             this.Text = "AdminMain";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.AdminMain_FormClosed);

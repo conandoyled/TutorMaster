@@ -24,7 +24,7 @@ namespace TutorMaster
         {
             tvClasses.CheckBoxes = true;
 
-            TutorMasterDBEntities2 db = new TutorMasterDBEntities2();
+            TutorMasterDBEntities3 db = new TutorMasterDBEntities3();
             var classes = from c in db.Classes select c;
             List<Class> cls = new List<Class>();
             cls = classes.ToList();
@@ -70,7 +70,7 @@ namespace TutorMaster
             string accounttype = "Student";
             bool tutor = cbxTutor.Checked;
             bool tutee = cbxTutee.Checked;
-            TutorMasterDBEntities2 db = new TutorMasterDBEntities2();
+            TutorMasterDBEntities3 db = new TutorMasterDBEntities3();
 
             if (!tutor && !tutee)
             {
@@ -145,28 +145,28 @@ namespace TutorMaster
 
         private void addUser(TutorMaster.User user)
         {
-            TutorMasterDBEntities2 db = new TutorMasterDBEntities2();
+            TutorMasterDBEntities3 db = new TutorMasterDBEntities3();
             db.Users.AddObject(user);
             db.SaveChanges();
         }
 
         private void addStudent(TutorMaster.Student student)
         {
-            TutorMasterDBEntities2 db = new TutorMasterDBEntities2();
+            TutorMasterDBEntities3 db = new TutorMasterDBEntities3();
             db.Students.AddObject(student);
             db.SaveChanges();
         }
 
         private void addRequest(TutorMaster.TutorRequest request)
         {
-            TutorMasterDBEntities2 db = new TutorMasterDBEntities2();
+            TutorMasterDBEntities3 db = new TutorMasterDBEntities3();
             db.TutorRequests.AddObject(request);
             db.SaveChanges();
         }
 
         private int getNextID()
         {
-            TutorMasterDBEntities2 db = new TutorMasterDBEntities2();
+            TutorMasterDBEntities3 db = new TutorMasterDBEntities3();
             int rowNum = db.Users.Count();
             
             var lastRow = db.Users.OrderByDescending(u => u.ID).Select(r => r.ID).First();
@@ -175,7 +175,7 @@ namespace TutorMaster
 
         private int getNextRequestKey()
         {
-            TutorMasterDBEntities2 db = new TutorMasterDBEntities2();
+            TutorMasterDBEntities3 db = new TutorMasterDBEntities3();
             int rowNum = db.TutorRequests.Count();
             int lastRow;
 
@@ -218,7 +218,7 @@ namespace TutorMaster
 
         private bool uniqueUsername(string username)
         {
-            TutorMasterDBEntities2 db = new TutorMasterDBEntities2();
+            TutorMasterDBEntities3 db = new TutorMasterDBEntities3();
             return (!db.Users.Any(u => u.Username == username));
         }
 

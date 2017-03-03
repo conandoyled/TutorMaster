@@ -27,7 +27,6 @@ namespace TutorMaster
 
         private void btnLogout_Click(object sender, EventArgs e)
         {
-            MessageBox.Show(id.ToString());
             Login g = new Login();
             g.Show();
             this.Close();

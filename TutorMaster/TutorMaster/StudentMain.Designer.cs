@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(StudentMain));
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabAvailability = new System.Windows.Forms.TabPage();
             this.combEndDay = new System.Windows.Forms.ComboBox();
@@ -513,6 +514,7 @@
             this.Controls.Add(this.button1);
             this.Controls.Add(this.btnLogout);
             this.Controls.Add(this.tabControl1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "StudentMain";
             this.Text = "StudentMain";
             this.tabControl1.ResumeLayout(false);
