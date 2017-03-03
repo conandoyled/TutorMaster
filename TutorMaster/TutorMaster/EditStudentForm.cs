@@ -47,6 +47,70 @@ namespace TutorMaster
 
             tvClasses.Sort();
         }
+ 
+        private void loadFormInfo(int accID)
+        {
+            TutorMasterDBEntities2 db = new TutorMasterDBEntities2();
+            txtFirstname.Text = (from row in db.Users where row.ID == accID select row.FirstName).First();
+            txtLastname.Text = (from row in db.Users where row.ID == accID select row.LastName).First();
+            txtUsername.Text = (from row in db.Users where row.ID == accID select row.Username).First();
+            txtPassword.Text = (from row in db.Users where row.ID == accID select row.Password).First();
+            txtPhoneNumber.Text = (from row in db.Users where row.ID == accID select row.PhoneNumber).First();
+            txtEmail.Text = (from row in db.Users where row.ID == accID select row.Email).First();
+            cbxTutor.Checked = Convert.ToBoolean((from row in db.Students where row.ID == accID select row.Tutor).First());
+            cbxTutee.Checked = Convert.ToBoolean((from row in db.Students where row.ID == accID select row.Tutee).First());
+
+            getClassRequests(accID);
+            deleteClassRequests(accID);
+        }
+
+        private void getClassRequests(int accID)
+        {
+            TutorMasterDBEntities2 db = new TutorMasterDBEntities2();
+            //var numReq = db.TutorRequests.Count(x => x.ID == accID);
+            var requestCodes = (from row in db.TutorRequests.AsEnumerable() where row.ID == accID select row.ClassCode).ToArray();
+            
+            int numCourses = requestCodes.Length;
+            string[] requestClasses = new string[numCourses];
+            for(int n = 0; n < numCourses; n++)
+            {
+                requestClasses[n] = (from row in db.Classes.AsEnumerable() where requestCodes[n] == row.ClassCode select row.ClassName).First();
+            }
+            
+            int numDepartments = tvClasses.Nodes.Count;
+            for (int i = 0; i < numDepartments; i++)
+            {
+                int numNodes = tvClasses.Nodes[i].Nodes.Count;
+                int count = 0;
+                for (int j = 0; j < numNodes; j++)
+                {
+                    TreeNode tn = tvClasses.Nodes[i].Nodes[j];
+                    if (requestClasses.Contains(tn.Text))
+                    {
+                        tn.Checked = true;
+                        count++;
+                    }
+                }
+                if (count == numNodes)
+                {
+                    tvClasses.Nodes[i].Checked = true;
+                }
+            }
+        }
+
+        private void deleteClassRequests(int accID)
+        {
+            TutorMasterDBEntities2 db = new TutorMasterDBEntities2();
+            foreach (TutorMaster.TutorRequest row in db.TutorRequests)
+            {
+                if (row.ID == accID)
+                {
+                    db.TutorRequests.DeleteObject(row);
+                }
+            }
+            db.SaveChanges();
+        }
+
 
 
         private void btnSave_Click(object sender, EventArgs e)
@@ -115,38 +179,36 @@ namespace TutorMaster
                         }
                     }
                 }
-
                 AdminMain g = new AdminMain();
                 g.Show();
                 this.Close();
             }
-
         }
-
-        private void loadFormInfo(int accID)
+        
+        private int getNextRequestKey()
         {
             TutorMasterDBEntities2 db = new TutorMasterDBEntities2();
-            txtFirstname.Text = (from row in db.Users where row.ID == accID select row.FirstName).First();
-            txtLastname.Text = (from row in db.Users where row.ID == accID select row.LastName).First();
-            txtUsername.Text = (from row in db.Users where row.ID == accID select row.Username).First();
-            txtPassword.Text = (from row in db.Users where row.ID == accID select row.Password).First();
-            txtPhoneNumber.Text = (from row in db.Users where row.ID == accID select row.PhoneNumber).First();
-            txtEmail.Text = (from row in db.Users where row.ID == accID select row.Email).First();
-            cbxTutor.Checked = Convert.ToBoolean((from row in db.Students where row.ID == accID select row.Tutor).First());
-            cbxTutee.Checked = Convert.ToBoolean((from row in db.Students where row.ID == accID select row.Tutee).First());
+            int rowNum = db.TutorRequests.Count();
+            int lastRow;
 
-            getClassRequests(accID);
-            deleteClassRequests(accID);
+            if (rowNum > 0)
+            {
+                lastRow = db.TutorRequests.OrderByDescending(u => u.Key).Select(r => r.Key).First();
+            }
+            else
+            {
+                lastRow = 0;
+            }
+            return lastRow + 1;
         }
 
-        private void btnExit_Click(object sender, EventArgs e)
+        private void addRequest(TutorMaster.TutorRequest request)
         {
-            AdminMain g = new AdminMain();
-            g.Show();
-            this.Close();
+            TutorMasterDBEntities2 db = new TutorMasterDBEntities2();
+            db.TutorRequests.AddObject(request);
+            db.SaveChanges();
         }
-        
-        
+
         private bool validateInfo(string email, string phone)
         {
             string address = email.Substring(email.Length - 4);
@@ -156,6 +218,11 @@ namespace TutorMaster
             }
             return false;
         }
+
+
+
+
+
 
         private void cbxTutor_CheckStateChanged(object sender, EventArgs e)
         {
@@ -187,75 +254,12 @@ namespace TutorMaster
             }
         }
 
-        private void getClassRequests(int accID)
-        {
-            TutorMasterDBEntities2 db = new TutorMasterDBEntities2();
-            //var numReq = db.TutorRequests.Count(x => x.ID == accID);
-            var requestCodes = (from row in db.TutorRequests.AsEnumerable() where row.ID == accID select row.ClassCode).ToArray();
-            
-            int numCourses = requestCodes.Length;
-            string[] requestClasses = new string[numCourses];
-            for(int n = 0; n < numCourses; n++)
-            {
-                requestClasses[n] = (from row in db.Classes.AsEnumerable() where requestCodes[n] == row.ClassCode select row.ClassName).First();
-            }
-            
-            int numDepartments = tvClasses.Nodes.Count;
-            for (int i = 0; i < numDepartments; i++)
-            {
-                int numNodes = tvClasses.Nodes[i].Nodes.Count;
-                int count = 0;
-                for (int j = 0; j < numNodes; j++)
-                {
-                    TreeNode tn = tvClasses.Nodes[i].Nodes[j];
-                    if (requestClasses.Contains(tn.Text))
-                    {
-                        tn.Checked = true;
-                        count++;
-                    }
-                }
-                if (count == numNodes)
-                {
-                    tvClasses.Nodes[i].Checked = true;
-                }
-            }
-        }
 
-        private void deleteClassRequests(int accID)
+        private void btnExit_Click(object sender, EventArgs e)
         {
-            TutorMasterDBEntities2 db = new TutorMasterDBEntities2();
-            foreach (TutorMaster.TutorRequest row in db.TutorRequests)
-            {
-                if (row.ID == accID)
-                {
-                    db.TutorRequests.DeleteObject(row);
-                }
-            }
-            db.SaveChanges();
-        }
-
-        private int getNextRequestKey()
-        {
-            TutorMasterDBEntities2 db = new TutorMasterDBEntities2();
-            int rowNum = db.TutorRequests.Count();
-            int lastRow;
-
-            if (rowNum > 0)
-            {
-                lastRow = db.TutorRequests.OrderByDescending(u => u.Key).Select(r => r.Key).First();
-            }
-            else
-            {
-                lastRow = 0;
-            }
-            return lastRow + 1;
-        }
-
-        private void addRequest(TutorMaster.TutorRequest request)
-        {
-            TutorMasterDBEntities2 db = new TutorMasterDBEntities2();
-            db.TutorRequests.AddObject(request);
-            db.SaveChanges();
+            AdminMain g = new AdminMain();
+            g.Show();
+            this.Close();
         }
     }
 }
