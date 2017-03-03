@@ -92,6 +92,29 @@ namespace TutorMaster
                 var updateStudent = (from row in db.Students where row.ID == accID select row).Single();
                 updateStudent.Tutor = tutor;
                 updateStudent.Tutee = tutee;
+                db.SaveChanges();
+
+                if (tutor)
+                {
+                    int numDepartments = tvClasses.Nodes.Count;
+                    for (int i = 0; i < numDepartments; i++)
+                    {
+                        int numNodes = tvClasses.Nodes[i].Nodes.Count;
+                        for (int j = 0; j < numNodes; j++)
+                        {
+                            TreeNode tn = tvClasses.Nodes[i].Nodes[j];
+                            if (tn.Checked)
+                            {
+                                TutorMaster.TutorRequest request = new TutorMaster.TutorRequest();
+                                request.Key = getNextRequestKey();
+                                request.ID = accID;
+                                string classCode = (from row in db.Classes where row.ClassName == tn.Text select row.ClassCode).First();
+                                request.ClassCode = classCode;
+                                addRequest(request);
+                            }
+                        }
+                    }
+                }
 
                 AdminMain g = new AdminMain();
                 g.Show();
@@ -113,8 +136,7 @@ namespace TutorMaster
             cbxTutee.Checked = Convert.ToBoolean((from row in db.Students where row.ID == accID select row.Tutee).First());
 
             getClassRequests(accID);
-
-
+            deleteClassRequests(accID);
         }
 
         private void btnExit_Click(object sender, EventArgs e)
@@ -197,6 +219,43 @@ namespace TutorMaster
                     tvClasses.Nodes[i].Checked = true;
                 }
             }
+        }
+
+        private void deleteClassRequests(int accID)
+        {
+            TutorMasterDBEntities2 db = new TutorMasterDBEntities2();
+            foreach (TutorMaster.TutorRequest row in db.TutorRequests)
+            {
+                if (row.ID == accID)
+                {
+                    db.TutorRequests.DeleteObject(row);
+                }
+            }
+            db.SaveChanges();
+        }
+
+        private int getNextRequestKey()
+        {
+            TutorMasterDBEntities2 db = new TutorMasterDBEntities2();
+            int rowNum = db.TutorRequests.Count();
+            int lastRow;
+
+            if (rowNum > 0)
+            {
+                lastRow = db.TutorRequests.OrderByDescending(u => u.Key).Select(r => r.Key).First();
+            }
+            else
+            {
+                lastRow = 0;
+            }
+            return lastRow + 1;
+        }
+
+        private void addRequest(TutorMaster.TutorRequest request)
+        {
+            TutorMasterDBEntities2 db = new TutorMasterDBEntities2();
+            db.TutorRequests.AddObject(request);
+            db.SaveChanges();
         }
     }
 }
