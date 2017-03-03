@@ -47,7 +47,7 @@ namespace TutorMaster
                 if ((bool)stu.Tutor)
                     tutor = "Yes";
                 else
-                    tutee = "No";
+                    tutor = "No";
                 lvStudent.Items.Add(new ListViewItem(new string[] { user.Username, user.LastName, user.FirstName, tutor, tutee, user.Email, user.PhoneNumber }));
             }
         }

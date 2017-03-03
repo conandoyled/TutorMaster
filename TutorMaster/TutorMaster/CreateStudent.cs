@@ -86,6 +86,10 @@ namespace TutorMaster
             {
                 MessageBox.Show("Please put in a valid email address and phone number");
             }
+            else if (!uniqueUsername(username))
+            {
+                MessageBox.Show("Username is already taken. Please pick another one.");
+            }
             else
             {
                 TutorMaster.User newUser = new TutorMaster.User();
@@ -210,6 +214,12 @@ namespace TutorMaster
                 return true;
             }
             return false;
+        }
+
+        private bool uniqueUsername(string username)
+        {
+            TutorMasterDBEntities2 db = new TutorMasterDBEntities2();
+            return (!db.Users.Any(u => u.Username == username));
         }
 
         //Doesn't work on double click
