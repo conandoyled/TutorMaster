@@ -97,5 +97,15 @@ namespace TutorMaster
                 btnDelete.Enabled = false;
             }
         }
+
+        private void btnEdit_Click(object sender, EventArgs e)
+        {
+            TutorMasterDBEntities2 db = new TutorMasterDBEntities2();
+            string username = lvStudent.CheckedItems[0].Text.ToString();
+            int studentID = (from row in db.Users where row.Username == username select row.ID).First();
+            EditStudentForm g = new EditStudentForm(studentID);
+            g.Show();
+            this.Close();
+        }
     }
 }

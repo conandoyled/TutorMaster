@@ -194,7 +194,7 @@
             this.txtPhoneNumber.Mask = "(999) 000-0000";
             this.txtPhoneNumber.Name = "txtPhoneNumber";
             this.txtPhoneNumber.Size = new System.Drawing.Size(100, 20);
-            this.txtPhoneNumber.TabIndex = 18;
+            this.txtPhoneNumber.TabIndex = 4;
             // 
             // tvClasses
             // 
@@ -219,7 +219,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(284, 415);
+            this.ClientSize = new System.Drawing.Size(271, 407);
             this.Controls.Add(this.lblTClasses);
             this.Controls.Add(this.tvClasses);
             this.Controls.Add(this.txtPhoneNumber);
