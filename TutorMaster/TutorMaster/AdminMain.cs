@@ -19,7 +19,7 @@ namespace TutorMaster
             disableButtons();
         }
 
-        private void setupStudentLV()
+        private void setupStudentLV() //This is what populates the box of students
         {
             lvStudent.CheckBoxes = true;
             lvStudent.Columns.Add("     Username", 100);
@@ -67,7 +67,7 @@ namespace TutorMaster
 
         private void btnLogout_Click(object sender, EventArgs e)
         {
-            Login g = new Login();
+            Login g = new Login(); //Are we going to create problems by create new loginb boxes on top of the hidden ones we already have?
             g.Show();
             this.Close();
         }
@@ -77,9 +77,9 @@ namespace TutorMaster
             //System.Windows.Forms.Application.Exit();
         }
 
-        private void lvStudent_ItemChecked(object sender, ItemCheckedEventArgs e)
+        private void lvStudent_ItemChecked(object sender, ItemCheckedEventArgs e) //This function determines when certain buttons should be activated or deativated
         {
-            int itemsChecked = lvStudent.CheckedItems.Count;
+            int itemsChecked = lvStudent.CheckedItems.Count; // .CheckedItems.Count tells how many things in the list box are clicked
             if (itemsChecked == 1)
             {
                 btnEdit.Enabled = true;
