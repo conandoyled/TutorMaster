@@ -22,7 +22,7 @@ namespace TutorMaster
         private void setupStudentLV() //This is what populates the box of students
         {
             lvStudent.CheckBoxes = true;
-            lvStudent.Columns.Add("     Username", 100);
+            lvStudent.Columns.Add("     Username", 100);// This first block of commands sets up the top row.
             lvStudent.Columns.Add("Last Name", 100);
             lvStudent.Columns.Add("First Name", 100);
             lvStudent.Columns.Add("Tutor", 50);
@@ -30,7 +30,7 @@ namespace TutorMaster
             lvStudent.Columns.Add("Email", 100);
             lvStudent.Columns.Add("Phone Number", 100);
 
-            TutorMasterDBEntities3 db = new TutorMasterDBEntities3();
+            TutorMasterDBEntities3 db = new TutorMasterDBEntities3(); //create a new indirect entity
             var students = from c in db.Students select c;
             List<Student> stus = new List<Student>();
             stus = students.ToList();
