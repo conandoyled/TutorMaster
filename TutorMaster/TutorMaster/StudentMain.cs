@@ -17,6 +17,15 @@ namespace TutorMaster
         {
             id = accID;
             InitializeComponent();
+            populateColumns();
+        }
+
+        private void populateColumns()
+        {
+            lvSunday.CheckBoxes = true;
+            lvSunday.Columns.Add("     Start Time", 100);
+            lvSunday.Columns.Add("End Time", 100);
+            lvSunday.Columns.Add("Type", 100);
         }
 
         private void btnLogout_Click(object sender, EventArgs e)
@@ -25,6 +34,7 @@ namespace TutorMaster
             g.Show();
             this.Close();
         }
+
 
         private void btnAddOpenBlock_Click(object sender, EventArgs e)
         {
@@ -67,7 +77,7 @@ namespace TutorMaster
             switch (day)
             {
                 case "Sunday":
-                    numDay = 1; 
+                    numDay = 1;
                     break;
                 case "Monday":
                     numDay = 2;
@@ -95,22 +105,20 @@ namespace TutorMaster
         {
             DateTime begin = startTime;
             DateTime fifteen = startTime;
-            fifteen.AddMinutes(15);
-            MessageBox.Show(begin.ToString());
-            MessageBox.Show(fifteen.ToString());
+            fifteen = fifteen.AddMinutes(15);
             int compare = begin.CompareTo(endTime);
             string add = "";
-            
+
             while (compare < 0) //if the first date is less than the second date
             {
                 add += begin.ToString() + fifteen.ToString();
-                lbxSunday.Items.Add(add);
                 add = "";
-                begin.AddMinutes(15);
-                fifteen.AddMinutes(15);
+                begin = begin.AddMinutes(15);
+                fifteen = fifteen.AddMinutes(15);
                 compare = begin.CompareTo(endTime);
-                compare = 1;
             }
+            lvSunday.Items.Add(new ListViewItem(new string[] { startTime.ToShortTimeString(), endTime.ToShortTimeString(), "open" }));
+            lvSunday.Refresh();
         }
     }
 }
