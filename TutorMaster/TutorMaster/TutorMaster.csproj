@@ -95,10 +95,10 @@
     <Compile Include="Login.Designer.cs">
       <DependentUpon>Login.cs</DependentUpon>
     </Compile>
-    <Compile Include="Model1.Designer.cs">
+    <Compile Include="Model2.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>Model1.edmx</DependentUpon>
+      <DependentUpon>Model2.edmx</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -145,9 +145,9 @@
       <DependentUpon>StudentMain.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="App.Config" />
-    <EntityDeploy Include="Model1.edmx">
+    <EntityDeploy Include="Model2.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>Model1.Designer.cs</LastGenOutput>
+      <LastGenOutput>Model2.Designer.cs</LastGenOutput>
     </EntityDeploy>
     <None Include="Properties\DataSources\TutorMasterDBEntities1.datasource" />
     <None Include="Properties\DataSources\TutorMasterDBEntities2.datasource" />

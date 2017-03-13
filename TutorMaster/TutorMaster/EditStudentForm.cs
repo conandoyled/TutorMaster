@@ -25,7 +25,7 @@ namespace TutorMaster
         {
             tvClasses.CheckBoxes = true;
 
-            TutorMasterDBEntities2 db = new TutorMasterDBEntities2();
+            TutorMasterDBEntities3 db = new TutorMasterDBEntities3();
             var classes = from c in db.Classes select c;
             List<Class> cls = new List<Class>();
             cls = classes.ToList();
@@ -77,7 +77,7 @@ namespace TutorMaster
             }
             else
             {
-                TutorMasterDBEntities2 db = new TutorMasterDBEntities2();
+                TutorMasterDBEntities3 db = new TutorMasterDBEntities3();
                 var updateUser = (from row in db.Users where row.ID == accID select row).Single();
 
                 updateUser.FirstName = fname;
@@ -103,7 +103,7 @@ namespace TutorMaster
 
         private void loadFormInfo(int accID)
         {
-            TutorMasterDBEntities2 db = new TutorMasterDBEntities2();
+            TutorMasterDBEntities3 db = new TutorMasterDBEntities3();
             txtFirstname.Text = (from row in db.Users where row.ID == accID select row.FirstName).First();
             txtLastname.Text = (from row in db.Users where row.ID == accID select row.LastName).First();
             txtUsername.Text = (from row in db.Users where row.ID == accID select row.Username).First();
@@ -168,7 +168,7 @@ namespace TutorMaster
 
         private void getClassRequests(int accID)
         {
-            TutorMasterDBEntities2 db = new TutorMasterDBEntities2();
+            TutorMasterDBEntities3 db = new TutorMasterDBEntities3();
             //var numReq = db.TutorRequests.Count(x => x.ID == accID);
             var requestCodes = (from row in db.TutorRequests.AsEnumerable() where row.ID == accID select row.ClassCode).ToArray();
             
