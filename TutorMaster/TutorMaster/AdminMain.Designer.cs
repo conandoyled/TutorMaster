@@ -87,6 +87,7 @@
             this.lvStudent.UseCompatibleStateImageBehavior = false;
             this.lvStudent.View = System.Windows.Forms.View.Details;
             this.lvStudent.ItemChecked += new System.Windows.Forms.ItemCheckedEventHandler(this.lvStudent_ItemChecked);
+            this.lvStudent.SelectedIndexChanged += new System.EventHandler(this.lvStudent_SelectedIndexChanged);
             // 
             // btnDelete
             // 

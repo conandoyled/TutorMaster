@@ -38,18 +38,17 @@
             // clbPendingRequests
             // 
             this.clbPendingRequests.FormattingEnabled = true;
-            this.clbPendingRequests.Location = new System.Drawing.Point(33, 26);
-            this.clbPendingRequests.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.clbPendingRequests.Location = new System.Drawing.Point(22, 17);
             this.clbPendingRequests.Name = "clbPendingRequests";
-            this.clbPendingRequests.Size = new System.Drawing.Size(424, 277);
+            this.clbPendingRequests.Size = new System.Drawing.Size(284, 169);
             this.clbPendingRequests.TabIndex = 0;
+            this.clbPendingRequests.SelectedIndexChanged += new System.EventHandler(this.clbPendingRequests_SelectedIndexChanged);
             // 
             // btnAccept
             // 
-            this.btnAccept.Location = new System.Drawing.Point(110, 331);
-            this.btnAccept.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.btnAccept.Location = new System.Drawing.Point(73, 215);
             this.btnAccept.Name = "btnAccept";
-            this.btnAccept.Size = new System.Drawing.Size(112, 35);
+            this.btnAccept.Size = new System.Drawing.Size(75, 23);
             this.btnAccept.TabIndex = 1;
             this.btnAccept.Text = "Accept";
             this.btnAccept.UseVisualStyleBackColor = true;
@@ -57,10 +56,9 @@
             // 
             // btnReject
             // 
-            this.btnReject.Location = new System.Drawing.Point(250, 331);
-            this.btnReject.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.btnReject.Location = new System.Drawing.Point(167, 215);
             this.btnReject.Name = "btnReject";
-            this.btnReject.Size = new System.Drawing.Size(112, 35);
+            this.btnReject.Size = new System.Drawing.Size(75, 23);
             this.btnReject.TabIndex = 2;
             this.btnReject.Text = "Reject";
             this.btnReject.UseVisualStyleBackColor = true;
@@ -68,10 +66,9 @@
             // 
             // btnLogout
             // 
-            this.btnLogout.Location = new System.Drawing.Point(178, 392);
-            this.btnLogout.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.btnLogout.Location = new System.Drawing.Point(119, 255);
             this.btnLogout.Name = "btnLogout";
-            this.btnLogout.Size = new System.Drawing.Size(112, 35);
+            this.btnLogout.Size = new System.Drawing.Size(75, 23);
             this.btnLogout.TabIndex = 3;
             this.btnLogout.Text = "Logout";
             this.btnLogout.UseVisualStyleBackColor = true;
@@ -79,15 +76,14 @@
             // 
             // FacultyMain
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(490, 480);
+            this.ClientSize = new System.Drawing.Size(327, 312);
             this.Controls.Add(this.btnLogout);
             this.Controls.Add(this.btnReject);
             this.Controls.Add(this.btnAccept);
             this.Controls.Add(this.clbPendingRequests);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.Name = "FacultyMain";
             this.Text = "FacultyMain";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.FacultyMain_FormClosed);
