@@ -23,7 +23,8 @@ namespace TutorMaster
 
         private void loadAvail()
         {
-
+            //lvSunday.Items.Add(new ListViewItem(new string[] { startTime.ToShortTimeString(), endTime.ToShortTimeString(), "open" }));
+            //lvSunday.Refresh();
         }
 
         private void btnLogout_Click(object sender, EventArgs e)
@@ -71,9 +72,7 @@ namespace TutorMaster
                 bool weekly = cbxWeekly.Checked;
 
                 DateTime startTime = new DateTime(2017, 1, intStartDay, startHour, startMinute, 0);
-                MessageBox.Show(startTime.ToString());
                 DateTime endTime = new DateTime(2017, 1, intEndDay, endHour, endMinute, 0);
-                MessageBox.Show(endTime.ToString());
                 getAvail(startTime, endTime, weekly);
             }
         }
@@ -122,8 +121,7 @@ namespace TutorMaster
                 begin = begin.AddMinutes(15);
                 compare = begin.CompareTo(endTime);
             }
-            //lvSunday.Items.Add(new ListViewItem(new string[] { startTime.ToShortTimeString(), endTime.ToShortTimeString(), "open" }));
-            //lvSunday.Refresh();
+            
         }
 
         private bool recordedTime(DateTime begin)
@@ -145,19 +143,7 @@ namespace TutorMaster
 
         private void add15Block(DateTime begin, bool weekly)
         {
-            lvSunday.Items.Add(new ListViewItem(new string[] { begin.ToShortTimeString(), begin.AddMinutes(15).ToShortTimeString(), "open" }));
-            lvSunday.Refresh();
-
-            /*TutorMasterDBEntities3 db = new TutorMasterDBEntities3();
-            int lastRow = 0;
-            try
-            {
-                lastRow = db.Commitments.OrderByDescending(u => u.CmtID).Select(r => r.CmtID).First();
-            }
-            catch (InvalidOperationException e)
-            {
-                lastRow = 1;
-            }
+            int lastRow = getNextCmtId();
 
             TutorMaster.Commitment newCommit = new TutorMaster.Commitment();
             newCommit.CmtID = lastRow;
@@ -190,6 +176,7 @@ namespace TutorMaster
                     addCommit(newCommitW);
                 }
             }
+            loadAvail();
 
             /*string[] st = begin.ToString("D").Split(',');
             string startDay = st[0];
@@ -231,6 +218,23 @@ namespace TutorMaster
             string[] st = date.ToString("D").Split(',');
             string day = st[0];
             return day;
+        }
+
+        private int getNextCmtId()
+        {
+            TutorMasterDBEntities3 db = new TutorMasterDBEntities3();
+            int rowNum = db.Commitments.Count();
+            int lastRow;
+
+            if (rowNum > 0)
+            {
+                lastRow = db.Commitments.OrderByDescending(u => u.CmtID).Select(r => r.CmtID).First();
+            }
+            else
+            {
+                lastRow = 0;
+            }
+            return lastRow + 1;
         }
 
         private void populateColumns()
