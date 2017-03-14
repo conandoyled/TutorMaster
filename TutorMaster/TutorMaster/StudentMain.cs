@@ -161,10 +161,10 @@ namespace TutorMaster
             TutorMaster.Commitment newCommit = new TutorMaster.Commitment();
             newCommit.CmtID = lastRow;
             newCommit.StartTime = begin.ToString();
-            newCommit.Class = "null";
+            //newCommit.Class = "null";
             newCommit.Open = "open";
-            newCommit.Tutoring = "null";
-            newCommit.Location = "null";
+            //newCommit.Tutoring = "null";
+            //newCommit.Location = "null";
             newCommit.Weekly = weekly.ToString();
             newCommit.ID = id.ToString();
             addCommit(newCommit);
