@@ -35,12 +35,19 @@
             this.combStartDay = new System.Windows.Forms.ComboBox();
             this.dayTabs = new System.Windows.Forms.TabControl();
             this.tabSunday = new System.Windows.Forms.TabPage();
+            this.lvSunday = new System.Windows.Forms.ListView();
             this.tabMonday = new System.Windows.Forms.TabPage();
+            this.lvMonday = new System.Windows.Forms.ListView();
             this.tabTuesday = new System.Windows.Forms.TabPage();
+            this.lvTuesday = new System.Windows.Forms.ListView();
             this.tabWednesday = new System.Windows.Forms.TabPage();
+            this.lvWednesday = new System.Windows.Forms.ListView();
             this.tabThursday = new System.Windows.Forms.TabPage();
+            this.lvThursday = new System.Windows.Forms.ListView();
             this.tabFriday = new System.Windows.Forms.TabPage();
+            this.lvFriday = new System.Windows.Forms.ListView();
             this.tabSaturday = new System.Windows.Forms.TabPage();
+            this.lvSaturday = new System.Windows.Forms.ListView();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.btnAddOpenBlock = new System.Windows.Forms.Button();
@@ -60,13 +67,7 @@
             this.cbxPendingTutee = new System.Windows.Forms.CheckedListBox();
             this.btnLogout = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
-            this.lvSunday = new System.Windows.Forms.ListView();
-            this.lvMonday = new System.Windows.Forms.ListView();
-            this.lvTuesday = new System.Windows.Forms.ListView();
-            this.lvWednesday = new System.Windows.Forms.ListView();
-            this.lvThursday = new System.Windows.Forms.ListView();
-            this.lvFriday = new System.Windows.Forms.ListView();
-            this.lvSaturday = new System.Windows.Forms.ListView();
+            this.cbxWeekly = new System.Windows.Forms.CheckBox();
             this.tabControl1.SuspendLayout();
             this.tabAvailability.SuspendLayout();
             this.dayTabs.SuspendLayout();
@@ -97,6 +98,7 @@
             // tabAvailability
             // 
             this.tabAvailability.BackColor = System.Drawing.Color.Transparent;
+            this.tabAvailability.Controls.Add(this.cbxWeekly);
             this.tabAvailability.Controls.Add(this.combEndDay);
             this.tabAvailability.Controls.Add(this.combStartDay);
             this.tabAvailability.Controls.Add(this.dayTabs);
@@ -174,6 +176,15 @@
             this.tabSunday.Text = "Sunday";
             this.tabSunday.UseVisualStyleBackColor = true;
             // 
+            // lvSunday
+            // 
+            this.lvSunday.Location = new System.Drawing.Point(7, 7);
+            this.lvSunday.Name = "lvSunday";
+            this.lvSunday.Size = new System.Drawing.Size(355, 248);
+            this.lvSunday.TabIndex = 0;
+            this.lvSunday.UseCompatibleStateImageBehavior = false;
+            this.lvSunday.View = System.Windows.Forms.View.Details;
+            // 
             // tabMonday
             // 
             this.tabMonday.Controls.Add(this.lvMonday);
@@ -185,6 +196,15 @@
             this.tabMonday.Text = "Monday";
             this.tabMonday.UseVisualStyleBackColor = true;
             // 
+            // lvMonday
+            // 
+            this.lvMonday.Location = new System.Drawing.Point(7, 6);
+            this.lvMonday.Name = "lvMonday";
+            this.lvMonday.Size = new System.Drawing.Size(355, 248);
+            this.lvMonday.TabIndex = 1;
+            this.lvMonday.UseCompatibleStateImageBehavior = false;
+            this.lvMonday.View = System.Windows.Forms.View.Details;
+            // 
             // tabTuesday
             // 
             this.tabTuesday.Controls.Add(this.lvTuesday);
@@ -194,6 +214,15 @@
             this.tabTuesday.TabIndex = 2;
             this.tabTuesday.Text = "Tuesday";
             this.tabTuesday.UseVisualStyleBackColor = true;
+            // 
+            // lvTuesday
+            // 
+            this.lvTuesday.Location = new System.Drawing.Point(7, 6);
+            this.lvTuesday.Name = "lvTuesday";
+            this.lvTuesday.Size = new System.Drawing.Size(355, 248);
+            this.lvTuesday.TabIndex = 1;
+            this.lvTuesday.UseCompatibleStateImageBehavior = false;
+            this.lvTuesday.View = System.Windows.Forms.View.Details;
             // 
             // tabWednesday
             // 
@@ -205,6 +234,15 @@
             this.tabWednesday.Text = "Wednesday";
             this.tabWednesday.UseVisualStyleBackColor = true;
             // 
+            // lvWednesday
+            // 
+            this.lvWednesday.Location = new System.Drawing.Point(7, 6);
+            this.lvWednesday.Name = "lvWednesday";
+            this.lvWednesday.Size = new System.Drawing.Size(355, 248);
+            this.lvWednesday.TabIndex = 1;
+            this.lvWednesday.UseCompatibleStateImageBehavior = false;
+            this.lvWednesday.View = System.Windows.Forms.View.Details;
+            // 
             // tabThursday
             // 
             this.tabThursday.Controls.Add(this.lvThursday);
@@ -214,6 +252,15 @@
             this.tabThursday.TabIndex = 4;
             this.tabThursday.Text = "Thursday";
             this.tabThursday.UseVisualStyleBackColor = true;
+            // 
+            // lvThursday
+            // 
+            this.lvThursday.Location = new System.Drawing.Point(7, 6);
+            this.lvThursday.Name = "lvThursday";
+            this.lvThursday.Size = new System.Drawing.Size(355, 248);
+            this.lvThursday.TabIndex = 1;
+            this.lvThursday.UseCompatibleStateImageBehavior = false;
+            this.lvThursday.View = System.Windows.Forms.View.Details;
             // 
             // tabFriday
             // 
@@ -225,6 +272,15 @@
             this.tabFriday.Text = "Friday";
             this.tabFriday.UseVisualStyleBackColor = true;
             // 
+            // lvFriday
+            // 
+            this.lvFriday.Location = new System.Drawing.Point(7, 6);
+            this.lvFriday.Name = "lvFriday";
+            this.lvFriday.Size = new System.Drawing.Size(355, 248);
+            this.lvFriday.TabIndex = 1;
+            this.lvFriday.UseCompatibleStateImageBehavior = false;
+            this.lvFriday.View = System.Windows.Forms.View.Details;
+            // 
             // tabSaturday
             // 
             this.tabSaturday.Controls.Add(this.lvSaturday);
@@ -234,6 +290,15 @@
             this.tabSaturday.TabIndex = 6;
             this.tabSaturday.Text = "Saturday";
             this.tabSaturday.UseVisualStyleBackColor = true;
+            // 
+            // lvSaturday
+            // 
+            this.lvSaturday.Location = new System.Drawing.Point(7, 6);
+            this.lvSaturday.Name = "lvSaturday";
+            this.lvSaturday.Size = new System.Drawing.Size(355, 248);
+            this.lvSaturday.TabIndex = 1;
+            this.lvSaturday.UseCompatibleStateImageBehavior = false;
+            this.lvSaturday.View = System.Windows.Forms.View.Details;
             // 
             // label2
             // 
@@ -450,68 +515,15 @@
             this.button1.Text = "Make Request";
             this.button1.UseVisualStyleBackColor = true;
             // 
-            // lvSunday
+            // cbxWeekly
             // 
-            this.lvSunday.Location = new System.Drawing.Point(7, 7);
-            this.lvSunday.Name = "lvSunday";
-            this.lvSunday.Size = new System.Drawing.Size(355, 248);
-            this.lvSunday.TabIndex = 0;
-            this.lvSunday.UseCompatibleStateImageBehavior = false;
-            this.lvSunday.View = System.Windows.Forms.View.Details;
-            // 
-            // lvMonday
-            // 
-            this.lvMonday.Location = new System.Drawing.Point(7, 6);
-            this.lvMonday.Name = "lvMonday";
-            this.lvMonday.Size = new System.Drawing.Size(355, 248);
-            this.lvMonday.TabIndex = 1;
-            this.lvMonday.UseCompatibleStateImageBehavior = false;
-            this.lvMonday.View = System.Windows.Forms.View.Details;
-            // 
-            // lvTuesday
-            // 
-            this.lvTuesday.Location = new System.Drawing.Point(7, 6);
-            this.lvTuesday.Name = "lvTuesday";
-            this.lvTuesday.Size = new System.Drawing.Size(355, 248);
-            this.lvTuesday.TabIndex = 1;
-            this.lvTuesday.UseCompatibleStateImageBehavior = false;
-            this.lvTuesday.View = System.Windows.Forms.View.Details;
-            // 
-            // lvWednesday
-            // 
-            this.lvWednesday.Location = new System.Drawing.Point(7, 6);
-            this.lvWednesday.Name = "lvWednesday";
-            this.lvWednesday.Size = new System.Drawing.Size(355, 248);
-            this.lvWednesday.TabIndex = 1;
-            this.lvWednesday.UseCompatibleStateImageBehavior = false;
-            this.lvWednesday.View = System.Windows.Forms.View.Details;
-            // 
-            // lvThursday
-            // 
-            this.lvThursday.Location = new System.Drawing.Point(7, 6);
-            this.lvThursday.Name = "lvThursday";
-            this.lvThursday.Size = new System.Drawing.Size(355, 248);
-            this.lvThursday.TabIndex = 1;
-            this.lvThursday.UseCompatibleStateImageBehavior = false;
-            this.lvThursday.View = System.Windows.Forms.View.Details;
-            // 
-            // lvFriday
-            // 
-            this.lvFriday.Location = new System.Drawing.Point(7, 6);
-            this.lvFriday.Name = "lvFriday";
-            this.lvFriday.Size = new System.Drawing.Size(355, 248);
-            this.lvFriday.TabIndex = 1;
-            this.lvFriday.UseCompatibleStateImageBehavior = false;
-            this.lvFriday.View = System.Windows.Forms.View.Details;
-            // 
-            // lvSaturday
-            // 
-            this.lvSaturday.Location = new System.Drawing.Point(7, 6);
-            this.lvSaturday.Name = "lvSaturday";
-            this.lvSaturday.Size = new System.Drawing.Size(355, 248);
-            this.lvSaturday.TabIndex = 1;
-            this.lvSaturday.UseCompatibleStateImageBehavior = false;
-            this.lvSaturday.View = System.Windows.Forms.View.Details;
+            this.cbxWeekly.AutoSize = true;
+            this.cbxWeekly.Location = new System.Drawing.Point(385, 157);
+            this.cbxWeekly.Name = "cbxWeekly";
+            this.cbxWeekly.Size = new System.Drawing.Size(62, 17);
+            this.cbxWeekly.TabIndex = 12;
+            this.cbxWeekly.Text = "Weekly";
+            this.cbxWeekly.UseVisualStyleBackColor = true;
             // 
             // StudentMain
             // 
@@ -584,5 +596,6 @@
         private System.Windows.Forms.ListView lvThursday;
         private System.Windows.Forms.ListView lvFriday;
         private System.Windows.Forms.ListView lvSaturday;
+        private System.Windows.Forms.CheckBox cbxWeekly;
     }
 }

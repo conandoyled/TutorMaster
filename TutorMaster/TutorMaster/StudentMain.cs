@@ -18,6 +18,7 @@ namespace TutorMaster
             id = accID;
             InitializeComponent();
             populateColumns();
+            loadAvail();
         }
 
         private void populateColumns()
@@ -26,6 +27,11 @@ namespace TutorMaster
             lvSunday.Columns.Add("     Start Time", 100);
             lvSunday.Columns.Add("End Time", 100);
             lvSunday.Columns.Add("Type", 100);
+        }
+
+        private void loadAvail()
+        {
+
         }
 
         private void btnLogout_Click(object sender, EventArgs e)
@@ -63,10 +69,11 @@ namespace TutorMaster
                 int endMinute = int.Parse(combEndMinute.Text);
                 string endAmPm = combEndAmPm.Text;
 
-                //MessageBox.Show(DateTime.Now.ToString("D"));
-                DateTime startTime = new DateTime(2017, 1, intStartDay, startHour, startMinute, 0);
+                MessageBox.Show(DateTime.Now.ToString("D"));
+                DateTime startTime = new DateTime(2017, 1, intStartDay, 20, startMinute, 0);
+                MessageBox.Show(startTime.ToString());
                 DateTime endTime = new DateTime(2017, 1, intEndDay, endHour, endMinute, 0);
-                getAvail(startTime, endTime);
+                //getAvail(startTime, endTime);
                 //MessageBox.Show(startTime.ToString());
             }
         }
@@ -107,18 +114,83 @@ namespace TutorMaster
             DateTime fifteen = startTime;
             fifteen = fifteen.AddMinutes(15);
             int compare = begin.CompareTo(endTime);
-            string add = "";
 
             while (compare < 0) //if the first date is less than the second date
             {
-                add += begin.ToString() + fifteen.ToString();
-                add = "";
-                begin = begin.AddMinutes(15);
-                fifteen = fifteen.AddMinutes(15);
+                if (!recordedTime(begin))
+                {
+                    add15Block(begin);
+                    begin = begin.AddMinutes(15);
+                    fifteen = fifteen.AddMinutes(15);
+                }
                 compare = begin.CompareTo(endTime);
             }
             lvSunday.Items.Add(new ListViewItem(new string[] { startTime.ToShortTimeString(), endTime.ToShortTimeString(), "open" }));
             lvSunday.Refresh();
+        }
+
+        private bool recordedTime(DateTime begin)
+        {
+            TutorMasterDBEntities3 db = new TutorMasterDBEntities3();
+            bool found = false;
+            var storedCommits = (from row in db.Commitments.AsEnumerable() where row.ID == id.ToString() select row.StartTime).ToArray();
+            int numCommits = storedCommits.Length;
+
+            for(int i = 0; i < numCommits; i++)
+            {
+                if (begin.ToString() == storedCommits[i])
+                {
+                    found = true;
+                }
+            }
+            return found;
+        }
+
+        private void add15Block(DateTime begin)
+        {
+            TutorMasterDBEntities3 db = new TutorMasterDBEntities3();
+            int lastRow = 0;
+            try
+            {
+                lastRow = db.Commitments.OrderByDescending(u => u.CmtID).Select(r => r.CmtID).First();
+            }
+            catch(InvalidOperationException e)
+            {
+                lastRow = 1;
+            }
+
+            TutorMaster.Commitment newCommit = new TutorMaster.Commitment();
+            newCommit.CmtID = lastRow;
+            newCommit.StartTime = begin.ToString();
+            newCommit.Open = "open";
+            newCommit.Location = "null";
+            newCommit.ID = id.ToString();
+            /*string[] st = begin.ToString("D").Split(',');
+            string startDay = st[0];
+            switch (startDay)
+            {
+                case "Sunday":
+
+                    break;
+                case "Monday":
+
+                    break;
+                case "Tuesday":
+
+                    break;
+                case "Wednesday":
+
+                    break;
+                case "Thursday":
+
+                    break;
+                case "Friday":
+
+                    break;
+                case "Saturday":
+
+                    break;
+            }*/
         }
     }
 }
