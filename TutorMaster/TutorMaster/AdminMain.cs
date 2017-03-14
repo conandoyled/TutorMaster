@@ -31,7 +31,7 @@ namespace TutorMaster
             lvStudent.Columns.Add("Phone Number", 100);
 
             TutorMasterDBEntities3 db = new TutorMasterDBEntities3(); //create a new indirect entity
-            var students = from c in db.Students select c;
+            var students = from c in db.Students select c; // c is arbitay thing to pull. from var in tabletopullfrom select  
             List<Student> stus = new List<Student>();
             stus = students.ToList();
 
@@ -122,6 +122,11 @@ namespace TutorMaster
 
             lvStudent.Clear();
             setupStudentLV();
+        }
+
+        private void lvStudent_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

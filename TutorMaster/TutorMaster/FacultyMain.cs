@@ -17,13 +17,22 @@ namespace TutorMaster
         {
             id = accID;
             InitializeComponent();
-            SetupPendingRequests();//Populate box with requests, similar to Admin main
+            SetupPendingRequests(id);//Populate box with requests, similar to Admin main
         }
 
-        public void SetupPendingRequests() //This function will populate the checked list box with pending requests
+        public void SetupPendingRequests(int accID) //This function will populate the checked list box with pending requests
         {
-            //1. Identify the faculty member and which department they are from
+            //1. find which classes the faculty members are qualified to approve tutors for
+            TutorMasterDBEntities3 db = new TutorMasterDBEntities3(); //create a new indirect entity to look at db
+            TutorMasterDBEntities3 dbt = new TutorMasterDBEntities3();
+            var Classes = (from row in db.FacultyClasses where row.FacultyID == accID select row.ClassCode); //This should pull out all the classes that the faculty member can approve tutors for
+
             //2. Look at all pending requests and see if they are for a class from the faculty embers department
+   
+            foreach (var x in Classes)
+            {;}//use if maybe
+
+            
             //3. If they are, add them to the box
         }
 
@@ -48,6 +57,11 @@ namespace TutorMaster
         private void btnReject_Click(object sender, EventArgs e)
         {
             //This will need to remove all the requests from the DB and leave all acounts unchanged. Eventually, it will send a message to the admin account
+        }
+
+        private void clbPendingRequests_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }
