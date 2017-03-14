@@ -70,12 +70,11 @@ namespace TutorMaster
 
                 bool weekly = cbxWeekly.Checked;
 
-                //MessageBox.Show(DateTime.Now.ToString("D"));
                 DateTime startTime = new DateTime(2017, 1, intStartDay, startHour, startMinute, 0);
-                //MessageBox.Show(startTime.ToString());
+                MessageBox.Show(startTime.ToString());
                 DateTime endTime = new DateTime(2017, 1, intEndDay, endHour, endMinute, 0);
-                //getAvail(startTime, endTime, weekly);
-                //MessageBox.Show(startTime.ToString());
+                MessageBox.Show(endTime.ToString());
+                getAvail(startTime, endTime, weekly);
             }
         }
 
@@ -112,10 +111,8 @@ namespace TutorMaster
         private void getAvail(DateTime startTime, DateTime endTime, bool weekly)
         {
             DateTime begin = startTime;
-            DateTime fifteen = startTime;
-            fifteen = fifteen.AddMinutes(15);
             int compare = begin.CompareTo(endTime);
-
+            
             while (compare < 0) //if the first date is less than the second date
             {
                 if (!recordedTime(begin))
@@ -123,11 +120,10 @@ namespace TutorMaster
                     add15Block(begin, weekly);   
                 } 
                 begin = begin.AddMinutes(15);
-                fifteen = fifteen.AddMinutes(15);
                 compare = begin.CompareTo(endTime);
             }
-            lvSunday.Items.Add(new ListViewItem(new string[] { startTime.ToShortTimeString(), endTime.ToShortTimeString(), "open" }));
-            lvSunday.Refresh();
+            //lvSunday.Items.Add(new ListViewItem(new string[] { startTime.ToShortTimeString(), endTime.ToShortTimeString(), "open" }));
+            //lvSunday.Refresh();
         }
 
         private bool recordedTime(DateTime begin)
@@ -149,7 +145,10 @@ namespace TutorMaster
 
         private void add15Block(DateTime begin, bool weekly)
         {
-            TutorMasterDBEntities3 db = new TutorMasterDBEntities3();
+            lvSunday.Items.Add(new ListViewItem(new string[] { begin.ToShortTimeString(), begin.AddMinutes(15).ToShortTimeString(), "open" }));
+            lvSunday.Refresh();
+
+            /*TutorMasterDBEntities3 db = new TutorMasterDBEntities3();
             int lastRow = 0;
             try
             {
@@ -169,6 +168,7 @@ namespace TutorMaster
             newCommit.Location = "null";
             newCommit.Weekly = weekly.ToString();
             newCommit.ID = id.ToString();
+            addCommit(newCommit);
 
             DateTime endOfSemester = new DateTime(2017, 5, 1, 0, 0, 0);
 
@@ -187,6 +187,7 @@ namespace TutorMaster
                     newCommitW.Location = "null";
                     newCommitW.Weekly = weekly.ToString();
                     newCommitW.ID = id.ToString();
+                    addCommit(newCommitW);
                 }
             }
 
@@ -217,43 +218,57 @@ namespace TutorMaster
                     break;
             }*/
         }
-        
+
+        private void addCommit(TutorMaster.Commitment commit)
+        {
+            TutorMasterDBEntities3 db = new TutorMasterDBEntities3();
+            db.Commitments.AddObject(commit);
+            db.SaveChanges();
+        }
+
+        private string getDay(DateTime date)
+        {
+            string[] st = date.ToString("D").Split(',');
+            string day = st[0];
+            return day;
+        }
+
         private void populateColumns()
         {
             lvSunday.CheckBoxes = true;
             lvSunday.Columns.Add("     Start Time", 125);
             lvSunday.Columns.Add("End Time", 125);
-            lvSunday.Columns.Add("Type", 125);
+            lvSunday.Columns.Add("Type", 90);
 
             lvMonday.CheckBoxes = true;
             lvMonday.Columns.Add("     Start Time", 125);
             lvMonday.Columns.Add("End Time", 125);
-            lvMonday.Columns.Add("Type", 125);
+            lvMonday.Columns.Add("Type", 95);
 
             lvTuesday.CheckBoxes = true;
             lvTuesday.Columns.Add("     Start Time", 125);
             lvTuesday.Columns.Add("End Time", 125);
-            lvTuesday.Columns.Add("Type", 125);
+            lvTuesday.Columns.Add("Type", 95);
 
             lvWednesday.CheckBoxes = true;
             lvWednesday.Columns.Add("     Start Time", 125);
             lvWednesday.Columns.Add("End Time", 125);
-            lvWednesday.Columns.Add("Type", 125);
+            lvWednesday.Columns.Add("Type", 95);
 
             lvThursday.CheckBoxes = true;
             lvThursday.Columns.Add("     Start Time", 125);
             lvThursday.Columns.Add("End Time", 125);
-            lvThursday.Columns.Add("Type", 125);
+            lvThursday.Columns.Add("Type", 95);
 
             lvFriday.CheckBoxes = true;
             lvFriday.Columns.Add("     Start Time", 125);
             lvFriday.Columns.Add("End Time", 125);
-            lvFriday.Columns.Add("Type", 125);
+            lvFriday.Columns.Add("Type", 95);
 
             lvSaturday.CheckBoxes = true;
             lvSaturday.Columns.Add("     Start Time", 125);
             lvSaturday.Columns.Add("End Time", 125);
-            lvSaturday.Columns.Add("Type", 125);
+            lvSaturday.Columns.Add("Type", 95);
         }
     }
 }
