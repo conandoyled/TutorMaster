@@ -31,6 +31,7 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(StudentMain));
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabAvailability = new System.Windows.Forms.TabPage();
+            this.cbxWeekly = new System.Windows.Forms.CheckBox();
             this.combEndDay = new System.Windows.Forms.ComboBox();
             this.combStartDay = new System.Windows.Forms.ComboBox();
             this.dayTabs = new System.Windows.Forms.TabControl();
@@ -67,7 +68,7 @@
             this.cbxPendingTutee = new System.Windows.Forms.CheckedListBox();
             this.btnLogout = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
-            this.cbxWeekly = new System.Windows.Forms.CheckBox();
+            this.dateTime = new System.Windows.Forms.DateTimePicker();
             this.tabControl1.SuspendLayout();
             this.tabAvailability.SuspendLayout();
             this.dayTabs.SuspendLayout();
@@ -98,6 +99,7 @@
             // tabAvailability
             // 
             this.tabAvailability.BackColor = System.Drawing.Color.Transparent;
+            this.tabAvailability.Controls.Add(this.dateTime);
             this.tabAvailability.Controls.Add(this.cbxWeekly);
             this.tabAvailability.Controls.Add(this.combEndDay);
             this.tabAvailability.Controls.Add(this.combStartDay);
@@ -117,6 +119,16 @@
             this.tabAvailability.Size = new System.Drawing.Size(829, 306);
             this.tabAvailability.TabIndex = 0;
             this.tabAvailability.Text = "Availability";
+            // 
+            // cbxWeekly
+            // 
+            this.cbxWeekly.AutoSize = true;
+            this.cbxWeekly.Location = new System.Drawing.Point(385, 157);
+            this.cbxWeekly.Name = "cbxWeekly";
+            this.cbxWeekly.Size = new System.Drawing.Size(62, 17);
+            this.cbxWeekly.TabIndex = 12;
+            this.cbxWeekly.Text = "Weekly";
+            this.cbxWeekly.UseVisualStyleBackColor = true;
             // 
             // combEndDay
             // 
@@ -515,15 +527,12 @@
             this.button1.Text = "Make Request";
             this.button1.UseVisualStyleBackColor = true;
             // 
-            // cbxWeekly
+            // dateTime
             // 
-            this.cbxWeekly.AutoSize = true;
-            this.cbxWeekly.Location = new System.Drawing.Point(385, 157);
-            this.cbxWeekly.Name = "cbxWeekly";
-            this.cbxWeekly.Size = new System.Drawing.Size(62, 17);
-            this.cbxWeekly.TabIndex = 12;
-            this.cbxWeekly.Text = "Weekly";
-            this.cbxWeekly.UseVisualStyleBackColor = true;
+            this.dateTime.Location = new System.Drawing.Point(391, 35);
+            this.dateTime.Name = "dateTime";
+            this.dateTime.Size = new System.Drawing.Size(200, 20);
+            this.dateTime.TabIndex = 13;
             // 
             // StudentMain
             // 
@@ -597,5 +606,6 @@
         private System.Windows.Forms.ListView lvFriday;
         private System.Windows.Forms.ListView lvSaturday;
         private System.Windows.Forms.CheckBox cbxWeekly;
+        private System.Windows.Forms.DateTimePicker dateTime;
     }
 }
