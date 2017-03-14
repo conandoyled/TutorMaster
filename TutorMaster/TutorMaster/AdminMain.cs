@@ -30,7 +30,7 @@ namespace TutorMaster
             lvStudent.Columns.Add("Email", 100);
             lvStudent.Columns.Add("Phone Number", 100);
 
-            TutorMasterDBEntities3 db = new TutorMasterDBEntities3(); //create a new indirect entity
+            TutorMasterDBEntities4 db = new TutorMasterDBEntities4(); //create a new indirect entity
             var students = from c in db.Students select c; // c is arbitay thing to pull. from var in tabletopullfrom select  
             List<Student> stus = new List<Student>();
             stus = students.ToList();
@@ -100,7 +100,7 @@ namespace TutorMaster
 
         private void btnEdit_Click(object sender, EventArgs e)
         {
-            TutorMasterDBEntities3 db = new TutorMasterDBEntities3();
+            TutorMasterDBEntities4 db = new TutorMasterDBEntities4();
             string username = lvStudent.CheckedItems[0].Text.ToString();
             int studentID = (from row in db.Users where row.Username == username select row.ID).First();
             EditStudentForm g = new EditStudentForm(studentID);
@@ -110,7 +110,7 @@ namespace TutorMaster
 
         private void btnDelete_Click(object sender, EventArgs e)
         {
-            TutorMasterDBEntities3 db = new TutorMasterDBEntities3();
+            TutorMasterDBEntities4 db = new TutorMasterDBEntities4();
             int stuNum = lvStudent.CheckedItems.Count;
             for (int i = 0; i < stuNum; i++)
             {

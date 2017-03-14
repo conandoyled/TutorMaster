@@ -23,8 +23,8 @@ namespace TutorMaster
 
         private void loadAvail()
         {
-            TutorMasterDBEntities3 db = new TutorMasterDBEntities3();
-            string[] commits = (from row in db.Commitments.AsEnumerable() where row.ID == id.ToString() select row.StartTime).ToArray();
+            TutorMasterDBEntities4 db = new TutorMasterDBEntities4();
+            /*string[] commits = (from row in db.Commitments.AsEnumerable() where row.ID == id select row.StartTime).ToArray();
             //string[] types = (from row in db.Commitments.AsEnumerable() where row.ID == id.ToString() select row.T
             int numCommits = commits.Count();
             for (int i = 0; i < numCommits; i++)
@@ -37,7 +37,7 @@ namespace TutorMaster
                 string day = getDay(date);
             }
             //lvSunday.Items.Add(new ListViewItem(new string[] { startTime.ToShortTimeString(), endTime.ToShortTimeString(), "open" }));
-            //lvSunday.Refresh();
+            //lvSunday.Refresh();*/
         }
 
         private void btnLogout_Click(object sender, EventArgs e)
@@ -139,14 +139,14 @@ namespace TutorMaster
 
         private bool recordedTime(DateTime begin)
         {
-            TutorMasterDBEntities3 db = new TutorMasterDBEntities3();
+            TutorMasterDBEntities4 db = new TutorMasterDBEntities4();
             bool found = false;
-            var storedCommits = (from row in db.Commitments.AsEnumerable() where row.ID == id.ToString() select row.StartTime).ToArray();
+            var storedCommits = (from row in db.Commitments.AsEnumerable() where row.ID == id select row.StartTime).ToArray();
             int numCommits = storedCommits.Length;
 
             for(int i = 0; i < numCommits; i++)
             {
-                if (begin.ToString() == storedCommits[i])
+                if (begin == storedCommits[i])
                 {
                     found = true;
                 }
@@ -160,13 +160,12 @@ namespace TutorMaster
 
             TutorMaster.Commitment newCommit = new TutorMaster.Commitment();
             newCommit.CmtID = lastRow;
-            newCommit.StartTime = begin.ToString();
+            newCommit.StartTime = begin;
             //newCommit.Class = "null";
-            newCommit.Open = "open";
+            newCommit.Open = true;
             //newCommit.Tutoring = "null";
             //newCommit.Location = "null";
-            newCommit.Weekly = weekly.ToString();
-            newCommit.ID = id.ToString();
+            newCommit.Weekly = weekly;
             addCommit(newCommit);
 
             DateTime endOfSemester = new DateTime(2017, 5, 1, 0, 0, 0);
@@ -179,13 +178,9 @@ namespace TutorMaster
                     lastRow += 1;
                     TutorMaster.Commitment newCommitW = new TutorMaster.Commitment();
                     newCommitW.CmtID = lastRow;
-                    newCommitW.StartTime = begin.ToString();
-                    newCommitW.Class = "null";
-                    newCommitW.Open = "open";
-                    newCommitW.Tutoring = "null";
-                    newCommitW.Location = "null";
-                    newCommitW.Weekly = weekly.ToString();
-                    newCommitW.ID = id.ToString();
+                    newCommitW.StartTime = begin;
+                    newCommitW.Open = true;
+                    newCommitW.Weekly = weekly;
                     addCommit(newCommitW);
                 }
             }
@@ -221,7 +216,7 @@ namespace TutorMaster
 
         private void addCommit(TutorMaster.Commitment commit)
         {
-            TutorMasterDBEntities3 db = new TutorMasterDBEntities3();
+            TutorMasterDBEntities4 db = new TutorMasterDBEntities4();
             db.Commitments.AddObject(commit);
             db.SaveChanges();
         }
@@ -235,7 +230,7 @@ namespace TutorMaster
 
         private int getNextCmtId()
         {
-            TutorMasterDBEntities3 db = new TutorMasterDBEntities3();
+            TutorMasterDBEntities4 db = new TutorMasterDBEntities4();
             int rowNum = db.Commitments.Count();
             int lastRow;
 

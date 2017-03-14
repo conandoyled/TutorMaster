@@ -19,14 +19,16 @@ using System.Xml.Serialization;
 [assembly: EdmSchemaAttribute()]
 #region EDM Relationship Metadata
 
-[assembly: EdmRelationshipAttribute("TutorMasterDBModel1", "ClassesToFaculty", "Classes", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(TutorMaster.Class), "FacultyClasses", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(TutorMaster.FacultyClass), true)]
-[assembly: EdmRelationshipAttribute("TutorMasterDBModel1", "ClassToRequest", "Classes", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(TutorMaster.Class), "TutorRequest", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(TutorMaster.TutorRequest), true)]
-[assembly: EdmRelationshipAttribute("TutorMasterDBModel1", "FacultyToClasses", "Faculty", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(TutorMaster.Faculty), "FacultyClasses", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(TutorMaster.FacultyClass), true)]
-[assembly: EdmRelationshipAttribute("TutorMasterDBModel1", "UsersToFac", "Users", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(TutorMaster.User), "Faculty", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(TutorMaster.Faculty), true)]
-[assembly: EdmRelationshipAttribute("TutorMasterDBModel1", "StudentToRequest", "Students", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(TutorMaster.Student), "TutorRequest", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(TutorMaster.TutorRequest), true)]
-[assembly: EdmRelationshipAttribute("TutorMasterDBModel1", "UserToStudents", "Users", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(TutorMaster.User), "Students", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(TutorMaster.Student), true)]
-[assembly: EdmRelationshipAttribute("TutorMasterDBModel1", "StudentClasses", "Classes", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(TutorMaster.Class), "Students", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(TutorMaster.Student))]
-[assembly: EdmRelationshipAttribute("TutorMasterDBModel1", "StudentCommitments", "Commitments", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(TutorMaster.Commitment), "Students", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(TutorMaster.Student))]
+[assembly: EdmRelationshipAttribute("TutorMasterDBModel", "ClassesToFaculty", "Classes", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(TutorMaster.Class), "FacultyClasses", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(TutorMaster.FacultyClass), true)]
+[assembly: EdmRelationshipAttribute("TutorMasterDBModel", "ClassesToStudents", "Classes", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(TutorMaster.Class), "StudentClasses", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(TutorMaster.StudentClass), true)]
+[assembly: EdmRelationshipAttribute("TutorMasterDBModel", "ClassToRequest", "Classes", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(TutorMaster.Class), "TutorRequest", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(TutorMaster.TutorRequest), true)]
+[assembly: EdmRelationshipAttribute("TutorMasterDBModel", "CmtToStudents", "Commitments", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(TutorMaster.Commitment), "StudentCommitments", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(TutorMaster.StudentCommitment), true)]
+[assembly: EdmRelationshipAttribute("TutorMasterDBModel", "FacultyToClasses", "Faculty", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(TutorMaster.Faculty), "FacultyClasses", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(TutorMaster.FacultyClass), true)]
+[assembly: EdmRelationshipAttribute("TutorMasterDBModel", "UsersToFac", "Users", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(TutorMaster.User), "Faculty", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(TutorMaster.Faculty), true)]
+[assembly: EdmRelationshipAttribute("TutorMasterDBModel", "StudentsToClasses", "Students", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(TutorMaster.Student), "StudentClasses", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(TutorMaster.StudentClass), true)]
+[assembly: EdmRelationshipAttribute("TutorMasterDBModel", "StudentsToCmt", "Students", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(TutorMaster.Student), "StudentCommitments", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(TutorMaster.StudentCommitment), true)]
+[assembly: EdmRelationshipAttribute("TutorMasterDBModel", "StudentToRequest", "Students", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(TutorMaster.Student), "TutorRequest", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(TutorMaster.TutorRequest), true)]
+[assembly: EdmRelationshipAttribute("TutorMasterDBModel", "UserToStudents", "Users", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(TutorMaster.User), "Students", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(TutorMaster.Student), true)]
 
 #endregion
 
@@ -37,32 +39,32 @@ namespace TutorMaster
     /// <summary>
     /// No Metadata Documentation available.
     /// </summary>
-    public partial class TutorMasterDBEntities3 : ObjectContext
+    public partial class TutorMasterDBEntities4 : ObjectContext
     {
         #region Constructors
     
         /// <summary>
-        /// Initializes a new TutorMasterDBEntities3 object using the connection string found in the 'TutorMasterDBEntities3' section of the application configuration file.
+        /// Initializes a new TutorMasterDBEntities4 object using the connection string found in the 'TutorMasterDBEntities4' section of the application configuration file.
         /// </summary>
-        public TutorMasterDBEntities3() : base("name=TutorMasterDBEntities3", "TutorMasterDBEntities3")
+        public TutorMasterDBEntities4() : base("name=TutorMasterDBEntities4", "TutorMasterDBEntities4")
         {
             this.ContextOptions.LazyLoadingEnabled = true;
             OnContextCreated();
         }
     
         /// <summary>
-        /// Initialize a new TutorMasterDBEntities3 object.
+        /// Initialize a new TutorMasterDBEntities4 object.
         /// </summary>
-        public TutorMasterDBEntities3(string connectionString) : base(connectionString, "TutorMasterDBEntities3")
+        public TutorMasterDBEntities4(string connectionString) : base(connectionString, "TutorMasterDBEntities4")
         {
             this.ContextOptions.LazyLoadingEnabled = true;
             OnContextCreated();
         }
     
         /// <summary>
-        /// Initialize a new TutorMasterDBEntities3 object.
+        /// Initialize a new TutorMasterDBEntities4 object.
         /// </summary>
-        public TutorMasterDBEntities3(EntityConnection connection) : base(connection, "TutorMasterDBEntities3")
+        public TutorMasterDBEntities4(EntityConnection connection) : base(connection, "TutorMasterDBEntities4")
         {
             this.ContextOptions.LazyLoadingEnabled = true;
             OnContextCreated();
@@ -141,6 +143,38 @@ namespace TutorMaster
             }
         }
         private ObjectSet<FacultyClass> _FacultyClasses;
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        public ObjectSet<StudentClass> StudentClasses
+        {
+            get
+            {
+                if ((_StudentClasses == null))
+                {
+                    _StudentClasses = base.CreateObjectSet<StudentClass>("StudentClasses");
+                }
+                return _StudentClasses;
+            }
+        }
+        private ObjectSet<StudentClass> _StudentClasses;
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        public ObjectSet<StudentCommitment> StudentCommitments
+        {
+            get
+            {
+                if ((_StudentCommitments == null))
+                {
+                    _StudentCommitments = base.CreateObjectSet<StudentCommitment>("StudentCommitments");
+                }
+                return _StudentCommitments;
+            }
+        }
+        private ObjectSet<StudentCommitment> _StudentCommitments;
     
         /// <summary>
         /// No Metadata Documentation available.
@@ -227,6 +261,22 @@ namespace TutorMaster
         }
     
         /// <summary>
+        /// Deprecated Method for adding a new object to the StudentClasses EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
+        /// </summary>
+        public void AddToStudentClasses(StudentClass studentClass)
+        {
+            base.AddObject("StudentClasses", studentClass);
+        }
+    
+        /// <summary>
+        /// Deprecated Method for adding a new object to the StudentCommitments EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
+        /// </summary>
+        public void AddToStudentCommitments(StudentCommitment studentCommitment)
+        {
+            base.AddObject("StudentCommitments", studentCommitment);
+        }
+    
+        /// <summary>
         /// Deprecated Method for adding a new object to the Students EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
         /// </summary>
         public void AddToStudents(Student student)
@@ -261,7 +311,7 @@ namespace TutorMaster
     /// <summary>
     /// No Metadata Documentation available.
     /// </summary>
-    [EdmEntityTypeAttribute(NamespaceName="TutorMasterDBModel1", Name="Class")]
+    [EdmEntityTypeAttribute(NamespaceName="TutorMasterDBModel", Name="Class")]
     [Serializable()]
     [DataContractAttribute(IsReference=true)]
     public partial class Class : EntityObject
@@ -369,18 +419,18 @@ namespace TutorMaster
         [XmlIgnoreAttribute()]
         [SoapIgnoreAttribute()]
         [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("TutorMasterDBModel1", "ClassesToFaculty", "FacultyClasses")]
+        [EdmRelationshipNavigationPropertyAttribute("TutorMasterDBModel", "ClassesToFaculty", "FacultyClasses")]
         public EntityCollection<FacultyClass> FacultyClasses
         {
             get
             {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<FacultyClass>("TutorMasterDBModel1.ClassesToFaculty", "FacultyClasses");
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<FacultyClass>("TutorMasterDBModel.ClassesToFaculty", "FacultyClasses");
             }
             set
             {
                 if ((value != null))
                 {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<FacultyClass>("TutorMasterDBModel1.ClassesToFaculty", "FacultyClasses", value);
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<FacultyClass>("TutorMasterDBModel.ClassesToFaculty", "FacultyClasses", value);
                 }
             }
         }
@@ -391,40 +441,40 @@ namespace TutorMaster
         [XmlIgnoreAttribute()]
         [SoapIgnoreAttribute()]
         [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("TutorMasterDBModel1", "ClassToRequest", "TutorRequest")]
+        [EdmRelationshipNavigationPropertyAttribute("TutorMasterDBModel", "ClassesToStudents", "StudentClasses")]
+        public EntityCollection<StudentClass> StudentClasses
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<StudentClass>("TutorMasterDBModel.ClassesToStudents", "StudentClasses");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<StudentClass>("TutorMasterDBModel.ClassesToStudents", "StudentClasses", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("TutorMasterDBModel", "ClassToRequest", "TutorRequest")]
         public EntityCollection<TutorRequest> TutorRequests
         {
             get
             {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<TutorRequest>("TutorMasterDBModel1.ClassToRequest", "TutorRequest");
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<TutorRequest>("TutorMasterDBModel.ClassToRequest", "TutorRequest");
             }
             set
             {
                 if ((value != null))
                 {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<TutorRequest>("TutorMasterDBModel1.ClassToRequest", "TutorRequest", value);
-                }
-            }
-        }
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [XmlIgnoreAttribute()]
-        [SoapIgnoreAttribute()]
-        [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("TutorMasterDBModel1", "StudentClasses", "Students")]
-        public EntityCollection<Student> Students
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<Student>("TutorMasterDBModel1.StudentClasses", "Students");
-            }
-            set
-            {
-                if ((value != null))
-                {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<Student>("TutorMasterDBModel1.StudentClasses", "Students", value);
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<TutorRequest>("TutorMasterDBModel.ClassToRequest", "TutorRequest", value);
                 }
             }
         }
@@ -436,7 +486,7 @@ namespace TutorMaster
     /// <summary>
     /// No Metadata Documentation available.
     /// </summary>
-    [EdmEntityTypeAttribute(NamespaceName="TutorMasterDBModel1", Name="Commitment")]
+    [EdmEntityTypeAttribute(NamespaceName="TutorMasterDBModel", Name="Commitment")]
     [Serializable()]
     [DataContractAttribute(IsReference=true)]
     public partial class Commitment : EntityObject
@@ -490,7 +540,7 @@ namespace TutorMaster
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
         [DataMemberAttribute()]
-        public global::System.String StartTime
+        public Nullable<global::System.DateTime> StartTime
         {
             get
             {
@@ -500,13 +550,13 @@ namespace TutorMaster
             {
                 OnStartTimeChanging(value);
                 ReportPropertyChanging("StartTime");
-                _StartTime = StructuralObject.SetValidValue(value, true);
+                _StartTime = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("StartTime");
                 OnStartTimeChanged();
             }
         }
-        private global::System.String _StartTime;
-        partial void OnStartTimeChanging(global::System.String value);
+        private Nullable<global::System.DateTime> _StartTime;
+        partial void OnStartTimeChanging(Nullable<global::System.DateTime> value);
         partial void OnStartTimeChanged();
     
         /// <summary>
@@ -562,7 +612,7 @@ namespace TutorMaster
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
         [DataMemberAttribute()]
-        public global::System.String Open
+        public Nullable<global::System.Boolean> Open
         {
             get
             {
@@ -572,13 +622,13 @@ namespace TutorMaster
             {
                 OnOpenChanging(value);
                 ReportPropertyChanging("Open");
-                _Open = StructuralObject.SetValidValue(value, true);
+                _Open = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("Open");
                 OnOpenChanged();
             }
         }
-        private global::System.String _Open;
-        partial void OnOpenChanging(global::System.String value);
+        private Nullable<global::System.Boolean> _Open;
+        partial void OnOpenChanging(Nullable<global::System.Boolean> value);
         partial void OnOpenChanged();
     
         /// <summary>
@@ -586,7 +636,7 @@ namespace TutorMaster
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
         [DataMemberAttribute()]
-        public global::System.String Tutoring
+        public Nullable<global::System.Boolean> Tutoring
         {
             get
             {
@@ -596,13 +646,13 @@ namespace TutorMaster
             {
                 OnTutoringChanging(value);
                 ReportPropertyChanging("Tutoring");
-                _Tutoring = StructuralObject.SetValidValue(value, true);
+                _Tutoring = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("Tutoring");
                 OnTutoringChanged();
             }
         }
-        private global::System.String _Tutoring;
-        partial void OnTutoringChanging(global::System.String value);
+        private Nullable<global::System.Boolean> _Tutoring;
+        partial void OnTutoringChanging(Nullable<global::System.Boolean> value);
         partial void OnTutoringChanged();
     
         /// <summary>
@@ -610,7 +660,7 @@ namespace TutorMaster
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
         [DataMemberAttribute()]
-        public global::System.String Weekly
+        public Nullable<global::System.Boolean> Weekly
         {
             get
             {
@@ -620,13 +670,13 @@ namespace TutorMaster
             {
                 OnWeeklyChanging(value);
                 ReportPropertyChanging("Weekly");
-                _Weekly = StructuralObject.SetValidValue(value, true);
+                _Weekly = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("Weekly");
                 OnWeeklyChanged();
             }
         }
-        private global::System.String _Weekly;
-        partial void OnWeeklyChanging(global::System.String value);
+        private Nullable<global::System.Boolean> _Weekly;
+        partial void OnWeeklyChanging(Nullable<global::System.Boolean> value);
         partial void OnWeeklyChanged();
     
         /// <summary>
@@ -634,7 +684,7 @@ namespace TutorMaster
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
         [DataMemberAttribute()]
-        public global::System.String ID
+        public Nullable<global::System.Int32> ID
         {
             get
             {
@@ -644,13 +694,13 @@ namespace TutorMaster
             {
                 OnIDChanging(value);
                 ReportPropertyChanging("ID");
-                _ID = StructuralObject.SetValidValue(value, true);
+                _ID = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("ID");
                 OnIDChanged();
             }
         }
-        private global::System.String _ID;
-        partial void OnIDChanging(global::System.String value);
+        private Nullable<global::System.Int32> _ID;
+        partial void OnIDChanging(Nullable<global::System.Int32> value);
         partial void OnIDChanged();
 
         #endregion
@@ -664,18 +714,18 @@ namespace TutorMaster
         [XmlIgnoreAttribute()]
         [SoapIgnoreAttribute()]
         [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("TutorMasterDBModel1", "StudentCommitments", "Students")]
-        public EntityCollection<Student> Students
+        [EdmRelationshipNavigationPropertyAttribute("TutorMasterDBModel", "CmtToStudents", "StudentCommitments")]
+        public EntityCollection<StudentCommitment> StudentCommitments
         {
             get
             {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<Student>("TutorMasterDBModel1.StudentCommitments", "Students");
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<StudentCommitment>("TutorMasterDBModel.CmtToStudents", "StudentCommitments");
             }
             set
             {
                 if ((value != null))
                 {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<Student>("TutorMasterDBModel1.StudentCommitments", "Students", value);
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<StudentCommitment>("TutorMasterDBModel.CmtToStudents", "StudentCommitments", value);
                 }
             }
         }
@@ -687,7 +737,7 @@ namespace TutorMaster
     /// <summary>
     /// No Metadata Documentation available.
     /// </summary>
-    [EdmEntityTypeAttribute(NamespaceName="TutorMasterDBModel1", Name="Faculty")]
+    [EdmEntityTypeAttribute(NamespaceName="TutorMasterDBModel", Name="Faculty")]
     [Serializable()]
     [DataContractAttribute(IsReference=true)]
     public partial class Faculty : EntityObject
@@ -771,18 +821,18 @@ namespace TutorMaster
         [XmlIgnoreAttribute()]
         [SoapIgnoreAttribute()]
         [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("TutorMasterDBModel1", "FacultyToClasses", "FacultyClasses")]
+        [EdmRelationshipNavigationPropertyAttribute("TutorMasterDBModel", "FacultyToClasses", "FacultyClasses")]
         public EntityCollection<FacultyClass> FacultyClasses
         {
             get
             {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<FacultyClass>("TutorMasterDBModel1.FacultyToClasses", "FacultyClasses");
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<FacultyClass>("TutorMasterDBModel.FacultyToClasses", "FacultyClasses");
             }
             set
             {
                 if ((value != null))
                 {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<FacultyClass>("TutorMasterDBModel1.FacultyToClasses", "FacultyClasses", value);
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<FacultyClass>("TutorMasterDBModel.FacultyToClasses", "FacultyClasses", value);
                 }
             }
         }
@@ -793,16 +843,16 @@ namespace TutorMaster
         [XmlIgnoreAttribute()]
         [SoapIgnoreAttribute()]
         [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("TutorMasterDBModel1", "UsersToFac", "Users")]
+        [EdmRelationshipNavigationPropertyAttribute("TutorMasterDBModel", "UsersToFac", "Users")]
         public User User
         {
             get
             {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<User>("TutorMasterDBModel1.UsersToFac", "Users").Value;
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<User>("TutorMasterDBModel.UsersToFac", "Users").Value;
             }
             set
             {
-                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<User>("TutorMasterDBModel1.UsersToFac", "Users").Value = value;
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<User>("TutorMasterDBModel.UsersToFac", "Users").Value = value;
             }
         }
         /// <summary>
@@ -814,13 +864,13 @@ namespace TutorMaster
         {
             get
             {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<User>("TutorMasterDBModel1.UsersToFac", "Users");
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<User>("TutorMasterDBModel.UsersToFac", "Users");
             }
             set
             {
                 if ((value != null))
                 {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<User>("TutorMasterDBModel1.UsersToFac", "Users", value);
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<User>("TutorMasterDBModel.UsersToFac", "Users", value);
                 }
             }
         }
@@ -832,7 +882,7 @@ namespace TutorMaster
     /// <summary>
     /// No Metadata Documentation available.
     /// </summary>
-    [EdmEntityTypeAttribute(NamespaceName="TutorMasterDBModel1", Name="FacultyClass")]
+    [EdmEntityTypeAttribute(NamespaceName="TutorMasterDBModel", Name="FacultyClass")]
     [Serializable()]
     [DataContractAttribute(IsReference=true)]
     public partial class FacultyClass : EntityObject
@@ -940,16 +990,16 @@ namespace TutorMaster
         [XmlIgnoreAttribute()]
         [SoapIgnoreAttribute()]
         [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("TutorMasterDBModel1", "ClassesToFaculty", "Classes")]
+        [EdmRelationshipNavigationPropertyAttribute("TutorMasterDBModel", "ClassesToFaculty", "Classes")]
         public Class Class
         {
             get
             {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Class>("TutorMasterDBModel1.ClassesToFaculty", "Classes").Value;
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Class>("TutorMasterDBModel.ClassesToFaculty", "Classes").Value;
             }
             set
             {
-                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Class>("TutorMasterDBModel1.ClassesToFaculty", "Classes").Value = value;
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Class>("TutorMasterDBModel.ClassesToFaculty", "Classes").Value = value;
             }
         }
         /// <summary>
@@ -961,13 +1011,13 @@ namespace TutorMaster
         {
             get
             {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Class>("TutorMasterDBModel1.ClassesToFaculty", "Classes");
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Class>("TutorMasterDBModel.ClassesToFaculty", "Classes");
             }
             set
             {
                 if ((value != null))
                 {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<Class>("TutorMasterDBModel1.ClassesToFaculty", "Classes", value);
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<Class>("TutorMasterDBModel.ClassesToFaculty", "Classes", value);
                 }
             }
         }
@@ -978,16 +1028,16 @@ namespace TutorMaster
         [XmlIgnoreAttribute()]
         [SoapIgnoreAttribute()]
         [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("TutorMasterDBModel1", "FacultyToClasses", "Faculty")]
+        [EdmRelationshipNavigationPropertyAttribute("TutorMasterDBModel", "FacultyToClasses", "Faculty")]
         public Faculty Faculty
         {
             get
             {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Faculty>("TutorMasterDBModel1.FacultyToClasses", "Faculty").Value;
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Faculty>("TutorMasterDBModel.FacultyToClasses", "Faculty").Value;
             }
             set
             {
-                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Faculty>("TutorMasterDBModel1.FacultyToClasses", "Faculty").Value = value;
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Faculty>("TutorMasterDBModel.FacultyToClasses", "Faculty").Value = value;
             }
         }
         /// <summary>
@@ -999,13 +1049,13 @@ namespace TutorMaster
         {
             get
             {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Faculty>("TutorMasterDBModel1.FacultyToClasses", "Faculty");
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Faculty>("TutorMasterDBModel.FacultyToClasses", "Faculty");
             }
             set
             {
                 if ((value != null))
                 {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<Faculty>("TutorMasterDBModel1.FacultyToClasses", "Faculty", value);
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<Faculty>("TutorMasterDBModel.FacultyToClasses", "Faculty", value);
                 }
             }
         }
@@ -1017,7 +1067,7 @@ namespace TutorMaster
     /// <summary>
     /// No Metadata Documentation available.
     /// </summary>
-    [EdmEntityTypeAttribute(NamespaceName="TutorMasterDBModel1", Name="Student")]
+    [EdmEntityTypeAttribute(NamespaceName="TutorMasterDBModel", Name="Student")]
     [Serializable()]
     [DataContractAttribute(IsReference=true)]
     public partial class Student : EntityObject
@@ -1125,18 +1175,18 @@ namespace TutorMaster
         [XmlIgnoreAttribute()]
         [SoapIgnoreAttribute()]
         [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("TutorMasterDBModel1", "StudentToRequest", "TutorRequest")]
-        public EntityCollection<TutorRequest> TutorRequests
+        [EdmRelationshipNavigationPropertyAttribute("TutorMasterDBModel", "StudentsToClasses", "StudentClasses")]
+        public EntityCollection<StudentClass> StudentClasses
         {
             get
             {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<TutorRequest>("TutorMasterDBModel1.StudentToRequest", "TutorRequest");
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<StudentClass>("TutorMasterDBModel.StudentsToClasses", "StudentClasses");
             }
             set
             {
                 if ((value != null))
                 {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<TutorRequest>("TutorMasterDBModel1.StudentToRequest", "TutorRequest", value);
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<StudentClass>("TutorMasterDBModel.StudentsToClasses", "StudentClasses", value);
                 }
             }
         }
@@ -1147,16 +1197,60 @@ namespace TutorMaster
         [XmlIgnoreAttribute()]
         [SoapIgnoreAttribute()]
         [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("TutorMasterDBModel1", "UserToStudents", "Users")]
+        [EdmRelationshipNavigationPropertyAttribute("TutorMasterDBModel", "StudentsToCmt", "StudentCommitments")]
+        public EntityCollection<StudentCommitment> StudentCommitments
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<StudentCommitment>("TutorMasterDBModel.StudentsToCmt", "StudentCommitments");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<StudentCommitment>("TutorMasterDBModel.StudentsToCmt", "StudentCommitments", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("TutorMasterDBModel", "StudentToRequest", "TutorRequest")]
+        public EntityCollection<TutorRequest> TutorRequests
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<TutorRequest>("TutorMasterDBModel.StudentToRequest", "TutorRequest");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<TutorRequest>("TutorMasterDBModel.StudentToRequest", "TutorRequest", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("TutorMasterDBModel", "UserToStudents", "Users")]
         public User User
         {
             get
             {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<User>("TutorMasterDBModel1.UserToStudents", "Users").Value;
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<User>("TutorMasterDBModel.UserToStudents", "Users").Value;
             }
             set
             {
-                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<User>("TutorMasterDBModel1.UserToStudents", "Users").Value = value;
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<User>("TutorMasterDBModel.UserToStudents", "Users").Value = value;
             }
         }
         /// <summary>
@@ -1168,57 +1262,13 @@ namespace TutorMaster
         {
             get
             {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<User>("TutorMasterDBModel1.UserToStudents", "Users");
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<User>("TutorMasterDBModel.UserToStudents", "Users");
             }
             set
             {
                 if ((value != null))
                 {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<User>("TutorMasterDBModel1.UserToStudents", "Users", value);
-                }
-            }
-        }
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [XmlIgnoreAttribute()]
-        [SoapIgnoreAttribute()]
-        [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("TutorMasterDBModel1", "StudentClasses", "Classes")]
-        public EntityCollection<Class> Classes
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<Class>("TutorMasterDBModel1.StudentClasses", "Classes");
-            }
-            set
-            {
-                if ((value != null))
-                {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<Class>("TutorMasterDBModel1.StudentClasses", "Classes", value);
-                }
-            }
-        }
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [XmlIgnoreAttribute()]
-        [SoapIgnoreAttribute()]
-        [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("TutorMasterDBModel1", "StudentCommitments", "Commitments")]
-        public EntityCollection<Commitment> Commitments
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<Commitment>("TutorMasterDBModel1.StudentCommitments", "Commitments");
-            }
-            set
-            {
-                if ((value != null))
-                {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<Commitment>("TutorMasterDBModel1.StudentCommitments", "Commitments", value);
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<User>("TutorMasterDBModel.UserToStudents", "Users", value);
                 }
             }
         }
@@ -1230,7 +1280,377 @@ namespace TutorMaster
     /// <summary>
     /// No Metadata Documentation available.
     /// </summary>
-    [EdmEntityTypeAttribute(NamespaceName="TutorMasterDBModel1", Name="TutorRequest")]
+    [EdmEntityTypeAttribute(NamespaceName="TutorMasterDBModel", Name="StudentClass")]
+    [Serializable()]
+    [DataContractAttribute(IsReference=true)]
+    public partial class StudentClass : EntityObject
+    {
+        #region Factory Method
+    
+        /// <summary>
+        /// Create a new StudentClass object.
+        /// </summary>
+        /// <param name="key">Initial value of the Key property.</param>
+        public static StudentClass CreateStudentClass(global::System.Int32 key)
+        {
+            StudentClass studentClass = new StudentClass();
+            studentClass.Key = key;
+            return studentClass;
+        }
+
+        #endregion
+
+        #region Primitive Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Int32> ID
+        {
+            get
+            {
+                return _ID;
+            }
+            set
+            {
+                OnIDChanging(value);
+                ReportPropertyChanging("ID");
+                _ID = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("ID");
+                OnIDChanged();
+            }
+        }
+        private Nullable<global::System.Int32> _ID;
+        partial void OnIDChanging(Nullable<global::System.Int32> value);
+        partial void OnIDChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String ClassCode
+        {
+            get
+            {
+                return _ClassCode;
+            }
+            set
+            {
+                OnClassCodeChanging(value);
+                ReportPropertyChanging("ClassCode");
+                _ClassCode = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("ClassCode");
+                OnClassCodeChanged();
+            }
+        }
+        private global::System.String _ClassCode;
+        partial void OnClassCodeChanging(global::System.String value);
+        partial void OnClassCodeChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 Key
+        {
+            get
+            {
+                return _Key;
+            }
+            set
+            {
+                if (_Key != value)
+                {
+                    OnKeyChanging(value);
+                    ReportPropertyChanging("Key");
+                    _Key = StructuralObject.SetValidValue(value);
+                    ReportPropertyChanged("Key");
+                    OnKeyChanged();
+                }
+            }
+        }
+        private global::System.Int32 _Key;
+        partial void OnKeyChanging(global::System.Int32 value);
+        partial void OnKeyChanged();
+
+        #endregion
+
+    
+        #region Navigation Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("TutorMasterDBModel", "ClassesToStudents", "Classes")]
+        public Class Class
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Class>("TutorMasterDBModel.ClassesToStudents", "Classes").Value;
+            }
+            set
+            {
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Class>("TutorMasterDBModel.ClassesToStudents", "Classes").Value = value;
+            }
+        }
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [BrowsableAttribute(false)]
+        [DataMemberAttribute()]
+        public EntityReference<Class> ClassReference
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Class>("TutorMasterDBModel.ClassesToStudents", "Classes");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<Class>("TutorMasterDBModel.ClassesToStudents", "Classes", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("TutorMasterDBModel", "StudentsToClasses", "Students")]
+        public Student Student
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Student>("TutorMasterDBModel.StudentsToClasses", "Students").Value;
+            }
+            set
+            {
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Student>("TutorMasterDBModel.StudentsToClasses", "Students").Value = value;
+            }
+        }
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [BrowsableAttribute(false)]
+        [DataMemberAttribute()]
+        public EntityReference<Student> StudentReference
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Student>("TutorMasterDBModel.StudentsToClasses", "Students");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<Student>("TutorMasterDBModel.StudentsToClasses", "Students", value);
+                }
+            }
+        }
+
+        #endregion
+
+    }
+    
+    /// <summary>
+    /// No Metadata Documentation available.
+    /// </summary>
+    [EdmEntityTypeAttribute(NamespaceName="TutorMasterDBModel", Name="StudentCommitment")]
+    [Serializable()]
+    [DataContractAttribute(IsReference=true)]
+    public partial class StudentCommitment : EntityObject
+    {
+        #region Factory Method
+    
+        /// <summary>
+        /// Create a new StudentCommitment object.
+        /// </summary>
+        /// <param name="key">Initial value of the Key property.</param>
+        public static StudentCommitment CreateStudentCommitment(global::System.Int32 key)
+        {
+            StudentCommitment studentCommitment = new StudentCommitment();
+            studentCommitment.Key = key;
+            return studentCommitment;
+        }
+
+        #endregion
+
+        #region Primitive Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Int32> CmtID
+        {
+            get
+            {
+                return _CmtID;
+            }
+            set
+            {
+                OnCmtIDChanging(value);
+                ReportPropertyChanging("CmtID");
+                _CmtID = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("CmtID");
+                OnCmtIDChanged();
+            }
+        }
+        private Nullable<global::System.Int32> _CmtID;
+        partial void OnCmtIDChanging(Nullable<global::System.Int32> value);
+        partial void OnCmtIDChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Int32> ID
+        {
+            get
+            {
+                return _ID;
+            }
+            set
+            {
+                OnIDChanging(value);
+                ReportPropertyChanging("ID");
+                _ID = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("ID");
+                OnIDChanged();
+            }
+        }
+        private Nullable<global::System.Int32> _ID;
+        partial void OnIDChanging(Nullable<global::System.Int32> value);
+        partial void OnIDChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 Key
+        {
+            get
+            {
+                return _Key;
+            }
+            set
+            {
+                if (_Key != value)
+                {
+                    OnKeyChanging(value);
+                    ReportPropertyChanging("Key");
+                    _Key = StructuralObject.SetValidValue(value);
+                    ReportPropertyChanged("Key");
+                    OnKeyChanged();
+                }
+            }
+        }
+        private global::System.Int32 _Key;
+        partial void OnKeyChanging(global::System.Int32 value);
+        partial void OnKeyChanged();
+
+        #endregion
+
+    
+        #region Navigation Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("TutorMasterDBModel", "CmtToStudents", "Commitments")]
+        public Commitment Commitment
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Commitment>("TutorMasterDBModel.CmtToStudents", "Commitments").Value;
+            }
+            set
+            {
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Commitment>("TutorMasterDBModel.CmtToStudents", "Commitments").Value = value;
+            }
+        }
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [BrowsableAttribute(false)]
+        [DataMemberAttribute()]
+        public EntityReference<Commitment> CommitmentReference
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Commitment>("TutorMasterDBModel.CmtToStudents", "Commitments");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<Commitment>("TutorMasterDBModel.CmtToStudents", "Commitments", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("TutorMasterDBModel", "StudentsToCmt", "Students")]
+        public Student Student
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Student>("TutorMasterDBModel.StudentsToCmt", "Students").Value;
+            }
+            set
+            {
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Student>("TutorMasterDBModel.StudentsToCmt", "Students").Value = value;
+            }
+        }
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [BrowsableAttribute(false)]
+        [DataMemberAttribute()]
+        public EntityReference<Student> StudentReference
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Student>("TutorMasterDBModel.StudentsToCmt", "Students");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<Student>("TutorMasterDBModel.StudentsToCmt", "Students", value);
+                }
+            }
+        }
+
+        #endregion
+
+    }
+    
+    /// <summary>
+    /// No Metadata Documentation available.
+    /// </summary>
+    [EdmEntityTypeAttribute(NamespaceName="TutorMasterDBModel", Name="TutorRequest")]
     [Serializable()]
     [DataContractAttribute(IsReference=true)]
     public partial class TutorRequest : EntityObject
@@ -1338,16 +1758,16 @@ namespace TutorMaster
         [XmlIgnoreAttribute()]
         [SoapIgnoreAttribute()]
         [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("TutorMasterDBModel1", "ClassToRequest", "Classes")]
+        [EdmRelationshipNavigationPropertyAttribute("TutorMasterDBModel", "ClassToRequest", "Classes")]
         public Class Class
         {
             get
             {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Class>("TutorMasterDBModel1.ClassToRequest", "Classes").Value;
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Class>("TutorMasterDBModel.ClassToRequest", "Classes").Value;
             }
             set
             {
-                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Class>("TutorMasterDBModel1.ClassToRequest", "Classes").Value = value;
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Class>("TutorMasterDBModel.ClassToRequest", "Classes").Value = value;
             }
         }
         /// <summary>
@@ -1359,13 +1779,13 @@ namespace TutorMaster
         {
             get
             {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Class>("TutorMasterDBModel1.ClassToRequest", "Classes");
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Class>("TutorMasterDBModel.ClassToRequest", "Classes");
             }
             set
             {
                 if ((value != null))
                 {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<Class>("TutorMasterDBModel1.ClassToRequest", "Classes", value);
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<Class>("TutorMasterDBModel.ClassToRequest", "Classes", value);
                 }
             }
         }
@@ -1376,16 +1796,16 @@ namespace TutorMaster
         [XmlIgnoreAttribute()]
         [SoapIgnoreAttribute()]
         [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("TutorMasterDBModel1", "StudentToRequest", "Students")]
+        [EdmRelationshipNavigationPropertyAttribute("TutorMasterDBModel", "StudentToRequest", "Students")]
         public Student Student
         {
             get
             {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Student>("TutorMasterDBModel1.StudentToRequest", "Students").Value;
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Student>("TutorMasterDBModel.StudentToRequest", "Students").Value;
             }
             set
             {
-                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Student>("TutorMasterDBModel1.StudentToRequest", "Students").Value = value;
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Student>("TutorMasterDBModel.StudentToRequest", "Students").Value = value;
             }
         }
         /// <summary>
@@ -1397,13 +1817,13 @@ namespace TutorMaster
         {
             get
             {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Student>("TutorMasterDBModel1.StudentToRequest", "Students");
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Student>("TutorMasterDBModel.StudentToRequest", "Students");
             }
             set
             {
                 if ((value != null))
                 {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<Student>("TutorMasterDBModel1.StudentToRequest", "Students", value);
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<Student>("TutorMasterDBModel.StudentToRequest", "Students", value);
                 }
             }
         }
@@ -1415,7 +1835,7 @@ namespace TutorMaster
     /// <summary>
     /// No Metadata Documentation available.
     /// </summary>
-    [EdmEntityTypeAttribute(NamespaceName="TutorMasterDBModel1", Name="User")]
+    [EdmEntityTypeAttribute(NamespaceName="TutorMasterDBModel", Name="User")]
     [Serializable()]
     [DataContractAttribute(IsReference=true)]
     public partial class User : EntityObject
@@ -1643,16 +2063,16 @@ namespace TutorMaster
         [XmlIgnoreAttribute()]
         [SoapIgnoreAttribute()]
         [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("TutorMasterDBModel1", "UsersToFac", "Faculty")]
+        [EdmRelationshipNavigationPropertyAttribute("TutorMasterDBModel", "UsersToFac", "Faculty")]
         public Faculty Faculty
         {
             get
             {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Faculty>("TutorMasterDBModel1.UsersToFac", "Faculty").Value;
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Faculty>("TutorMasterDBModel.UsersToFac", "Faculty").Value;
             }
             set
             {
-                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Faculty>("TutorMasterDBModel1.UsersToFac", "Faculty").Value = value;
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Faculty>("TutorMasterDBModel.UsersToFac", "Faculty").Value = value;
             }
         }
         /// <summary>
@@ -1664,13 +2084,13 @@ namespace TutorMaster
         {
             get
             {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Faculty>("TutorMasterDBModel1.UsersToFac", "Faculty");
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Faculty>("TutorMasterDBModel.UsersToFac", "Faculty");
             }
             set
             {
                 if ((value != null))
                 {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<Faculty>("TutorMasterDBModel1.UsersToFac", "Faculty", value);
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<Faculty>("TutorMasterDBModel.UsersToFac", "Faculty", value);
                 }
             }
         }
@@ -1681,16 +2101,16 @@ namespace TutorMaster
         [XmlIgnoreAttribute()]
         [SoapIgnoreAttribute()]
         [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("TutorMasterDBModel1", "UserToStudents", "Students")]
+        [EdmRelationshipNavigationPropertyAttribute("TutorMasterDBModel", "UserToStudents", "Students")]
         public Student Student
         {
             get
             {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Student>("TutorMasterDBModel1.UserToStudents", "Students").Value;
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Student>("TutorMasterDBModel.UserToStudents", "Students").Value;
             }
             set
             {
-                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Student>("TutorMasterDBModel1.UserToStudents", "Students").Value = value;
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Student>("TutorMasterDBModel.UserToStudents", "Students").Value = value;
             }
         }
         /// <summary>
@@ -1702,13 +2122,13 @@ namespace TutorMaster
         {
             get
             {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Student>("TutorMasterDBModel1.UserToStudents", "Students");
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Student>("TutorMasterDBModel.UserToStudents", "Students");
             }
             set
             {
                 if ((value != null))
                 {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<Student>("TutorMasterDBModel1.UserToStudents", "Students", value);
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<Student>("TutorMasterDBModel.UserToStudents", "Students", value);
                 }
             }
         }

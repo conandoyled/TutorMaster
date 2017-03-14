@@ -63,7 +63,7 @@ namespace TutorMaster
 
         private bool isValidUser(string username, string password)
         {
-            TutorMasterDBEntities3 db = new TutorMasterDBEntities3(); //This creates a reference to an entity so we can point and look through things (I think)
+            TutorMasterDBEntities4 db = new TutorMasterDBEntities4(); //This creates a reference to an entity so we can point and look through things (I think)
 
             bool found = false;
             if (db.Users.Any(u => u.Username == username)) //checks the User DB to see if the username matches any user in the DB
@@ -80,7 +80,7 @@ namespace TutorMaster
 
         private string getAccType(string username)
         {
-            TutorMasterDBEntities3 db = new TutorMasterDBEntities3(); //This creates a reference to an entity so we can point and look through things (I think)
+            TutorMasterDBEntities4 db = new TutorMasterDBEntities4(); //This creates a reference to an entity so we can point and look through things (I think)
 
             string accType = (from row in db.Users where row.Username == username select row.AccountType).Single(); //Same kind of idea, check all the entries in User to find which user we're talking about. Then pull out the single attribute accountType
 
@@ -89,7 +89,7 @@ namespace TutorMaster
 
         private int getID(string username)
         {
-            TutorMasterDBEntities3 db = new TutorMasterDBEntities3(); //This creates a reference to an entity so we can point and look through things (I think)
+            TutorMasterDBEntities4 db = new TutorMasterDBEntities4(); //This creates a reference to an entity so we can point and look through things (I think)
 
             int accID = (from row in db.Users where row.Username == username select row.ID).First(); //Same as accountType but with a different attribute
 

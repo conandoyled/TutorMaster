@@ -23,8 +23,8 @@ namespace TutorMaster
         public void SetupPendingRequests(int accID) //This function will populate the checked list box with pending requests
         {
             //1. find which classes the faculty members are qualified to approve tutors for
-            TutorMasterDBEntities3 db = new TutorMasterDBEntities3(); //create a new indirect entity to look at db
-            TutorMasterDBEntities3 dbt = new TutorMasterDBEntities3();
+            TutorMasterDBEntities4 db = new TutorMasterDBEntities4(); //create a new indirect entity to look at db
+            TutorMasterDBEntities4 dbt = new TutorMasterDBEntities4();
             var Classes = (from row in db.FacultyClasses where row.FacultyID == accID select row.ClassCode); //This should pull out all the classes that the faculty member can approve tutors for
 
             //2. Look at all pending requests and see if they are for a class from the faculty embers department
