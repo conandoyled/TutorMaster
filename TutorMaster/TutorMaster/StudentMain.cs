@@ -24,17 +24,12 @@ namespace TutorMaster
         private void loadAvail()
         {
             TutorMasterDBEntities4 db = new TutorMasterDBEntities4();
-            /*string[] commits = (from row in db.Commitments.AsEnumerable() where row.ID == id select row.StartTime).ToArray();
+            //var commits = db.Commitments.OrderByDescending(d => d.StartTime).Select.ToArray();
             //string[] types = (from row in db.Commitments.AsEnumerable() where row.ID == id.ToString() select row.T
             int numCommits = commits.Count();
             for (int i = 0; i < numCommits; i++)
             {
-                string[] objectArray = commits[i].Split(' '); //split up the string date time by spaces, there should be 3 objects in array
-                string[] dateArray = objectArray[0].Split('/'); //split date by slashes
-                string[] timeArray = objectArray[1].Split(':'); //split time by colons
-                DateTime date = new DateTime(2017, Convert.ToInt32(dateArray[0]), Convert.ToInt32(dateArray[1]), 
-                    Convert.ToInt32(timeArray[0]), Convert.ToInt32(timeArray[1]), 0); //load a dateTime object
-                string day = getDay(date);
+                MessageBox.Show(commits[i].ToString()
             }
             //lvSunday.Items.Add(new ListViewItem(new string[] { startTime.ToShortTimeString(), endTime.ToShortTimeString(), "open" }));
             //lvSunday.Refresh();*/
