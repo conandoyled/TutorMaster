@@ -50,7 +50,12 @@ namespace TutorMaster
             }
 
             //3. Now that all the requests are in the FC, we need to display each of the tutor requests in clbPendingReequests in the form of [STUDENT NAME, CLASS TO TUTOR]
-            //3.5 I have to go through the student table and pull out the names of the people in it 
+            //3.5 I have to go through the student table and pull out the names of the people in it
+            // USE USERS, NOT STUDENTS!!! 
+            var students = from c in db.Students select c; // This creates a list of students to play with 
+            List<Student> stus = new List<Student>();
+            stus = students.ToList();
+                    
         }
 
         private void FacultyMain_FormClosed(object sender, FormClosedEventArgs e)
