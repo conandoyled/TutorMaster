@@ -34,7 +34,7 @@ namespace TutorMaster
             PC = PendingRequests.ToList<TutorRequest>(); //Fill the list
 
             //1.5 Create an empty list to fill with the right requests in step 2
-            List<TutorRequest> FC = new List<TutorRequest>(); //here is that beautiful empty list
+            List<TutorRequest> FC = new List<TutorRequest>(); //here is that beautiful empty list that will be filled with the tutor requests that should be displayed
 
             //2. Look at all pending requests and see if they are for a class from the faculty members department. If they are, add them to the box
             
@@ -51,11 +51,31 @@ namespace TutorMaster
 
             //3. Now that all the requests are in the FC, we need to display each of the tutor requests in clbPendingReequests in the form of [STUDENT NAME, CLASS TO TUTOR]
             //3.5 I have to go through the student table and pull out the names of the people in it
-            // USE USERS, NOT STUDENTS!!! 
-            var students = from c in db.Students select c; // This creates a list of students to play with 
-            List<Student> stus = new List<Student>();
-            stus = students.ToList();
-                    
+            
+            var students = from c in db.Users select c; // This creates a list of Users that I can use to pull information from 
+            List<User> stus = new List<User>();
+            stus = students.ToList(); //The list 'stus' includes all of the users from the users db
+
+            List<string> Names=new List<string>(); //The list Names is empty, but will be used to contain all the Names that correspond to the proper requests
+            string Name = "";
+
+            foreach (TutorRequest req in FC)//iterate through all the requests to display
+            {
+                foreach (User stu in stus)//iterate through all the users [probably not the most effecient way to do this]
+                {
+                    if (req.ID == stu.ID) //When you find the matching ID
+                    {
+                        Name = stu.FirstName + " " +stu.LastName; //Create the name string
+                        Names.Add(Name); //Add the Name to the list of names 
+                    }
+                }
+            }
+
+            //4. Now that all the data has been prepared, display it properly
+            for(int i =0; i<FC.Count();i++) //loop through the parrallel lists
+            {
+                clbPendingRequests.Items.Add(Names.ElementAt(i)+" "+FC.ElementAt(i).ClassCode); //add the items as a string into the box!
+            }
         }
 
         private void FacultyMain_FormClosed(object sender, FormClosedEventArgs e)
