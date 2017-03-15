@@ -16,13 +16,16 @@ namespace TutorMaster
             InitializeComponent();
 
             setupStudentLV();
+            setupFacultyLV();
+            setupClassLV();
+            setupDepartmentBoxes();
             disableButtons();
         }
 
         private void setupStudentLV() //This is what populates the box of students
         {
             lvStudent.CheckBoxes = true;
-            lvStudent.Columns.Add("     Username", 100);// This first block of commands sets up the top row.
+            lvStudent.Columns.Add("     Username", 110);// This first block of commands sets up the top row.
             lvStudent.Columns.Add("Last Name", 100);
             lvStudent.Columns.Add("First Name", 100);
             lvStudent.Columns.Add("Tutor", 50);
@@ -31,7 +34,8 @@ namespace TutorMaster
             lvStudent.Columns.Add("Phone Number", 100);
 
             TutorMasterDBEntities4 db = new TutorMasterDBEntities4(); //create a new indirect entity
-            var students = from c in db.Students select c; // c is arbitay thing to pull. from var in tabletopullfrom select  
+            var students = from c in db.Students select c; // c is arbitay thing to pull. from var in tabletopullfrom select 
+            
             List<Student> stus = new List<Student>();
             stus = students.ToList();
 
@@ -50,6 +54,53 @@ namespace TutorMaster
                     tutor = "No";
                 lvStudent.Items.Add(new ListViewItem(new string[] { user.Username, user.LastName, user.FirstName, tutor, tutee, user.Email, user.PhoneNumber }));
             }
+
+            
+        }
+
+        private void setupFacultyLV() //This is what populates the box of students
+        {
+            lvFaculty.CheckBoxes = true;
+            lvFaculty.Columns.Add("     Username", 105);// This first block of commands sets up the top row.
+            lvFaculty.Columns.Add("Last Name", 100);
+            lvFaculty.Columns.Add("First Name", 100);
+            lvFaculty.Columns.Add("Department", 100);
+
+            TutorMasterDBEntities4 db = new TutorMasterDBEntities4(); //create a new indirect entity
+            var facultys = from c in db.Faculties select c; // c is arbitay thing to pull. from var in tabletopullfrom select  
+            List<Faculty> fs = new List<Faculty>();
+            fs = facultys.ToList();
+
+            foreach (Faculty f in fs)
+            {
+                var user = (from row in db.Users where row.ID == f.ID select row).First();
+  
+                lvFaculty.Items.Add(new ListViewItem(new string[] { user.Username, user.LastName, user.FirstName, f.Department }));
+            }
+        }
+
+        private void setupClassLV() //This is what populates the box of students
+        {
+            lvClass.CheckBoxes = true;
+            lvClass.Columns.Add("     Class Code", 100);// This first block of commands sets up the top row.
+            lvClass.Columns.Add("Class Name", 150);
+            lvClass.Columns.Add("Department", 100);
+
+            TutorMasterDBEntities4 db = new TutorMasterDBEntities4(); //create a new indirect entity
+            var classes = from c in db.Classes select c; // c is arbitay thing to pull. from var in tabletopullfrom select  
+            List<Class> cs = new List<Class>();
+            cs = classes.ToList();
+
+            foreach (Class c in cs)
+            {
+                lvClass.Items.Add(new ListViewItem(new string[] { c.ClassCode, c.ClassName, c.Department }));
+            }
+        }
+
+        private void setupDepartmentBoxes()
+        {
+            TutorMasterDBEntities4 db = new TutorMasterDBEntities4();
+
         }
 
         private void disableButtons()
@@ -127,6 +178,48 @@ namespace TutorMaster
         private void lvStudent_SelectedIndexChanged(object sender, EventArgs e)
         {
 
+        }
+
+        private void lvFaculty_ItemChecked(object sender, ItemCheckedEventArgs e)
+        {
+            int itemsChecked = lvFaculty.CheckedItems.Count; // .CheckedItems.Count tells how many things in the list box are clicked
+            if (itemsChecked == 1)
+            {
+                btnFacultyEdit.Enabled = true;
+            }
+            else
+            {
+                btnFacultyEdit.Enabled = false;
+            }
+            if (itemsChecked > 0)
+            {
+                btnFacultyDelete.Enabled = true;
+            }
+            else
+            {
+                btnFacultyDelete.Enabled = false;
+            }
+        }
+
+        private void lvClass_ItemChecked(object sender, ItemCheckedEventArgs e)
+        {
+            int itemsChecked = lvClass.CheckedItems.Count; // .CheckedItems.Count tells how many things in the list box are clicked
+            if (itemsChecked == 1)
+            {
+                btnClassEdit.Enabled = true;
+            }
+            else
+            {
+                btnClassEdit.Enabled = false;
+            }
+            if (itemsChecked > 0)
+            {
+                btnClassDelete.Enabled = true;
+            }
+            else
+            {
+                btnClassDelete.Enabled = false;
+            }
         }
     }
 }
