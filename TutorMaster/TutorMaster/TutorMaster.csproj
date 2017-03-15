@@ -152,6 +152,7 @@
     <None Include="Properties\DataSources\TutorMasterDBEntities1.datasource" />
     <None Include="Properties\DataSources\TutorMasterDBEntities2.datasource" />
     <None Include="Properties\DataSources\TutorMasterDBEntities31.datasource" />
+    <None Include="Properties\DataSources\TutorMasterDBEntities4.datasource" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.0,Profile=Client">
