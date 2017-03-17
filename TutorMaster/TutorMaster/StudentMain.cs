@@ -23,16 +23,19 @@ namespace TutorMaster
 
         private void loadAvail()
         {
-            //TutorMasterDBEntities4 db = new TutorMasterDBEntities4();
-            //var commits = db.Commitments.OrderByDescending(d => d.StartTime).Select.ToArray();
-            //string[] types = (from row in db.Commitments.AsEnumerable() where row.ID == id.ToString() select row.T
-            /*int numCommits = commits.Count();
-            for (int i = 0; i < numCommits; i++)
+            TutorMasterDBEntities4 db = new TutorMasterDBEntities4();
+            var studentCommits = (from row in db.StudentCommitments.AsEnumerable() where row.ID == id select row.CmtID).ToArray();
+            List<DateTime> commits = new List<DateTime>();
+            for (int i = 0; i < studentCommits.Length; i++)
             {
-                MessageBox.Show(commits[i].ToString());
-            }*/
-            //lvSunday.Items.Add(new ListViewItem(new string[] { startTime.ToShortTimeString(), endTime.ToShortTimeString(), "open" }));
-            //lvSunday.Refresh();*/
+                var commit = (from row in db.Commitments.OrderByDescending(u => u.StartTime) where row.CmtID == studentCommits[i] select row.StartTime).First();
+                commits.Add(Convert.ToDateTime(commit));
+            }
+            commits.Sort();
+            for (int j = 0; j < commits.Count; j++)
+            {
+                MessageBox.Show(commits[j].ToString());
+            }
         }
 
         private void btnLogout_Click(object sender, EventArgs e)
@@ -154,6 +157,14 @@ namespace TutorMaster
             int lastCR = getNextCmtId();     //last commit row
             int lastSCR = getNextStdCmtKey();//last student commit row
 
+            
+            //add the first student committment and comittment in case the commitment is not weekly
+            
+            TutorMaster.StudentCommitment newStudentCommit = new TutorMaster.StudentCommitment();
+            newStudentCommit.CmtID = lastCR;
+            newStudentCommit.ID = id;
+            newStudentCommit.Key = lastSCR;
+            addStudentCommit(newStudentCommit);
 
             TutorMaster.Commitment newCommit = new TutorMaster.Commitment();
             newCommit.CmtID = lastCR;
@@ -163,13 +174,7 @@ namespace TutorMaster
             addCommit(newCommit);
             
             
-            //add the first student committment and comittment in case the commitment is not weekly
             
-            TutorMaster.StudentCommitment newStudentCommit = new TutorMaster.StudentCommitment();
-            newStudentCommit.CmtID = lastCR;
-            newStudentCommit.ID = id;
-            newStudentCommit.Key = lastSCR;
-            addStudentCommit(newStudentCommit);
 
             
             
