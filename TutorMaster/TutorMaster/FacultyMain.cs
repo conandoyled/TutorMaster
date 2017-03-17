@@ -74,7 +74,7 @@ namespace TutorMaster
             //4. Now that all the data has been prepared, display it properly
             for(int i =0; i<FC.Count();i++) //loop through the parrallel lists
             {
-                clbPendingRequests.Items.Add(Names.ElementAt(i)+" "+FC.ElementAt(i).ClassCode); //add the items as a string into the box!
+                lvPendingRequests.Items.Add(Names.ElementAt(i)+" "+FC.ElementAt(i).ClassCode); //add the items as a string into the box!
             }
         }
 
@@ -99,9 +99,27 @@ namespace TutorMaster
         private void btnReject_Click(object sender, EventArgs e)
         {
             //This will need to remove all the requests from the DB and leave all acounts unchanged. Eventually, it will send a message to the admin account
+
+            //THIS IS NOT PROVEN CODE, NEEDS TO BE HEAVILY MODIFIED 
+            TutorMasterDBEntities4 db = new TutorMasterDBEntities4(); //open the db
+            int reqNum = lvPendingRequests.CheckedItems.Count; //identify how many requests have been checked
+            for (int i = 0; i < reqNum; i++) //iterate for how many requests have been clicked
+            {
+                string classcode = lvPendingRequests.CheckedItems[i].SubItems[1].Text; //pull the classcode from the request in question
+                string id = lvPendingRequests.CheckedItems[i].SubItems[0].Text; //pull the ID from the request in question
+                TutorRequest delU = (from row in db.TutorRequests where ((row.ClassCode == classcode) && ((row.ID).ToString() == id)) select row).First(); //find the request that has the right ID and class code
+                db.TutorRequests.DeleteObject(delU);//delete the object in the db
+                db.SaveChanges();//save the cahnges to the db
+            }
+
         }
 
         private void clbPendingRequests_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void listView1_SelectedIndexChanged(object sender, EventArgs e)
         {
 
         }

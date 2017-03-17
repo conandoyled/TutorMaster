@@ -29,20 +29,11 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FacultyMain));
-            this.clbPendingRequests = new System.Windows.Forms.CheckedListBox();
             this.btnAccept = new System.Windows.Forms.Button();
             this.btnReject = new System.Windows.Forms.Button();
             this.btnLogout = new System.Windows.Forms.Button();
+            this.lvPendingRequests = new System.Windows.Forms.ListView();
             this.SuspendLayout();
-            // 
-            // clbPendingRequests
-            // 
-            this.clbPendingRequests.FormattingEnabled = true;
-            this.clbPendingRequests.Location = new System.Drawing.Point(22, 17);
-            this.clbPendingRequests.Name = "clbPendingRequests";
-            this.clbPendingRequests.Size = new System.Drawing.Size(284, 169);
-            this.clbPendingRequests.TabIndex = 0;
-            this.clbPendingRequests.SelectedIndexChanged += new System.EventHandler(this.clbPendingRequests_SelectedIndexChanged);
             // 
             // btnAccept
             // 
@@ -74,15 +65,28 @@
             this.btnLogout.UseVisualStyleBackColor = true;
             this.btnLogout.Click += new System.EventHandler(this.btnLogout_Click);
             // 
+            // lvPendingRequests
+            // 
+            this.lvPendingRequests.Activation = System.Windows.Forms.ItemActivation.OneClick;
+            this.lvPendingRequests.Cursor = System.Windows.Forms.Cursors.Default;
+            this.lvPendingRequests.Location = new System.Drawing.Point(73, 12);
+            this.lvPendingRequests.Name = "lvPendingRequests";
+            this.lvPendingRequests.Size = new System.Drawing.Size(169, 197);
+            this.lvPendingRequests.Sorting = System.Windows.Forms.SortOrder.Ascending;
+            this.lvPendingRequests.TabIndex = 4;
+            this.lvPendingRequests.UseCompatibleStateImageBehavior = false;
+            this.lvPendingRequests.View = System.Windows.Forms.View.List;
+            this.lvPendingRequests.SelectedIndexChanged += new System.EventHandler(this.listView1_SelectedIndexChanged);
+            // 
             // FacultyMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(327, 312);
+            this.Controls.Add(this.lvPendingRequests);
             this.Controls.Add(this.btnLogout);
             this.Controls.Add(this.btnReject);
             this.Controls.Add(this.btnAccept);
-            this.Controls.Add(this.clbPendingRequests);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "FacultyMain";
             this.Text = "FacultyMain";
@@ -93,9 +97,9 @@
 
         #endregion
 
-        private System.Windows.Forms.CheckedListBox clbPendingRequests;
         private System.Windows.Forms.Button btnAccept;
         private System.Windows.Forms.Button btnReject;
         private System.Windows.Forms.Button btnLogout;
+        private System.Windows.Forms.ListView lvPendingRequests;
     }
 }
