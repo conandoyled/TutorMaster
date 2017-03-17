@@ -101,12 +101,28 @@ namespace TutorMaster
         {
             TutorMasterDBEntities4 db = new TutorMasterDBEntities4();
             var classes = from r in db.Classes select r;
-            //Set<String> departments = new List<String>();
+            HashSet<String> departments = new HashSet<String>();
 
             foreach(Class c in classes)
             {
-                //L
+                departments.Add(c.Department);
             }
+
+            List<String> dList = departments.ToList();
+            dList.Sort();
+
+            combDepartments.Items.Add("Department...");
+            combDepartmentsAdd.Items.Add("Department...");
+            combDepartments.SelectedIndex = 0;
+            combDepartmentsAdd.SelectedIndex = 0;
+
+            foreach (String d in dList)
+            {
+                combDepartments.Items.Add(d);
+                combDepartmentsAdd.Items.Add(d);
+            }
+
+            combDepartmentsAdd.Items.Add("New Department...");
         }
 
         private void disableButtons()
@@ -236,13 +252,13 @@ namespace TutorMaster
             string password = txtPassword.Text;
             string phone = txtPhoneNumber.Text;
             string email = txtEmail.Text;
-            string department = txtDepartment.Text;
+            string department = combDepartments.Text;
             string accounttype = "Faculty";
             TutorMasterDBEntities4 db = new TutorMasterDBEntities4();
 
             if (string.IsNullOrEmpty(fname) || string.IsNullOrWhiteSpace(lname) ||
                 string.IsNullOrWhiteSpace(username) || string.IsNullOrWhiteSpace(password) ||
-                    string.IsNullOrWhiteSpace(department))
+                    department == "Department...")
             {
                 MessageBox.Show("Please fill in all of the textboxes with the approriate information");
             }
