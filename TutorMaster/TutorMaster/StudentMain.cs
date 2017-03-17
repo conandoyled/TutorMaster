@@ -23,19 +23,14 @@ namespace TutorMaster
 
         private void loadAvail()
         {
-            TutorMasterDBEntities4 db = new TutorMasterDBEntities4();
-            /*string[] commits = (from row in db.Commitments.AsEnumerable() where row.ID == id select row.StartTime).ToArray();
+            //TutorMasterDBEntities4 db = new TutorMasterDBEntities4();
+            //var commits = db.Commitments.OrderByDescending(d => d.StartTime).Select.ToArray();
             //string[] types = (from row in db.Commitments.AsEnumerable() where row.ID == id.ToString() select row.T
-            int numCommits = commits.Count();
+            /*int numCommits = commits.Count();
             for (int i = 0; i < numCommits; i++)
             {
-                string[] objectArray = commits[i].Split(' '); //split up the string date time by spaces, there should be 3 objects in array
-                string[] dateArray = objectArray[0].Split('/'); //split date by slashes
-                string[] timeArray = objectArray[1].Split(':'); //split time by colons
-                DateTime date = new DateTime(2017, Convert.ToInt32(dateArray[0]), Convert.ToInt32(dateArray[1]), 
-                    Convert.ToInt32(timeArray[0]), Convert.ToInt32(timeArray[1]), 0); //load a dateTime object
-                string day = getDay(date);
-            }
+                MessageBox.Show(commits[i].ToString());
+            }*/
             //lvSunday.Items.Add(new ListViewItem(new string[] { startTime.ToShortTimeString(), endTime.ToShortTimeString(), "open" }));
             //lvSunday.Refresh();*/
         }
@@ -156,32 +151,52 @@ namespace TutorMaster
 
         private void add15Block(DateTime begin, bool weekly)
         {
-            int lastRow = getNextCmtId();
+            int lastCR = getNextCmtId();     //last commit row
+            int lastSCR = getNextStdCmtKey();//last student commit row
+
 
             TutorMaster.Commitment newCommit = new TutorMaster.Commitment();
-            newCommit.CmtID = lastRow;
+            newCommit.CmtID = lastCR;
             newCommit.StartTime = begin;
-            //newCommit.Class = "null";
             newCommit.Open = true;
-            //newCommit.Tutoring = "null";
-            //newCommit.Location = "null";
             newCommit.Weekly = weekly;
             addCommit(newCommit);
+            
+            
+            //add the first student committment and comittment in case the commitment is not weekly
+            
+            TutorMaster.StudentCommitment newStudentCommit = new TutorMaster.StudentCommitment();
+            newStudentCommit.CmtID = lastCR;
+            newStudentCommit.ID = id;
+            newStudentCommit.Key = lastSCR;
+            addStudentCommit(newStudentCommit);
+
+            
+            
 
             DateTime endOfSemester = new DateTime(2017, 5, 1, 0, 0, 0);
 
+            //if it is weekly, keep going 7 days into future and if it is before end of semster, add the new commitment
             if (weekly)
             {
                 while (begin.AddDays(7).CompareTo(endOfSemester) < 0)
                 {
                     begin = begin.AddDays(7);
-                    lastRow += 1;
+                    lastSCR += 1;
+                    lastCR += 1;
+                    
                     TutorMaster.Commitment newCommitW = new TutorMaster.Commitment();
-                    newCommitW.CmtID = lastRow;
+                    newCommitW.CmtID = lastCR;
                     newCommitW.StartTime = begin;
                     newCommitW.Open = true;
                     newCommitW.Weekly = weekly;
                     addCommit(newCommitW);
+                    
+                    TutorMaster.StudentCommitment newStudentCommitW = new TutorMaster.StudentCommitment();
+                    newStudentCommitW.CmtID = lastCR;
+                    newStudentCommitW.ID = id;
+                    newStudentCommitW.Key = lastSCR;
+                    addStudentCommit(newStudentCommitW);
                 }
             }
             loadAvail();
@@ -221,6 +236,14 @@ namespace TutorMaster
             db.SaveChanges();
         }
 
+        private void addStudentCommit(TutorMaster.StudentCommitment studentCommit)
+        {
+            TutorMasterDBEntities4 db = new TutorMasterDBEntities4();
+            db.StudentCommitments.AddObject(studentCommit);
+            db.SaveChanges();
+            MessageBox.Show("I made it to save");
+        }
+
         private string getDay(DateTime date)
         {
             string[] st = date.ToString("D").Split(',');
@@ -237,6 +260,24 @@ namespace TutorMaster
             if (rowNum > 0)
             {
                 lastRow = db.Commitments.OrderByDescending(u => u.CmtID).Select(r => r.CmtID).First();
+            }
+            else
+            {
+                lastRow = 0;
+            }
+            return lastRow + 1;
+        }
+
+        private int getNextStdCmtKey()
+        {
+            TutorMasterDBEntities4 db = new TutorMasterDBEntities4();
+            int rowNum = db.StudentCommitments.Count();
+            //MessageBox.Show(rowNum.ToString());
+            int lastRow;
+
+            if (rowNum > 0)
+            {
+                lastRow = db.StudentCommitments.OrderByDescending(u => u.Key).Select(r => r.Key).First();
             }
             else
             {
