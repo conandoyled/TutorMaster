@@ -18,24 +18,26 @@ namespace TutorMaster
             id = accID;
             InitializeComponent();
             populateColumns();
-            loadAvail();
+            //loadAvail();
         }
 
         private void loadAvail()
         {
             TutorMasterDBEntities4 db = new TutorMasterDBEntities4();
-            var studentCommits = (from row in db.StudentCommitments.AsEnumerable() where row.ID == id select row.CmtID).ToArray();
+            var studentCommits = (from row in db.StudentCommitments.AsEnumerable() where row.ID == id select row.CmtID).ToList();
             List<DateTime> commits = new List<DateTime>();
-            for (int i = 0; i < studentCommits.Length; i++)
+            for (int i = 0; i < studentCommits.Count(); i++)
             {
-                var commit = (from row in db.Commitments.OrderByDescending(u => u.StartTime) where row.CmtID == studentCommits[i] select row.StartTime).First();
-                commits.Add(Convert.ToDateTime(commit));
+                var commit = db.Commitments.OrderByDescending(u => u.StartTime).Where(u => u.CmtID == studentCommits[i]).Select(u => u.StartTime).First(); //(from row in db.Commitments.OrderByDescending(u => u.StartTime) where row.CmtID == studentCommits[i] select row.StartTime).First();
+                MessageBox.Show("HERE");
+                //MessageBox.Show(commit.ToString());
+                //commits.Add(Convert.ToDateTime(commit));
             }
-            commits.Sort();
-            for (int j = 0; j < commits.Count; j++)
-            {
-                MessageBox.Show(commits[j].ToString());
-            }
+            //commits.Sort();
+            //for (int j = 0; j < commits.Count; j++)
+            //{
+            //    MessageBox.Show(commits[j].ToString());
+            //}
         }
 
         private void btnLogout_Click(object sender, EventArgs e)
@@ -132,7 +134,7 @@ namespace TutorMaster
                 begin = begin.AddMinutes(15);
                 compare = begin.CompareTo(endTime);
             }
-            
+            loadAvail();
         }
 
         private bool recordedTime(DateTime begin)
@@ -160,12 +162,7 @@ namespace TutorMaster
             
             //add the first student committment and comittment in case the commitment is not weekly
             
-            TutorMaster.StudentCommitment newStudentCommit = new TutorMaster.StudentCommitment();
-            newStudentCommit.CmtID = lastCR;
-            newStudentCommit.ID = id;
-            newStudentCommit.Key = lastSCR;
-            addStudentCommit(newStudentCommit);
-
+            
             TutorMaster.Commitment newCommit = new TutorMaster.Commitment();
             newCommit.CmtID = lastCR;
             newCommit.StartTime = begin;
@@ -173,11 +170,11 @@ namespace TutorMaster
             newCommit.Weekly = weekly;
             addCommit(newCommit);
             
-            
-            
-
-            
-            
+            TutorMaster.StudentCommitment newStudentCommit = new TutorMaster.StudentCommitment();
+            newStudentCommit.CmtID = lastCR;
+            newStudentCommit.ID = id;
+            newStudentCommit.Key = lastSCR;
+            addStudentCommit(newStudentCommit);
 
             DateTime endOfSemester = new DateTime(2017, 5, 1, 0, 0, 0);
 
@@ -204,7 +201,6 @@ namespace TutorMaster
                     addStudentCommit(newStudentCommitW);
                 }
             }
-            loadAvail();
 
             /*string[] st = begin.ToString("D").Split(',');
             string startDay = st[0];
@@ -246,7 +242,6 @@ namespace TutorMaster
             TutorMasterDBEntities4 db = new TutorMasterDBEntities4();
             db.StudentCommitments.AddObject(studentCommit);
             db.SaveChanges();
-            MessageBox.Show("I made it to save");
         }
 
         private string getDay(DateTime date)
