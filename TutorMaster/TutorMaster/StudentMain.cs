@@ -29,13 +29,8 @@ namespace TutorMaster
             List<DateTime> dateList = new List<DateTime>();
             for (int j = 0; j < studentCommits.Count(); j++)
             {
-                TutorMaster.Commitment commit = (from row in db.Commitments.AsEnumerable() orderby row.StartTime where row.CmtID == studentCommits[j] select row).First();
+                TutorMaster.Commitment commit = (from row in db.Commitments.AsEnumerable() where row.CmtID == studentCommits[j] select row).First();
                 dateList.Add(Convert.ToDateTime(commit.StartTime));
-                //System.DateTime commitNext = Convert.ToDateTime(db.Commitments.OrderByDescending(u => u.StartTime).Where(u => u.CmtID == studentCommits[j + 1]).Select(u => u.StartTime).First());
-            }
-            for (int k = 0; k < dateList.Count(); k++)
-            {
-                MessageBox.Show(dateList[k].ToString());
             }
         }
 
@@ -140,12 +135,20 @@ namespace TutorMaster
         {
             TutorMasterDBEntities4 db = new TutorMasterDBEntities4();
             bool found = false;
-            var storedCommits = (from row in db.Commitments.AsEnumerable() where row.ID == id select row.StartTime).ToArray();
+            var storedCommits = (from row in db.StudentCommitments.AsEnumerable() where row.ID == id select row.CmtID).ToArray();
             int numCommits = storedCommits.Length;
-
-            for(int i = 0; i < numCommits; i++)
+            List<DateTime> date = new List<DateTime>();
+            
+            for (int j = 0; j < numCommits; j++)
             {
-                if (begin == storedCommits[i])
+                date.Add(Convert.ToDateTime((from row in db.Commitments.AsEnumerable() where row.CmtID == storedCommits[j] select row.StartTime).First()));
+            }
+
+            int dateCount = date.Count();
+
+            for(int i = 0; i < dateCount; i++)
+            {
+                if (begin == date[i])
                 {
                     found = true;
                 }
