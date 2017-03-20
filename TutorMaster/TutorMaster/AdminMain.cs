@@ -367,12 +367,19 @@ namespace TutorMaster
             TutorMasterDBEntities4 db = new TutorMasterDBEntities4();
             string username = lvFaculty.CheckedItems[0].SubItems[0].Text;
             var fac = (from row in db.Users where row.Username == username select row).First();
-            
-           
-                
-            
-          
 
+            txtFirstname.Text = fac.FirstName;
+            txtLastname.Text = fac.LastName;
+            txtUsername.Text = username;
+            txtPassword.Text = fac.Password;
+            txtPhoneNumber.Text = fac.PhoneNumber; 
+            txtEmail.Text = fac.Email;
+
+            var department = (from row in db.Faculties where row.ID == fac.ID select row.Department).First();
+
+      
+            //combDepartments.SelectedItem = combDepartments.Items[0];
+                
         }
     }
 }
