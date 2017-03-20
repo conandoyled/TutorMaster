@@ -67,7 +67,6 @@
             // 
             // lvPendingRequests
             // 
-            this.lvPendingRequests.Activation = System.Windows.Forms.ItemActivation.OneClick;
             this.lvPendingRequests.Cursor = System.Windows.Forms.Cursors.Default;
             this.lvPendingRequests.Location = new System.Drawing.Point(73, 12);
             this.lvPendingRequests.Name = "lvPendingRequests";

@@ -22,6 +22,9 @@ namespace TutorMaster
 
         public void SetupPendingRequests(int accID) //This function will populate the checked list box with pending requests
         {
+            //EDIT THIS TO MAKE SOME COLUMNS SO THAT I CAN QUERY INFORMATION LATER
+
+            lvPendingRequests.CheckBoxes = true;
             //1. find which classes the faculty members are qualified to approve tutors for
             TutorMasterDBEntities4 db = new TutorMasterDBEntities4(); //create a new indirect entity to look at db
 
@@ -96,26 +99,26 @@ namespace TutorMaster
             //This will need to change each student account selected and then remove the pending requests from the DB
         }
 
-        private void btnReject_Click(object sender, EventArgs e)
+        private void btnReject_Click(object sender, EventArgs e) //In order to work around the issues for this function, I need to reformat the list view
         {
             //This will need to remove all the requests from the DB and leave all acounts unchanged. Eventually, it will send a message to the admin account
 
-            //THIS IS NOT PROVEN CODE, NEEDS TO BE HEAVILY MODIFIED 
+            
             TutorMasterDBEntities4 db = new TutorMasterDBEntities4(); //open the db
+
             int reqNum = lvPendingRequests.CheckedItems.Count; //identify how many requests have been checked
             for (int i = 0; i < reqNum; i++) //iterate for how many requests have been clicked
             {
-                string classcode = lvPendingRequests.CheckedItems[i].SubItems[1].Text; //pull the classcode from the request in question
-                string id = lvPendingRequests.CheckedItems[i].SubItems[0].Text; //pull the ID from the request in question
-                TutorRequest delU = (from row in db.TutorRequests where ((row.ClassCode == classcode) && ((row.ID).ToString() == id)) select row).First(); //find the request that has the right ID and class code
+
+
+                string request = lvPendingRequests.CheckedItems[i].Text; //pull the classcode from the request in question
+                //This line creates text objects that look like 'FIRST LAST CLASS-123' you may want to split the string to get the class code, but you also need the student ID
+                TutorRequest delU = (from row in db.TutorRequests where ((row.ClassCode == request) ) select row).First(); //find the request that has the right ID and class code
+                
+                
                 db.TutorRequests.DeleteObject(delU);//delete the object in the db
                 db.SaveChanges();//save the cahnges to the db
             }
-
-        }
-
-        private void clbPendingRequests_SelectedIndexChanged(object sender, EventArgs e)
-        {
 
         }
 
