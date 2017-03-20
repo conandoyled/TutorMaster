@@ -31,6 +31,7 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(StudentMain));
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabAvailability = new System.Windows.Forms.TabPage();
+            this.dateTime = new System.Windows.Forms.DateTimePicker();
             this.cbxWeekly = new System.Windows.Forms.CheckBox();
             this.combEndDay = new System.Windows.Forms.ComboBox();
             this.combStartDay = new System.Windows.Forms.ComboBox();
@@ -68,7 +69,6 @@
             this.cbxPendingTutee = new System.Windows.Forms.CheckedListBox();
             this.btnLogout = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
-            this.dateTime = new System.Windows.Forms.DateTimePicker();
             this.tabControl1.SuspendLayout();
             this.tabAvailability.SuspendLayout();
             this.dayTabs.SuspendLayout();
@@ -120,10 +120,17 @@
             this.tabAvailability.TabIndex = 0;
             this.tabAvailability.Text = "Availability";
             // 
+            // dateTime
+            // 
+            this.dateTime.Location = new System.Drawing.Point(508, 28);
+            this.dateTime.Name = "dateTime";
+            this.dateTime.Size = new System.Drawing.Size(200, 20);
+            this.dateTime.TabIndex = 13;
+            // 
             // cbxWeekly
             // 
             this.cbxWeekly.AutoSize = true;
-            this.cbxWeekly.Location = new System.Drawing.Point(385, 157);
+            this.cbxWeekly.Location = new System.Drawing.Point(502, 150);
             this.cbxWeekly.Name = "cbxWeekly";
             this.cbxWeekly.Size = new System.Drawing.Size(62, 17);
             this.cbxWeekly.TabIndex = 12;
@@ -141,7 +148,7 @@
             "Thursday",
             "Friday",
             "Saturday"});
-            this.combEndDay.Location = new System.Drawing.Point(385, 116);
+            this.combEndDay.Location = new System.Drawing.Point(502, 109);
             this.combEndDay.Name = "combEndDay";
             this.combEndDay.Size = new System.Drawing.Size(101, 21);
             this.combEndDay.TabIndex = 11;
@@ -157,7 +164,7 @@
             "Thursday",
             "Friday",
             "Saturday"});
-            this.combStartDay.Location = new System.Drawing.Point(385, 89);
+            this.combStartDay.Location = new System.Drawing.Point(502, 82);
             this.combStartDay.Name = "combStartDay";
             this.combStartDay.Size = new System.Drawing.Size(101, 21);
             this.combStartDay.TabIndex = 10;
@@ -174,7 +181,7 @@
             this.dayTabs.Location = new System.Drawing.Point(3, 13);
             this.dayTabs.Name = "dayTabs";
             this.dayTabs.SelectedIndex = 0;
-            this.dayTabs.Size = new System.Drawing.Size(376, 287);
+            this.dayTabs.Size = new System.Drawing.Size(493, 287);
             this.dayTabs.TabIndex = 9;
             // 
             // tabSunday
@@ -183,7 +190,7 @@
             this.tabSunday.Location = new System.Drawing.Point(4, 22);
             this.tabSunday.Name = "tabSunday";
             this.tabSunday.Padding = new System.Windows.Forms.Padding(3);
-            this.tabSunday.Size = new System.Drawing.Size(368, 261);
+            this.tabSunday.Size = new System.Drawing.Size(485, 261);
             this.tabSunday.TabIndex = 0;
             this.tabSunday.Text = "Sunday";
             this.tabSunday.UseVisualStyleBackColor = true;
@@ -192,7 +199,7 @@
             // 
             this.lvSunday.Location = new System.Drawing.Point(7, 7);
             this.lvSunday.Name = "lvSunday";
-            this.lvSunday.Size = new System.Drawing.Size(355, 248);
+            this.lvSunday.Size = new System.Drawing.Size(472, 248);
             this.lvSunday.TabIndex = 0;
             this.lvSunday.UseCompatibleStateImageBehavior = false;
             this.lvSunday.View = System.Windows.Forms.View.Details;
@@ -315,7 +322,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(654, 122);
+            this.label2.Location = new System.Drawing.Point(771, 115);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(52, 13);
             this.label2.TabIndex = 8;
@@ -324,7 +331,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(654, 95);
+            this.label1.Location = new System.Drawing.Point(771, 88);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(55, 13);
             this.label1.TabIndex = 7;
@@ -332,7 +339,7 @@
             // 
             // btnAddOpenBlock
             // 
-            this.btnAddOpenBlock.Location = new System.Drawing.Point(542, 157);
+            this.btnAddOpenBlock.Location = new System.Drawing.Point(659, 150);
             this.btnAddOpenBlock.Name = "btnAddOpenBlock";
             this.btnAddOpenBlock.Size = new System.Drawing.Size(105, 23);
             this.btnAddOpenBlock.TabIndex = 6;
@@ -346,7 +353,7 @@
             this.combEndAmPm.Items.AddRange(new object[] {
             "AM",
             "PM"});
-            this.combEndAmPm.Location = new System.Drawing.Point(597, 115);
+            this.combEndAmPm.Location = new System.Drawing.Point(714, 108);
             this.combEndAmPm.Name = "combEndAmPm";
             this.combEndAmPm.Size = new System.Drawing.Size(50, 21);
             this.combEndAmPm.TabIndex = 5;
@@ -359,7 +366,7 @@
             "15",
             "30",
             "45"});
-            this.combEndMinute.Location = new System.Drawing.Point(542, 115);
+            this.combEndMinute.Location = new System.Drawing.Point(659, 108);
             this.combEndMinute.Name = "combEndMinute";
             this.combEndMinute.Size = new System.Drawing.Size(49, 21);
             this.combEndMinute.TabIndex = 4;
@@ -380,7 +387,7 @@
             "10",
             "11",
             "12"});
-            this.combEndHour.Location = new System.Drawing.Point(492, 115);
+            this.combEndHour.Location = new System.Drawing.Point(609, 108);
             this.combEndHour.Name = "combEndHour";
             this.combEndHour.Size = new System.Drawing.Size(44, 21);
             this.combEndHour.TabIndex = 3;
@@ -391,7 +398,7 @@
             this.combStartAmPm.Items.AddRange(new object[] {
             "AM",
             "PM"});
-            this.combStartAmPm.Location = new System.Drawing.Point(597, 88);
+            this.combStartAmPm.Location = new System.Drawing.Point(714, 81);
             this.combStartAmPm.Name = "combStartAmPm";
             this.combStartAmPm.Size = new System.Drawing.Size(50, 21);
             this.combStartAmPm.TabIndex = 2;
@@ -404,7 +411,7 @@
             "15",
             "30",
             "45"});
-            this.combStartMinute.Location = new System.Drawing.Point(542, 89);
+            this.combStartMinute.Location = new System.Drawing.Point(659, 82);
             this.combStartMinute.Name = "combStartMinute";
             this.combStartMinute.Size = new System.Drawing.Size(49, 21);
             this.combStartMinute.TabIndex = 1;
@@ -425,7 +432,7 @@
             "10",
             "11",
             "12"});
-            this.combStartHour.Location = new System.Drawing.Point(492, 89);
+            this.combStartHour.Location = new System.Drawing.Point(609, 82);
             this.combStartHour.Name = "combStartHour";
             this.combStartHour.Size = new System.Drawing.Size(44, 21);
             this.combStartHour.TabIndex = 0;
@@ -526,13 +533,6 @@
             this.button1.TabIndex = 2;
             this.button1.Text = "Make Request";
             this.button1.UseVisualStyleBackColor = true;
-            // 
-            // dateTime
-            // 
-            this.dateTime.Location = new System.Drawing.Point(391, 35);
-            this.dateTime.Name = "dateTime";
-            this.dateTime.Size = new System.Drawing.Size(200, 20);
-            this.dateTime.TabIndex = 13;
             // 
             // StudentMain
             // 

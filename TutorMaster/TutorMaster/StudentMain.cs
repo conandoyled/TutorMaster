@@ -24,20 +24,19 @@ namespace TutorMaster
         private void loadAvail()
         {
             TutorMasterDBEntities4 db = new TutorMasterDBEntities4();
-            var studentCommits = (from row in db.StudentCommitments.AsEnumerable() where row.ID == id select row.CmtID).ToList();
-            List<DateTime> commits = new List<DateTime>();
-            for (int i = 0; i < studentCommits.Count(); i++)
+            var studentCommits = (from row in db.StudentCommitments.AsEnumerable() where row.ID == id select row.CmtID).ToArray();
+            DateTime start = new DateTime(2017, 1, 1, 0, 0, 0);
+            List<DateTime> dateList = new List<DateTime>();
+            for (int j = 0; j < studentCommits.Count(); j++)
             {
-                var commit = db.Commitments.OrderByDescending(u => u.StartTime).Where(u => u.CmtID == studentCommits[i]).Select(u => u.StartTime).First(); //(from row in db.Commitments.OrderByDescending(u => u.StartTime) where row.CmtID == studentCommits[i] select row.StartTime).First();
-                MessageBox.Show("HERE");
-                //MessageBox.Show(commit.ToString());
-                //commits.Add(Convert.ToDateTime(commit));
+                TutorMaster.Commitment commit = (from row in db.Commitments.AsEnumerable() orderby row.StartTime where row.CmtID == studentCommits[j] select row).First();
+                dateList.Add(Convert.ToDateTime(commit.StartTime));
+                //System.DateTime commitNext = Convert.ToDateTime(db.Commitments.OrderByDescending(u => u.StartTime).Where(u => u.CmtID == studentCommits[j + 1]).Select(u => u.StartTime).First());
             }
-            //commits.Sort();
-            //for (int j = 0; j < commits.Count; j++)
-            //{
-            //    MessageBox.Show(commits[j].ToString());
-            //}
+            for (int k = 0; k < dateList.Count(); k++)
+            {
+                MessageBox.Show(dateList[k].ToString());
+            }
         }
 
         private void btnLogout_Click(object sender, EventArgs e)
@@ -289,39 +288,74 @@ namespace TutorMaster
         private void populateColumns()
         {
             lvSunday.CheckBoxes = true;
-            lvSunday.Columns.Add("     Start Time", 125);
-            lvSunday.Columns.Add("End Time", 125);
-            lvSunday.Columns.Add("Type", 90);
+            lvSunday.Columns.Add("     Start Time", 75);
+            lvSunday.Columns.Add("End Time", 75);
+            lvSunday.Columns.Add("Class", 75);
+            lvSunday.Columns.Add("Location", 75);
+            lvSunday.Columns.Add("Open", 75);
+            lvSunday.Columns.Add("Tutoring", 75);
+            lvSunday.Columns.Add("Weekly", 75);
+            lvSunday.Columns.Add("Partner", 75);
 
             lvMonday.CheckBoxes = true;
-            lvMonday.Columns.Add("     Start Time", 125);
-            lvMonday.Columns.Add("End Time", 125);
-            lvMonday.Columns.Add("Type", 95);
+            lvMonday.Columns.Add("     Start Time", 75);
+            lvMonday.Columns.Add("End Time", 75);
+            lvMonday.Columns.Add("Class", 75);
+            lvMonday.Columns.Add("Location", 75);
+            lvMonday.Columns.Add("Open", 75);
+            lvMonday.Columns.Add("Tutoring", 75);
+            lvMonday.Columns.Add("Weekly", 75);
+            lvMonday.Columns.Add("Partner", 75);
 
             lvTuesday.CheckBoxes = true;
-            lvTuesday.Columns.Add("     Start Time", 125);
-            lvTuesday.Columns.Add("End Time", 125);
-            lvTuesday.Columns.Add("Type", 95);
+            lvTuesday.Columns.Add("     Start Time", 75);
+            lvTuesday.Columns.Add("End Time", 75);
+            lvTuesday.Columns.Add("Class", 75);
+            lvTuesday.Columns.Add("Location", 75);
+            lvTuesday.Columns.Add("Open", 75);
+            lvTuesday.Columns.Add("Tutoring", 75);
+            lvTuesday.Columns.Add("Weekly", 75);
+            lvTuesday.Columns.Add("Partner", 75);
 
             lvWednesday.CheckBoxes = true;
-            lvWednesday.Columns.Add("     Start Time", 125);
-            lvWednesday.Columns.Add("End Time", 125);
-            lvWednesday.Columns.Add("Type", 95);
+            lvWednesday.Columns.Add("     Start Time", 75);
+            lvWednesday.Columns.Add("End Time", 75);
+            lvWednesday.Columns.Add("Class", 75);
+            lvWednesday.Columns.Add("Location", 75);
+            lvWednesday.Columns.Add("Open", 75);
+            lvWednesday.Columns.Add("Tutoring", 75);
+            lvWednesday.Columns.Add("Weekly", 75);
+            lvWednesday.Columns.Add("Partner", 75);
 
             lvThursday.CheckBoxes = true;
-            lvThursday.Columns.Add("     Start Time", 125);
-            lvThursday.Columns.Add("End Time", 125);
-            lvThursday.Columns.Add("Type", 95);
+            lvThursday.Columns.Add("     Start Time", 75);
+            lvThursday.Columns.Add("End Time", 75);
+            lvThursday.Columns.Add("Class", 75);
+            lvThursday.Columns.Add("Location", 75);
+            lvThursday.Columns.Add("Open", 75);
+            lvThursday.Columns.Add("Tutoring", 75);
+            lvThursday.Columns.Add("Weekly", 75);
+            lvThursday.Columns.Add("Partner", 75);
 
             lvFriday.CheckBoxes = true;
-            lvFriday.Columns.Add("     Start Time", 125);
-            lvFriday.Columns.Add("End Time", 125);
-            lvFriday.Columns.Add("Type", 95);
+            lvFriday.Columns.Add("     Start Time", 75);
+            lvFriday.Columns.Add("End Time", 75);
+            lvFriday.Columns.Add("Class", 75);
+            lvFriday.Columns.Add("Location", 75);
+            lvFriday.Columns.Add("Open", 75);
+            lvFriday.Columns.Add("Tutoring", 75);
+            lvFriday.Columns.Add("Weekly", 75);
+            lvFriday.Columns.Add("Partner", 75);
 
             lvSaturday.CheckBoxes = true;
-            lvSaturday.Columns.Add("     Start Time", 125);
-            lvSaturday.Columns.Add("End Time", 125);
-            lvSaturday.Columns.Add("Type", 95);
+            lvSaturday.Columns.Add("     Start Time", 75);
+            lvSaturday.Columns.Add("End Time", 75);
+            lvSaturday.Columns.Add("Class", 75);
+            lvSaturday.Columns.Add("Location", 75);
+            lvSaturday.Columns.Add("Open", 75);
+            lvSaturday.Columns.Add("Tutoring", 75);
+            lvSaturday.Columns.Add("Weekly", 75);
+            lvSaturday.Columns.Add("Partner", 75);
         }
     }
 }
