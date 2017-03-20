@@ -123,6 +123,9 @@ namespace TutorMaster
             }
 
             combDepartmentsAdd.Items.Add("New Department...");
+
+            combDepartments.DropDownStyle = ComboBoxStyle.DropDownList;
+            combDepartmentsAdd.DropDownStyle = ComboBoxStyle.DropDownList;
         }
 
         private void disableButtons()
@@ -294,9 +297,13 @@ namespace TutorMaster
                 txtPassword.Text = "";
                 txtPhoneNumber.Text = "";
                 txtEmail.Text = "";
-                //SET DEPARTMENT
+                combDepartments.SelectedItem = combDepartments.Items[0];
+               
                 MessageBox.Show("Faculty has been added to the database");
             }
+
+            lvFaculty.Clear();
+            setupFacultyLV();
         }
 
         private void addUser(TutorMaster.User user)
@@ -336,6 +343,36 @@ namespace TutorMaster
 
             var lastRow = db.Users.OrderByDescending(u => u.ID).Select(r => r.ID).First();
             return lastRow + 1;
+        }
+
+        private void btnFacultyDelete_Click(object sender, EventArgs e)
+        {
+            TutorMasterDBEntities4 db = new TutorMasterDBEntities4();
+            int facNum = lvFaculty.CheckedItems.Count;
+            for (int i = 0; i < facNum; i++)
+            {
+                string username = lvFaculty.CheckedItems[i].SubItems[0].Text;
+                User delU = (from row in db.Users where row.Username == username select row).First();
+                db.Users.DeleteObject(delU);
+                db.SaveChanges();
+            }
+
+            lvFaculty.Clear();
+            setupFacultyLV();
+        }
+
+        private void btnFacultyEdit_Click(object sender, EventArgs e)
+        {
+            //setEditFacultyControls();
+            TutorMasterDBEntities4 db = new TutorMasterDBEntities4();
+            string username = lvFaculty.CheckedItems[0].SubItems[0].Text;
+            var fac = (from row in db.Users where row.Username == username select row).First();
+            
+           
+                
+            
+          
+
         }
     }
 }

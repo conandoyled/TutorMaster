@@ -43,6 +43,10 @@
             this.tabOpen = new System.Windows.Forms.TabPage();
             this.btnCreateSession = new System.Windows.Forms.Button();
             this.tabFaculty = new System.Windows.Forms.TabPage();
+            this.txtPhoneNumber = new System.Windows.Forms.MaskedTextBox();
+            this.label6 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.txtEmail = new System.Windows.Forms.TextBox();
             this.btnFacultyDelete = new System.Windows.Forms.Button();
             this.btnFacultyAdd = new System.Windows.Forms.Button();
             this.btnFacultyEdit = new System.Windows.Forms.Button();
@@ -69,10 +73,6 @@
             this.txtClassCode = new System.Windows.Forms.TextBox();
             this.lvClass = new System.Windows.Forms.ListView();
             this.btnLogout = new System.Windows.Forms.Button();
-            this.txtPhoneNumber = new System.Windows.Forms.MaskedTextBox();
-            this.label6 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
-            this.txtEmail = new System.Windows.Forms.TextBox();
             this.tabAdmin.SuspendLayout();
             this.tabStudent.SuspendLayout();
             this.tabCommitments.SuspendLayout();
@@ -102,7 +102,7 @@
             this.tabStudent.Location = new System.Drawing.Point(4, 22);
             this.tabStudent.Name = "tabStudent";
             this.tabStudent.Padding = new System.Windows.Forms.Padding(3);
-            this.tabStudent.Size = new System.Drawing.Size(617, 399);
+            this.tabStudent.Size = new System.Drawing.Size(617, 372);
             this.tabStudent.TabIndex = 0;
             this.tabStudent.Text = "Students";
             this.tabStudent.UseVisualStyleBackColor = true;
@@ -111,7 +111,7 @@
             // 
             this.lvStudent.Location = new System.Drawing.Point(0, 0);
             this.lvStudent.Name = "lvStudent";
-            this.lvStudent.Size = new System.Drawing.Size(617, 312);
+            this.lvStudent.Size = new System.Drawing.Size(617, 337);
             this.lvStudent.TabIndex = 0;
             this.lvStudent.UseCompatibleStateImageBehavior = false;
             this.lvStudent.View = System.Windows.Forms.View.Details;
@@ -120,7 +120,7 @@
             // 
             // btnDelete
             // 
-            this.btnDelete.Location = new System.Drawing.Point(278, 318);
+            this.btnDelete.Location = new System.Drawing.Point(278, 343);
             this.btnDelete.Name = "btnDelete";
             this.btnDelete.Size = new System.Drawing.Size(130, 23);
             this.btnDelete.TabIndex = 4;
@@ -130,7 +130,7 @@
             // 
             // btnCreateStudent
             // 
-            this.btnCreateStudent.Location = new System.Drawing.Point(6, 318);
+            this.btnCreateStudent.Location = new System.Drawing.Point(6, 343);
             this.btnCreateStudent.Name = "btnCreateStudent";
             this.btnCreateStudent.Size = new System.Drawing.Size(130, 23);
             this.btnCreateStudent.TabIndex = 2;
@@ -140,7 +140,7 @@
             // 
             // btnEdit
             // 
-            this.btnEdit.Location = new System.Drawing.Point(142, 318);
+            this.btnEdit.Location = new System.Drawing.Point(142, 343);
             this.btnEdit.Name = "btnEdit";
             this.btnEdit.Size = new System.Drawing.Size(130, 23);
             this.btnEdit.TabIndex = 3;
@@ -155,7 +155,7 @@
             this.tabCommitments.Location = new System.Drawing.Point(4, 22);
             this.tabCommitments.Name = "tabCommitments";
             this.tabCommitments.Padding = new System.Windows.Forms.Padding(3);
-            this.tabCommitments.Size = new System.Drawing.Size(617, 347);
+            this.tabCommitments.Size = new System.Drawing.Size(617, 372);
             this.tabCommitments.TabIndex = 1;
             this.tabCommitments.Text = "Commitments";
             this.tabCommitments.UseVisualStyleBackColor = true;
@@ -247,6 +247,39 @@
             this.tabFaculty.Text = "Faculty";
             this.tabFaculty.UseVisualStyleBackColor = true;
             // 
+            // txtPhoneNumber
+            // 
+            this.txtPhoneNumber.Location = new System.Drawing.Point(431, 156);
+            this.txtPhoneNumber.Mask = "(999) 000-0000";
+            this.txtPhoneNumber.Name = "txtPhoneNumber";
+            this.txtPhoneNumber.Size = new System.Drawing.Size(100, 20);
+            this.txtPhoneNumber.TabIndex = 22;
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(538, 197);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(32, 13);
+            this.label6.TabIndex = 25;
+            this.label6.Text = "Email";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(537, 163);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(78, 13);
+            this.label5.TabIndex = 24;
+            this.label5.Text = "Phone Number";
+            // 
+            // txtEmail
+            // 
+            this.txtEmail.Location = new System.Drawing.Point(431, 190);
+            this.txtEmail.Name = "txtEmail";
+            this.txtEmail.Size = new System.Drawing.Size(100, 20);
+            this.txtEmail.TabIndex = 23;
+            // 
             // btnFacultyDelete
             // 
             this.btnFacultyDelete.Location = new System.Drawing.Point(446, 333);
@@ -255,6 +288,7 @@
             this.btnFacultyDelete.TabIndex = 21;
             this.btnFacultyDelete.Text = "Delete Faculty Account";
             this.btnFacultyDelete.UseVisualStyleBackColor = true;
+            this.btnFacultyDelete.Click += new System.EventHandler(this.btnFacultyDelete_Click);
             // 
             // btnFacultyAdd
             // 
@@ -274,6 +308,7 @@
             this.btnFacultyEdit.TabIndex = 20;
             this.btnFacultyEdit.Text = "Edit Faculty Account";
             this.btnFacultyEdit.UseVisualStyleBackColor = true;
+            this.btnFacultyEdit.Click += new System.EventHandler(this.btnFacultyEdit_Click);
             // 
             // combDepartments
             // 
@@ -373,7 +408,7 @@
             this.tabClasses.Location = new System.Drawing.Point(4, 22);
             this.tabClasses.Name = "tabClasses";
             this.tabClasses.Padding = new System.Windows.Forms.Padding(3);
-            this.tabClasses.Size = new System.Drawing.Size(617, 347);
+            this.tabClasses.Size = new System.Drawing.Size(617, 372);
             this.tabClasses.TabIndex = 3;
             this.tabClasses.Text = "Classes";
             this.tabClasses.UseVisualStyleBackColor = true;
@@ -421,6 +456,7 @@
             this.lblDepartment.Size = new System.Drawing.Size(62, 13);
             this.lblDepartment.TabIndex = 25;
             this.lblDepartment.Text = "Department";
+            this.lblDepartment.Visible = false;
             // 
             // label7
             // 
@@ -446,6 +482,7 @@
             this.txtDepartment.Name = "txtDepartment";
             this.txtDepartment.Size = new System.Drawing.Size(100, 20);
             this.txtDepartment.TabIndex = 21;
+            this.txtDepartment.Visible = false;
             // 
             // txtClassName
             // 
@@ -465,7 +502,7 @@
             // 
             this.lvClass.Location = new System.Drawing.Point(0, 0);
             this.lvClass.Name = "lvClass";
-            this.lvClass.Size = new System.Drawing.Size(372, 347);
+            this.lvClass.Size = new System.Drawing.Size(372, 372);
             this.lvClass.TabIndex = 1;
             this.lvClass.UseCompatibleStateImageBehavior = false;
             this.lvClass.View = System.Windows.Forms.View.Details;
@@ -480,39 +517,6 @@
             this.btnLogout.Text = "Logout";
             this.btnLogout.UseVisualStyleBackColor = true;
             this.btnLogout.Click += new System.EventHandler(this.btnLogout_Click);
-            // 
-            // txtPhoneNumber
-            // 
-            this.txtPhoneNumber.Location = new System.Drawing.Point(431, 156);
-            this.txtPhoneNumber.Mask = "(999) 000-0000";
-            this.txtPhoneNumber.Name = "txtPhoneNumber";
-            this.txtPhoneNumber.Size = new System.Drawing.Size(100, 20);
-            this.txtPhoneNumber.TabIndex = 22;
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(538, 197);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(32, 13);
-            this.label6.TabIndex = 25;
-            this.label6.Text = "Email";
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(537, 163);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(78, 13);
-            this.label5.TabIndex = 24;
-            this.label5.Text = "Phone Number";
-            // 
-            // txtEmail
-            // 
-            this.txtEmail.Location = new System.Drawing.Point(431, 190);
-            this.txtEmail.Name = "txtEmail";
-            this.txtEmail.Size = new System.Drawing.Size(100, 20);
-            this.txtEmail.TabIndex = 23;
             // 
             // AdminMain
             // 
