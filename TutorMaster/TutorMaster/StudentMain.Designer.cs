@@ -29,9 +29,7 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(StudentMain));
-            this.tabControl1 = new System.Windows.Forms.TabControl();
-            this.tabAvailability = new System.Windows.Forms.TabPage();
-            this.dateTime = new System.Windows.Forms.DateTimePicker();
+            this.startDateTime = new System.Windows.Forms.DateTimePicker();
             this.cbxWeekly = new System.Windows.Forms.CheckBox();
             this.combEndDay = new System.Windows.Forms.ComboBox();
             this.combStartDay = new System.Windows.Forms.ComboBox();
@@ -59,7 +57,6 @@
             this.combStartAmPm = new System.Windows.Forms.ComboBox();
             this.combStartMinute = new System.Windows.Forms.ComboBox();
             this.combStartHour = new System.Windows.Forms.ComboBox();
-            this.tabAppointments = new System.Windows.Forms.TabPage();
             this.tabControl2 = new System.Windows.Forms.TabControl();
             this.tabAccepted = new System.Windows.Forms.TabPage();
             this.lbxAccepted = new System.Windows.Forms.ListBox();
@@ -69,8 +66,6 @@
             this.cbxPendingTutee = new System.Windows.Forms.CheckedListBox();
             this.btnLogout = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
-            this.tabControl1.SuspendLayout();
-            this.tabAvailability.SuspendLayout();
             this.dayTabs.SuspendLayout();
             this.tabSunday.SuspendLayout();
             this.tabMonday.SuspendLayout();
@@ -79,58 +74,23 @@
             this.tabThursday.SuspendLayout();
             this.tabFriday.SuspendLayout();
             this.tabSaturday.SuspendLayout();
-            this.tabAppointments.SuspendLayout();
             this.tabControl2.SuspendLayout();
             this.tabAccepted.SuspendLayout();
             this.tabPendingTutor.SuspendLayout();
             this.tabPendingTutee.SuspendLayout();
             this.SuspendLayout();
             // 
-            // tabControl1
+            // startDateTime
             // 
-            this.tabControl1.Controls.Add(this.tabAvailability);
-            this.tabControl1.Controls.Add(this.tabAppointments);
-            this.tabControl1.Location = new System.Drawing.Point(13, 69);
-            this.tabControl1.Name = "tabControl1";
-            this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(837, 332);
-            this.tabControl1.TabIndex = 0;
-            // 
-            // tabAvailability
-            // 
-            this.tabAvailability.BackColor = System.Drawing.Color.Transparent;
-            this.tabAvailability.Controls.Add(this.dateTime);
-            this.tabAvailability.Controls.Add(this.cbxWeekly);
-            this.tabAvailability.Controls.Add(this.combEndDay);
-            this.tabAvailability.Controls.Add(this.combStartDay);
-            this.tabAvailability.Controls.Add(this.dayTabs);
-            this.tabAvailability.Controls.Add(this.label2);
-            this.tabAvailability.Controls.Add(this.label1);
-            this.tabAvailability.Controls.Add(this.btnAddOpenBlock);
-            this.tabAvailability.Controls.Add(this.combEndAmPm);
-            this.tabAvailability.Controls.Add(this.combEndMinute);
-            this.tabAvailability.Controls.Add(this.combEndHour);
-            this.tabAvailability.Controls.Add(this.combStartAmPm);
-            this.tabAvailability.Controls.Add(this.combStartMinute);
-            this.tabAvailability.Controls.Add(this.combStartHour);
-            this.tabAvailability.Location = new System.Drawing.Point(4, 22);
-            this.tabAvailability.Name = "tabAvailability";
-            this.tabAvailability.Padding = new System.Windows.Forms.Padding(3);
-            this.tabAvailability.Size = new System.Drawing.Size(829, 306);
-            this.tabAvailability.TabIndex = 0;
-            this.tabAvailability.Text = "Availability";
-            // 
-            // dateTime
-            // 
-            this.dateTime.Location = new System.Drawing.Point(508, 28);
-            this.dateTime.Name = "dateTime";
-            this.dateTime.Size = new System.Drawing.Size(200, 20);
-            this.dateTime.TabIndex = 13;
+            this.startDateTime.Location = new System.Drawing.Point(851, 428);
+            this.startDateTime.Name = "startDateTime";
+            this.startDateTime.Size = new System.Drawing.Size(200, 20);
+            this.startDateTime.TabIndex = 13;
             // 
             // cbxWeekly
             // 
             this.cbxWeekly.AutoSize = true;
-            this.cbxWeekly.Location = new System.Drawing.Point(502, 150);
+            this.cbxWeekly.Location = new System.Drawing.Point(823, 630);
             this.cbxWeekly.Name = "cbxWeekly";
             this.cbxWeekly.Size = new System.Drawing.Size(62, 17);
             this.cbxWeekly.TabIndex = 12;
@@ -139,6 +99,7 @@
             // 
             // combEndDay
             // 
+            this.combEndDay.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.combEndDay.FormattingEnabled = true;
             this.combEndDay.Items.AddRange(new object[] {
             "Sunday",
@@ -148,13 +109,14 @@
             "Thursday",
             "Friday",
             "Saturday"});
-            this.combEndDay.Location = new System.Drawing.Point(502, 109);
+            this.combEndDay.Location = new System.Drawing.Point(845, 509);
             this.combEndDay.Name = "combEndDay";
             this.combEndDay.Size = new System.Drawing.Size(101, 21);
             this.combEndDay.TabIndex = 11;
             // 
             // combStartDay
             // 
+            this.combStartDay.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.combStartDay.FormattingEnabled = true;
             this.combStartDay.Items.AddRange(new object[] {
             "Sunday",
@@ -164,7 +126,7 @@
             "Thursday",
             "Friday",
             "Saturday"});
-            this.combStartDay.Location = new System.Drawing.Point(502, 82);
+            this.combStartDay.Location = new System.Drawing.Point(845, 482);
             this.combStartDay.Name = "combStartDay";
             this.combStartDay.Size = new System.Drawing.Size(101, 21);
             this.combStartDay.TabIndex = 10;
@@ -178,7 +140,7 @@
             this.dayTabs.Controls.Add(this.tabThursday);
             this.dayTabs.Controls.Add(this.tabFriday);
             this.dayTabs.Controls.Add(this.tabSaturday);
-            this.dayTabs.Location = new System.Drawing.Point(3, 13);
+            this.dayTabs.Location = new System.Drawing.Point(142, 450);
             this.dayTabs.Name = "dayTabs";
             this.dayTabs.SelectedIndex = 0;
             this.dayTabs.Size = new System.Drawing.Size(493, 287);
@@ -210,7 +172,7 @@
             this.tabMonday.Location = new System.Drawing.Point(4, 22);
             this.tabMonday.Name = "tabMonday";
             this.tabMonday.Padding = new System.Windows.Forms.Padding(3);
-            this.tabMonday.Size = new System.Drawing.Size(368, 261);
+            this.tabMonday.Size = new System.Drawing.Size(485, 261);
             this.tabMonday.TabIndex = 1;
             this.tabMonday.Text = "Monday";
             this.tabMonday.UseVisualStyleBackColor = true;
@@ -229,7 +191,7 @@
             this.tabTuesday.Controls.Add(this.lvTuesday);
             this.tabTuesday.Location = new System.Drawing.Point(4, 22);
             this.tabTuesday.Name = "tabTuesday";
-            this.tabTuesday.Size = new System.Drawing.Size(368, 261);
+            this.tabTuesday.Size = new System.Drawing.Size(485, 261);
             this.tabTuesday.TabIndex = 2;
             this.tabTuesday.Text = "Tuesday";
             this.tabTuesday.UseVisualStyleBackColor = true;
@@ -248,7 +210,7 @@
             this.tabWednesday.Controls.Add(this.lvWednesday);
             this.tabWednesday.Location = new System.Drawing.Point(4, 22);
             this.tabWednesday.Name = "tabWednesday";
-            this.tabWednesday.Size = new System.Drawing.Size(368, 261);
+            this.tabWednesday.Size = new System.Drawing.Size(485, 261);
             this.tabWednesday.TabIndex = 3;
             this.tabWednesday.Text = "Wednesday";
             this.tabWednesday.UseVisualStyleBackColor = true;
@@ -267,7 +229,7 @@
             this.tabThursday.Controls.Add(this.lvThursday);
             this.tabThursday.Location = new System.Drawing.Point(4, 22);
             this.tabThursday.Name = "tabThursday";
-            this.tabThursday.Size = new System.Drawing.Size(368, 261);
+            this.tabThursday.Size = new System.Drawing.Size(485, 261);
             this.tabThursday.TabIndex = 4;
             this.tabThursday.Text = "Thursday";
             this.tabThursday.UseVisualStyleBackColor = true;
@@ -286,7 +248,7 @@
             this.tabFriday.Controls.Add(this.lvFriday);
             this.tabFriday.Location = new System.Drawing.Point(4, 22);
             this.tabFriday.Name = "tabFriday";
-            this.tabFriday.Size = new System.Drawing.Size(368, 261);
+            this.tabFriday.Size = new System.Drawing.Size(485, 261);
             this.tabFriday.TabIndex = 5;
             this.tabFriday.Text = "Friday";
             this.tabFriday.UseVisualStyleBackColor = true;
@@ -305,7 +267,7 @@
             this.tabSaturday.Controls.Add(this.lvSaturday);
             this.tabSaturday.Location = new System.Drawing.Point(4, 22);
             this.tabSaturday.Name = "tabSaturday";
-            this.tabSaturday.Size = new System.Drawing.Size(368, 261);
+            this.tabSaturday.Size = new System.Drawing.Size(485, 261);
             this.tabSaturday.TabIndex = 6;
             this.tabSaturday.Text = "Saturday";
             this.tabSaturday.UseVisualStyleBackColor = true;
@@ -322,7 +284,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(771, 115);
+            this.label2.Location = new System.Drawing.Point(1114, 515);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(52, 13);
             this.label2.TabIndex = 8;
@@ -331,7 +293,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(771, 88);
+            this.label1.Location = new System.Drawing.Point(1114, 488);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(55, 13);
             this.label1.TabIndex = 7;
@@ -339,7 +301,7 @@
             // 
             // btnAddOpenBlock
             // 
-            this.btnAddOpenBlock.Location = new System.Drawing.Point(659, 150);
+            this.btnAddOpenBlock.Location = new System.Drawing.Point(1002, 550);
             this.btnAddOpenBlock.Name = "btnAddOpenBlock";
             this.btnAddOpenBlock.Size = new System.Drawing.Size(105, 23);
             this.btnAddOpenBlock.TabIndex = 6;
@@ -349,30 +311,33 @@
             // 
             // combEndAmPm
             // 
+            this.combEndAmPm.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.combEndAmPm.FormattingEnabled = true;
             this.combEndAmPm.Items.AddRange(new object[] {
             "AM",
             "PM"});
-            this.combEndAmPm.Location = new System.Drawing.Point(714, 108);
+            this.combEndAmPm.Location = new System.Drawing.Point(1057, 508);
             this.combEndAmPm.Name = "combEndAmPm";
             this.combEndAmPm.Size = new System.Drawing.Size(50, 21);
             this.combEndAmPm.TabIndex = 5;
             // 
             // combEndMinute
             // 
+            this.combEndMinute.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.combEndMinute.FormattingEnabled = true;
             this.combEndMinute.Items.AddRange(new object[] {
             "00",
             "15",
             "30",
             "45"});
-            this.combEndMinute.Location = new System.Drawing.Point(659, 108);
+            this.combEndMinute.Location = new System.Drawing.Point(1002, 508);
             this.combEndMinute.Name = "combEndMinute";
             this.combEndMinute.Size = new System.Drawing.Size(49, 21);
             this.combEndMinute.TabIndex = 4;
             // 
             // combEndHour
             // 
+            this.combEndHour.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.combEndHour.FormattingEnabled = true;
             this.combEndHour.Items.AddRange(new object[] {
             "01",
@@ -387,37 +352,40 @@
             "10",
             "11",
             "12"});
-            this.combEndHour.Location = new System.Drawing.Point(609, 108);
+            this.combEndHour.Location = new System.Drawing.Point(952, 508);
             this.combEndHour.Name = "combEndHour";
             this.combEndHour.Size = new System.Drawing.Size(44, 21);
             this.combEndHour.TabIndex = 3;
             // 
             // combStartAmPm
             // 
+            this.combStartAmPm.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.combStartAmPm.FormattingEnabled = true;
             this.combStartAmPm.Items.AddRange(new object[] {
             "AM",
             "PM"});
-            this.combStartAmPm.Location = new System.Drawing.Point(714, 81);
+            this.combStartAmPm.Location = new System.Drawing.Point(1057, 481);
             this.combStartAmPm.Name = "combStartAmPm";
             this.combStartAmPm.Size = new System.Drawing.Size(50, 21);
             this.combStartAmPm.TabIndex = 2;
             // 
             // combStartMinute
             // 
+            this.combStartMinute.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.combStartMinute.FormattingEnabled = true;
             this.combStartMinute.Items.AddRange(new object[] {
             "00",
             "15",
             "30",
             "45"});
-            this.combStartMinute.Location = new System.Drawing.Point(659, 82);
+            this.combStartMinute.Location = new System.Drawing.Point(1002, 482);
             this.combStartMinute.Name = "combStartMinute";
             this.combStartMinute.Size = new System.Drawing.Size(49, 21);
             this.combStartMinute.TabIndex = 1;
             // 
             // combStartHour
             // 
+            this.combStartHour.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.combStartHour.FormattingEnabled = true;
             this.combStartHour.Items.AddRange(new object[] {
             "01",
@@ -432,28 +400,17 @@
             "10",
             "11",
             "12"});
-            this.combStartHour.Location = new System.Drawing.Point(609, 82);
+            this.combStartHour.Location = new System.Drawing.Point(952, 482);
             this.combStartHour.Name = "combStartHour";
             this.combStartHour.Size = new System.Drawing.Size(44, 21);
             this.combStartHour.TabIndex = 0;
-            // 
-            // tabAppointments
-            // 
-            this.tabAppointments.BackColor = System.Drawing.Color.Transparent;
-            this.tabAppointments.Controls.Add(this.tabControl2);
-            this.tabAppointments.Location = new System.Drawing.Point(4, 22);
-            this.tabAppointments.Name = "tabAppointments";
-            this.tabAppointments.Padding = new System.Windows.Forms.Padding(3);
-            this.tabAppointments.Size = new System.Drawing.Size(829, 306);
-            this.tabAppointments.TabIndex = 1;
-            this.tabAppointments.Text = "Appointments";
             // 
             // tabControl2
             // 
             this.tabControl2.Controls.Add(this.tabAccepted);
             this.tabControl2.Controls.Add(this.tabPendingTutor);
             this.tabControl2.Controls.Add(this.tabPendingTutee);
-            this.tabControl2.Location = new System.Drawing.Point(7, 19);
+            this.tabControl2.Location = new System.Drawing.Point(36, 44);
             this.tabControl2.Name = "tabControl2";
             this.tabControl2.SelectedIndex = 0;
             this.tabControl2.Size = new System.Drawing.Size(452, 281);
@@ -517,7 +474,7 @@
             // 
             // btnLogout
             // 
-            this.btnLogout.Location = new System.Drawing.Point(991, 380);
+            this.btnLogout.Location = new System.Drawing.Point(1010, 626);
             this.btnLogout.Name = "btnLogout";
             this.btnLogout.Size = new System.Drawing.Size(97, 23);
             this.btnLogout.TabIndex = 1;
@@ -527,7 +484,7 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(991, 342);
+            this.button1.Location = new System.Drawing.Point(1163, 599);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(97, 23);
             this.button1.TabIndex = 2;
@@ -538,16 +495,27 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1167, 464);
+            this.ClientSize = new System.Drawing.Size(1754, 770);
+            this.Controls.Add(this.tabControl2);
+            this.Controls.Add(this.startDateTime);
+            this.Controls.Add(this.dayTabs);
+            this.Controls.Add(this.label2);
             this.Controls.Add(this.button1);
+            this.Controls.Add(this.combStartMinute);
+            this.Controls.Add(this.combEndMinute);
+            this.Controls.Add(this.combStartHour);
+            this.Controls.Add(this.cbxWeekly);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.combEndAmPm);
+            this.Controls.Add(this.combStartAmPm);
             this.Controls.Add(this.btnLogout);
-            this.Controls.Add(this.tabControl1);
+            this.Controls.Add(this.combStartDay);
+            this.Controls.Add(this.combEndHour);
+            this.Controls.Add(this.btnAddOpenBlock);
+            this.Controls.Add(this.combEndDay);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "StudentMain";
             this.Text = "StudentMain";
-            this.tabControl1.ResumeLayout(false);
-            this.tabAvailability.ResumeLayout(false);
-            this.tabAvailability.PerformLayout();
             this.dayTabs.ResumeLayout(false);
             this.tabSunday.ResumeLayout(false);
             this.tabMonday.ResumeLayout(false);
@@ -556,20 +524,17 @@
             this.tabThursday.ResumeLayout(false);
             this.tabFriday.ResumeLayout(false);
             this.tabSaturday.ResumeLayout(false);
-            this.tabAppointments.ResumeLayout(false);
             this.tabControl2.ResumeLayout(false);
             this.tabAccepted.ResumeLayout(false);
             this.tabPendingTutor.ResumeLayout(false);
             this.tabPendingTutee.ResumeLayout(false);
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
         #endregion
 
-        private System.Windows.Forms.TabControl tabControl1;
-        private System.Windows.Forms.TabPage tabAvailability;
-        private System.Windows.Forms.TabPage tabAppointments;
         private System.Windows.Forms.TabControl tabControl2;
         private System.Windows.Forms.TabPage tabAccepted;
         private System.Windows.Forms.ListBox lbxAccepted;
@@ -606,6 +571,6 @@
         private System.Windows.Forms.ListView lvFriday;
         private System.Windows.Forms.ListView lvSaturday;
         private System.Windows.Forms.CheckBox cbxWeekly;
-        private System.Windows.Forms.DateTimePicker dateTime;
+        private System.Windows.Forms.DateTimePicker startDateTime;
     }
 }

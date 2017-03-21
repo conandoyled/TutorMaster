@@ -298,19 +298,19 @@ namespace TutorMaster
         private void populateColumns()
         {
             lvSunday.CheckBoxes = true;
-            lvSunday.Columns.Add("     Start Time", 75);
-            lvSunday.Columns.Add("End Time", 75);
-            lvSunday.Columns.Add("Class", 75);
-            lvSunday.Columns.Add("Location", 75);
-            lvSunday.Columns.Add("Open", 75);
-            lvSunday.Columns.Add("Tutoring", 75);
-            lvSunday.Columns.Add("Weekly", 75);
-            lvSunday.Columns.Add("Partner", 75);
+            lvSunday.Columns.Add("Start Time", 50);
+            lvSunday.Columns.Add("End Time", 50);
+            lvSunday.Columns.Add("Class", 50);
+            lvSunday.Columns.Add("Location", 50);
+            lvSunday.Columns.Add("Open", 50);
+            lvSunday.Columns.Add("Tutoring", 50);
+            lvSunday.Columns.Add("Weekly", 50);
+            lvSunday.Columns.Add("Partner", 50);
 
             lvMonday.CheckBoxes = true;
-            lvMonday.Columns.Add("     Start Time", 75);
-            lvMonday.Columns.Add("End Time", 75);
-            lvMonday.Columns.Add("Class", 75);
+            lvMonday.Columns.Add("Start Time", 50);
+            lvMonday.Columns.Add("End Time", 50);
+            lvMonday.Columns.Add("Class", 50);
             lvMonday.Columns.Add("Location", 75);
             lvMonday.Columns.Add("Open", 75);
             lvMonday.Columns.Add("Tutoring", 75);
@@ -318,7 +318,7 @@ namespace TutorMaster
             lvMonday.Columns.Add("Partner", 75);
 
             lvTuesday.CheckBoxes = true;
-            lvTuesday.Columns.Add("     Start Time", 75);
+            lvTuesday.Columns.Add("Start Time", 75);
             lvTuesday.Columns.Add("End Time", 75);
             lvTuesday.Columns.Add("Class", 75);
             lvTuesday.Columns.Add("Location", 75);
@@ -328,7 +328,7 @@ namespace TutorMaster
             lvTuesday.Columns.Add("Partner", 75);
 
             lvWednesday.CheckBoxes = true;
-            lvWednesday.Columns.Add("     Start Time", 75);
+            lvWednesday.Columns.Add("Start Time", 75);
             lvWednesday.Columns.Add("End Time", 75);
             lvWednesday.Columns.Add("Class", 75);
             lvWednesday.Columns.Add("Location", 75);
@@ -338,7 +338,7 @@ namespace TutorMaster
             lvWednesday.Columns.Add("Partner", 75);
 
             lvThursday.CheckBoxes = true;
-            lvThursday.Columns.Add("     Start Time", 75);
+            lvThursday.Columns.Add("Start Time", 75);
             lvThursday.Columns.Add("End Time", 75);
             lvThursday.Columns.Add("Class", 75);
             lvThursday.Columns.Add("Location", 75);
@@ -348,7 +348,7 @@ namespace TutorMaster
             lvThursday.Columns.Add("Partner", 75);
 
             lvFriday.CheckBoxes = true;
-            lvFriday.Columns.Add("     Start Time", 75);
+            lvFriday.Columns.Add("Start Time", 75);
             lvFriday.Columns.Add("End Time", 75);
             lvFriday.Columns.Add("Class", 75);
             lvFriday.Columns.Add("Location", 75);
@@ -358,7 +358,7 @@ namespace TutorMaster
             lvFriday.Columns.Add("Partner", 75);
 
             lvSaturday.CheckBoxes = true;
-            lvSaturday.Columns.Add("     Start Time", 75);
+            lvSaturday.Columns.Add("Start Time", 75);
             lvSaturday.Columns.Add("End Time", 75);
             lvSaturday.Columns.Add("Class", 75);
             lvSaturday.Columns.Add("Location", 75);
