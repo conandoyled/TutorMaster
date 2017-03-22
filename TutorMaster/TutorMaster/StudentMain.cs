@@ -38,10 +38,10 @@ namespace TutorMaster
 
             string today = getDay(Convert.ToDateTime(cmtList[0].StartTime));
             string startTime = Convert.ToDateTime(cmtList[0].StartTime).ToString().Split(' ')[1];
-            MessageBox.Show(startTime);
+            string endTime = Convert.ToDateTime(cmtList[0].StartTime).AddMinutes(15).ToString().Split(' ')[1];
             //string todayPlusFifteen = 
             
-            /*for (int i = 0; i < cmtList.Count()-1; i++)
+            for (int i = 0; i < cmtList.Count()-1; i++)
             {
                 DateTime date = Convert.ToDateTime(cmtList[i].StartTime);
                 DateTime testFifteen = Convert.ToDateTime(cmtList[i+1].StartTime);
@@ -51,10 +51,13 @@ namespace TutorMaster
                     string day = getDay(date);
                     if (today == day)
                     {
-                        
                         if (DateTime.Compare(testFifteen, date.AddMinutes(15)) == 0)
                         {
-                            addToListView(cmtList[i], day);
+                            endTime = Convert.ToDateTime(cmtList[i].StartTime).AddMinutes(15).ToString().Split(' ')[1];
+                        }
+                        else
+                        {
+                            addToListView(cmtList[i], day, startTime, endTime);
                         }
                     }
                     else
@@ -63,10 +66,10 @@ namespace TutorMaster
                     }
 
                 }
-            }*/
+            }
         }
 
-        private void addToListView(TutorMaster.Commitment commit, string day)
+        private void addToListView(TutorMaster.Commitment commit, string day, string startTime, string endTime)
         {
             switch (day)
             {
