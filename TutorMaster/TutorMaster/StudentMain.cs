@@ -19,6 +19,7 @@ namespace TutorMaster
             InitializeComponent();
             populateColumns();
             //loadAvail();
+            loadPendings();
         }
 
         private void loadAvail()
@@ -447,7 +448,55 @@ namespace TutorMaster
             lvSaturday.Columns.Add("Tutoring", 75);
             lvSaturday.Columns.Add("Weekly", 75);
             lvSaturday.Columns.Add("Partner", 75);
+
+            lvAccepted.CheckBoxes = true;
+            lvAccepted.Columns.Add("Start Time", 75);
+            lvAccepted.Columns.Add("End Time", 75);
+            lvAccepted.Columns.Add("Class", 75);
+            lvAccepted.Columns.Add("Location", 75);
+            lvAccepted.Columns.Add("Open", 75);
+            lvAccepted.Columns.Add("Tutoring", 75);
+            lvAccepted.Columns.Add("Weekly", 75);
+            lvAccepted.Columns.Add("Partner", 75);
+
+            lvPendingTutor.CheckBoxes = true;
+            lvPendingTutor.Columns.Add("Start Time", 75);
+            lvPendingTutor.Columns.Add("End Time", 75);
+            lvPendingTutor.Columns.Add("Class", 75);
+            lvPendingTutor.Columns.Add("Location", 75);
+            lvPendingTutor.Columns.Add("Open", 75);
+            lvPendingTutor.Columns.Add("Tutoring", 75);
+            lvPendingTutor.Columns.Add("Weekly", 75);
+            lvPendingTutor.Columns.Add("Partner", 75);
+
+            lvPendingTutee.CheckBoxes = true;
+            lvPendingTutee.Columns.Add("Start Time", 75);
+            lvPendingTutee.Columns.Add("End Time", 75);
+            lvPendingTutee.Columns.Add("Class", 75);
+            lvPendingTutee.Columns.Add("Location", 75);
+            lvPendingTutee.Columns.Add("Open", 75);
+            lvPendingTutee.Columns.Add("Tutoring", 75);
+            lvPendingTutee.Columns.Add("Weekly", 75);
+            lvPendingTutee.Columns.Add("Partner", 75);
+
         }
+
+
+        private void loadPendings()
+        {
+            TutorMasterDBEntities4 db = new TutorMasterDBEntities4();
+            var studentCommits = (from row in db.StudentCommitments.AsEnumerable() where row.ID == id select row.CmtID).ToArray();
+
+            List<TutorMaster.Commitment> cmtList = new List<TutorMaster.Commitment>();
+            for (int j = 0; j < studentCommits.Count(); j++)
+            {
+                TutorMaster.Commitment commit = (from row in db.Commitments.AsEnumerable() where row.CmtID == studentCommits[j] select row).First();
+                cmtList.Add(commit);
+            }
+            QuickSort(ref cmtList, cmtList.Count());
+
+        }
+
 
 
         private void Split(ref List<TutorMaster.Commitment> values, int first, int last, ref int splitPoint)

@@ -59,13 +59,13 @@
             this.combStartHour = new System.Windows.Forms.ComboBox();
             this.tabControl2 = new System.Windows.Forms.TabControl();
             this.tabAccepted = new System.Windows.Forms.TabPage();
-            this.lbxAccepted = new System.Windows.Forms.ListBox();
             this.tabPendingTutor = new System.Windows.Forms.TabPage();
-            this.cbxPendingTutor = new System.Windows.Forms.CheckedListBox();
             this.tabPendingTutee = new System.Windows.Forms.TabPage();
-            this.cbxPendingTutee = new System.Windows.Forms.CheckedListBox();
             this.btnLogout = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
+            this.lvAccepted = new System.Windows.Forms.ListView();
+            this.lvPendingTutor = new System.Windows.Forms.ListView();
+            this.lvPendingTutee = new System.Windows.Forms.ListView();
             this.dayTabs.SuspendLayout();
             this.tabSunday.SuspendLayout();
             this.tabMonday.SuspendLayout();
@@ -90,7 +90,7 @@
             // cbxWeekly
             // 
             this.cbxWeekly.AutoSize = true;
-            this.cbxWeekly.Location = new System.Drawing.Point(864, 605);
+            this.cbxWeekly.Location = new System.Drawing.Point(845, 556);
             this.cbxWeekly.Name = "cbxWeekly";
             this.cbxWeekly.Size = new System.Drawing.Size(62, 17);
             this.cbxWeekly.TabIndex = 12;
@@ -172,7 +172,7 @@
             this.tabMonday.Location = new System.Drawing.Point(4, 22);
             this.tabMonday.Name = "tabMonday";
             this.tabMonday.Padding = new System.Windows.Forms.Padding(3);
-            this.tabMonday.Size = new System.Drawing.Size(485, 261);
+            this.tabMonday.Size = new System.Drawing.Size(677, 261);
             this.tabMonday.TabIndex = 1;
             this.tabMonday.Text = "Monday";
             this.tabMonday.UseVisualStyleBackColor = true;
@@ -181,7 +181,7 @@
             // 
             this.lvMonday.Location = new System.Drawing.Point(7, 6);
             this.lvMonday.Name = "lvMonday";
-            this.lvMonday.Size = new System.Drawing.Size(355, 248);
+            this.lvMonday.Size = new System.Drawing.Size(664, 248);
             this.lvMonday.TabIndex = 1;
             this.lvMonday.UseCompatibleStateImageBehavior = false;
             this.lvMonday.View = System.Windows.Forms.View.Details;
@@ -191,7 +191,7 @@
             this.tabTuesday.Controls.Add(this.lvTuesday);
             this.tabTuesday.Location = new System.Drawing.Point(4, 22);
             this.tabTuesday.Name = "tabTuesday";
-            this.tabTuesday.Size = new System.Drawing.Size(485, 261);
+            this.tabTuesday.Size = new System.Drawing.Size(677, 261);
             this.tabTuesday.TabIndex = 2;
             this.tabTuesday.Text = "Tuesday";
             this.tabTuesday.UseVisualStyleBackColor = true;
@@ -200,7 +200,7 @@
             // 
             this.lvTuesday.Location = new System.Drawing.Point(7, 6);
             this.lvTuesday.Name = "lvTuesday";
-            this.lvTuesday.Size = new System.Drawing.Size(355, 248);
+            this.lvTuesday.Size = new System.Drawing.Size(658, 248);
             this.lvTuesday.TabIndex = 1;
             this.lvTuesday.UseCompatibleStateImageBehavior = false;
             this.lvTuesday.View = System.Windows.Forms.View.Details;
@@ -210,7 +210,7 @@
             this.tabWednesday.Controls.Add(this.lvWednesday);
             this.tabWednesday.Location = new System.Drawing.Point(4, 22);
             this.tabWednesday.Name = "tabWednesday";
-            this.tabWednesday.Size = new System.Drawing.Size(485, 261);
+            this.tabWednesday.Size = new System.Drawing.Size(677, 261);
             this.tabWednesday.TabIndex = 3;
             this.tabWednesday.Text = "Wednesday";
             this.tabWednesday.UseVisualStyleBackColor = true;
@@ -219,7 +219,7 @@
             // 
             this.lvWednesday.Location = new System.Drawing.Point(7, 6);
             this.lvWednesday.Name = "lvWednesday";
-            this.lvWednesday.Size = new System.Drawing.Size(355, 248);
+            this.lvWednesday.Size = new System.Drawing.Size(659, 248);
             this.lvWednesday.TabIndex = 1;
             this.lvWednesday.UseCompatibleStateImageBehavior = false;
             this.lvWednesday.View = System.Windows.Forms.View.Details;
@@ -229,7 +229,7 @@
             this.tabThursday.Controls.Add(this.lvThursday);
             this.tabThursday.Location = new System.Drawing.Point(4, 22);
             this.tabThursday.Name = "tabThursday";
-            this.tabThursday.Size = new System.Drawing.Size(485, 261);
+            this.tabThursday.Size = new System.Drawing.Size(677, 261);
             this.tabThursday.TabIndex = 4;
             this.tabThursday.Text = "Thursday";
             this.tabThursday.UseVisualStyleBackColor = true;
@@ -238,7 +238,7 @@
             // 
             this.lvThursday.Location = new System.Drawing.Point(7, 6);
             this.lvThursday.Name = "lvThursday";
-            this.lvThursday.Size = new System.Drawing.Size(355, 248);
+            this.lvThursday.Size = new System.Drawing.Size(655, 248);
             this.lvThursday.TabIndex = 1;
             this.lvThursday.UseCompatibleStateImageBehavior = false;
             this.lvThursday.View = System.Windows.Forms.View.Details;
@@ -248,7 +248,7 @@
             this.tabFriday.Controls.Add(this.lvFriday);
             this.tabFriday.Location = new System.Drawing.Point(4, 22);
             this.tabFriday.Name = "tabFriday";
-            this.tabFriday.Size = new System.Drawing.Size(485, 261);
+            this.tabFriday.Size = new System.Drawing.Size(677, 261);
             this.tabFriday.TabIndex = 5;
             this.tabFriday.Text = "Friday";
             this.tabFriday.UseVisualStyleBackColor = true;
@@ -257,7 +257,7 @@
             // 
             this.lvFriday.Location = new System.Drawing.Point(7, 6);
             this.lvFriday.Name = "lvFriday";
-            this.lvFriday.Size = new System.Drawing.Size(355, 248);
+            this.lvFriday.Size = new System.Drawing.Size(658, 248);
             this.lvFriday.TabIndex = 1;
             this.lvFriday.UseCompatibleStateImageBehavior = false;
             this.lvFriday.View = System.Windows.Forms.View.Details;
@@ -267,7 +267,7 @@
             this.tabSaturday.Controls.Add(this.lvSaturday);
             this.tabSaturday.Location = new System.Drawing.Point(4, 22);
             this.tabSaturday.Name = "tabSaturday";
-            this.tabSaturday.Size = new System.Drawing.Size(485, 261);
+            this.tabSaturday.Size = new System.Drawing.Size(677, 261);
             this.tabSaturday.TabIndex = 6;
             this.tabSaturday.Text = "Saturday";
             this.tabSaturday.UseVisualStyleBackColor = true;
@@ -276,7 +276,7 @@
             // 
             this.lvSaturday.Location = new System.Drawing.Point(7, 6);
             this.lvSaturday.Name = "lvSaturday";
-            this.lvSaturday.Size = new System.Drawing.Size(355, 248);
+            this.lvSaturday.Size = new System.Drawing.Size(657, 248);
             this.lvSaturday.TabIndex = 1;
             this.lvSaturday.UseCompatibleStateImageBehavior = false;
             this.lvSaturday.View = System.Windows.Forms.View.Details;
@@ -301,7 +301,7 @@
             // 
             // btnAddOpenBlock
             // 
-            this.btnAddOpenBlock.Location = new System.Drawing.Point(1002, 550);
+            this.btnAddOpenBlock.Location = new System.Drawing.Point(1002, 552);
             this.btnAddOpenBlock.Name = "btnAddOpenBlock";
             this.btnAddOpenBlock.Size = new System.Drawing.Size(105, 23);
             this.btnAddOpenBlock.TabIndex = 6;
@@ -410,34 +410,26 @@
             this.tabControl2.Controls.Add(this.tabAccepted);
             this.tabControl2.Controls.Add(this.tabPendingTutor);
             this.tabControl2.Controls.Add(this.tabPendingTutee);
-            this.tabControl2.Location = new System.Drawing.Point(36, 44);
+            this.tabControl2.Location = new System.Drawing.Point(146, 83);
             this.tabControl2.Name = "tabControl2";
             this.tabControl2.SelectedIndex = 0;
-            this.tabControl2.Size = new System.Drawing.Size(452, 281);
+            this.tabControl2.Size = new System.Drawing.Size(677, 281);
             this.tabControl2.TabIndex = 0;
             // 
             // tabAccepted
             // 
-            this.tabAccepted.Controls.Add(this.lbxAccepted);
+            this.tabAccepted.Controls.Add(this.lvAccepted);
             this.tabAccepted.Location = new System.Drawing.Point(4, 22);
             this.tabAccepted.Name = "tabAccepted";
             this.tabAccepted.Padding = new System.Windows.Forms.Padding(3);
-            this.tabAccepted.Size = new System.Drawing.Size(444, 255);
+            this.tabAccepted.Size = new System.Drawing.Size(669, 255);
             this.tabAccepted.TabIndex = 0;
             this.tabAccepted.Text = "Accepted";
             this.tabAccepted.UseVisualStyleBackColor = true;
             // 
-            // lbxAccepted
-            // 
-            this.lbxAccepted.FormattingEnabled = true;
-            this.lbxAccepted.Location = new System.Drawing.Point(6, 5);
-            this.lbxAccepted.Name = "lbxAccepted";
-            this.lbxAccepted.Size = new System.Drawing.Size(435, 238);
-            this.lbxAccepted.TabIndex = 0;
-            // 
             // tabPendingTutor
             // 
-            this.tabPendingTutor.Controls.Add(this.cbxPendingTutor);
+            this.tabPendingTutor.Controls.Add(this.lvPendingTutor);
             this.tabPendingTutor.Location = new System.Drawing.Point(4, 22);
             this.tabPendingTutor.Name = "tabPendingTutor";
             this.tabPendingTutor.Padding = new System.Windows.Forms.Padding(3);
@@ -446,31 +438,15 @@
             this.tabPendingTutor.Text = "Pending Tutor";
             this.tabPendingTutor.UseVisualStyleBackColor = true;
             // 
-            // cbxPendingTutor
-            // 
-            this.cbxPendingTutor.FormattingEnabled = true;
-            this.cbxPendingTutor.Location = new System.Drawing.Point(3, 2);
-            this.cbxPendingTutor.Name = "cbxPendingTutor";
-            this.cbxPendingTutor.Size = new System.Drawing.Size(435, 244);
-            this.cbxPendingTutor.TabIndex = 0;
-            // 
             // tabPendingTutee
             // 
-            this.tabPendingTutee.Controls.Add(this.cbxPendingTutee);
+            this.tabPendingTutee.Controls.Add(this.lvPendingTutee);
             this.tabPendingTutee.Location = new System.Drawing.Point(4, 22);
             this.tabPendingTutee.Name = "tabPendingTutee";
             this.tabPendingTutee.Size = new System.Drawing.Size(444, 255);
             this.tabPendingTutee.TabIndex = 2;
             this.tabPendingTutee.Text = "Pending Tutee";
             this.tabPendingTutee.UseVisualStyleBackColor = true;
-            // 
-            // cbxPendingTutee
-            // 
-            this.cbxPendingTutee.FormattingEnabled = true;
-            this.cbxPendingTutee.Location = new System.Drawing.Point(3, 3);
-            this.cbxPendingTutee.Name = "cbxPendingTutee";
-            this.cbxPendingTutee.Size = new System.Drawing.Size(438, 244);
-            this.cbxPendingTutee.TabIndex = 0;
             // 
             // btnLogout
             // 
@@ -484,12 +460,39 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(1163, 599);
+            this.button1.Location = new System.Drawing.Point(1117, 589);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(97, 23);
             this.button1.TabIndex = 2;
             this.button1.Text = "Make Request";
             this.button1.UseVisualStyleBackColor = true;
+            // 
+            // lvAccepted
+            // 
+            this.lvAccepted.Location = new System.Drawing.Point(6, 6);
+            this.lvAccepted.Name = "lvAccepted";
+            this.lvAccepted.Size = new System.Drawing.Size(657, 246);
+            this.lvAccepted.TabIndex = 14;
+            this.lvAccepted.UseCompatibleStateImageBehavior = false;
+            this.lvAccepted.View = System.Windows.Forms.View.Details;
+            // 
+            // lvPendingTutor
+            // 
+            this.lvPendingTutor.Location = new System.Drawing.Point(6, 4);
+            this.lvPendingTutor.Name = "lvPendingTutor";
+            this.lvPendingTutor.Size = new System.Drawing.Size(432, 246);
+            this.lvPendingTutor.TabIndex = 15;
+            this.lvPendingTutor.UseCompatibleStateImageBehavior = false;
+            this.lvPendingTutor.View = System.Windows.Forms.View.Details;
+            // 
+            // lvPendingTutee
+            // 
+            this.lvPendingTutee.Location = new System.Drawing.Point(6, 4);
+            this.lvPendingTutee.Name = "lvPendingTutee";
+            this.lvPendingTutee.Size = new System.Drawing.Size(432, 246);
+            this.lvPendingTutee.TabIndex = 15;
+            this.lvPendingTutee.UseCompatibleStateImageBehavior = false;
+            this.lvPendingTutee.View = System.Windows.Forms.View.Details;
             // 
             // StudentMain
             // 
@@ -537,11 +540,8 @@
 
         private System.Windows.Forms.TabControl tabControl2;
         private System.Windows.Forms.TabPage tabAccepted;
-        private System.Windows.Forms.ListBox lbxAccepted;
         private System.Windows.Forms.TabPage tabPendingTutor;
-        private System.Windows.Forms.CheckedListBox cbxPendingTutor;
         private System.Windows.Forms.TabPage tabPendingTutee;
-        private System.Windows.Forms.CheckedListBox cbxPendingTutee;
         private System.Windows.Forms.Button btnLogout;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button btnAddOpenBlock;
@@ -572,5 +572,8 @@
         private System.Windows.Forms.ListView lvSaturday;
         private System.Windows.Forms.CheckBox cbxWeekly;
         private System.Windows.Forms.DateTimePicker startDateTime;
+        private System.Windows.Forms.ListView lvAccepted;
+        private System.Windows.Forms.ListView lvPendingTutor;
+        private System.Windows.Forms.ListView lvPendingTutee;
     }
 }
