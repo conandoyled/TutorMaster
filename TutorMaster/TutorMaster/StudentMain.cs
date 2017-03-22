@@ -25,48 +25,79 @@ namespace TutorMaster
         {
             TutorMasterDBEntities4 db = new TutorMasterDBEntities4();
             var studentCommits = (from row in db.StudentCommitments.AsEnumerable() where row.ID == id select row.CmtID).ToArray();
-            DateTime start = new DateTime(2017, 1, 1, 0, 0, 0);
+
             List<TutorMaster.Commitment> cmtList = new List<TutorMaster.Commitment>();
             for (int j = 0; j < studentCommits.Count(); j++)
             {
                 TutorMaster.Commitment commit = (from row in db.Commitments.AsEnumerable() where row.CmtID == studentCommits[j] select row).First();
                 cmtList.Add(commit);
             }
-            QuickSort(ref cmtList, cmtList.Count());
-            
 
-
-            string today = getDay(Convert.ToDateTime(cmtList[0].StartTime));
-            string startTime = Convert.ToDateTime(cmtList[0].StartTime).ToString().Split(' ')[1];
-            string endTime = Convert.ToDateTime(cmtList[0].StartTime).AddMinutes(15).ToString().Split(' ')[1];
-            //string todayPlusFifteen = 
-            
-            for (int i = 0; i < cmtList.Count()-1; i++)
+            if (cmtList.Count() == 1) //base case of having only one committment
             {
-                DateTime date = Convert.ToDateTime(cmtList[i].StartTime);
-                DateTime testFifteen = Convert.ToDateTime(cmtList[i+1].StartTime);
-                
-                if(DateTime.Compare(date, start.AddDays(7)) < 0)
+                addToListView(cmtList[0], getDay(Convert.ToDateTime(cmtList[0].StartTime)), Convert.ToDateTime(cmtList[0].StartTime).ToString().Split(' ')[1],
+                    Convert.ToDateTime(cmtList[0].StartTime).AddMinutes(15).ToString().Split(' ')[1]);
+            }
+            else                      //general case of having more than one committment
+            {
+                QuickSort(ref cmtList, cmtList.Count());
+
+                DateTime start = new DateTime(2017, 1, 1, 0, 0, 0);
+
+                TutorMaster.Commitment initialCommit = cmtList[0];
+                string today = getDay(Convert.ToDateTime(cmtList[0].StartTime));
+                string startTime = Convert.ToDateTime(cmtList[0].StartTime).ToString().Split(' ')[1];
+                string endTime = Convert.ToDateTime(cmtList[0].StartTime).AddMinutes(15).ToString().Split(' ')[1];
+
+                TutorMaster.Commitment lastCommit = cmtList[cmtList.Count() - 1];
+
+                for (int i = 0; i < cmtList.Count() - 1; i++)
                 {
-                    string day = getDay(date);
-                    if (today == day)
+
+                    DateTime currentCommitDate = Convert.ToDateTime(cmtList[i].StartTime);
+                    DateTime nextCommitDate = Convert.ToDateTime(cmtList[i + 1].StartTime);
+
+                    if (DateTime.Compare(currentCommitDate, start.AddDays(7)) < 0)
                     {
-                        if (DateTime.Compare(testFifteen, date.AddMinutes(15)) == 0)
+
+                        string day = getDay(currentCommitDate);
+                        if (today == day)
                         {
-                            endTime = Convert.ToDateTime(cmtList[i].StartTime).AddMinutes(15).ToString().Split(' ')[1];
+
+                            if (DateTime.Compare(nextCommitDate, currentCommitDate.AddMinutes(15)) == 0)
+                            {
+                                endTime = Convert.ToDateTime(cmtList[i].StartTime).AddMinutes(15).ToString().Split(' ')[1];
+                            }
+                            else
+                            {
+                                addToListView(initialCommit, day, startTime, endTime);
+
+                                startTime = Convert.ToDateTime(cmtList[i + 1].StartTime).ToString().Split(' ')[1];
+                                endTime = Convert.ToDateTime(cmtList[i + 1].StartTime).AddMinutes(15).ToString().Split(' ')[1];
+                                today = getDay(Convert.ToDateTime(cmtList[i + 1].StartTime));
+                                initialCommit = cmtList[i + 1];
+                            }
                         }
                         else
                         {
-                            addToListView(cmtList[i], day, startTime, endTime);
+                            addToListView(initialCommit, day, startTime, endTime);
+
+                            startTime = Convert.ToDateTime(cmtList[i + 1].StartTime).ToString().Split(' ')[1];
+                            endTime = Convert.ToDateTime(cmtList[i + 1].StartTime).AddMinutes(15).ToString().Split(' ')[1];
+                            today = getDay(Convert.ToDateTime(cmtList[i + 1].StartTime));
+                            initialCommit = cmtList[i + 1];
+                            today = day;
                         }
                     }
-                    else
-                    {
-                        today = day;
-                    }
-
                 }
             }
+        }
+
+        private bool sameCategory(TutorMaster.Commitment commitFirst, TutorMaster.Commitment commitSecond)
+        {
+            return (commitFirst.Class == commitSecond.Class && commitFirst.Location == commitSecond.Location 
+                && commitFirst.Open == commitSecond.Open && commitFirst.Weekly == commitSecond.Weekly 
+                && commitFirst.ID == commitSecond.ID);
         }
 
         private void addToListView(TutorMaster.Commitment commit, string day, string startTime, string endTime)
@@ -74,7 +105,26 @@ namespace TutorMaster
             switch (day)
             {
                 case "Sunday":
-                    //lvSunday.Items.Add(new ListViewItem(new string[] { commit.StartTime, user.LastName, user.FirstName, tutor, tutee, user.Email, user.PhoneNumber }));
+                    lvSunday.Items.Add(new ListViewItem(new string[] { startTime, endTime, commit.Class, commit.Location, commit.Open.ToString(), commit.Tutoring.ToString(), commit.Weekly.ToString(), commit.ID.ToString() }));
+                    lvSunday.Invalidate();
+                    break;
+                case "Monday":
+                    lvMonday.Items.Add(new ListViewItem(new string[] { startTime, endTime, commit.Class, commit.Location, commit.Open.ToString(), commit.Tutoring.ToString(), commit.Weekly.ToString(), commit.ID.ToString() }));
+                    break;
+                case "Tuesday":
+                    lvTuesday.Items.Add(new ListViewItem(new string[] { startTime, endTime, commit.Class, commit.Location, commit.Open.ToString(), commit.Tutoring.ToString(), commit.Weekly.ToString(), commit.ID.ToString() }));
+                    break;
+                case "Wednesday":
+                    lvWednesday.Items.Add(new ListViewItem(new string[] { startTime, endTime, commit.Class, commit.Location, commit.Open.ToString(), commit.Tutoring.ToString(), commit.Weekly.ToString(), commit.ID.ToString() }));
+                    break;
+                case "Thursday":
+                    lvThursday.Items.Add(new ListViewItem(new string[] { startTime, endTime, commit.Class, commit.Location, commit.Open.ToString(), commit.Tutoring.ToString(), commit.Weekly.ToString(), commit.ID.ToString() }));
+                    break;
+                case "Friday":
+                    lvFriday.Items.Add(new ListViewItem(new string[] { startTime, endTime, commit.Class, commit.Location, commit.Open.ToString(), commit.Tutoring.ToString(), commit.Weekly.ToString(), commit.ID.ToString() }));
+                    break;
+                case "Saturday":
+                    lvSaturday.Items.Add(new ListViewItem(new string[] { startTime, endTime, commit.Class, commit.Location, commit.Open.ToString(), commit.Tutoring.ToString(), commit.Weekly.ToString(), commit.ID.ToString() }));
                     break;
             }
         }
@@ -213,9 +263,13 @@ namespace TutorMaster
             
             TutorMaster.Commitment newCommit = new TutorMaster.Commitment();
             newCommit.CmtID = lastCR;
+            newCommit.Class = "-";
+            newCommit.Location = "-";
+            newCommit.Tutoring = false;
             newCommit.StartTime = begin;
             newCommit.Open = true;
             newCommit.Weekly = weekly;
+            newCommit.ID = -1;
             addCommit(newCommit);
             
             TutorMaster.StudentCommitment newStudentCommit = new TutorMaster.StudentCommitment();
@@ -237,9 +291,13 @@ namespace TutorMaster
                     
                     TutorMaster.Commitment newCommitW = new TutorMaster.Commitment();
                     newCommitW.CmtID = lastCR;
+                    newCommitW.Class = "-";
+                    newCommitW.Location = "-";
+                    newCommitW.Tutoring = false;
                     newCommitW.StartTime = begin;
                     newCommitW.Open = true;
                     newCommitW.Weekly = weekly;
+                    newCommitW.ID = -1;
                     addCommit(newCommitW);
                     
                     TutorMaster.StudentCommitment newStudentCommitW = new TutorMaster.StudentCommitment();
@@ -249,33 +307,6 @@ namespace TutorMaster
                     addStudentCommit(newStudentCommitW);
                 }
             }
-
-            /*string[] st = begin.ToString("D").Split(',');
-            string startDay = st[0];
-            switch (startDay)
-            {
-                case "Sunday":
-
-                    break;
-                case "Monday":
-
-                    break;
-                case "Tuesday":
-
-                    break;
-                case "Wednesday":
-
-                    break;
-                case "Thursday":
-
-                    break;
-                case "Friday":
-
-                    break;
-                case "Saturday":
-
-                    break;
-            }*/
         }
 
         private void addCommit(TutorMaster.Commitment commit)
@@ -320,7 +351,6 @@ namespace TutorMaster
         {
             TutorMasterDBEntities4 db = new TutorMasterDBEntities4();
             int rowNum = db.StudentCommitments.Count();
-            //MessageBox.Show(rowNum.ToString());
             int lastRow;
 
             if (rowNum > 0)
@@ -496,12 +526,6 @@ namespace TutorMaster
             TutorMaster.Commitment temp3 = values[saveFirst];
             values[saveFirst] = values[splitPoint];
             values[splitPoint] = temp3;
-            MessageBox.Show("Finish number: " + count.ToString());
-            for (int i = 0; i < values.Count(); i++)
-            {
-                MessageBox.Show(values[i].StartTime.ToString());
-            }
-
         }
 
         private void QuickSort2(ref List<TutorMaster.Commitment> values, int first, int last)
