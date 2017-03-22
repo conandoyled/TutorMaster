@@ -57,7 +57,7 @@ namespace TutorMaster
                     DateTime currentCommitDate = Convert.ToDateTime(cmtList[i].StartTime);
                     DateTime nextCommitDate = Convert.ToDateTime(cmtList[i + 1].StartTime);
 
-                    if (DateTime.Compare(currentCommitDate, start.AddDays(7)) < 0)
+                    if (DateTime.Compare(currentCommitDate, start.AddDays(7)) < 0 && DateTime.Compare(currentCommitDate, start) >= 0)
                     {
 
                         string day = getDay(currentCommitDate);
@@ -91,6 +91,14 @@ namespace TutorMaster
                     }
                 }
             }
+            
+            lvSunday.Invalidate();
+            lvMonday.Invalidate();
+            lvTuesday.Invalidate();
+            lvWednesday.Invalidate();
+            lvThursday.Invalidate();
+            lvFriday.Invalidate();
+            lvSaturday.Invalidate();
         }
 
         private bool sameCategory(TutorMaster.Commitment commitFirst, TutorMaster.Commitment commitSecond)
@@ -102,29 +110,33 @@ namespace TutorMaster
 
         private void addToListView(TutorMaster.Commitment commit, string day, string startTime, string endTime)
         {
+            string partner = "";
+            if (commit.ID == -1)
+            {
+                partner = "None";
+            }
             switch (day)
             {
                 case "Sunday":
-                    lvSunday.Items.Add(new ListViewItem(new string[] { startTime, endTime, commit.Class, commit.Location, commit.Open.ToString(), commit.Tutoring.ToString(), commit.Weekly.ToString(), commit.ID.ToString() }));
-                    lvSunday.Invalidate();
+                    lvSunday.Items.Add(new ListViewItem(new string[] { startTime, endTime, commit.Class, commit.Location, commit.Open.ToString(), commit.Tutoring.ToString(), commit.Weekly.ToString(), partner }));
                     break;
                 case "Monday":
-                    lvMonday.Items.Add(new ListViewItem(new string[] { startTime, endTime, commit.Class, commit.Location, commit.Open.ToString(), commit.Tutoring.ToString(), commit.Weekly.ToString(), commit.ID.ToString() }));
+                    lvMonday.Items.Add(new ListViewItem(new string[] { startTime, endTime, commit.Class, commit.Location, commit.Open.ToString(), commit.Tutoring.ToString(), commit.Weekly.ToString(), partner }));
                     break;
                 case "Tuesday":
-                    lvTuesday.Items.Add(new ListViewItem(new string[] { startTime, endTime, commit.Class, commit.Location, commit.Open.ToString(), commit.Tutoring.ToString(), commit.Weekly.ToString(), commit.ID.ToString() }));
+                    lvTuesday.Items.Add(new ListViewItem(new string[] { startTime, endTime, commit.Class, commit.Location, commit.Open.ToString(), commit.Tutoring.ToString(), commit.Weekly.ToString(), partner }));
                     break;
                 case "Wednesday":
-                    lvWednesday.Items.Add(new ListViewItem(new string[] { startTime, endTime, commit.Class, commit.Location, commit.Open.ToString(), commit.Tutoring.ToString(), commit.Weekly.ToString(), commit.ID.ToString() }));
+                    lvWednesday.Items.Add(new ListViewItem(new string[] { startTime, endTime, commit.Class, commit.Location, commit.Open.ToString(), commit.Tutoring.ToString(), commit.Weekly.ToString(), partner }));
                     break;
                 case "Thursday":
-                    lvThursday.Items.Add(new ListViewItem(new string[] { startTime, endTime, commit.Class, commit.Location, commit.Open.ToString(), commit.Tutoring.ToString(), commit.Weekly.ToString(), commit.ID.ToString() }));
+                    lvThursday.Items.Add(new ListViewItem(new string[] { startTime, endTime, commit.Class, commit.Location, commit.Open.ToString(), commit.Tutoring.ToString(), commit.Weekly.ToString(), partner }));
                     break;
                 case "Friday":
-                    lvFriday.Items.Add(new ListViewItem(new string[] { startTime, endTime, commit.Class, commit.Location, commit.Open.ToString(), commit.Tutoring.ToString(), commit.Weekly.ToString(), commit.ID.ToString() }));
+                    lvFriday.Items.Add(new ListViewItem(new string[] { startTime, endTime, commit.Class, commit.Location, commit.Open.ToString(), commit.Tutoring.ToString(), commit.Weekly.ToString(), partner }));
                     break;
                 case "Saturday":
-                    lvSaturday.Items.Add(new ListViewItem(new string[] { startTime, endTime, commit.Class, commit.Location, commit.Open.ToString(), commit.Tutoring.ToString(), commit.Weekly.ToString(), commit.ID.ToString() }));
+                    lvSaturday.Items.Add(new ListViewItem(new string[] { startTime, endTime, commit.Class, commit.Location, commit.Open.ToString(), commit.Tutoring.ToString(), commit.Weekly.ToString(), partner }));
                     break;
             }
         }
