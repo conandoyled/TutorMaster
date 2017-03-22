@@ -24,6 +24,7 @@ namespace TutorMaster
 
         private void loadAvail()
         {
+            lvSunday.Items.Clear();
             TutorMasterDBEntities4 db = new TutorMasterDBEntities4();
             var studentCommits = (from row in db.StudentCommitments.AsEnumerable() where row.ID == id select row.CmtID).ToArray();
 
@@ -47,50 +48,66 @@ namespace TutorMaster
 
                 TutorMaster.Commitment initialCommit = cmtList[0];
                 string today = getDay(Convert.ToDateTime(cmtList[0].StartTime));
-                string startTime = Convert.ToDateTime(cmtList[0].StartTime).ToString().Split(' ')[1];
-                string endTime = Convert.ToDateTime(cmtList[0].StartTime).AddMinutes(15).ToString().Split(' ')[1];
+                string startTime = getCommitTime(cmtList[0]); //Convert.ToDateTime(cmtList[0].StartTime).ToString().Split(' ')[1] + " " + Convert.ToDateTime(cmtList[0].StartTime).ToString().Split(' ')[2];
+                string endTime = getCommitTime15(cmtList[0]); //Convert.ToDateTime(cmtList[0].StartTime).AddMinutes(15).ToString().Split(' ')[1] + " " + Convert.ToDateTime(cmtList[0].StartTime).ToString().Split(' ')[2];
 
                 TutorMaster.Commitment lastCommit = cmtList[cmtList.Count() - 1];
 
                 for (int i = 0; i < cmtList.Count() - 1; i++)
                 {
-
                     DateTime currentCommitDate = Convert.ToDateTime(cmtList[i].StartTime);
                     DateTime nextCommitDate = Convert.ToDateTime(cmtList[i + 1].StartTime);
-
-                    if (DateTime.Compare(currentCommitDate, start.AddDays(7)) < 0 && DateTime.Compare(currentCommitDate, start) >= 0)
+                    
+                    if (!sameCategory(cmtList[i], cmtList[i + 1]) && (DateTime.Compare(currentCommitDate, start.AddDays(6)) < 0 && DateTime.Compare(currentCommitDate, start) >= 0))
                     {
+                        endTime = getCommitTime15(cmtList[i]); // Convert.ToDateTime(cmtList[i].StartTime).AddMinutes(15).ToString().Split(' ')[1] + " " + ;
+                        addToListView(initialCommit, getDay(Convert.ToDateTime(initialCommit.StartTime)), startTime, endTime);
 
-                        string day = getDay(currentCommitDate);
-                        if (today == day)
+                        startTime = getCommitTime(cmtList[i+1]); //Convert.ToDateTime(cmtList[i+1].StartTime).ToString().Split(' ')[1];
+                        endTime = getCommitTime15(cmtList[i+1]); //Convert.ToDateTime(cmtList[i+1].StartTime).AddMinutes(15).ToString().Split(' ')[1] + " " + ;
+                        today = getDay(Convert.ToDateTime(cmtList[i+1].StartTime));
+                        initialCommit = cmtList[i+1];
+                    }
+                    else
+                    {
+                        if (DateTime.Compare(currentCommitDate, start.AddDays(6)) < 0 && DateTime.Compare(currentCommitDate, start) >= 0)
                         {
 
-                            if (DateTime.Compare(nextCommitDate, currentCommitDate.AddMinutes(15)) == 0)
+                            string day = getDay(currentCommitDate);
+                            if (today == day)
                             {
-                                endTime = Convert.ToDateTime(cmtList[i].StartTime).AddMinutes(15).ToString().Split(' ')[1];
+
+                                if (DateTime.Compare(nextCommitDate, currentCommitDate.AddMinutes(15)) == 0)
+                                {
+                                    endTime = getCommitTime15(cmtList[i]); // Convert.ToDateTime(cmtList[i].StartTime).AddMinutes(15).ToString().Split(' ')[1];
+                                }
+                                else
+                                {
+                                    endTime = getCommitTime15(cmtList[i]); // Convert.ToDateTime(cmtList[i].StartTime).AddMinutes(15).ToString().Split(' ')[1];
+                                    addToListView(initialCommit, day, startTime, endTime);
+
+                                    startTime =  Convert.ToDateTime(cmtList[i + 1].StartTime).ToString().Split(' ')[1];
+                                    endTime = Convert.ToDateTime(cmtList[i + 1].StartTime).AddMinutes(15).ToString().Split(' ')[1];
+                                    today = getDay(Convert.ToDateTime(cmtList[i + 1].StartTime));
+                                    initialCommit = cmtList[i + 1];
+                                }
                             }
                             else
                             {
+                                endTime = Convert.ToDateTime(cmtList[i].StartTime).AddMinutes(15).ToString().Split(' ')[1];
                                 addToListView(initialCommit, day, startTime, endTime);
 
                                 startTime = Convert.ToDateTime(cmtList[i + 1].StartTime).ToString().Split(' ')[1];
                                 endTime = Convert.ToDateTime(cmtList[i + 1].StartTime).AddMinutes(15).ToString().Split(' ')[1];
                                 today = getDay(Convert.ToDateTime(cmtList[i + 1].StartTime));
                                 initialCommit = cmtList[i + 1];
+                                today = day;
                             }
-                        }
-                        else
-                        {
-                            addToListView(initialCommit, day, startTime, endTime);
-
-                            startTime = Convert.ToDateTime(cmtList[i + 1].StartTime).ToString().Split(' ')[1];
-                            endTime = Convert.ToDateTime(cmtList[i + 1].StartTime).AddMinutes(15).ToString().Split(' ')[1];
-                            today = getDay(Convert.ToDateTime(cmtList[i + 1].StartTime));
-                            initialCommit = cmtList[i + 1];
-                            today = day;
                         }
                     }
                 }
+                endTime = Convert.ToDateTime(cmtList[cmtList.Count() - 1].StartTime).AddMinutes(15).ToString().Split(' ')[1];
+                addToListView(initialCommit, getDay(Convert.ToDateTime(initialCommit.StartTime)), startTime, endTime);
             }
             
             lvSunday.Invalidate();
@@ -168,7 +185,7 @@ namespace TutorMaster
                 int startMinute = int.Parse(combStartMinute.Text);
                 string startAmPm = combStartAmPm.Text;
 
-                if (startAmPm == "PM")
+                if (startAmPm == "PM" && startHour != 12)
                 {
                     startHour += 12;
                 }
@@ -179,14 +196,15 @@ namespace TutorMaster
                 int endMinute = int.Parse(combEndMinute.Text);
                 string endAmPm = combEndAmPm.Text;
 
-                if (endAmPm == "PM")
+                if (endAmPm == "PM" && endHour != 12)
                 {
                     endHour += 12;
                 }
-
+                MessageBox.Show(endHour.ToString());
                 bool weekly = cbxWeekly.Checked;
 
                 DateTime startTime = new DateTime(2017, 1, intStartDay, startHour, startMinute, 0);
+                MessageBox.Show(startTime.ToString());
                 DateTime endTime = new DateTime(2017, 1, intEndDay, endHour, endMinute, 0);
                 getAvail(startTime, endTime, weekly);
             }
@@ -521,7 +539,7 @@ namespace TutorMaster
             {
                 median = last;
             }
-            /*Swap the median and first committments in the list*/
+            //Swap the median and first committments in the list
             TutorMaster.Commitment temp = values[first];
             values[first] = values[median];
             values[median] = temp;
@@ -604,6 +622,16 @@ namespace TutorMaster
         private void QuickSort(ref List<TutorMaster.Commitment> values, int numValues)
         {
             QuickSort2(ref values, 0, numValues - 1);
+        }
+
+        private string getCommitTime(TutorMaster.Commitment commit)
+        {
+            return Convert.ToDateTime(commit.StartTime).ToString().Split(' ')[1] + " " + Convert.ToDateTime(commit.StartTime).ToString().Split(' ')[2];
+        }
+
+        private string getCommitTime15(TutorMaster.Commitment commit15)
+        {
+            return Convert.ToDateTime(commit15.StartTime).AddMinutes(15).ToString().Split(' ')[1] + " " + Convert.ToDateTime(commit15.StartTime).ToString().Split(' ')[2];
         }
     }
 }
