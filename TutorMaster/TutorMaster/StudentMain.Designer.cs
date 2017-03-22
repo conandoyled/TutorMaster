@@ -90,7 +90,7 @@
             // cbxWeekly
             // 
             this.cbxWeekly.AutoSize = true;
-            this.cbxWeekly.Location = new System.Drawing.Point(823, 630);
+            this.cbxWeekly.Location = new System.Drawing.Point(864, 605);
             this.cbxWeekly.Name = "cbxWeekly";
             this.cbxWeekly.Size = new System.Drawing.Size(62, 17);
             this.cbxWeekly.TabIndex = 12;
@@ -143,7 +143,7 @@
             this.dayTabs.Location = new System.Drawing.Point(142, 450);
             this.dayTabs.Name = "dayTabs";
             this.dayTabs.SelectedIndex = 0;
-            this.dayTabs.Size = new System.Drawing.Size(493, 287);
+            this.dayTabs.Size = new System.Drawing.Size(685, 287);
             this.dayTabs.TabIndex = 9;
             // 
             // tabSunday
@@ -152,7 +152,7 @@
             this.tabSunday.Location = new System.Drawing.Point(4, 22);
             this.tabSunday.Name = "tabSunday";
             this.tabSunday.Padding = new System.Windows.Forms.Padding(3);
-            this.tabSunday.Size = new System.Drawing.Size(485, 261);
+            this.tabSunday.Size = new System.Drawing.Size(677, 261);
             this.tabSunday.TabIndex = 0;
             this.tabSunday.Text = "Sunday";
             this.tabSunday.UseVisualStyleBackColor = true;
@@ -161,7 +161,7 @@
             // 
             this.lvSunday.Location = new System.Drawing.Point(7, 7);
             this.lvSunday.Name = "lvSunday";
-            this.lvSunday.Size = new System.Drawing.Size(472, 248);
+            this.lvSunday.Size = new System.Drawing.Size(664, 248);
             this.lvSunday.TabIndex = 0;
             this.lvSunday.UseCompatibleStateImageBehavior = false;
             this.lvSunday.View = System.Windows.Forms.View.Details;

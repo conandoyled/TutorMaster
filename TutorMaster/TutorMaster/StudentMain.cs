@@ -33,10 +33,46 @@ namespace TutorMaster
                 cmtList.Add(commit);
             }
             QuickSort(ref cmtList, cmtList.Count());
-            MessageBox.Show("Finish Product");
-            for (int i = 0; i < cmtList.Count(); i++)
+            
+
+
+            string today = getDay(Convert.ToDateTime(cmtList[0].StartTime));
+            string startTime = Convert.ToDateTime(cmtList[0].StartTime).ToString().Split(' ')[1];
+            MessageBox.Show(startTime);
+            //string todayPlusFifteen = 
+            
+            /*for (int i = 0; i < cmtList.Count()-1; i++)
             {
-                MessageBox.Show(cmtList[i].StartTime.ToString());
+                DateTime date = Convert.ToDateTime(cmtList[i].StartTime);
+                DateTime testFifteen = Convert.ToDateTime(cmtList[i+1].StartTime);
+                
+                if(DateTime.Compare(date, start.AddDays(7)) < 0)
+                {
+                    string day = getDay(date);
+                    if (today == day)
+                    {
+                        
+                        if (DateTime.Compare(testFifteen, date.AddMinutes(15)) == 0)
+                        {
+                            addToListView(cmtList[i], day);
+                        }
+                    }
+                    else
+                    {
+                        today = day;
+                    }
+
+                }
+            }*/
+        }
+
+        private void addToListView(TutorMaster.Commitment commit, string day)
+        {
+            switch (day)
+            {
+                case "Sunday":
+                    //lvSunday.Items.Add(new ListViewItem(new string[] { commit.StartTime, user.LastName, user.FirstName, tutor, tutee, user.Email, user.PhoneNumber }));
+                    break;
             }
         }
 
@@ -298,19 +334,19 @@ namespace TutorMaster
         private void populateColumns()
         {
             lvSunday.CheckBoxes = true;
-            lvSunday.Columns.Add("Start Time", 50);
-            lvSunday.Columns.Add("End Time", 50);
-            lvSunday.Columns.Add("Class", 50);
-            lvSunday.Columns.Add("Location", 50);
+            lvSunday.Columns.Add("Start Time", 75);
+            lvSunday.Columns.Add("End Time", 75);
+            lvSunday.Columns.Add("Class", 75);
+            lvSunday.Columns.Add("Location", 100);
             lvSunday.Columns.Add("Open", 50);
-            lvSunday.Columns.Add("Tutoring", 50);
-            lvSunday.Columns.Add("Weekly", 50);
-            lvSunday.Columns.Add("Partner", 50);
+            lvSunday.Columns.Add("Tutoring", 75);
+            lvSunday.Columns.Add("Weekly", 75);
+            lvSunday.Columns.Add("Partner", 100);
 
             lvMonday.CheckBoxes = true;
-            lvMonday.Columns.Add("Start Time", 50);
-            lvMonday.Columns.Add("End Time", 50);
-            lvMonday.Columns.Add("Class", 50);
+            lvMonday.Columns.Add("Start Time", 75);
+            lvMonday.Columns.Add("End Time", 75);
+            lvMonday.Columns.Add("Class", 75);
             lvMonday.Columns.Add("Location", 75);
             lvMonday.Columns.Add("Open", 75);
             lvMonday.Columns.Add("Tutoring", 75);
