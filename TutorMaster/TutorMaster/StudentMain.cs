@@ -12,16 +12,17 @@ namespace TutorMaster
     public partial class StudentMain : Form
     {
         private int id;
-        private int count = 0;
+        //private int count = 0;
         public StudentMain(int accID)
         {
             id = accID;
             InitializeComponent();
             populateColumns();
-            loadAvail();
+            DateTime start = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 0, 0, 0);
+            loadAvail(start);
         }
 
-        private void loadAvail()
+        private void loadAvail(DateTime start)
         {
                                                                                                                     //Clear the ListViews
             lvSunday.Items.Clear();
@@ -47,17 +48,16 @@ namespace TutorMaster
                         cmtList.Add(commit);
                     }
 
-                    DateTime start = new DateTime(2017, 1, 1, 0, 0, 0);
+                    QuickSort(ref cmtList, cmtList.Count());                                                         //sort the list by DateTime
+                    //DateTime start = new DateTime(2017, 1, 1, 0, 0, 0);
                     getRidOfOutOfBounds(start, ref cmtList);
 
                     if (cmtList.Count() == 1)                                                                        //base case of having only one committment
                     {
                         addToListView(cmtList[0], getDay(Convert.ToDateTime(cmtList[0].StartTime)), getCommitTime(cmtList[0]), getCommitTime15(cmtList[0]));
                     }
-                    else                                                                                             //general case of having more than one committment
+                    else if (cmtList.Count() > 1)                                                                    //general case of having more than one committment
                     {
-                        QuickSort(ref cmtList, cmtList.Count());                                                     //sort the list by DateTimes
-
                         
 
                         //Carries
@@ -135,7 +135,7 @@ namespace TutorMaster
                     lvFriday.Invalidate();
                     lvSaturday.Invalidate();
                     
-                    loadPendings(cmtList);                                                                          //load accepted and pending listviews with already sorted list
+                    loadPendings(cmtList, start);                                                                   //load accepted and pending listviews with already sorted list
                 }
             }
         }
@@ -147,12 +147,25 @@ namespace TutorMaster
             {
                 if (DateTime.Compare(Convert.ToDateTime(cmtList[i].StartTime), start.AddDays(7)) >= 0 || DateTime.Compare(Convert.ToDateTime(cmtList[i].StartTime), start) < 0)
                 {
-                    //MessageBox.Show(cmtList[i].StartTime.ToString());
+                   // MessageBox.Show(i.ToString());
+                    //MessageBox.Show(lenght.ToString());
+                    //MessageBox.Show(Convert.ToDateTime(cmtList[i].StartTime).ToString());
                     cmtList.Remove(cmtList[i]);
                     i--;
-                    lenght--;
-                }
+                    //if (lenght > 1)
+                    //{
+                        lenght--;
+                    //}
+                    //MessageBox.Show(i.ToString());
+                    //MessageBox.Show(lenght.ToString());
+                }   
             }
+            //MessageBox.Show(cmtList.Count().ToString());
+            //if (DateTime.Compare(Convert.ToDateTime(cmtList[0].StartTime), start.AddDays(7)) >= 0 || DateTime.Compare(Convert.ToDateTime(cmtList[0].StartTime), start) < 0)
+            //{
+           //     MessageBox.Show(Convert.ToDateTime(cmtList[0].StartTime).ToString());
+            //    cmtList.Remove(cmtList[0]);
+           // }
         }
 
         private bool sameCategory(TutorMaster.Commitment commitFirst, TutorMaster.Commitment commitSecond)
@@ -247,8 +260,8 @@ namespace TutorMaster
 
                 bool weekly = cbxWeekly.Checked;
 
-                DateTime startTime = new DateTime(2017, 1, intStartDay, startHour, startMinute, 0);
-                DateTime endTime = new DateTime(2017, 1, intEndDay, endHour, endMinute, 0);
+                DateTime startTime = new DateTime(dayStartDateTime.Value.Year, dayStartDateTime.Value.Month, dayStartDateTime.Value.Day, startHour, startMinute, 0); //new DateTime(2017, 1, intStartDay, startHour, startMinute, 0);
+                DateTime endTime = new DateTime(dayEndDateTime.Value.Year, dayEndDateTime.Value.Month, dayEndDateTime.Value.Day, endHour, endMinute, 0); //new DateTime(2017, 1, intEndDay, endHour, endMinute, 0);
                 getAvail(startTime, endTime, weekly);
             }
         }
@@ -297,7 +310,8 @@ namespace TutorMaster
                 begin = begin.AddMinutes(15);
                 compare = begin.CompareTo(endTime);
             }
-            loadAvail();
+            DateTime start = new DateTime(weekStartDateTime.Value.Year, weekStartDateTime.Value.Month, weekStartDateTime.Value.Day, 0, 0, 0);
+            loadAvail(start);
         }
 
         private bool recordedTime(DateTime begin)
@@ -543,9 +557,9 @@ namespace TutorMaster
         }
 
 
-        private void loadPendings(List<TutorMaster.Commitment> cmtList)
+        private void loadPendings(List<TutorMaster.Commitment> cmtList, DateTime start)
         {
-            DateTime start = new DateTime(2017, 1, 1, 0, 0, 0);
+            //DateTime start = new DateTime(2017, 1, 1, 0, 0, 0);
 
 
             removeOpens(ref cmtList);
@@ -774,6 +788,12 @@ namespace TutorMaster
         private string getCommitTime15(TutorMaster.Commitment commit15)
         {
             return Convert.ToDateTime(commit15.StartTime).AddMinutes(15).ToString().Split(' ')[1] + " " + Convert.ToDateTime(commit15.StartTime).ToString().Split(' ')[2];
+        }
+
+        private void weekStartDateTime_ValueChanged(object sender, EventArgs e)
+        {
+            DateTime start = new DateTime(weekStartDateTime.Value.Year, weekStartDateTime.Value.Month, weekStartDateTime.Value.Day, 0, 0, 0);
+            loadAvail(start);
         }
     }
 }
