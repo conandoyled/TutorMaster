@@ -37,7 +37,7 @@
             // 
             // btnAccept
             // 
-            this.btnAccept.Location = new System.Drawing.Point(73, 215);
+            this.btnAccept.Location = new System.Drawing.Point(73, 248);
             this.btnAccept.Name = "btnAccept";
             this.btnAccept.Size = new System.Drawing.Size(75, 23);
             this.btnAccept.TabIndex = 1;
@@ -47,7 +47,7 @@
             // 
             // btnReject
             // 
-            this.btnReject.Location = new System.Drawing.Point(167, 215);
+            this.btnReject.Location = new System.Drawing.Point(168, 248);
             this.btnReject.Name = "btnReject";
             this.btnReject.Size = new System.Drawing.Size(75, 23);
             this.btnReject.TabIndex = 2;
@@ -57,7 +57,7 @@
             // 
             // btnLogout
             // 
-            this.btnLogout.Location = new System.Drawing.Point(119, 255);
+            this.btnLogout.Location = new System.Drawing.Point(119, 277);
             this.btnLogout.Name = "btnLogout";
             this.btnLogout.Size = new System.Drawing.Size(75, 23);
             this.btnLogout.TabIndex = 3;
@@ -68,13 +68,13 @@
             // lvPendingRequests
             // 
             this.lvPendingRequests.Cursor = System.Windows.Forms.Cursors.Default;
-            this.lvPendingRequests.Location = new System.Drawing.Point(73, 12);
+            this.lvPendingRequests.Location = new System.Drawing.Point(12, 12);
             this.lvPendingRequests.Name = "lvPendingRequests";
-            this.lvPendingRequests.Size = new System.Drawing.Size(169, 197);
+            this.lvPendingRequests.Size = new System.Drawing.Size(303, 230);
             this.lvPendingRequests.Sorting = System.Windows.Forms.SortOrder.Ascending;
             this.lvPendingRequests.TabIndex = 4;
             this.lvPendingRequests.UseCompatibleStateImageBehavior = false;
-            this.lvPendingRequests.View = System.Windows.Forms.View.List;
+            this.lvPendingRequests.View = System.Windows.Forms.View.Details;
             this.lvPendingRequests.SelectedIndexChanged += new System.EventHandler(this.listView1_SelectedIndexChanged);
             // 
             // FacultyMain
