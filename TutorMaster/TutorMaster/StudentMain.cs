@@ -19,7 +19,6 @@ namespace TutorMaster
             InitializeComponent();
             populateColumns();
             loadAvail();
-            loadPendings();
         }
 
         private void loadAvail()
@@ -50,8 +49,7 @@ namespace TutorMaster
 
                     if (cmtList.Count() == 1)                                                                        //base case of having only one committment
                     {
-                        addToListView(cmtList[0], getDay(Convert.ToDateTime(cmtList[0].StartTime)), Convert.ToDateTime(cmtList[0].StartTime).ToString().Split(' ')[1] + " " + Convert.ToDateTime(cmtList[0].StartTime).ToString().Split(' ')[2],
-                            Convert.ToDateTime(cmtList[0].StartTime).AddMinutes(15).ToString().Split(' ')[1] + " " + Convert.ToDateTime(cmtList[0].StartTime).AddMinutes(15).ToString().Split(' ')[2]);
+                        addToListView(cmtList[0], getDay(Convert.ToDateTime(cmtList[0].StartTime)), getCommitTime(cmtList[0]), getCommitTime15(cmtList[0]));
                     }
                     else                                                                                             //general case of having more than one committment
                     {
@@ -133,6 +131,8 @@ namespace TutorMaster
                     lvThursday.Invalidate();
                     lvFriday.Invalidate();
                     lvSaturday.Invalidate();
+                    
+                    //loadPendings(cmtList);                                                                          //load accepted and pending listviews with already sorted list
                 }
             }
         }
@@ -526,22 +526,116 @@ namespace TutorMaster
         }
 
 
-        private void loadPendings()
+        private void loadPendings(List<TutorMaster.Commitment> cmtList)
         {
-            TutorMasterDBEntities4 db = new TutorMasterDBEntities4();
-            var studentCommits = (from row in db.StudentCommitments.AsEnumerable() where row.ID == id select row.CmtID).ToArray();
+            DateTime start = new DateTime(2017, 1, 1, 0, 0, 0);
 
-            List<TutorMaster.Commitment> cmtList = new List<TutorMaster.Commitment>();
-            for (int j = 0; j < studentCommits.Count(); j++)
+
+            removeOpens(ref cmtList);
+            if (cmtList.Count > 0)
             {
-                TutorMaster.Commitment commit = (from row in db.Commitments.AsEnumerable() where row.CmtID == studentCommits[j] select row).First();
-                cmtList.Add(commit);
-            }
-            QuickSort(ref cmtList, cmtList.Count());
+                TutorMaster.Commitment initialCommit = cmtList[0];
+                string startTime = getCommitTime(cmtList[0]);
+                string endTime = getCommitTime15(cmtList[0]);
 
+                for (int i = 0; i < cmtList.Count() - 1; i++)
+                {
+                    DateTime currentCommitDate = Convert.ToDateTime(cmtList[i].StartTime);                   //get datetime of commitment we are on in loop
+                    DateTime nextCommitDate = Convert.ToDateTime(cmtList[i + 1].StartTime);                  //get datetime of commitment ahead of it
+
+                    //if the two commits are distinct besides time and current commit is within week of start time
+                    if (!sameCategory(cmtList[i], cmtList[i + 1]) && (DateTime.Compare(currentCommitDate, start.AddDays(7)) < 0 && DateTime.Compare(currentCommitDate, start) >= 0))
+                    {
+                        endTime = getCommitTime15(cmtList[i]);                                               //update endtime and add what we have so far
+                        //addToListView(initialCommit, getDay(Convert.ToDateTime(initialCommit.StartTime)), startTime, endTime);
+
+                        //initialize carries to be the next commitment and begin scanning for that
+                        startTime = getCommitTime(cmtList[i + 1]);
+                        endTime = getCommitTime15(cmtList[i + 1]);
+                        //today = getDay(Convert.ToDateTime(cmtList[i + 1].StartTime));
+                        initialCommit = cmtList[i + 1];
+                    }
+                    else                                                                                     //if the current and next commit are in the same category
+                    {
+                        if (DateTime.Compare(currentCommitDate, start.AddDays(7)) < 0 && DateTime.Compare(currentCommitDate, start) >= 0) //see if its within a week of start
+                        {
+                            string day = getDay(currentCommitDate);                                          //if it is, get the day of the week of the current commit in for loop
+                            //if (today == day)                                                                //compare it to the day of the initial commit we are going to add
+                            {
+                                if (DateTime.Compare(nextCommitDate, currentCommitDate.AddMinutes(15)) == 0) //if our next commit is 15 minutes later of our current
+                                {
+                                    endTime = getCommitTime15(cmtList[i]);                                   //only update endTime
+                                }
+                                else
+                                {
+                                    endTime = getCommitTime15(cmtList[i]);                                   //if next commit is not, update endTime
+                                    //addToListView(initialCommit, day, startTime, endTime);                   //add what we have so far
+
+                                    //update our carries
+                                    startTime = getCommitTime(cmtList[i + 1]);
+                                    endTime = getCommitTime15(cmtList[i + 1]);
+                                  //  today = getDay(Convert.ToDateTime(cmtList[i + 1].StartTime));
+                                    initialCommit = cmtList[i + 1];
+                                }
+                            }
+                            else                                                                             //if its not the same, update endTime and add it to the appropriate listview
+                            {
+                                endTime = getCommitTime(cmtList[i]);
+                                //addToListView(initialCommit, today, startTime, endTime);
+
+                                //update carries including today so the program knows to move onto looking for next day
+                                startTime = getCommitTime(cmtList[i]);
+                                endTime = getCommitTime15(cmtList[i]);
+                                //today = getDay(Convert.ToDateTime(cmtList[i].StartTime));
+                                initialCommit = cmtList[i];
+                                //today = day;
+                            }
+                        }
+                    }
+                }
+            }
         }
 
+        private void removeOpens(ref List<TutorMaster.Commitment> cmtList)
+        {
+            for (int i = 0; i < cmtList.Count(); i++)
+            {
+                if(isOpen(cmtList[i]))
+                {
+                    cmtList.Remove(cmtList[i]);
+                }
+            }
+        }
 
+        private bool isOpen(TutorMaster.Commitment commit)
+        {
+            return (commit.Class == "-" && commit.Location == "-" && commit.Open == true && commit.Tutoring == false && commit.ID == -1);
+        }
+
+        private bool tuteeWaitingForResponse(TutorMaster.Commitment commit)
+        {
+            return (commit.Class != "-" && commit.Location == "-" && commit.Open == false && commit.Tutoring == false && commit.ID != -1);
+        }
+
+        private bool tutorWaitingForResponse(TutorMaster.Commitment commit)
+        {
+            return (commit.Class != "-" && commit.Location == "-" && commit.Open == false && commit.Tutoring == true && commit.ID != -1);
+        }
+
+        private bool locProposed(TutorMaster.Commitment commit)
+        {
+            return (commit.Class != "-" && commit.Location.Contains('?') && commit.Open == false && commit.Tutoring == false && commit.ID != -1);
+        }
+
+        private bool locAcceptWaiting(TutorMaster.Commitment commit)
+        {
+            return (commit.Class != "-" && commit.Location.Contains('?') && commit.Open == false && commit.Tutoring == true && commit.ID != -1);
+        }
+
+        private bool locAccepted(TutorMaster.Commitment commit)
+        {
+            return (commit.Class != "-" && !commit.Location.Contains('?') && commit.Location != "-" && commit.Open == false && commit.ID != -1);
+        }
 
         private void Split(ref List<TutorMaster.Commitment> values, int first, int last, ref int splitPoint)
         {
