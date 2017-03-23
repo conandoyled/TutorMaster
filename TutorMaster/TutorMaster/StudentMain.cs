@@ -47,6 +47,9 @@ namespace TutorMaster
                         cmtList.Add(commit);
                     }
 
+                    DateTime start = new DateTime(2017, 1, 1, 0, 0, 0);
+                    getRidOfOutOfBounds(start, ref cmtList);
+
                     if (cmtList.Count() == 1)                                                                        //base case of having only one committment
                     {
                         addToListView(cmtList[0], getDay(Convert.ToDateTime(cmtList[0].StartTime)), getCommitTime(cmtList[0]), getCommitTime15(cmtList[0]));
@@ -55,7 +58,7 @@ namespace TutorMaster
                     {
                         QuickSort(ref cmtList, cmtList.Count());                                                     //sort the list by DateTimes
 
-                        DateTime start = new DateTime(2017, 1, 1, 0, 0, 0);
+                        
 
                         //Carries
                         TutorMaster.Commitment initialCommit = cmtList[0];                                           //start commit (because it has the information I'll need to load to listviews)
@@ -133,6 +136,21 @@ namespace TutorMaster
                     lvSaturday.Invalidate();
                     
                     loadPendings(cmtList);                                                                          //load accepted and pending listviews with already sorted list
+                }
+            }
+        }
+
+        private void getRidOfOutOfBounds(DateTime start, ref List<TutorMaster.Commitment> cmtList)
+        {
+            int lenght = cmtList.Count();
+            for (int i = 0; i < lenght; i++)
+            {
+                if (DateTime.Compare(Convert.ToDateTime(cmtList[i].StartTime), start.AddDays(7)) >= 0 || DateTime.Compare(Convert.ToDateTime(cmtList[i].StartTime), start) < 0)
+                {
+                    //MessageBox.Show(cmtList[i].StartTime.ToString());
+                    cmtList.Remove(cmtList[i]);
+                    i--;
+                    lenght--;
                 }
             }
         }
