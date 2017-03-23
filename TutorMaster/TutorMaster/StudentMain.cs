@@ -18,105 +18,123 @@ namespace TutorMaster
             id = accID;
             InitializeComponent();
             populateColumns();
-            //loadAvail();
+            loadAvail();
             loadPendings();
         }
 
         private void loadAvail()
         {
+                                                                                                                    //Clear the ListViews
             lvSunday.Items.Clear();
-            TutorMasterDBEntities4 db = new TutorMasterDBEntities4();
-            var studentCommits = (from row in db.StudentCommitments.AsEnumerable() where row.ID == id select row.CmtID).ToArray();
+            lvMonday.Items.Clear();
+            lvTuesday.Items.Clear();
+            lvWednesday.Items.Clear();
+            lvThursday.Items.Clear();
+            lvFriday.Items.Clear();
+            lvSaturday.Items.Clear();
 
-            List<TutorMaster.Commitment> cmtList = new List<TutorMaster.Commitment>();
-            for (int j = 0; j < studentCommits.Count(); j++)
+            
+            TutorMasterDBEntities4 db = new TutorMasterDBEntities4();                                                //open Database
+            int num = db.StudentCommitments.Count();                                                                 //see if there are any student committments at all
+            if (num > 0)
             {
-                TutorMaster.Commitment commit = (from row in db.Commitments.AsEnumerable() where row.CmtID == studentCommits[j] select row).First();
-                cmtList.Add(commit);
-            }
-
-            if (cmtList.Count() == 1) //base case of having only one committment
-            {
-                addToListView(cmtList[0], getDay(Convert.ToDateTime(cmtList[0].StartTime)), Convert.ToDateTime(cmtList[0].StartTime).ToString().Split(' ')[1],
-                    Convert.ToDateTime(cmtList[0].StartTime).AddMinutes(15).ToString().Split(' ')[1]);
-            }
-            else                      //general case of having more than one committment
-            {
-                QuickSort(ref cmtList, cmtList.Count());
-
-                DateTime start = new DateTime(2017, 1, 1, 0, 0, 0);
-
-                TutorMaster.Commitment initialCommit = cmtList[0];
-                string today = getDay(Convert.ToDateTime(cmtList[0].StartTime));
-                string startTime = getCommitTime(cmtList[0]); //Convert.ToDateTime(cmtList[0].StartTime).ToString().Split(' ')[1] + " " + Convert.ToDateTime(cmtList[0].StartTime).ToString().Split(' ')[2];
-                string endTime = getCommitTime15(cmtList[0]); //Convert.ToDateTime(cmtList[0].StartTime).AddMinutes(15).ToString().Split(' ')[1] + " " + Convert.ToDateTime(cmtList[0].StartTime).ToString().Split(' ')[2];
-
-                TutorMaster.Commitment lastCommit = cmtList[cmtList.Count() - 1];
-
-                for (int i = 0; i < cmtList.Count() - 1; i++)
+                var studentCommits = (from row in db.StudentCommitments.AsEnumerable() where row.ID == id select row.CmtID).ToArray(); //look for student that's logged in student committments
+                if (studentCommits.Count() > 0)                                                                      //if they have any
                 {
-                    DateTime currentCommitDate = Convert.ToDateTime(cmtList[i].StartTime);
-                    DateTime nextCommitDate = Convert.ToDateTime(cmtList[i + 1].StartTime);
-                    
-                    if (!sameCategory(cmtList[i], cmtList[i + 1]) && (DateTime.Compare(currentCommitDate, start.AddDays(6)) < 0 && DateTime.Compare(currentCommitDate, start) >= 0))
+                    List<TutorMaster.Commitment> cmtList = new List<TutorMaster.Commitment>();
+                    for (int j = 0; j < studentCommits.Count(); j++)                                                 //look each up and add to a list of commitments
                     {
-                        endTime = getCommitTime15(cmtList[i]); // Convert.ToDateTime(cmtList[i].StartTime).AddMinutes(15).ToString().Split(' ')[1] + " " + ;
-                        addToListView(initialCommit, getDay(Convert.ToDateTime(initialCommit.StartTime)), startTime, endTime);
-
-                        startTime = getCommitTime(cmtList[i+1]); //Convert.ToDateTime(cmtList[i+1].StartTime).ToString().Split(' ')[1];
-                        endTime = getCommitTime15(cmtList[i+1]); //Convert.ToDateTime(cmtList[i+1].StartTime).AddMinutes(15).ToString().Split(' ')[1] + " " + ;
-                        today = getDay(Convert.ToDateTime(cmtList[i+1].StartTime));
-                        initialCommit = cmtList[i+1];
+                        TutorMaster.Commitment commit = (from row in db.Commitments.AsEnumerable() where row.CmtID == studentCommits[j] select row).First();
+                        cmtList.Add(commit);
                     }
-                    else
+
+                    if (cmtList.Count() == 1)                                                                        //base case of having only one committment
                     {
-                        if (DateTime.Compare(currentCommitDate, start.AddDays(6)) < 0 && DateTime.Compare(currentCommitDate, start) >= 0)
+                        addToListView(cmtList[0], getDay(Convert.ToDateTime(cmtList[0].StartTime)), Convert.ToDateTime(cmtList[0].StartTime).ToString().Split(' ')[1] + " " + Convert.ToDateTime(cmtList[0].StartTime).ToString().Split(' ')[2],
+                            Convert.ToDateTime(cmtList[0].StartTime).AddMinutes(15).ToString().Split(' ')[1] + " " + Convert.ToDateTime(cmtList[0].StartTime).AddMinutes(15).ToString().Split(' ')[2]);
+                    }
+                    else                                                                                             //general case of having more than one committment
+                    {
+                        QuickSort(ref cmtList, cmtList.Count());                                                     //sort the list by DateTimes
+
+                        DateTime start = new DateTime(2017, 1, 1, 0, 0, 0);
+
+                        //Carries
+                        TutorMaster.Commitment initialCommit = cmtList[0];                                           //start commit (because it has the information I'll need to load to listviews)
+                        string today = getDay(Convert.ToDateTime(cmtList[0].StartTime));                             //day of this commitment so I know which listview to add it to
+                        string startTime = getCommitTime(cmtList[0]);                                                //start time of commitment
+                        string endTime = getCommitTime15(cmtList[0]);                                                //end time of commitment
+
+                        TutorMaster.Commitment lastCommit = cmtList[cmtList.Count() - 1];                            //get last commitment in list to add last
+
+                        for (int i = 0; i < cmtList.Count() - 1; i++)                                                //for each commitment except for the last one
                         {
+                            DateTime currentCommitDate = Convert.ToDateTime(cmtList[i].StartTime);                   //get datetime of commitment we are on in loop
+                            DateTime nextCommitDate = Convert.ToDateTime(cmtList[i + 1].StartTime);                  //get datetime of commitment ahead of it
 
-                            string day = getDay(currentCommitDate);
-                            if (today == day)
+                                                                                                                     //if the two commits are distinct besides time and current commit is within week of start time
+                            if (!sameCategory(cmtList[i], cmtList[i + 1]) && (DateTime.Compare(currentCommitDate, start.AddDays(7)) < 0 && DateTime.Compare(currentCommitDate, start) >= 0))
                             {
+                                endTime = getCommitTime15(cmtList[i]);                                               //update endtime and add what we have so far
+                                addToListView(initialCommit, getDay(Convert.ToDateTime(initialCommit.StartTime)), startTime, endTime);
 
-                                if (DateTime.Compare(nextCommitDate, currentCommitDate.AddMinutes(15)) == 0)
-                                {
-                                    endTime = getCommitTime15(cmtList[i]); // Convert.ToDateTime(cmtList[i].StartTime).AddMinutes(15).ToString().Split(' ')[1];
-                                }
-                                else
-                                {
-                                    endTime = getCommitTime15(cmtList[i]); // Convert.ToDateTime(cmtList[i].StartTime).AddMinutes(15).ToString().Split(' ')[1];
-                                    addToListView(initialCommit, day, startTime, endTime);
-
-                                    startTime =  Convert.ToDateTime(cmtList[i + 1].StartTime).ToString().Split(' ')[1];
-                                    endTime = Convert.ToDateTime(cmtList[i + 1].StartTime).AddMinutes(15).ToString().Split(' ')[1];
-                                    today = getDay(Convert.ToDateTime(cmtList[i + 1].StartTime));
-                                    initialCommit = cmtList[i + 1];
-                                }
-                            }
-                            else
-                            {
-                                endTime = Convert.ToDateTime(cmtList[i].StartTime).AddMinutes(15).ToString().Split(' ')[1];
-                                addToListView(initialCommit, day, startTime, endTime);
-
-                                startTime = Convert.ToDateTime(cmtList[i + 1].StartTime).ToString().Split(' ')[1];
-                                endTime = Convert.ToDateTime(cmtList[i + 1].StartTime).AddMinutes(15).ToString().Split(' ')[1];
+                                                                                                                     //initialize carries to be the next commitment and begin scanning for that
+                                startTime = getCommitTime(cmtList[i + 1]);
+                                endTime = getCommitTime15(cmtList[i + 1]);
                                 today = getDay(Convert.ToDateTime(cmtList[i + 1].StartTime));
                                 initialCommit = cmtList[i + 1];
-                                today = day;
+                            }
+                            else                                                                                     //if the current and next commit are in the same category
+                            {
+                                if (DateTime.Compare(currentCommitDate, start.AddDays(7)) < 0 && DateTime.Compare(currentCommitDate, start) >= 0) //see if its within a week of start
+                                {
+                                    string day = getDay(currentCommitDate);                                          //if it is, get the day of the week of the current commit in for loop
+                                    if (today == day)                                                                //compare it to the day of the initial commit we are going to add
+                                    {
+                                        if (DateTime.Compare(nextCommitDate, currentCommitDate.AddMinutes(15)) == 0) //if our next commit is 15 minutes later of our current
+                                        {
+                                            endTime = getCommitTime15(cmtList[i]);                                   //only update endTime
+                                        }
+                                        else
+                                        {
+                                            endTime = getCommitTime15(cmtList[i]);                                   //if next commit is not, update endTime
+                                            addToListView(initialCommit, day, startTime, endTime);                   //add what we have so far
+
+                                                                                                                     //update our carries
+                                            startTime = getCommitTime(cmtList[i + 1]);
+                                            endTime = getCommitTime15(cmtList[i + 1]);
+                                            today = getDay(Convert.ToDateTime(cmtList[i + 1].StartTime));
+                                            initialCommit = cmtList[i + 1];
+                                        }
+                                    }
+                                    else                                                                             //if its not the same, update endTime and add it to the appropriate listview
+                                    {
+                                        endTime = getCommitTime(cmtList[i]);
+                                        addToListView(initialCommit, today, startTime, endTime);
+
+                                                                                                                     //update carries including today so the program knows to move onto looking for next day
+                                        startTime = getCommitTime(cmtList[i]);
+                                        endTime = getCommitTime15(cmtList[i]);
+                                        today = getDay(Convert.ToDateTime(cmtList[i].StartTime));
+                                        initialCommit = cmtList[i];
+                                        today = day;
+                                    }
+                                }
                             }
                         }
+                        endTime = getCommitTime15(cmtList[cmtList.Count() - 1]);                                    //get the last endTime
+                        addToListView(initialCommit, getDay(Convert.ToDateTime(initialCommit.StartTime)), startTime, endTime);//update last clump commitment into Listview
                     }
+                                                                                                                    //redraw every listview
+                    lvSunday.Invalidate();
+                    lvMonday.Invalidate();
+                    lvTuesday.Invalidate();
+                    lvWednesday.Invalidate();
+                    lvThursday.Invalidate();
+                    lvFriday.Invalidate();
+                    lvSaturday.Invalidate();
                 }
-                endTime = Convert.ToDateTime(cmtList[cmtList.Count() - 1].StartTime).AddMinutes(15).ToString().Split(' ')[1];
-                addToListView(initialCommit, getDay(Convert.ToDateTime(initialCommit.StartTime)), startTime, endTime);
             }
-            
-            lvSunday.Invalidate();
-            lvMonday.Invalidate();
-            lvTuesday.Invalidate();
-            lvWednesday.Invalidate();
-            lvThursday.Invalidate();
-            lvFriday.Invalidate();
-            lvSaturday.Invalidate();
         }
 
         private bool sameCategory(TutorMaster.Commitment commitFirst, TutorMaster.Commitment commitSecond)
@@ -189,6 +207,10 @@ namespace TutorMaster
                 {
                     startHour += 12;
                 }
+                else if (startAmPm == "AM" && startHour == 12)
+                {
+                    startHour = 0;
+                }
 
                 string stringEndDay = combEndDay.Text;
                 int intEndDay = getDayIndex(stringEndDay);
@@ -200,7 +222,11 @@ namespace TutorMaster
                 {
                     endHour += 12;
                 }
-                MessageBox.Show(endHour.ToString());
+                else if (endAmPm == "AM" && endHour == 12)
+                {
+                    endHour = 0;
+                }
+
                 bool weekly = cbxWeekly.Checked;
 
                 DateTime startTime = new DateTime(2017, 1, intStartDay, startHour, startMinute, 0);
@@ -398,104 +424,104 @@ namespace TutorMaster
         private void populateColumns()
         {
             lvSunday.CheckBoxes = true;
-            lvSunday.Columns.Add("Start Time", 75);
-            lvSunday.Columns.Add("End Time", 75);
+            lvSunday.Columns.Add("Start Time", 90);
+            lvSunday.Columns.Add("End Time", 90);
             lvSunday.Columns.Add("Class", 75);
-            lvSunday.Columns.Add("Location", 100);
+            lvSunday.Columns.Add("Location", 105);
             lvSunday.Columns.Add("Open", 50);
             lvSunday.Columns.Add("Tutoring", 75);
-            lvSunday.Columns.Add("Weekly", 75);
-            lvSunday.Columns.Add("Partner", 100);
+            lvSunday.Columns.Add("Weekly", 50);
+            lvSunday.Columns.Add("Partner", 115);
 
             lvMonday.CheckBoxes = true;
-            lvMonday.Columns.Add("Start Time", 75);
-            lvMonday.Columns.Add("End Time", 75);
+            lvMonday.Columns.Add("Start Time", 90);
+            lvMonday.Columns.Add("End Time", 90);
             lvMonday.Columns.Add("Class", 75);
-            lvMonday.Columns.Add("Location", 75);
-            lvMonday.Columns.Add("Open", 75);
+            lvMonday.Columns.Add("Location", 105);
+            lvMonday.Columns.Add("Open", 50);
             lvMonday.Columns.Add("Tutoring", 75);
             lvMonday.Columns.Add("Weekly", 75);
-            lvMonday.Columns.Add("Partner", 75);
+            lvMonday.Columns.Add("Partner", 115);
 
             lvTuesday.CheckBoxes = true;
-            lvTuesday.Columns.Add("Start Time", 75);
-            lvTuesday.Columns.Add("End Time", 75);
+            lvTuesday.Columns.Add("Start Time", 90);
+            lvTuesday.Columns.Add("End Time", 90);
             lvTuesday.Columns.Add("Class", 75);
-            lvTuesday.Columns.Add("Location", 75);
-            lvTuesday.Columns.Add("Open", 75);
+            lvTuesday.Columns.Add("Location", 105);
+            lvTuesday.Columns.Add("Open", 50);
             lvTuesday.Columns.Add("Tutoring", 75);
             lvTuesday.Columns.Add("Weekly", 75);
-            lvTuesday.Columns.Add("Partner", 75);
+            lvTuesday.Columns.Add("Partner", 115);
 
             lvWednesday.CheckBoxes = true;
-            lvWednesday.Columns.Add("Start Time", 75);
-            lvWednesday.Columns.Add("End Time", 75);
+            lvWednesday.Columns.Add("Start Time", 90);
+            lvWednesday.Columns.Add("End Time", 90);
             lvWednesday.Columns.Add("Class", 75);
-            lvWednesday.Columns.Add("Location", 75);
-            lvWednesday.Columns.Add("Open", 75);
+            lvWednesday.Columns.Add("Location", 105);
+            lvWednesday.Columns.Add("Open", 50);
             lvWednesday.Columns.Add("Tutoring", 75);
             lvWednesday.Columns.Add("Weekly", 75);
-            lvWednesday.Columns.Add("Partner", 75);
+            lvWednesday.Columns.Add("Partner", 115);
 
             lvThursday.CheckBoxes = true;
-            lvThursday.Columns.Add("Start Time", 75);
-            lvThursday.Columns.Add("End Time", 75);
+            lvThursday.Columns.Add("Start Time", 90);
+            lvThursday.Columns.Add("End Time", 90);
             lvThursday.Columns.Add("Class", 75);
-            lvThursday.Columns.Add("Location", 75);
-            lvThursday.Columns.Add("Open", 75);
+            lvThursday.Columns.Add("Location", 105);
+            lvThursday.Columns.Add("Open", 50);
             lvThursday.Columns.Add("Tutoring", 75);
             lvThursday.Columns.Add("Weekly", 75);
-            lvThursday.Columns.Add("Partner", 75);
+            lvThursday.Columns.Add("Partner", 115);
 
             lvFriday.CheckBoxes = true;
-            lvFriday.Columns.Add("Start Time", 75);
-            lvFriday.Columns.Add("End Time", 75);
+            lvFriday.Columns.Add("Start Time", 90);
+            lvFriday.Columns.Add("End Time", 90);
             lvFriday.Columns.Add("Class", 75);
-            lvFriday.Columns.Add("Location", 75);
-            lvFriday.Columns.Add("Open", 75);
+            lvFriday.Columns.Add("Location", 105);
+            lvFriday.Columns.Add("Open", 50);
             lvFriday.Columns.Add("Tutoring", 75);
             lvFriday.Columns.Add("Weekly", 75);
-            lvFriday.Columns.Add("Partner", 75);
+            lvFriday.Columns.Add("Partner", 115);
 
             lvSaturday.CheckBoxes = true;
-            lvSaturday.Columns.Add("Start Time", 75);
-            lvSaturday.Columns.Add("End Time", 75);
+            lvSaturday.Columns.Add("Start Time", 90);
+            lvSaturday.Columns.Add("End Time", 90);
             lvSaturday.Columns.Add("Class", 75);
-            lvSaturday.Columns.Add("Location", 75);
-            lvSaturday.Columns.Add("Open", 75);
+            lvSaturday.Columns.Add("Location", 105);
+            lvSaturday.Columns.Add("Open", 50);
             lvSaturday.Columns.Add("Tutoring", 75);
             lvSaturday.Columns.Add("Weekly", 75);
-            lvSaturday.Columns.Add("Partner", 75);
+            lvSaturday.Columns.Add("Partner", 115);
 
             lvAccepted.CheckBoxes = true;
-            lvAccepted.Columns.Add("Start Time", 75);
-            lvAccepted.Columns.Add("End Time", 75);
+            lvAccepted.Columns.Add("Start Time", 90);
+            lvAccepted.Columns.Add("End Time", 90);
             lvAccepted.Columns.Add("Class", 75);
-            lvAccepted.Columns.Add("Location", 75);
-            lvAccepted.Columns.Add("Open", 75);
+            lvAccepted.Columns.Add("Location", 105);
+            lvAccepted.Columns.Add("Open", 50);
             lvAccepted.Columns.Add("Tutoring", 75);
             lvAccepted.Columns.Add("Weekly", 75);
-            lvAccepted.Columns.Add("Partner", 75);
+            lvAccepted.Columns.Add("Partner", 115);
 
             lvPendingTutor.CheckBoxes = true;
-            lvPendingTutor.Columns.Add("Start Time", 75);
-            lvPendingTutor.Columns.Add("End Time", 75);
+            lvPendingTutor.Columns.Add("Start Time", 90);
+            lvPendingTutor.Columns.Add("End Time", 90);
             lvPendingTutor.Columns.Add("Class", 75);
-            lvPendingTutor.Columns.Add("Location", 75);
-            lvPendingTutor.Columns.Add("Open", 75);
+            lvPendingTutor.Columns.Add("Location", 105);
+            lvPendingTutor.Columns.Add("Open", 50);
             lvPendingTutor.Columns.Add("Tutoring", 75);
             lvPendingTutor.Columns.Add("Weekly", 75);
-            lvPendingTutor.Columns.Add("Partner", 75);
+            lvPendingTutor.Columns.Add("Partner", 115);
 
             lvPendingTutee.CheckBoxes = true;
-            lvPendingTutee.Columns.Add("Start Time", 75);
-            lvPendingTutee.Columns.Add("End Time", 75);
+            lvPendingTutee.Columns.Add("Start Time", 90);
+            lvPendingTutee.Columns.Add("End Time", 90);
             lvPendingTutee.Columns.Add("Class", 75);
-            lvPendingTutee.Columns.Add("Location", 75);
-            lvPendingTutee.Columns.Add("Open", 75);
+            lvPendingTutee.Columns.Add("Location", 105);
+            lvPendingTutee.Columns.Add("Open", 50);
             lvPendingTutee.Columns.Add("Tutoring", 75);
             lvPendingTutee.Columns.Add("Weekly", 75);
-            lvPendingTutee.Columns.Add("Partner", 75);
+            lvPendingTutee.Columns.Add("Partner", 115);
 
         }
 
