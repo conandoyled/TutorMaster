@@ -43,6 +43,11 @@
             this.tabOpen = new System.Windows.Forms.TabPage();
             this.btnCreateSession = new System.Windows.Forms.Button();
             this.tabFaculty = new System.Windows.Forms.TabPage();
+            this.txtPhoneNumber = new System.Windows.Forms.MaskedTextBox();
+            this.label6 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.txtEmail = new System.Windows.Forms.TextBox();
+
             this.btnFacultyDelete = new System.Windows.Forms.Button();
             this.btnFacultyAdd = new System.Windows.Forms.Button();
             this.btnFacultyEdit = new System.Windows.Forms.Button();
@@ -86,7 +91,7 @@
             this.tabAdmin.Location = new System.Drawing.Point(12, 39);
             this.tabAdmin.Name = "tabAdmin";
             this.tabAdmin.SelectedIndex = 0;
-            this.tabAdmin.Size = new System.Drawing.Size(625, 373);
+            this.tabAdmin.Size = new System.Drawing.Size(625, 398);
             this.tabAdmin.TabIndex = 0;
             // 
             // tabStudent
@@ -98,7 +103,7 @@
             this.tabStudent.Location = new System.Drawing.Point(4, 22);
             this.tabStudent.Name = "tabStudent";
             this.tabStudent.Padding = new System.Windows.Forms.Padding(3);
-            this.tabStudent.Size = new System.Drawing.Size(617, 347);
+            this.tabStudent.Size = new System.Drawing.Size(617, 372);
             this.tabStudent.TabIndex = 0;
             this.tabStudent.Text = "Students";
             this.tabStudent.UseVisualStyleBackColor = true;
@@ -107,7 +112,7 @@
             // 
             this.lvStudent.Location = new System.Drawing.Point(0, 0);
             this.lvStudent.Name = "lvStudent";
-            this.lvStudent.Size = new System.Drawing.Size(617, 312);
+            this.lvStudent.Size = new System.Drawing.Size(617, 337);
             this.lvStudent.TabIndex = 0;
             this.lvStudent.UseCompatibleStateImageBehavior = false;
             this.lvStudent.View = System.Windows.Forms.View.Details;
@@ -116,7 +121,7 @@
             // 
             // btnDelete
             // 
-            this.btnDelete.Location = new System.Drawing.Point(278, 318);
+            this.btnDelete.Location = new System.Drawing.Point(278, 343);
             this.btnDelete.Name = "btnDelete";
             this.btnDelete.Size = new System.Drawing.Size(130, 23);
             this.btnDelete.TabIndex = 4;
@@ -126,7 +131,7 @@
             // 
             // btnCreateStudent
             // 
-            this.btnCreateStudent.Location = new System.Drawing.Point(6, 318);
+            this.btnCreateStudent.Location = new System.Drawing.Point(6, 343);
             this.btnCreateStudent.Name = "btnCreateStudent";
             this.btnCreateStudent.Size = new System.Drawing.Size(130, 23);
             this.btnCreateStudent.TabIndex = 2;
@@ -136,7 +141,7 @@
             // 
             // btnEdit
             // 
-            this.btnEdit.Location = new System.Drawing.Point(142, 318);
+            this.btnEdit.Location = new System.Drawing.Point(142, 343);
             this.btnEdit.Name = "btnEdit";
             this.btnEdit.Size = new System.Drawing.Size(130, 23);
             this.btnEdit.TabIndex = 3;
@@ -151,7 +156,7 @@
             this.tabCommitments.Location = new System.Drawing.Point(4, 22);
             this.tabCommitments.Name = "tabCommitments";
             this.tabCommitments.Padding = new System.Windows.Forms.Padding(3);
-            this.tabCommitments.Size = new System.Drawing.Size(617, 347);
+            this.tabCommitments.Size = new System.Drawing.Size(617, 372);
             this.tabCommitments.TabIndex = 1;
             this.tabCommitments.Text = "Commitments";
             this.tabCommitments.UseVisualStyleBackColor = true;
@@ -218,6 +223,10 @@
             // 
             // tabFaculty
             // 
+            this.tabFaculty.Controls.Add(this.txtPhoneNumber);
+            this.tabFaculty.Controls.Add(this.label6);
+            this.tabFaculty.Controls.Add(this.label5);
+            this.tabFaculty.Controls.Add(this.txtEmail);
             this.tabFaculty.Controls.Add(this.btnFacultyDelete);
             this.tabFaculty.Controls.Add(this.btnFacultyAdd);
             this.tabFaculty.Controls.Add(this.btnFacultyEdit);
@@ -234,42 +243,80 @@
             this.tabFaculty.Location = new System.Drawing.Point(4, 22);
             this.tabFaculty.Name = "tabFaculty";
             this.tabFaculty.Padding = new System.Windows.Forms.Padding(3);
-            this.tabFaculty.Size = new System.Drawing.Size(617, 347);
+            this.tabFaculty.Size = new System.Drawing.Size(617, 372);
             this.tabFaculty.TabIndex = 2;
             this.tabFaculty.Text = "Faculty";
             this.tabFaculty.UseVisualStyleBackColor = true;
             // 
+
+            // txtPhoneNumber
+            // 
+            this.txtPhoneNumber.Location = new System.Drawing.Point(431, 156);
+            this.txtPhoneNumber.Mask = "(999) 000-0000";
+            this.txtPhoneNumber.Name = "txtPhoneNumber";
+            this.txtPhoneNumber.Size = new System.Drawing.Size(100, 20);
+            this.txtPhoneNumber.TabIndex = 22;
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(538, 197);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(32, 13);
+            this.label6.TabIndex = 25;
+            this.label6.Text = "Email";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(537, 163);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(78, 13);
+            this.label5.TabIndex = 24;
+            this.label5.Text = "Phone Number";
+            // 
+            // txtEmail
+            // 
+            this.txtEmail.Location = new System.Drawing.Point(431, 190);
+            this.txtEmail.Name = "txtEmail";
+            this.txtEmail.Size = new System.Drawing.Size(100, 20);
+            this.txtEmail.TabIndex = 23;
+            // 
             // btnFacultyDelete
             // 
-            this.btnFacultyDelete.Location = new System.Drawing.Point(446, 307);
+            this.btnFacultyDelete.Location = new System.Drawing.Point(446, 333);
             this.btnFacultyDelete.Name = "btnFacultyDelete";
             this.btnFacultyDelete.Size = new System.Drawing.Size(130, 23);
             this.btnFacultyDelete.TabIndex = 21;
             this.btnFacultyDelete.Text = "Delete Faculty Account";
             this.btnFacultyDelete.UseVisualStyleBackColor = true;
+            this.btnFacultyDelete.Click += new System.EventHandler(this.btnFacultyDelete_Click);
             // 
             // btnFacultyAdd
             // 
-            this.btnFacultyAdd.Location = new System.Drawing.Point(446, 230);
+            this.btnFacultyAdd.Location = new System.Drawing.Point(446, 256);
             this.btnFacultyAdd.Name = "btnFacultyAdd";
             this.btnFacultyAdd.Size = new System.Drawing.Size(130, 38);
             this.btnFacultyAdd.TabIndex = 19;
             this.btnFacultyAdd.Text = "Create New Faculty Account";
             this.btnFacultyAdd.UseVisualStyleBackColor = true;
+            this.btnFacultyAdd.Click += new System.EventHandler(this.btnFacultyAdd_Click);
             // 
             // btnFacultyEdit
             // 
-            this.btnFacultyEdit.Location = new System.Drawing.Point(446, 276);
+            this.btnFacultyEdit.Location = new System.Drawing.Point(446, 302);
             this.btnFacultyEdit.Name = "btnFacultyEdit";
             this.btnFacultyEdit.Size = new System.Drawing.Size(130, 23);
             this.btnFacultyEdit.TabIndex = 20;
             this.btnFacultyEdit.Text = "Edit Faculty Account";
             this.btnFacultyEdit.UseVisualStyleBackColor = true;
+            this.btnFacultyEdit.Click += new System.EventHandler(this.btnFacultyEdit_Click);
             // 
             // combDepartments
             // 
             this.combDepartments.FormattingEnabled = true;
-            this.combDepartments.Location = new System.Drawing.Point(431, 192);
+            this.combDepartments.Location = new System.Drawing.Point(431, 221);
+
             this.combDepartments.Name = "combDepartments";
             this.combDepartments.Size = new System.Drawing.Size(159, 21);
             this.combDepartments.TabIndex = 18;
@@ -277,7 +324,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(537, 157);
+            this.label4.Location = new System.Drawing.Point(537, 131);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(53, 13);
             this.label4.TabIndex = 17;
@@ -286,7 +333,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(537, 115);
+            this.label3.Location = new System.Drawing.Point(537, 99);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(55, 13);
             this.label3.TabIndex = 16;
@@ -295,7 +342,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(538, 72);
+            this.label2.Location = new System.Drawing.Point(538, 66);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(58, 13);
             this.label2.TabIndex = 15;
@@ -312,21 +359,21 @@
             // 
             // txtPassword
             // 
-            this.txtPassword.Location = new System.Drawing.Point(431, 150);
+            this.txtPassword.Location = new System.Drawing.Point(431, 124);
             this.txtPassword.Name = "txtPassword";
             this.txtPassword.Size = new System.Drawing.Size(100, 20);
             this.txtPassword.TabIndex = 13;
             // 
             // txtUsername
             // 
-            this.txtUsername.Location = new System.Drawing.Point(431, 108);
+            this.txtUsername.Location = new System.Drawing.Point(431, 92);
             this.txtUsername.Name = "txtUsername";
             this.txtUsername.Size = new System.Drawing.Size(100, 20);
             this.txtUsername.TabIndex = 12;
             // 
             // txtLastname
             // 
-            this.txtLastname.Location = new System.Drawing.Point(431, 65);
+            this.txtLastname.Location = new System.Drawing.Point(431, 59);
             this.txtLastname.Name = "txtLastname";
             this.txtLastname.Size = new System.Drawing.Size(100, 20);
             this.txtLastname.TabIndex = 11;
@@ -342,7 +389,9 @@
             // 
             this.lvFaculty.Location = new System.Drawing.Point(0, 0);
             this.lvFaculty.Name = "lvFaculty";
-            this.lvFaculty.Size = new System.Drawing.Size(410, 347);
+
+            this.lvFaculty.Size = new System.Drawing.Size(410, 372);
+
             this.lvFaculty.TabIndex = 1;
             this.lvFaculty.UseCompatibleStateImageBehavior = false;
             this.lvFaculty.View = System.Windows.Forms.View.Details;
@@ -364,7 +413,9 @@
             this.tabClasses.Location = new System.Drawing.Point(4, 22);
             this.tabClasses.Name = "tabClasses";
             this.tabClasses.Padding = new System.Windows.Forms.Padding(3);
-            this.tabClasses.Size = new System.Drawing.Size(617, 347);
+
+            this.tabClasses.Size = new System.Drawing.Size(617, 372);
+
             this.tabClasses.TabIndex = 3;
             this.tabClasses.Text = "Classes";
             this.tabClasses.UseVisualStyleBackColor = true;
@@ -412,6 +463,7 @@
             this.lblDepartment.Size = new System.Drawing.Size(62, 13);
             this.lblDepartment.TabIndex = 25;
             this.lblDepartment.Text = "Department";
+            this.lblDepartment.Visible = false;
             // 
             // label7
             // 
@@ -437,6 +489,7 @@
             this.txtDepartment.Name = "txtDepartment";
             this.txtDepartment.Size = new System.Drawing.Size(100, 20);
             this.txtDepartment.TabIndex = 21;
+            this.txtDepartment.Visible = false;
             // 
             // txtClassName
             // 
@@ -456,7 +509,9 @@
             // 
             this.lvClass.Location = new System.Drawing.Point(0, 0);
             this.lvClass.Name = "lvClass";
-            this.lvClass.Size = new System.Drawing.Size(372, 347);
+
+            this.lvClass.Size = new System.Drawing.Size(372, 372);
+
             this.lvClass.TabIndex = 1;
             this.lvClass.UseCompatibleStateImageBehavior = false;
             this.lvClass.View = System.Windows.Forms.View.Details;
@@ -476,7 +531,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(648, 422);
+            this.ClientSize = new System.Drawing.Size(648, 449);
             this.Controls.Add(this.btnLogout);
             this.Controls.Add(this.tabAdmin);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -537,5 +592,9 @@
         private System.Windows.Forms.Button btnClassAdd;
         private System.Windows.Forms.Button btnClassEdit;
         private System.Windows.Forms.ComboBox combDepartmentsAdd;
+        private System.Windows.Forms.MaskedTextBox txtPhoneNumber;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.TextBox txtEmail;
     }
 }
