@@ -18,14 +18,13 @@ namespace TutorMaster
             id = accID;
             InitializeComponent();
             populateColumns();
-            DateTime start = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 0, 0, 0);
+            DateTime start = new DateTime(2017, 3, 23, 0, 0, 0);
             loadAvail(start);
         }
 
         //loading availability functions
         private void loadAvail(DateTime start)
         {
-            MessageBox.Show(start.ToString());
                                                                                                                     //Clear the ListViews
             lvSunday.Items.Clear();
             lvMonday.Items.Clear();

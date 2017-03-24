@@ -125,5 +125,12 @@ namespace TutorMaster
         {
             return (DateTime.Compare(Convert.ToDateTime(commit.StartTime), startTime) >= 0 && DateTime.Compare(Convert.ToDateTime(commit.StartTime), endTime) < 0);
         }
+
+        private void btnCancel_Click(object sender, EventArgs e)
+        {
+            StudentMain g = new StudentMain(tuteeID);
+            g.Show();
+            this.Close();
+        }
     }
 }
