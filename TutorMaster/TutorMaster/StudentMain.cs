@@ -147,25 +147,11 @@ namespace TutorMaster
             {
                 if (DateTime.Compare(Convert.ToDateTime(cmtList[i].StartTime), start.AddDays(7)) >= 0 || DateTime.Compare(Convert.ToDateTime(cmtList[i].StartTime), start) < 0)
                 {
-                   // MessageBox.Show(i.ToString());
-                    //MessageBox.Show(lenght.ToString());
-                    //MessageBox.Show(Convert.ToDateTime(cmtList[i].StartTime).ToString());
                     cmtList.Remove(cmtList[i]);
                     i--;
-                    //if (lenght > 1)
-                    //{
-                        lenght--;
-                    //}
-                    //MessageBox.Show(i.ToString());
-                    //MessageBox.Show(lenght.ToString());
+                    lenght--;
                 }   
             }
-            //MessageBox.Show(cmtList.Count().ToString());
-            //if (DateTime.Compare(Convert.ToDateTime(cmtList[0].StartTime), start.AddDays(7)) >= 0 || DateTime.Compare(Convert.ToDateTime(cmtList[0].StartTime), start) < 0)
-            //{
-           //     MessageBox.Show(Convert.ToDateTime(cmtList[0].StartTime).ToString());
-            //    cmtList.Remove(cmtList[0]);
-           // }
         }
 
         private bool sameCategory(TutorMaster.Commitment commitFirst, TutorMaster.Commitment commitSecond)
@@ -337,6 +323,7 @@ namespace TutorMaster
                     MessageBox.Show(date[i].ToString() + " is already in the database, this will not be added");
                 }
             }
+            
             return found;
         }
 
