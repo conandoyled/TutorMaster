@@ -31,8 +31,6 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(StudentMain));
             this.weekStartDateTime = new System.Windows.Forms.DateTimePicker();
             this.cbxWeekly = new System.Windows.Forms.CheckBox();
-            this.combEndDay = new System.Windows.Forms.ComboBox();
-            this.combStartDay = new System.Windows.Forms.ComboBox();
             this.dayTabs = new System.Windows.Forms.TabControl();
             this.tabSunday = new System.Windows.Forms.TabPage();
             this.label3 = new System.Windows.Forms.Label();
@@ -68,6 +66,8 @@
             this.button1 = new System.Windows.Forms.Button();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabSchedule = new System.Windows.Forms.TabPage();
+            this.dayEndDateTime = new System.Windows.Forms.DateTimePicker();
+            this.dayStartDateTime = new System.Windows.Forms.DateTimePicker();
             this.tabAppointments = new System.Windows.Forms.TabPage();
             this.tabControl2 = new System.Windows.Forms.TabControl();
             this.tabAccepted = new System.Windows.Forms.TabPage();
@@ -76,8 +76,6 @@
             this.lvPendingTutor = new System.Windows.Forms.ListView();
             this.tabPendingTutee = new System.Windows.Forms.TabPage();
             this.lvPendingTutee = new System.Windows.Forms.ListView();
-            this.dayStartDateTime = new System.Windows.Forms.DateTimePicker();
-            this.dayEndDateTime = new System.Windows.Forms.DateTimePicker();
             this.label10 = new System.Windows.Forms.Label();
             this.dayTabs.SuspendLayout();
             this.tabSunday.SuspendLayout();
@@ -116,40 +114,6 @@
             this.cbxWeekly.TabIndex = 12;
             this.cbxWeekly.Text = "Weekly";
             this.cbxWeekly.UseVisualStyleBackColor = true;
-            // 
-            // combEndDay
-            // 
-            this.combEndDay.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.combEndDay.FormattingEnabled = true;
-            this.combEndDay.Items.AddRange(new object[] {
-            "Sunday",
-            "Monday",
-            "Tuesday",
-            "Wednesday",
-            "Thursday",
-            "Friday",
-            "Saturday"});
-            this.combEndDay.Location = new System.Drawing.Point(990, 317);
-            this.combEndDay.Name = "combEndDay";
-            this.combEndDay.Size = new System.Drawing.Size(101, 21);
-            this.combEndDay.TabIndex = 11;
-            // 
-            // combStartDay
-            // 
-            this.combStartDay.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.combStartDay.FormattingEnabled = true;
-            this.combStartDay.Items.AddRange(new object[] {
-            "Sunday",
-            "Monday",
-            "Tuesday",
-            "Wednesday",
-            "Thursday",
-            "Friday",
-            "Saturday"});
-            this.combStartDay.Location = new System.Drawing.Point(990, 290);
-            this.combStartDay.Name = "combStartDay";
-            this.combStartDay.Size = new System.Drawing.Size(101, 21);
-            this.combStartDay.TabIndex = 10;
             // 
             // dayTabs
             // 
@@ -547,6 +511,26 @@
             this.tabSchedule.Text = "Schedule";
             this.tabSchedule.UseVisualStyleBackColor = true;
             // 
+            // dayEndDateTime
+            // 
+            this.dayEndDateTime.Location = new System.Drawing.Point(5, 356);
+            this.dayEndDateTime.MaxDate = new System.DateTime(2017, 4, 30, 0, 0, 0, 0);
+            this.dayEndDateTime.MinDate = new System.DateTime(2017, 1, 1, 0, 0, 0, 0);
+            this.dayEndDateTime.Name = "dayEndDateTime";
+            this.dayEndDateTime.Size = new System.Drawing.Size(200, 20);
+            this.dayEndDateTime.TabIndex = 14;
+            this.dayEndDateTime.Value = new System.DateTime(2017, 3, 23, 0, 0, 0, 0);
+            // 
+            // dayStartDateTime
+            // 
+            this.dayStartDateTime.Location = new System.Drawing.Point(5, 329);
+            this.dayStartDateTime.MaxDate = new System.DateTime(2017, 4, 30, 0, 0, 0, 0);
+            this.dayStartDateTime.MinDate = new System.DateTime(2017, 1, 1, 0, 0, 0, 0);
+            this.dayStartDateTime.Name = "dayStartDateTime";
+            this.dayStartDateTime.Size = new System.Drawing.Size(200, 20);
+            this.dayStartDateTime.TabIndex = 13;
+            this.dayStartDateTime.Value = new System.DateTime(2017, 3, 23, 0, 0, 0, 0);
+            // 
             // tabAppointments
             // 
             this.tabAppointments.Controls.Add(this.tabControl2);
@@ -627,26 +611,6 @@
             this.lvPendingTutee.UseCompatibleStateImageBehavior = false;
             this.lvPendingTutee.View = System.Windows.Forms.View.Details;
             // 
-            // dayStartDateTime
-            // 
-            this.dayStartDateTime.Location = new System.Drawing.Point(5, 329);
-            this.dayStartDateTime.MaxDate = new System.DateTime(2017, 4, 30, 0, 0, 0, 0);
-            this.dayStartDateTime.MinDate = new System.DateTime(2017, 1, 1, 0, 0, 0, 0);
-            this.dayStartDateTime.Name = "dayStartDateTime";
-            this.dayStartDateTime.Size = new System.Drawing.Size(200, 20);
-            this.dayStartDateTime.TabIndex = 13;
-            this.dayStartDateTime.Value = new System.DateTime(2017, 3, 23, 0, 0, 0, 0);
-            // 
-            // dayEndDateTime
-            // 
-            this.dayEndDateTime.Location = new System.Drawing.Point(5, 356);
-            this.dayEndDateTime.MaxDate = new System.DateTime(2017, 4, 30, 0, 0, 0, 0);
-            this.dayEndDateTime.MinDate = new System.DateTime(2017, 1, 1, 0, 0, 0, 0);
-            this.dayEndDateTime.Name = "dayEndDateTime";
-            this.dayEndDateTime.Size = new System.Drawing.Size(200, 20);
-            this.dayEndDateTime.TabIndex = 14;
-            this.dayEndDateTime.Value = new System.DateTime(2017, 3, 23, 0, 0, 0, 0);
-            // 
             // label10
             // 
             this.label10.AutoSize = true;
@@ -665,9 +629,7 @@
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.weekStartDateTime);
             this.Controls.Add(this.button1);
-            this.Controls.Add(this.combStartDay);
             this.Controls.Add(this.btnLogout);
-            this.Controls.Add(this.combEndDay);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "StudentMain";
             this.Text = "StudentMain";
@@ -712,8 +674,6 @@
         private System.Windows.Forms.ComboBox combStartHour;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.ComboBox combEndDay;
-        private System.Windows.Forms.ComboBox combStartDay;
         private System.Windows.Forms.TabControl dayTabs;
         private System.Windows.Forms.TabPage tabSunday;
         private System.Windows.Forms.TabPage tabMonday;

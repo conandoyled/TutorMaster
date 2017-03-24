@@ -22,8 +22,10 @@ namespace TutorMaster
             loadAvail(start);
         }
 
+        //loading availability functions
         private void loadAvail(DateTime start)
         {
+            MessageBox.Show(start.ToString());
                                                                                                                     //Clear the ListViews
             lvSunday.Items.Clear();
             lvMonday.Items.Clear();
@@ -58,8 +60,6 @@ namespace TutorMaster
                     }
                     else if (cmtList.Count() > 1)                                                                    //general case of having more than one committment
                     {
-                        
-
                         //Carries
                         TutorMaster.Commitment initialCommit = cmtList[0];                                           //start commit (because it has the information I'll need to load to listviews)
                         string today = getDay(Convert.ToDateTime(cmtList[0].StartTime));                             //day of this commitment so I know which listview to add it to
@@ -153,7 +153,7 @@ namespace TutorMaster
                 }   
             }
         }
-
+        
         private bool sameCategory(TutorMaster.Commitment commitFirst, TutorMaster.Commitment commitSecond)
         {
             return (commitFirst.Class == commitSecond.Class && commitFirst.Location == commitSecond.Location 
@@ -161,6 +161,16 @@ namespace TutorMaster
                 && commitFirst.ID == commitSecond.ID);
         }
 
+        private string getCommitTime(TutorMaster.Commitment commit)
+        {
+            return Convert.ToDateTime(commit.StartTime).ToString().Split(' ')[1] + " " + Convert.ToDateTime(commit.StartTime).ToString().Split(' ')[2];
+        }
+
+        private string getCommitTime15(TutorMaster.Commitment commit15)
+        {
+            return Convert.ToDateTime(commit15.StartTime).AddMinutes(15).ToString().Split(' ')[1] + " " + Convert.ToDateTime(commit15.StartTime).ToString().Split(' ')[2];
+        }
+        
         private void addToListView(TutorMaster.Commitment commit, string day, string startTime, string endTime)
         {
             string partner = "";
@@ -194,28 +204,145 @@ namespace TutorMaster
             }
         }
 
-        private void btnLogout_Click(object sender, EventArgs e)
+        private string getDay(DateTime date)
         {
-            Login g = new Login();
-            g.Show();
-            this.Close();
+            string[] st = date.ToString("D").Split(',');
+            string day = st[0];
+            return day;
+        }
+        
+        //loading pending and accepted appointment functions
+        private void loadPendings(List<TutorMaster.Commitment> cmtList, DateTime start)
+        {
+            //DateTime start = new DateTime(2017, 1, 1, 0, 0, 0);
+
+
+            removeOpens(ref cmtList);
+            if (cmtList.Count > 0)
+            {
+                TutorMaster.Commitment initialCommit = cmtList[0];
+                string startTime = getCommitTime(cmtList[0]);
+                string endTime = getCommitTime15(cmtList[0]);
+
+                for (int i = 0; i < cmtList.Count() - 1; i++)
+                {
+                    DateTime currentCommitDate = Convert.ToDateTime(cmtList[i].StartTime);                   //get datetime of commitment we are on in loop
+                    DateTime nextCommitDate = Convert.ToDateTime(cmtList[i + 1].StartTime);                  //get datetime of commitment ahead of it
+
+                    //if the two commits are distinct besides time and current commit is within week of start time
+                    if (!sameCategory(cmtList[i], cmtList[i + 1]) && (DateTime.Compare(currentCommitDate, start.AddDays(7)) < 0 && DateTime.Compare(currentCommitDate, start) >= 0))
+                    {
+                        endTime = getCommitTime15(cmtList[i]);                                               //update endtime and add what we have so far
+                        addToAppointments(initialCommit, startTime, endTime);
+
+                        //initialize carries to be the next commitment and begin scanning for that
+                        startTime = getCommitTime(cmtList[i + 1]);
+                        endTime = getCommitTime15(cmtList[i + 1]);
+                        initialCommit = cmtList[i + 1];
+                    }
+                    else                                                                                     //if the current and next commit are in the same category
+                    {
+                        if (DateTime.Compare(currentCommitDate, start.AddDays(7)) < 0 && DateTime.Compare(currentCommitDate, start) >= 0) //see if its within a week of start
+                        {
+                            if (DateTime.Compare(nextCommitDate, currentCommitDate.AddMinutes(15)) == 0) //if our next commit is 15 minutes later of our current
+                            {
+                                endTime = getCommitTime15(cmtList[i]);                                   //only update endTime
+                            }
+                            else
+                            {
+                                endTime = getCommitTime15(cmtList[i]);                                   //if next commit is not, update endTime
+                                addToAppointments(initialCommit, startTime, endTime);
+
+                                //update our carries
+                                startTime = getCommitTime(cmtList[i + 1]);
+                                endTime = getCommitTime15(cmtList[i + 1]);
+                                initialCommit = cmtList[i + 1];
+                            }
+                        }
+                    }
+                }
+                endTime = getCommitTime15(cmtList[cmtList.Count() - 1]);
+                addToAppointments(initialCommit, startTime, endTime);
+            }
         }
 
+        private void addToAppointments(TutorMaster.Commitment commit, string startTime, string endTime)
+        {
+            string partner = "";
+            if (commit.ID == -1)
+            {
+                partner = "None";
+            }
+            if (locAccepted(commit))
+            {
+                lvAccepted.Items.Add(new ListViewItem(new string[] { startTime, endTime, commit.Class, commit.Location, commit.Open.ToString(), commit.Tutoring.ToString(), commit.Weekly.ToString(), partner }));
+            }
+            else if (tuteeWaitingForResponse(commit) || tutorWaitingForResponse(commit))
+            {
+                lvPendingTutor.Items.Add(new ListViewItem(new string[] { startTime, endTime, commit.Class, commit.Location, commit.Open.ToString(), commit.Tutoring.ToString(), commit.Weekly.ToString(), partner }));
+            }
+            else if (locProposed(commit) || locAcceptWaiting(commit))
+            {
+                lvPendingTutee.Items.Add(new ListViewItem(new string[] { startTime, endTime, commit.Class, commit.Location, commit.Open.ToString(), commit.Tutoring.ToString(), commit.Weekly.ToString(), partner }));
+            }
+        }
+                
+        private void removeOpens(ref List<TutorMaster.Commitment> cmtList)
+        {
+            for (int i = 0; i < cmtList.Count(); i++)
+            {
+                if(isOpen(cmtList[i]))
+                {
+                    cmtList.Remove(cmtList[i]);
+                }
+            }
+        }
 
+        private bool isOpen(TutorMaster.Commitment commit)
+        {
+            return (commit.Class == "-" && commit.Location == "-" && commit.Open == true && commit.Tutoring == false && commit.ID == -1);
+        }
+
+        private bool tuteeWaitingForResponse(TutorMaster.Commitment commit)
+        {
+            return (commit.Class != "-" && commit.Location == "-" && commit.Open == false && commit.Tutoring == false && commit.ID != -1);
+        }
+
+        private bool tutorWaitingForResponse(TutorMaster.Commitment commit)
+        {
+            return (commit.Class != "-" && commit.Location == "-" && commit.Open == false && commit.Tutoring == true && commit.ID != -1);
+        }
+
+        private bool locProposed(TutorMaster.Commitment commit)
+        {
+            return (commit.Class != "-" && commit.Location.Contains('?') && commit.Open == false && commit.Tutoring == false && commit.ID != -1);
+        }
+
+        private bool locAcceptWaiting(TutorMaster.Commitment commit)
+        {
+            return (commit.Class != "-" && commit.Location.Contains('?') && commit.Open == false && commit.Tutoring == true && commit.ID != -1);
+        }
+
+        private bool locAccepted(TutorMaster.Commitment commit)
+        {
+            return (commit.Class != "-" && !commit.Location.Contains('?') && commit.Location != "-" && commit.Open == false && commit.ID != -1);
+        }
+     
+        //btn to add open slots and its helper functions
         private void btnAddOpenBlock_Click(object sender, EventArgs e)
         {
             //first, error check to make sure that the user put something for each dropdownbox
-            if ((string.IsNullOrWhiteSpace(combStartDay.Text)) || (string.IsNullOrWhiteSpace(combStartHour.Text))
+            if (/*(string.IsNullOrWhiteSpace(combStartDay.Text)) ||*/ (string.IsNullOrWhiteSpace(combStartHour.Text))
             || (string.IsNullOrWhiteSpace(combStartMinute.Text) || (string.IsNullOrWhiteSpace(combStartAmPm.Text)))
-            || (string.IsNullOrWhiteSpace(combEndDay.Text)) || (string.IsNullOrWhiteSpace(combEndHour.Text))
+            /*|| (string.IsNullOrWhiteSpace(combEndDay.Text))*/ || (string.IsNullOrWhiteSpace(combEndHour.Text))
             || (string.IsNullOrWhiteSpace(combEndMinute.Text)) || (string.IsNullOrWhiteSpace(combEndAmPm.Text)))
             {
                 MessageBox.Show("Please fill out a starting and ending day, hour, minute, and part of day");
             }
             else
             {
-                string stringStartDay = combStartDay.Text;
-                int intStartDay = getDayIndex(stringStartDay);
+                //string stringStartDay = combStartDay.Text;
+                //int intStartDay = getDayIndex(stringStartDay);
                 int startHour = int.Parse(combStartHour.Text);
                 int startMinute = int.Parse(combStartMinute.Text);
                 string startAmPm = combStartAmPm.Text;
@@ -229,8 +356,8 @@ namespace TutorMaster
                     startHour = 0;
                 }
 
-                string stringEndDay = combEndDay.Text;
-                int intEndDay = getDayIndex(stringEndDay);
+               // string stringEndDay = combEndDay.Text;
+                //int intEndDay = getDayIndex(stringEndDay);
                 int endHour = int.Parse(combEndHour.Text);
                 int endMinute = int.Parse(combEndMinute.Text);
                 string endAmPm = combEndAmPm.Text;
@@ -250,36 +377,6 @@ namespace TutorMaster
                 DateTime endTime = new DateTime(dayEndDateTime.Value.Year, dayEndDateTime.Value.Month, dayEndDateTime.Value.Day, endHour, endMinute, 0); //new DateTime(2017, 1, intEndDay, endHour, endMinute, 0);
                 getAvail(startTime, endTime, weekly);
             }
-        }
-
-        private int getDayIndex(string day)
-        {
-            int numDay = 0;
-            switch (day)
-            {
-                case "Sunday":
-                    numDay = 1;
-                    break;
-                case "Monday":
-                    numDay = 2;
-                    break;
-                case "Tuesday":
-                    numDay = 3;
-                    break;
-                case "Wednesday":
-                    numDay = 4;
-                    break;
-                case "Thursday":
-                    numDay = 5;
-                    break;
-                case "Friday":
-                    numDay = 6;
-                    break;
-                case "Saturday":
-                    numDay = 7;
-                    break;
-            }
-            return numDay;
         }
 
         private void getAvail(DateTime startTime, DateTime endTime, bool weekly)
@@ -383,7 +480,7 @@ namespace TutorMaster
                 }
             }
         }
-
+        
         private void addCommit(TutorMaster.Commitment commit)
         {
             TutorMasterDBEntities4 db = new TutorMasterDBEntities4();
@@ -396,13 +493,6 @@ namespace TutorMaster
             TutorMasterDBEntities4 db = new TutorMasterDBEntities4();
             db.StudentCommitments.AddObject(studentCommit);
             db.SaveChanges();
-        }
-
-        private string getDay(DateTime date)
-        {
-            string[] st = date.ToString("D").Split(',');
-            string day = st[0];
-            return day;
         }
 
         private int getNextCmtId()
@@ -438,228 +528,15 @@ namespace TutorMaster
             }
             return lastRow + 1;
         }
-
-        private void populateColumns()
+        
+        //in case someone changes the startofweek datetime picker
+        private void weekStartDateTime_ValueChanged(object sender, EventArgs e)
         {
-            lvSunday.CheckBoxes = true;
-            lvSunday.Columns.Add("Start Time", 90);
-            lvSunday.Columns.Add("End Time", 90);
-            lvSunday.Columns.Add("Class", 75);
-            lvSunday.Columns.Add("Location", 105);
-            lvSunday.Columns.Add("Open", 50);
-            lvSunday.Columns.Add("Tutoring", 75);
-            lvSunday.Columns.Add("Weekly", 50);
-            lvSunday.Columns.Add("Partner", 115);
-
-            lvMonday.CheckBoxes = true;
-            lvMonday.Columns.Add("Start Time", 90);
-            lvMonday.Columns.Add("End Time", 90);
-            lvMonday.Columns.Add("Class", 75);
-            lvMonday.Columns.Add("Location", 105);
-            lvMonday.Columns.Add("Open", 50);
-            lvMonday.Columns.Add("Tutoring", 75);
-            lvMonday.Columns.Add("Weekly", 75);
-            lvMonday.Columns.Add("Partner", 115);
-
-            lvTuesday.CheckBoxes = true;
-            lvTuesday.Columns.Add("Start Time", 90);
-            lvTuesday.Columns.Add("End Time", 90);
-            lvTuesday.Columns.Add("Class", 75);
-            lvTuesday.Columns.Add("Location", 105);
-            lvTuesday.Columns.Add("Open", 50);
-            lvTuesday.Columns.Add("Tutoring", 75);
-            lvTuesday.Columns.Add("Weekly", 75);
-            lvTuesday.Columns.Add("Partner", 115);
-
-            lvWednesday.CheckBoxes = true;
-            lvWednesday.Columns.Add("Start Time", 90);
-            lvWednesday.Columns.Add("End Time", 90);
-            lvWednesday.Columns.Add("Class", 75);
-            lvWednesday.Columns.Add("Location", 105);
-            lvWednesday.Columns.Add("Open", 50);
-            lvWednesday.Columns.Add("Tutoring", 75);
-            lvWednesday.Columns.Add("Weekly", 75);
-            lvWednesday.Columns.Add("Partner", 115);
-
-            lvThursday.CheckBoxes = true;
-            lvThursday.Columns.Add("Start Time", 90);
-            lvThursday.Columns.Add("End Time", 90);
-            lvThursday.Columns.Add("Class", 75);
-            lvThursday.Columns.Add("Location", 105);
-            lvThursday.Columns.Add("Open", 50);
-            lvThursday.Columns.Add("Tutoring", 75);
-            lvThursday.Columns.Add("Weekly", 75);
-            lvThursday.Columns.Add("Partner", 115);
-
-            lvFriday.CheckBoxes = true;
-            lvFriday.Columns.Add("Start Time", 90);
-            lvFriday.Columns.Add("End Time", 90);
-            lvFriday.Columns.Add("Class", 75);
-            lvFriday.Columns.Add("Location", 105);
-            lvFriday.Columns.Add("Open", 50);
-            lvFriday.Columns.Add("Tutoring", 75);
-            lvFriday.Columns.Add("Weekly", 75);
-            lvFriday.Columns.Add("Partner", 115);
-
-            lvSaturday.CheckBoxes = true;
-            lvSaturday.Columns.Add("Start Time", 90);
-            lvSaturday.Columns.Add("End Time", 90);
-            lvSaturday.Columns.Add("Class", 75);
-            lvSaturday.Columns.Add("Location", 105);
-            lvSaturday.Columns.Add("Open", 50);
-            lvSaturday.Columns.Add("Tutoring", 75);
-            lvSaturday.Columns.Add("Weekly", 75);
-            lvSaturday.Columns.Add("Partner", 115);
-
-            lvAccepted.CheckBoxes = true;
-            lvAccepted.Columns.Add("Start Time", 90);
-            lvAccepted.Columns.Add("End Time", 90);
-            lvAccepted.Columns.Add("Class", 75);
-            lvAccepted.Columns.Add("Location", 105);
-            lvAccepted.Columns.Add("Open", 50);
-            lvAccepted.Columns.Add("Tutoring", 75);
-            lvAccepted.Columns.Add("Weekly", 75);
-            lvAccepted.Columns.Add("Partner", 115);
-
-            lvPendingTutor.CheckBoxes = true;
-            lvPendingTutor.Columns.Add("Start Time", 90);
-            lvPendingTutor.Columns.Add("End Time", 90);
-            lvPendingTutor.Columns.Add("Class", 75);
-            lvPendingTutor.Columns.Add("Location", 105);
-            lvPendingTutor.Columns.Add("Open", 50);
-            lvPendingTutor.Columns.Add("Tutoring", 75);
-            lvPendingTutor.Columns.Add("Weekly", 75);
-            lvPendingTutor.Columns.Add("Partner", 115);
-
-            lvPendingTutee.CheckBoxes = true;
-            lvPendingTutee.Columns.Add("Start Time", 90);
-            lvPendingTutee.Columns.Add("End Time", 90);
-            lvPendingTutee.Columns.Add("Class", 75);
-            lvPendingTutee.Columns.Add("Location", 105);
-            lvPendingTutee.Columns.Add("Open", 50);
-            lvPendingTutee.Columns.Add("Tutoring", 75);
-            lvPendingTutee.Columns.Add("Weekly", 75);
-            lvPendingTutee.Columns.Add("Partner", 115);
-
+            DateTime start = new DateTime(weekStartDateTime.Value.Year, weekStartDateTime.Value.Month, weekStartDateTime.Value.Day, 0, 0, 0);
+            loadAvail(start);
         }
-
-
-        private void loadPendings(List<TutorMaster.Commitment> cmtList, DateTime start)
-        {
-            //DateTime start = new DateTime(2017, 1, 1, 0, 0, 0);
-
-
-            removeOpens(ref cmtList);
-            if (cmtList.Count > 0)
-            {
-                TutorMaster.Commitment initialCommit = cmtList[0];
-                string startTime = getCommitTime(cmtList[0]);
-                string endTime = getCommitTime15(cmtList[0]);
-
-                for (int i = 0; i < cmtList.Count() - 1; i++)
-                {
-                    DateTime currentCommitDate = Convert.ToDateTime(cmtList[i].StartTime);                   //get datetime of commitment we are on in loop
-                    DateTime nextCommitDate = Convert.ToDateTime(cmtList[i + 1].StartTime);                  //get datetime of commitment ahead of it
-
-                    //if the two commits are distinct besides time and current commit is within week of start time
-                    if (!sameCategory(cmtList[i], cmtList[i + 1]) && (DateTime.Compare(currentCommitDate, start.AddDays(7)) < 0 && DateTime.Compare(currentCommitDate, start) >= 0))
-                    {
-                        endTime = getCommitTime15(cmtList[i]);                                               //update endtime and add what we have so far
-                        addToAppointments(initialCommit, startTime, endTime);
-
-                        //initialize carries to be the next commitment and begin scanning for that
-                        startTime = getCommitTime(cmtList[i + 1]);
-                        endTime = getCommitTime15(cmtList[i + 1]);
-                        initialCommit = cmtList[i + 1];
-                    }
-                    else                                                                                     //if the current and next commit are in the same category
-                    {
-                        if (DateTime.Compare(currentCommitDate, start.AddDays(7)) < 0 && DateTime.Compare(currentCommitDate, start) >= 0) //see if its within a week of start
-                        {
-                            if (DateTime.Compare(nextCommitDate, currentCommitDate.AddMinutes(15)) == 0) //if our next commit is 15 minutes later of our current
-                            {
-                                endTime = getCommitTime15(cmtList[i]);                                   //only update endTime
-                            }
-                            else
-                            {
-                                endTime = getCommitTime15(cmtList[i]);                                   //if next commit is not, update endTime
-                                addToAppointments(initialCommit, startTime, endTime);
-
-                                //update our carries
-                                startTime = getCommitTime(cmtList[i + 1]);
-                                endTime = getCommitTime15(cmtList[i + 1]);
-                                initialCommit = cmtList[i + 1];
-                            }
-                        }
-                    }
-                }
-                endTime = getCommitTime15(cmtList[cmtList.Count() - 1]);
-                addToAppointments(initialCommit, startTime, endTime);
-            }
-        }
-
-        private void removeOpens(ref List<TutorMaster.Commitment> cmtList)
-        {
-            for (int i = 0; i < cmtList.Count(); i++)
-            {
-                if(isOpen(cmtList[i]))
-                {
-                    cmtList.Remove(cmtList[i]);
-                }
-            }
-        }
-
-        private bool isOpen(TutorMaster.Commitment commit)
-        {
-            return (commit.Class == "-" && commit.Location == "-" && commit.Open == true && commit.Tutoring == false && commit.ID == -1);
-        }
-
-        private bool tuteeWaitingForResponse(TutorMaster.Commitment commit)
-        {
-            return (commit.Class != "-" && commit.Location == "-" && commit.Open == false && commit.Tutoring == false && commit.ID != -1);
-        }
-
-        private bool tutorWaitingForResponse(TutorMaster.Commitment commit)
-        {
-            return (commit.Class != "-" && commit.Location == "-" && commit.Open == false && commit.Tutoring == true && commit.ID != -1);
-        }
-
-        private bool locProposed(TutorMaster.Commitment commit)
-        {
-            return (commit.Class != "-" && commit.Location.Contains('?') && commit.Open == false && commit.Tutoring == false && commit.ID != -1);
-        }
-
-        private bool locAcceptWaiting(TutorMaster.Commitment commit)
-        {
-            return (commit.Class != "-" && commit.Location.Contains('?') && commit.Open == false && commit.Tutoring == true && commit.ID != -1);
-        }
-
-        private bool locAccepted(TutorMaster.Commitment commit)
-        {
-            return (commit.Class != "-" && !commit.Location.Contains('?') && commit.Location != "-" && commit.Open == false && commit.ID != -1);
-        }
-
-        private void addToAppointments(TutorMaster.Commitment commit, string startTime, string endTime)
-        {
-            string partner = "";
-            if (commit.ID == -1)
-            {
-                partner = "None";
-            }
-            if (locAccepted(commit))
-            {
-                lvAccepted.Items.Add(new ListViewItem(new string[] { startTime, endTime, commit.Class, commit.Location, commit.Open.ToString(), commit.Tutoring.ToString(), commit.Weekly.ToString(), partner }));
-            }
-            else if (tuteeWaitingForResponse(commit) || tutorWaitingForResponse(commit))
-            {
-                lvPendingTutor.Items.Add(new ListViewItem(new string[] { startTime, endTime, commit.Class, commit.Location, commit.Open.ToString(), commit.Tutoring.ToString(), commit.Weekly.ToString(), partner }));
-            }
-            else if (locProposed(commit) || locAcceptWaiting(commit))
-            {
-                lvPendingTutee.Items.Add(new ListViewItem(new string[] { startTime, endTime, commit.Class, commit.Location, commit.Open.ToString(), commit.Tutoring.ToString(), commit.Weekly.ToString(), partner }));
-            }
-        }
-
+        
+        //QuickSort functions
         private void Split(ref List<TutorMaster.Commitment> values, int first, int last, ref int splitPoint)
         {
             int center = (first + last) / 2;
@@ -767,20 +644,148 @@ namespace TutorMaster
             QuickSort2(ref values, 0, numValues - 1);
         }
 
-        private string getCommitTime(TutorMaster.Commitment commit)
+        //setup ListViews
+        private void populateColumns()
         {
-            return Convert.ToDateTime(commit.StartTime).ToString().Split(' ')[1] + " " + Convert.ToDateTime(commit.StartTime).ToString().Split(' ')[2];
-        }
+            lvSunday.CheckBoxes = true;
+            lvSunday.Columns.Add("Start Time", 90);
+            lvSunday.Columns.Add("End Time", 90);
+            lvSunday.Columns.Add("Class", 75);
+            lvSunday.Columns.Add("Location", 105);
+            lvSunday.Columns.Add("Open", 50);
+            lvSunday.Columns.Add("Tutoring", 75);
+            lvSunday.Columns.Add("Weekly", 50);
+            lvSunday.Columns.Add("Partner", 115);
 
-        private string getCommitTime15(TutorMaster.Commitment commit15)
-        {
-            return Convert.ToDateTime(commit15.StartTime).AddMinutes(15).ToString().Split(' ')[1] + " " + Convert.ToDateTime(commit15.StartTime).ToString().Split(' ')[2];
-        }
+            lvMonday.CheckBoxes = true;
+            lvMonday.Columns.Add("Start Time", 90);
+            lvMonday.Columns.Add("End Time", 90);
+            lvMonday.Columns.Add("Class", 75);
+            lvMonday.Columns.Add("Location", 105);
+            lvMonday.Columns.Add("Open", 50);
+            lvMonday.Columns.Add("Tutoring", 75);
+            lvMonday.Columns.Add("Weekly", 75);
+            lvMonday.Columns.Add("Partner", 115);
 
-        private void weekStartDateTime_ValueChanged(object sender, EventArgs e)
+            lvTuesday.CheckBoxes = true;
+            lvTuesday.Columns.Add("Start Time", 90);
+            lvTuesday.Columns.Add("End Time", 90);
+            lvTuesday.Columns.Add("Class", 75);
+            lvTuesday.Columns.Add("Location", 105);
+            lvTuesday.Columns.Add("Open", 50);
+            lvTuesday.Columns.Add("Tutoring", 75);
+            lvTuesday.Columns.Add("Weekly", 75);
+            lvTuesday.Columns.Add("Partner", 115);
+
+            lvWednesday.CheckBoxes = true;
+            lvWednesday.Columns.Add("Start Time", 90);
+            lvWednesday.Columns.Add("End Time", 90);
+            lvWednesday.Columns.Add("Class", 75);
+            lvWednesday.Columns.Add("Location", 105);
+            lvWednesday.Columns.Add("Open", 50);
+            lvWednesday.Columns.Add("Tutoring", 75);
+            lvWednesday.Columns.Add("Weekly", 75);
+            lvWednesday.Columns.Add("Partner", 115);
+
+            lvThursday.CheckBoxes = true;
+            lvThursday.Columns.Add("Start Time", 90);
+            lvThursday.Columns.Add("End Time", 90);
+            lvThursday.Columns.Add("Class", 75);
+            lvThursday.Columns.Add("Location", 105);
+            lvThursday.Columns.Add("Open", 50);
+            lvThursday.Columns.Add("Tutoring", 75);
+            lvThursday.Columns.Add("Weekly", 75);
+            lvThursday.Columns.Add("Partner", 115);
+
+            lvFriday.CheckBoxes = true;
+            lvFriday.Columns.Add("Start Time", 90);
+            lvFriday.Columns.Add("End Time", 90);
+            lvFriday.Columns.Add("Class", 75);
+            lvFriday.Columns.Add("Location", 105);
+            lvFriday.Columns.Add("Open", 50);
+            lvFriday.Columns.Add("Tutoring", 75);
+            lvFriday.Columns.Add("Weekly", 75);
+            lvFriday.Columns.Add("Partner", 115);
+
+            lvSaturday.CheckBoxes = true;
+            lvSaturday.Columns.Add("Start Time", 90);
+            lvSaturday.Columns.Add("End Time", 90);
+            lvSaturday.Columns.Add("Class", 75);
+            lvSaturday.Columns.Add("Location", 105);
+            lvSaturday.Columns.Add("Open", 50);
+            lvSaturday.Columns.Add("Tutoring", 75);
+            lvSaturday.Columns.Add("Weekly", 75);
+            lvSaturday.Columns.Add("Partner", 115);
+
+            lvAccepted.CheckBoxes = true;
+            lvAccepted.Columns.Add("Start Time", 90);
+            lvAccepted.Columns.Add("End Time", 90);
+            lvAccepted.Columns.Add("Class", 75);
+            lvAccepted.Columns.Add("Location", 105);
+            lvAccepted.Columns.Add("Open", 50);
+            lvAccepted.Columns.Add("Tutoring", 75);
+            lvAccepted.Columns.Add("Weekly", 75);
+            lvAccepted.Columns.Add("Partner", 115);
+
+            lvPendingTutor.CheckBoxes = true;
+            lvPendingTutor.Columns.Add("Start Time", 90);
+            lvPendingTutor.Columns.Add("End Time", 90);
+            lvPendingTutor.Columns.Add("Class", 75);
+            lvPendingTutor.Columns.Add("Location", 105);
+            lvPendingTutor.Columns.Add("Open", 50);
+            lvPendingTutor.Columns.Add("Tutoring", 75);
+            lvPendingTutor.Columns.Add("Weekly", 75);
+            lvPendingTutor.Columns.Add("Partner", 115);
+
+            lvPendingTutee.CheckBoxes = true;
+            lvPendingTutee.Columns.Add("Start Time", 90);
+            lvPendingTutee.Columns.Add("End Time", 90);
+            lvPendingTutee.Columns.Add("Class", 75);
+            lvPendingTutee.Columns.Add("Location", 105);
+            lvPendingTutee.Columns.Add("Open", 50);
+            lvPendingTutee.Columns.Add("Tutoring", 75);
+            lvPendingTutee.Columns.Add("Weekly", 75);
+            lvPendingTutee.Columns.Add("Partner", 115);
+
+        }
+        
+        //logout button
+        private void btnLogout_Click(object sender, EventArgs e)
         {
-            DateTime start = new DateTime(weekStartDateTime.Value.Year, weekStartDateTime.Value.Month, weekStartDateTime.Value.Day, 0, 0, 0);
-            loadAvail(start);
+            Login g = new Login();
+            g.Show();
+            this.Close();
+        }
+    
+        //old function that we may need later
+        private int getDayIndex(string day)
+        {
+            int numDay = 0;
+            switch (day)
+            {
+                case "Sunday":
+                    numDay = 1;
+                    break;
+                case "Monday":
+                    numDay = 2;
+                    break;
+                case "Tuesday":
+                    numDay = 3;
+                    break;
+                case "Wednesday":
+                    numDay = 4;
+                    break;
+                case "Thursday":
+                    numDay = 5;
+                    break;
+                case "Friday":
+                    numDay = 6;
+                    break;
+                case "Saturday":
+                    numDay = 7;
+                    break;
+            }
+            return numDay;
         }
     }
 }
