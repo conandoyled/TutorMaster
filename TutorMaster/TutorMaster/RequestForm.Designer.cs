@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(RequestForm));
             this.combEndHalf = new System.Windows.Forms.ComboBox();
             this.combEndMinute = new System.Windows.Forms.ComboBox();
             this.combEndHour = new System.Windows.Forms.ComboBox();
@@ -36,10 +37,15 @@
             this.combStartHour = new System.Windows.Forms.ComboBox();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.txtCourse = new System.Windows.Forms.TextBox();
+            this.txtCourseName = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.btnRequest = new System.Windows.Forms.Button();
             this.btnExit = new System.Windows.Forms.Button();
+            this.cbxWeekly = new System.Windows.Forms.CheckBox();
+            this.combStartDay = new System.Windows.Forms.ComboBox();
+            this.combEndDay = new System.Windows.Forms.ComboBox();
+            this.combStartAmPm = new System.Windows.Forms.ComboBox();
+            this.combEndAmPm = new System.Windows.Forms.ComboBox();
             this.SuspendLayout();
             // 
             // combEndHalf
@@ -48,7 +54,7 @@
             this.combEndHalf.Items.AddRange(new object[] {
             "AM",
             "PM"});
-            this.combEndHalf.Location = new System.Drawing.Point(118, 115);
+            this.combEndHalf.Location = new System.Drawing.Point(220, 65);
             this.combEndHalf.Name = "combEndHalf";
             this.combEndHalf.Size = new System.Drawing.Size(50, 21);
             this.combEndHalf.TabIndex = 11;
@@ -61,7 +67,7 @@
             "15",
             "30",
             "45"});
-            this.combEndMinute.Location = new System.Drawing.Point(63, 115);
+            this.combEndMinute.Location = new System.Drawing.Point(165, 65);
             this.combEndMinute.Name = "combEndMinute";
             this.combEndMinute.Size = new System.Drawing.Size(49, 21);
             this.combEndMinute.TabIndex = 10;
@@ -82,7 +88,7 @@
             "10",
             "11",
             "12"});
-            this.combEndHour.Location = new System.Drawing.Point(13, 115);
+            this.combEndHour.Location = new System.Drawing.Point(115, 65);
             this.combEndHour.Name = "combEndHour";
             this.combEndHour.Size = new System.Drawing.Size(44, 21);
             this.combEndHour.TabIndex = 9;
@@ -93,7 +99,7 @@
             this.combStartHalf.Items.AddRange(new object[] {
             "AM",
             "PM"});
-            this.combStartHalf.Location = new System.Drawing.Point(118, 88);
+            this.combStartHalf.Location = new System.Drawing.Point(220, 38);
             this.combStartHalf.Name = "combStartHalf";
             this.combStartHalf.Size = new System.Drawing.Size(50, 21);
             this.combStartHalf.TabIndex = 8;
@@ -106,7 +112,7 @@
             "15",
             "30",
             "45"});
-            this.combStartMinute.Location = new System.Drawing.Point(63, 89);
+            this.combStartMinute.Location = new System.Drawing.Point(165, 38);
             this.combStartMinute.Name = "combStartMinute";
             this.combStartMinute.Size = new System.Drawing.Size(49, 21);
             this.combStartMinute.TabIndex = 7;
@@ -127,7 +133,7 @@
             "10",
             "11",
             "12"});
-            this.combStartHour.Location = new System.Drawing.Point(13, 89);
+            this.combStartHour.Location = new System.Drawing.Point(115, 38);
             this.combStartHour.Name = "combStartHour";
             this.combStartHour.Size = new System.Drawing.Size(44, 21);
             this.combStartHour.TabIndex = 6;
@@ -135,7 +141,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(174, 119);
+            this.label2.Location = new System.Drawing.Point(337, 73);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(52, 13);
             this.label2.TabIndex = 13;
@@ -144,27 +150,28 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(174, 92);
+            this.label1.Location = new System.Drawing.Point(337, 41);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(55, 13);
             this.label1.TabIndex = 12;
             this.label1.Text = "Start Time";
             // 
-            // txtCourse
+            // txtCourseName
             // 
-            this.txtCourse.Location = new System.Drawing.Point(68, 37);
-            this.txtCourse.Name = "txtCourse";
-            this.txtCourse.Size = new System.Drawing.Size(100, 20);
-            this.txtCourse.TabIndex = 14;
+            this.txtCourseName.Location = new System.Drawing.Point(114, 8);
+            this.txtCourseName.Name = "txtCourseName";
+            this.txtCourseName.Size = new System.Drawing.Size(100, 20);
+            this.txtCourseName.TabIndex = 14;
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(174, 44);
+            this.label3.Location = new System.Drawing.Point(220, 11);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(40, 13);
+            this.label3.Size = new System.Drawing.Size(71, 13);
             this.label3.TabIndex = 15;
-            this.label3.Text = "Course";
+            this.label3.Text = "Course Name";
+            this.label3.Click += new System.EventHandler(this.label3_Click);
             // 
             // btnRequest
             // 
@@ -185,15 +192,62 @@
             this.btnExit.UseVisualStyleBackColor = true;
             this.btnExit.Click += new System.EventHandler(this.btnExit_Click);
             // 
+            // cbxWeekly
+            // 
+            this.cbxWeekly.AutoSize = true;
+            this.cbxWeekly.Location = new System.Drawing.Point(13, 118);
+            this.cbxWeekly.Name = "cbxWeekly";
+            this.cbxWeekly.Size = new System.Drawing.Size(165, 17);
+            this.cbxWeekly.TabIndex = 18;
+            this.cbxWeekly.Text = "Is this a weekly appointment?";
+            this.cbxWeekly.UseVisualStyleBackColor = true;
+            // 
+            // combStartDay
+            // 
+            this.combStartDay.FormattingEnabled = true;
+            this.combStartDay.Location = new System.Drawing.Point(2, 38);
+            this.combStartDay.Name = "combStartDay";
+            this.combStartDay.Size = new System.Drawing.Size(107, 21);
+            this.combStartDay.TabIndex = 19;
+            // 
+            // combEndDay
+            // 
+            this.combEndDay.FormattingEnabled = true;
+            this.combEndDay.Location = new System.Drawing.Point(2, 65);
+            this.combEndDay.Name = "combEndDay";
+            this.combEndDay.Size = new System.Drawing.Size(107, 21);
+            this.combEndDay.TabIndex = 20;
+            // 
+            // combStartAmPm
+            // 
+            this.combStartAmPm.FormattingEnabled = true;
+            this.combStartAmPm.Location = new System.Drawing.Point(282, 38);
+            this.combStartAmPm.Name = "combStartAmPm";
+            this.combStartAmPm.Size = new System.Drawing.Size(49, 21);
+            this.combStartAmPm.TabIndex = 21;
+            // 
+            // combEndAmPm
+            // 
+            this.combEndAmPm.FormattingEnabled = true;
+            this.combEndAmPm.Location = new System.Drawing.Point(282, 65);
+            this.combEndAmPm.Name = "combEndAmPm";
+            this.combEndAmPm.Size = new System.Drawing.Size(49, 21);
+            this.combEndAmPm.TabIndex = 22;
+            // 
             // RequestForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(250, 198);
+            this.ClientSize = new System.Drawing.Size(431, 198);
+            this.Controls.Add(this.combEndAmPm);
+            this.Controls.Add(this.combStartAmPm);
+            this.Controls.Add(this.combEndDay);
+            this.Controls.Add(this.combStartDay);
+            this.Controls.Add(this.cbxWeekly);
             this.Controls.Add(this.btnExit);
             this.Controls.Add(this.btnRequest);
             this.Controls.Add(this.label3);
-            this.Controls.Add(this.txtCourse);
+            this.Controls.Add(this.txtCourseName);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.combEndHalf);
@@ -202,8 +256,10 @@
             this.Controls.Add(this.combStartHalf);
             this.Controls.Add(this.combStartMinute);
             this.Controls.Add(this.combStartHour);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "RequestForm";
             this.Text = "RequestForm";
+            this.Load += new System.EventHandler(this.RequestForm_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -219,9 +275,14 @@
         private System.Windows.Forms.ComboBox combStartHour;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.TextBox txtCourse;
+        private System.Windows.Forms.TextBox txtCourseName;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Button btnRequest;
         private System.Windows.Forms.Button btnExit;
+        private System.Windows.Forms.CheckBox cbxWeekly;
+        private System.Windows.Forms.ComboBox combStartDay;
+        private System.Windows.Forms.ComboBox combEndDay;
+        private System.Windows.Forms.ComboBox combStartAmPm;
+        private System.Windows.Forms.ComboBox combEndAmPm;
     }
 }
