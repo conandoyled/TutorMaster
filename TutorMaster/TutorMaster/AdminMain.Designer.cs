@@ -47,6 +47,7 @@
             this.label6 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.txtEmail = new System.Windows.Forms.TextBox();
+
             this.btnFacultyDelete = new System.Windows.Forms.Button();
             this.btnFacultyAdd = new System.Windows.Forms.Button();
             this.btnFacultyEdit = new System.Windows.Forms.Button();
@@ -247,6 +248,7 @@
             this.tabFaculty.Text = "Faculty";
             this.tabFaculty.UseVisualStyleBackColor = true;
             // 
+
             // txtPhoneNumber
             // 
             this.txtPhoneNumber.Location = new System.Drawing.Point(431, 156);
@@ -314,6 +316,7 @@
             // 
             this.combDepartments.FormattingEnabled = true;
             this.combDepartments.Location = new System.Drawing.Point(431, 221);
+
             this.combDepartments.Name = "combDepartments";
             this.combDepartments.Size = new System.Drawing.Size(159, 21);
             this.combDepartments.TabIndex = 18;
@@ -386,7 +389,9 @@
             // 
             this.lvFaculty.Location = new System.Drawing.Point(0, 0);
             this.lvFaculty.Name = "lvFaculty";
+
             this.lvFaculty.Size = new System.Drawing.Size(410, 372);
+
             this.lvFaculty.TabIndex = 1;
             this.lvFaculty.UseCompatibleStateImageBehavior = false;
             this.lvFaculty.View = System.Windows.Forms.View.Details;
@@ -408,7 +413,9 @@
             this.tabClasses.Location = new System.Drawing.Point(4, 22);
             this.tabClasses.Name = "tabClasses";
             this.tabClasses.Padding = new System.Windows.Forms.Padding(3);
+
             this.tabClasses.Size = new System.Drawing.Size(617, 372);
+
             this.tabClasses.TabIndex = 3;
             this.tabClasses.Text = "Classes";
             this.tabClasses.UseVisualStyleBackColor = true;
@@ -502,7 +509,9 @@
             // 
             this.lvClass.Location = new System.Drawing.Point(0, 0);
             this.lvClass.Name = "lvClass";
+
             this.lvClass.Size = new System.Drawing.Size(372, 372);
+
             this.lvClass.TabIndex = 1;
             this.lvClass.UseCompatibleStateImageBehavior = false;
             this.lvClass.View = System.Windows.Forms.View.Details;
@@ -527,7 +536,7 @@
             this.Controls.Add(this.tabAdmin);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "AdminMain";
-            this.Text = "AdminMain";
+            this.Text = ".";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.AdminMain_FormClosed);
             this.tabAdmin.ResumeLayout(false);
             this.tabStudent.ResumeLayout(false);

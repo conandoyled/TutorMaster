@@ -31,6 +31,7 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(StudentMain));
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabAvailability = new System.Windows.Forms.TabPage();
+            this.dateTime = new System.Windows.Forms.DateTimePicker();
             this.cbxWeekly = new System.Windows.Forms.CheckBox();
             this.combEndDay = new System.Windows.Forms.ComboBox();
             this.combStartDay = new System.Windows.Forms.ComboBox();
@@ -67,8 +68,7 @@
             this.tabPendingTutee = new System.Windows.Forms.TabPage();
             this.cbxPendingTutee = new System.Windows.Forms.CheckedListBox();
             this.btnLogout = new System.Windows.Forms.Button();
-            this.button1 = new System.Windows.Forms.Button();
-            this.dateTime = new System.Windows.Forms.DateTimePicker();
+            this.btnRequest = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabAvailability.SuspendLayout();
             this.dayTabs.SuspendLayout();
@@ -119,6 +119,13 @@
             this.tabAvailability.Size = new System.Drawing.Size(829, 306);
             this.tabAvailability.TabIndex = 0;
             this.tabAvailability.Text = "Availability";
+            // 
+            // dateTime
+            // 
+            this.dateTime.Location = new System.Drawing.Point(391, 35);
+            this.dateTime.Name = "dateTime";
+            this.dateTime.Size = new System.Drawing.Size(200, 20);
+            this.dateTime.TabIndex = 13;
             // 
             // cbxWeekly
             // 
@@ -518,28 +525,22 @@
             this.btnLogout.UseVisualStyleBackColor = true;
             this.btnLogout.Click += new System.EventHandler(this.btnLogout_Click);
             // 
-            // button1
+            // btnRequest
             // 
-            this.button1.Location = new System.Drawing.Point(991, 342);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(97, 23);
-            this.button1.TabIndex = 2;
-            this.button1.Text = "Make Request";
-            this.button1.UseVisualStyleBackColor = true;
-            // 
-            // dateTime
-            // 
-            this.dateTime.Location = new System.Drawing.Point(391, 35);
-            this.dateTime.Name = "dateTime";
-            this.dateTime.Size = new System.Drawing.Size(200, 20);
-            this.dateTime.TabIndex = 13;
+            this.btnRequest.Location = new System.Drawing.Point(991, 342);
+            this.btnRequest.Name = "btnRequest";
+            this.btnRequest.Size = new System.Drawing.Size(97, 23);
+            this.btnRequest.TabIndex = 2;
+            this.btnRequest.Text = "Make Request";
+            this.btnRequest.UseVisualStyleBackColor = true;
+            this.btnRequest.Click += new System.EventHandler(this.btnRequest_Click);
             // 
             // StudentMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1167, 464);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.btnRequest);
             this.Controls.Add(this.btnLogout);
             this.Controls.Add(this.tabControl1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -578,7 +579,7 @@
         private System.Windows.Forms.TabPage tabPendingTutee;
         private System.Windows.Forms.CheckedListBox cbxPendingTutee;
         private System.Windows.Forms.Button btnLogout;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button btnRequest;
         private System.Windows.Forms.Button btnAddOpenBlock;
         private System.Windows.Forms.ComboBox combEndAmPm;
         private System.Windows.Forms.ComboBox combEndMinute;

@@ -42,7 +42,6 @@ namespace TutorMaster
             this.Close();
         }
 
-
         private void btnAddOpenBlock_Click(object sender, EventArgs e)
         {
             //first, error check to make sure that the user put something for each dropdownbox
@@ -323,5 +322,13 @@ namespace TutorMaster
             lvSaturday.Columns.Add("End Time", 125);
             lvSaturday.Columns.Add("Type", 95);
         }
+
+        private void btnRequest_Click(object sender, EventArgs e)
+        {
+            RequestForm r = new RequestForm(id); //open a request form
+            r.Show(); //show the form
+            Close(); //close this form
+        }
+
     }
 }
