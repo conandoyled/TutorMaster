@@ -289,18 +289,20 @@ namespace TutorMaster
             
             while (compare < 0) //if the first date is less than the second date
             {
-                if (!recordedTime(begin))
-                {
-                    add15Block(begin, weekly);   
-                } 
+                add15Block(begin, weekly);   
                 begin = begin.AddMinutes(15);
                 compare = begin.CompareTo(endTime);
             }
             DateTime start = new DateTime(weekStartDateTime.Value.Year, weekStartDateTime.Value.Month, weekStartDateTime.Value.Day, 0, 0, 0);
-            loadAvail(start);
+            removeDup();
+            //loadAvail(start);
         }
 
-        private bool recordedTime(DateTime begin)
+        private void removeDup()
+        {
+        }
+
+        /*private bool recordedTime(DateTime begin)
         {
             TutorMasterDBEntities4 db = new TutorMasterDBEntities4();
             bool found = false;
@@ -325,7 +327,7 @@ namespace TutorMaster
             }
             
             return found;
-        }
+        }*/
 
         private void add15Block(DateTime begin, bool weekly)
         {
