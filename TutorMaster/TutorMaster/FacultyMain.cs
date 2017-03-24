@@ -99,6 +99,30 @@ namespace TutorMaster
         private void btnAccept_Click(object sender, EventArgs e)
         {
             //This will need to change each student account selected and then remove the pending requests from the DB
+            TutorMasterDBEntities4 db = new TutorMasterDBEntities4();    //side note, we should carefully control the life cycle of object contexts like these   //open the db
+
+            int reqNum = lvPendingRequests.CheckedItems.Count;                                                      //identify how many requests have been checked
+            for (int i = 0; i < reqNum; i++)                                                                        //iterate for how many requests have been clicked
+            {
+
+
+                string CC = lvPendingRequests.CheckedItems[i].SubItems[1].Text;                                     //pull the classcode from the request in question
+                string Id = lvPendingRequests.CheckedItems[i].SubItems[2].Text;
+                int Id2 = Int32.Parse(Id);                                                                         //Change the string into an int, this is really fragile if a bad id number is put in the system somehow. typechecking for those ids should prevent it
+
+                Student tutor = (from row in db.Students where row.ID==Id2 select row).First();
+                tutor.Tutor = true;
+                TutorRequest delU = (from row in db.TutorRequests where ((row.ClassCode == CC) && (row.ID == Id2)) select row).First(); //find the request that has the right ID and class code
+
+                if (delU != null)
+                {
+                    db.TutorRequests.DeleteObject(delU);                                                                //delete the object in the db
+                    db.SaveChanges();                                                                                   //save the cahnges to the db
+
+                }
+            }
+            lvPendingRequests.Clear(); //clean out the box
+            SetupPendingRequests(id); //Set up the box again
         }
 
         private void btnReject_Click(object sender, EventArgs e)                                                    //This Button now works fully! addition functionality would be eror checking for parse function and sending message to students and administrators once we set that up. 
