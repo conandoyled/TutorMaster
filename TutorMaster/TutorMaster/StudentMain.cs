@@ -20,6 +20,7 @@ namespace TutorMaster
             populateColumns();
             DateTime start = new DateTime(2017, 3, 23, 0, 0, 0);
             loadAvail(start);
+            setUpLabels(start);
         }
 
         //loading availability functions
@@ -533,6 +534,7 @@ namespace TutorMaster
         {
             DateTime start = new DateTime(weekStartDateTime.Value.Year, weekStartDateTime.Value.Month, weekStartDateTime.Value.Day, 0, 0, 0);
             loadAvail(start);
+            setUpLabels(start);
         }
         
         //QuickSort functions
@@ -747,7 +749,40 @@ namespace TutorMaster
             lvPendingTutee.Columns.Add("Partner", 115);
 
         }
-        
+
+        private void setUpLabels(DateTime start)
+        {
+            for (int i = 0; i < 7; i++)
+            {
+                DateTime dateD = start.AddDays(i);
+                string day = dateD.ToString("D").Split(',')[0];
+                switch (day)
+                {
+                    case "Sunday":
+                        lblSunday.Text = dateD.ToString("D");
+                        break;
+                    case "Monday":
+                        lblMonday.Text = dateD.ToString("D");
+                        break;
+                    case "Tuesday":
+                        lblTuesday.Text = dateD.ToString("D");
+                        break;
+                    case "Wednesday":
+                        lblWednesday.Text = dateD.ToString("D");
+                        break;
+                    case "Thursday":
+                        lblThursday.Text = dateD.ToString("D");
+                        break;
+                    case "Friday":
+                        lblFriday.Text = dateD.ToString("D");
+                        break;
+                    case "Saturday":
+                        lblSaturday.Text = dateD.ToString("D");
+                        break;
+                }
+            }
+        }
+
         //logout button
         private void btnLogout_Click(object sender, EventArgs e)
         {
