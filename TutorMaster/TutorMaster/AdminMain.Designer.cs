@@ -112,9 +112,7 @@
             // 
             this.lvStudent.Location = new System.Drawing.Point(0, 0);
             this.lvStudent.Name = "lvStudent";
-
             this.lvStudent.Size = new System.Drawing.Size(617, 337);
-
             this.lvStudent.TabIndex = 0;
             this.lvStudent.UseCompatibleStateImageBehavior = false;
             this.lvStudent.View = System.Windows.Forms.View.Details;
@@ -249,7 +247,8 @@
             this.tabFaculty.TabIndex = 2;
             this.tabFaculty.Text = "Faculty";
             this.tabFaculty.UseVisualStyleBackColor = true;
-            //
+            // 
+
             // txtPhoneNumber
             // 
             this.txtPhoneNumber.Location = new System.Drawing.Point(431, 156);
@@ -392,7 +391,6 @@
             this.lvFaculty.Name = "lvFaculty";
 
             this.lvFaculty.Size = new System.Drawing.Size(410, 372);
-
 
             this.lvFaculty.TabIndex = 1;
             this.lvFaculty.UseCompatibleStateImageBehavior = false;

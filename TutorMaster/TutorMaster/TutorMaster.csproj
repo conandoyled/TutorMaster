@@ -77,12 +77,6 @@
     <Compile Include="CreateStudent.Designer.cs">
       <DependentUpon>CreateStudent.cs</DependentUpon>
     </Compile>
-    <Compile Include="DisplayMatchesForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="DisplayMatchesForm.Designer.cs">
-      <DependentUpon>DisplayMatchesForm.cs</DependentUpon>
-    </Compile>
     <Compile Include="EditStudentForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -125,9 +119,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="CreateStudent.resx">
       <DependentUpon>CreateStudent.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="DisplayMatchesForm.resx">
-      <DependentUpon>DisplayMatchesForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="EditStudentForm.resx">
       <DependentUpon>EditStudentForm.cs</DependentUpon>
