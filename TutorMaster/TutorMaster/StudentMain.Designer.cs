@@ -183,9 +183,9 @@
             // 
             // lvMonday
             // 
-            this.lvMonday.Location = new System.Drawing.Point(-4, 19);
+            this.lvMonday.Location = new System.Drawing.Point(0, 19);
             this.lvMonday.Name = "lvMonday";
-            this.lvMonday.Size = new System.Drawing.Size(685, 275);
+            this.lvMonday.Size = new System.Drawing.Size(677, 271);
             this.lvMonday.TabIndex = 1;
             this.lvMonday.UseCompatibleStateImageBehavior = false;
             this.lvMonday.View = System.Windows.Forms.View.Details;
@@ -204,7 +204,7 @@
             // lblTuesday
             // 
             this.lblTuesday.AutoSize = true;
-            this.lblTuesday.Location = new System.Drawing.Point(3, 4);
+            this.lblTuesday.Location = new System.Drawing.Point(6, 3);
             this.lblTuesday.Name = "lblTuesday";
             this.lblTuesday.Size = new System.Drawing.Size(35, 13);
             this.lblTuesday.TabIndex = 2;
@@ -212,9 +212,9 @@
             // 
             // lvTuesday
             // 
-            this.lvTuesday.Location = new System.Drawing.Point(-1, 20);
+            this.lvTuesday.Location = new System.Drawing.Point(0, 19);
             this.lvTuesday.Name = "lvTuesday";
-            this.lvTuesday.Size = new System.Drawing.Size(682, 274);
+            this.lvTuesday.Size = new System.Drawing.Size(677, 271);
             this.lvTuesday.TabIndex = 1;
             this.lvTuesday.UseCompatibleStateImageBehavior = false;
             this.lvTuesday.View = System.Windows.Forms.View.Details;
@@ -233,7 +233,7 @@
             // lblWednesday
             // 
             this.lblWednesday.AutoSize = true;
-            this.lblWednesday.Location = new System.Drawing.Point(4, 4);
+            this.lblWednesday.Location = new System.Drawing.Point(6, 3);
             this.lblWednesday.Name = "lblWednesday";
             this.lblWednesday.Size = new System.Drawing.Size(35, 13);
             this.lblWednesday.TabIndex = 2;
@@ -241,9 +241,9 @@
             // 
             // lvWednesday
             // 
-            this.lvWednesday.Location = new System.Drawing.Point(-4, 20);
+            this.lvWednesday.Location = new System.Drawing.Point(0, 19);
             this.lvWednesday.Name = "lvWednesday";
-            this.lvWednesday.Size = new System.Drawing.Size(685, 274);
+            this.lvWednesday.Size = new System.Drawing.Size(677, 271);
             this.lvWednesday.TabIndex = 1;
             this.lvWednesday.UseCompatibleStateImageBehavior = false;
             this.lvWednesday.View = System.Windows.Forms.View.Details;
@@ -262,7 +262,7 @@
             // lblThursday
             // 
             this.lblThursday.AutoSize = true;
-            this.lblThursday.Location = new System.Drawing.Point(3, 5);
+            this.lblThursday.Location = new System.Drawing.Point(6, 3);
             this.lblThursday.Name = "lblThursday";
             this.lblThursday.Size = new System.Drawing.Size(35, 13);
             this.lblThursday.TabIndex = 2;
@@ -270,9 +270,9 @@
             // 
             // lvThursday
             // 
-            this.lvThursday.Location = new System.Drawing.Point(-7, 21);
+            this.lvThursday.Location = new System.Drawing.Point(0, 19);
             this.lvThursday.Name = "lvThursday";
-            this.lvThursday.Size = new System.Drawing.Size(688, 273);
+            this.lvThursday.Size = new System.Drawing.Size(677, 271);
             this.lvThursday.TabIndex = 1;
             this.lvThursday.UseCompatibleStateImageBehavior = false;
             this.lvThursday.View = System.Windows.Forms.View.Details;
@@ -291,7 +291,7 @@
             // lblFriday
             // 
             this.lblFriday.AutoSize = true;
-            this.lblFriday.Location = new System.Drawing.Point(4, 4);
+            this.lblFriday.Location = new System.Drawing.Point(6, 3);
             this.lblFriday.Name = "lblFriday";
             this.lblFriday.Size = new System.Drawing.Size(35, 13);
             this.lblFriday.TabIndex = 2;
@@ -299,9 +299,9 @@
             // 
             // lvFriday
             // 
-            this.lvFriday.Location = new System.Drawing.Point(-4, 20);
+            this.lvFriday.Location = new System.Drawing.Point(0, 19);
             this.lvFriday.Name = "lvFriday";
-            this.lvFriday.Size = new System.Drawing.Size(685, 274);
+            this.lvFriday.Size = new System.Drawing.Size(677, 271);
             this.lvFriday.TabIndex = 1;
             this.lvFriday.UseCompatibleStateImageBehavior = false;
             this.lvFriday.View = System.Windows.Forms.View.Details;
@@ -320,7 +320,7 @@
             // lblSaturday
             // 
             this.lblSaturday.AutoSize = true;
-            this.lblSaturday.Location = new System.Drawing.Point(4, 4);
+            this.lblSaturday.Location = new System.Drawing.Point(6, 3);
             this.lblSaturday.Name = "lblSaturday";
             this.lblSaturday.Size = new System.Drawing.Size(35, 13);
             this.lblSaturday.TabIndex = 2;
@@ -328,9 +328,9 @@
             // 
             // lvSaturday
             // 
-            this.lvSaturday.Location = new System.Drawing.Point(-7, 21);
+            this.lvSaturday.Location = new System.Drawing.Point(0, 19);
             this.lvSaturday.Name = "lvSaturday";
-            this.lvSaturday.Size = new System.Drawing.Size(688, 273);
+            this.lvSaturday.Size = new System.Drawing.Size(677, 271);
             this.lvSaturday.TabIndex = 1;
             this.lvSaturday.UseCompatibleStateImageBehavior = false;
             this.lvSaturday.View = System.Windows.Forms.View.Details;
