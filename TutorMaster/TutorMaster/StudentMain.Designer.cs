@@ -96,7 +96,7 @@
             // 
             // weekStartDateTime
             // 
-            this.weekStartDateTime.Location = new System.Drawing.Point(803, 113);
+            this.weekStartDateTime.Location = new System.Drawing.Point(733, 59);
             this.weekStartDateTime.MaxDate = new System.DateTime(2017, 4, 30, 0, 0, 0, 0);
             this.weekStartDateTime.MinDate = new System.DateTime(2017, 1, 1, 0, 0, 0, 0);
             this.weekStartDateTime.Name = "weekStartDateTime";
@@ -108,7 +108,7 @@
             // cbxWeekly
             // 
             this.cbxWeekly.AutoSize = true;
-            this.cbxWeekly.Location = new System.Drawing.Point(103, 393);
+            this.cbxWeekly.Location = new System.Drawing.Point(505, 330);
             this.cbxWeekly.Name = "cbxWeekly";
             this.cbxWeekly.Size = new System.Drawing.Size(62, 17);
             this.cbxWeekly.TabIndex = 12;
@@ -153,9 +153,9 @@
             // 
             // lvSunday
             // 
-            this.lvSunday.Location = new System.Drawing.Point(-1, 19);
+            this.lvSunday.Location = new System.Drawing.Point(0, 19);
             this.lvSunday.Name = "lvSunday";
-            this.lvSunday.Size = new System.Drawing.Size(682, 275);
+            this.lvSunday.Size = new System.Drawing.Size(677, 271);
             this.lvSunday.TabIndex = 0;
             this.lvSunday.UseCompatibleStateImageBehavior = false;
             this.lvSunday.View = System.Windows.Forms.View.Details;
@@ -338,24 +338,24 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(373, 362);
+            this.label2.Location = new System.Drawing.Point(13, 359);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(140, 13);
+            this.label2.Size = new System.Drawing.Size(107, 13);
             this.label2.TabIndex = 8;
-            this.label2.Text = "Open slot end date and time";
+            this.label2.Text = "Availability End Time:";
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(373, 335);
+            this.label1.Location = new System.Drawing.Point(13, 333);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(142, 13);
+            this.label1.Size = new System.Drawing.Size(110, 13);
             this.label1.TabIndex = 7;
-            this.label1.Text = "Open slot start date and time";
+            this.label1.Text = "Availability Start Time:";
             // 
             // btnAddOpenBlock
             // 
-            this.btnAddOpenBlock.Location = new System.Drawing.Point(261, 393);
+            this.btnAddOpenBlock.Location = new System.Drawing.Point(505, 351);
             this.btnAddOpenBlock.Name = "btnAddOpenBlock";
             this.btnAddOpenBlock.Size = new System.Drawing.Size(105, 23);
             this.btnAddOpenBlock.TabIndex = 6;
@@ -370,7 +370,7 @@
             this.combEndAmPm.Items.AddRange(new object[] {
             "AM",
             "PM"});
-            this.combEndAmPm.Location = new System.Drawing.Point(316, 355);
+            this.combEndAmPm.Location = new System.Drawing.Point(435, 355);
             this.combEndAmPm.Name = "combEndAmPm";
             this.combEndAmPm.Size = new System.Drawing.Size(50, 21);
             this.combEndAmPm.TabIndex = 5;
@@ -384,7 +384,7 @@
             "15",
             "30",
             "45"});
-            this.combEndMinute.Location = new System.Drawing.Point(261, 355);
+            this.combEndMinute.Location = new System.Drawing.Point(380, 355);
             this.combEndMinute.Name = "combEndMinute";
             this.combEndMinute.Size = new System.Drawing.Size(49, 21);
             this.combEndMinute.TabIndex = 4;
@@ -406,7 +406,7 @@
             "10",
             "11",
             "12"});
-            this.combEndHour.Location = new System.Drawing.Point(211, 355);
+            this.combEndHour.Location = new System.Drawing.Point(330, 355);
             this.combEndHour.Name = "combEndHour";
             this.combEndHour.Size = new System.Drawing.Size(44, 21);
             this.combEndHour.TabIndex = 3;
@@ -418,7 +418,7 @@
             this.combStartAmPm.Items.AddRange(new object[] {
             "AM",
             "PM"});
-            this.combStartAmPm.Location = new System.Drawing.Point(316, 328);
+            this.combStartAmPm.Location = new System.Drawing.Point(435, 328);
             this.combStartAmPm.Name = "combStartAmPm";
             this.combStartAmPm.Size = new System.Drawing.Size(50, 21);
             this.combStartAmPm.TabIndex = 2;
@@ -432,7 +432,7 @@
             "15",
             "30",
             "45"});
-            this.combStartMinute.Location = new System.Drawing.Point(261, 329);
+            this.combStartMinute.Location = new System.Drawing.Point(380, 328);
             this.combStartMinute.Name = "combStartMinute";
             this.combStartMinute.Size = new System.Drawing.Size(49, 21);
             this.combStartMinute.TabIndex = 1;
@@ -454,16 +454,16 @@
             "10",
             "11",
             "12"});
-            this.combStartHour.Location = new System.Drawing.Point(211, 329);
+            this.combStartHour.Location = new System.Drawing.Point(330, 328);
             this.combStartHour.Name = "combStartHour";
             this.combStartHour.Size = new System.Drawing.Size(44, 21);
             this.combStartHour.TabIndex = 0;
             // 
             // btnLogout
             // 
-            this.btnLogout.Location = new System.Drawing.Point(803, 485);
+            this.btnLogout.Location = new System.Drawing.Point(736, 114);
             this.btnLogout.Name = "btnLogout";
-            this.btnLogout.Size = new System.Drawing.Size(97, 23);
+            this.btnLogout.Size = new System.Drawing.Size(197, 23);
             this.btnLogout.TabIndex = 1;
             this.btnLogout.Text = "Logout";
             this.btnLogout.UseVisualStyleBackColor = true;
@@ -471,9 +471,9 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(803, 444);
+            this.button1.Location = new System.Drawing.Point(736, 85);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(97, 23);
+            this.button1.Size = new System.Drawing.Size(197, 23);
             this.button1.TabIndex = 2;
             this.button1.Text = "Make Request";
             this.button1.UseVisualStyleBackColor = true;
@@ -482,10 +482,10 @@
             // 
             this.tabControl1.Controls.Add(this.tabSchedule);
             this.tabControl1.Controls.Add(this.tabAppointments);
-            this.tabControl1.Location = new System.Drawing.Point(82, 44);
+            this.tabControl1.Location = new System.Drawing.Point(12, 12);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(715, 469);
+            this.tabControl1.Size = new System.Drawing.Size(715, 419);
             this.tabControl1.TabIndex = 14;
             // 
             // tabSchedule
@@ -506,14 +506,14 @@
             this.tabSchedule.Location = new System.Drawing.Point(4, 22);
             this.tabSchedule.Name = "tabSchedule";
             this.tabSchedule.Padding = new System.Windows.Forms.Padding(3);
-            this.tabSchedule.Size = new System.Drawing.Size(707, 443);
+            this.tabSchedule.Size = new System.Drawing.Size(707, 393);
             this.tabSchedule.TabIndex = 1;
             this.tabSchedule.Text = "Schedule";
             this.tabSchedule.UseVisualStyleBackColor = true;
             // 
             // dayEndDateTime
             // 
-            this.dayEndDateTime.Location = new System.Drawing.Point(5, 356);
+            this.dayEndDateTime.Location = new System.Drawing.Point(124, 356);
             this.dayEndDateTime.MaxDate = new System.DateTime(2017, 4, 30, 0, 0, 0, 0);
             this.dayEndDateTime.MinDate = new System.DateTime(2017, 1, 1, 0, 0, 0, 0);
             this.dayEndDateTime.Name = "dayEndDateTime";
@@ -523,7 +523,7 @@
             // 
             // dayStartDateTime
             // 
-            this.dayStartDateTime.Location = new System.Drawing.Point(5, 329);
+            this.dayStartDateTime.Location = new System.Drawing.Point(124, 329);
             this.dayStartDateTime.MaxDate = new System.DateTime(2017, 4, 30, 0, 0, 0, 0);
             this.dayStartDateTime.MinDate = new System.DateTime(2017, 1, 1, 0, 0, 0, 0);
             this.dayStartDateTime.Name = "dayStartDateTime";
@@ -536,7 +536,7 @@
             this.tabAppointments.Controls.Add(this.tabControl2);
             this.tabAppointments.Location = new System.Drawing.Point(4, 22);
             this.tabAppointments.Name = "tabAppointments";
-            this.tabAppointments.Size = new System.Drawing.Size(707, 443);
+            this.tabAppointments.Size = new System.Drawing.Size(707, 393);
             this.tabAppointments.TabIndex = 2;
             this.tabAppointments.Text = "Appointments";
             this.tabAppointments.UseVisualStyleBackColor = true;
@@ -546,10 +546,10 @@
             this.tabControl2.Controls.Add(this.tabAccepted);
             this.tabControl2.Controls.Add(this.tabPendingTutor);
             this.tabControl2.Controls.Add(this.tabPendingTutee);
-            this.tabControl2.Location = new System.Drawing.Point(-4, 3);
+            this.tabControl2.Location = new System.Drawing.Point(0, 0);
             this.tabControl2.Name = "tabControl2";
             this.tabControl2.SelectedIndex = 0;
-            this.tabControl2.Size = new System.Drawing.Size(715, 444);
+            this.tabControl2.Size = new System.Drawing.Size(707, 393);
             this.tabControl2.TabIndex = 0;
             // 
             // tabAccepted
@@ -558,16 +558,16 @@
             this.tabAccepted.Location = new System.Drawing.Point(4, 22);
             this.tabAccepted.Name = "tabAccepted";
             this.tabAccepted.Padding = new System.Windows.Forms.Padding(3);
-            this.tabAccepted.Size = new System.Drawing.Size(707, 418);
+            this.tabAccepted.Size = new System.Drawing.Size(699, 367);
             this.tabAccepted.TabIndex = 0;
             this.tabAccepted.Text = "Accepted";
             this.tabAccepted.UseVisualStyleBackColor = true;
             // 
             // lvAccepted
             // 
-            this.lvAccepted.Location = new System.Drawing.Point(-4, 3);
+            this.lvAccepted.Location = new System.Drawing.Point(0, 0);
             this.lvAccepted.Name = "lvAccepted";
-            this.lvAccepted.Size = new System.Drawing.Size(711, 416);
+            this.lvAccepted.Size = new System.Drawing.Size(699, 367);
             this.lvAccepted.TabIndex = 14;
             this.lvAccepted.UseCompatibleStateImageBehavior = false;
             this.lvAccepted.View = System.Windows.Forms.View.Details;
@@ -578,16 +578,16 @@
             this.tabPendingTutor.Location = new System.Drawing.Point(4, 22);
             this.tabPendingTutor.Name = "tabPendingTutor";
             this.tabPendingTutor.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPendingTutor.Size = new System.Drawing.Size(707, 418);
+            this.tabPendingTutor.Size = new System.Drawing.Size(699, 367);
             this.tabPendingTutor.TabIndex = 1;
             this.tabPendingTutor.Text = "Pending Tutor";
             this.tabPendingTutor.UseVisualStyleBackColor = true;
             // 
             // lvPendingTutor
             // 
-            this.lvPendingTutor.Location = new System.Drawing.Point(-4, 3);
+            this.lvPendingTutor.Location = new System.Drawing.Point(0, 0);
             this.lvPendingTutor.Name = "lvPendingTutor";
-            this.lvPendingTutor.Size = new System.Drawing.Size(715, 419);
+            this.lvPendingTutor.Size = new System.Drawing.Size(699, 367);
             this.lvPendingTutor.TabIndex = 15;
             this.lvPendingTutor.UseCompatibleStateImageBehavior = false;
             this.lvPendingTutor.View = System.Windows.Forms.View.Details;
@@ -597,16 +597,16 @@
             this.tabPendingTutee.Controls.Add(this.lvPendingTutee);
             this.tabPendingTutee.Location = new System.Drawing.Point(4, 22);
             this.tabPendingTutee.Name = "tabPendingTutee";
-            this.tabPendingTutee.Size = new System.Drawing.Size(707, 418);
+            this.tabPendingTutee.Size = new System.Drawing.Size(699, 367);
             this.tabPendingTutee.TabIndex = 2;
             this.tabPendingTutee.Text = "Pending Tutee";
             this.tabPendingTutee.UseVisualStyleBackColor = true;
             // 
             // lvPendingTutee
             // 
-            this.lvPendingTutee.Location = new System.Drawing.Point(-4, 3);
+            this.lvPendingTutee.Location = new System.Drawing.Point(0, 0);
             this.lvPendingTutee.Name = "lvPendingTutee";
-            this.lvPendingTutee.Size = new System.Drawing.Size(715, 419);
+            this.lvPendingTutee.Size = new System.Drawing.Size(699, 367);
             this.lvPendingTutee.TabIndex = 15;
             this.lvPendingTutee.UseCompatibleStateImageBehavior = false;
             this.lvPendingTutee.View = System.Windows.Forms.View.Details;
@@ -614,7 +614,7 @@
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(803, 94);
+            this.label10.Location = new System.Drawing.Point(733, 40);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(190, 13);
             this.label10.TabIndex = 15;
@@ -624,7 +624,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1284, 770);
+            this.ClientSize = new System.Drawing.Size(948, 441);
             this.Controls.Add(this.label10);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.weekStartDateTime);
