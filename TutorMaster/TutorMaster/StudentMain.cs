@@ -303,6 +303,7 @@ namespace TutorMaster
             return (commit.Class == "-" && commit.Location == "-" && commit.Open == true && commit.Tutoring == false && commit.ID == -1);
         }
 
+
         private bool tuteeWaitingForResponse(TutorMaster.Commitment commit)
         {
             return (commit.Class != "-" && commit.Location == "-" && commit.Open == false && commit.Tutoring == false && commit.ID != -1);
@@ -329,6 +330,7 @@ namespace TutorMaster
         }
      
         //btn to add open slots and its helper functions
+
         private void btnAddOpenBlock_Click(object sender, EventArgs e)
         {
             //first, error check to make sure that the user put something for each dropdownbox
@@ -821,5 +823,13 @@ namespace TutorMaster
             }
             return numDay;
         }
+
+        private void btnRequest_Click(object sender, EventArgs e)
+        {
+            RequestForm r = new RequestForm(id); //open a request form
+            r.Show(); //show the form
+            Close(); //close this form
+        }
+
     }
 }

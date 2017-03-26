@@ -100,7 +100,32 @@ namespace TutorMaster
         private void setupDepartmentBoxes()
         {
             TutorMasterDBEntities4 db = new TutorMasterDBEntities4();
+            var classes = from r in db.Classes select r;
+            HashSet<String> departments = new HashSet<String>();
 
+            foreach(Class c in classes)
+            {
+                departments.Add(c.Department);
+            }
+
+            List<String> dList = departments.ToList();
+            dList.Sort();
+
+            combDepartments.Items.Add("Department...");
+            combDepartmentsAdd.Items.Add("Department...");
+            combDepartments.SelectedIndex = 0;
+            combDepartmentsAdd.SelectedIndex = 0;
+
+            foreach (String d in dList)
+            {
+                combDepartments.Items.Add(d);
+                combDepartmentsAdd.Items.Add(d);
+            }
+
+            combDepartmentsAdd.Items.Add("New Department...");
+
+            combDepartments.DropDownStyle = ComboBoxStyle.DropDownList;
+            combDepartmentsAdd.DropDownStyle = ComboBoxStyle.DropDownList;
         }
 
         private void disableButtons()
@@ -220,6 +245,141 @@ namespace TutorMaster
             {
                 btnClassDelete.Enabled = false;
             }
+        }
+
+        private void btnFacultyAdd_Click(object sender, EventArgs e)
+        {
+            string fname = txtFirstname.Text;
+            string lname = txtLastname.Text;
+            string username = txtUsername.Text;
+            string password = txtPassword.Text;
+            string phone = txtPhoneNumber.Text;
+            string email = txtEmail.Text;
+            string department = combDepartments.Text;
+            string accounttype = "Faculty";
+            TutorMasterDBEntities4 db = new TutorMasterDBEntities4();
+
+            if (string.IsNullOrEmpty(fname) || string.IsNullOrWhiteSpace(lname) ||
+                string.IsNullOrWhiteSpace(username) || string.IsNullOrWhiteSpace(password) ||
+                    department == "Department...")
+            {
+                MessageBox.Show("Please fill in all of the textboxes with the approriate information");
+            }
+            else if (!validateInfo(email, phone))
+            {
+                MessageBox.Show("Please put in a valid email address and phone number");
+            }
+            else if (!uniqueUsername(username))
+            {
+                MessageBox.Show("Username is already taken. Please pick another one.");
+            }
+            else
+            {
+                TutorMaster.User newUser = new TutorMaster.User();
+                newUser.ID = getNextID();
+                newUser.FirstName = fname;
+                newUser.LastName = lname;
+                newUser.Username = username;
+                newUser.Password = password;
+                newUser.PhoneNumber = phone;
+                newUser.Email = email;
+                newUser.AccountType = accounttype;
+                addUser(newUser);
+
+                TutorMaster.Faculty newFaculty = new TutorMaster.Faculty();
+                newFaculty.ID = newUser.ID;
+                newFaculty.Department = department;
+                addFaculty(newFaculty);
+
+                txtFirstname.Text = "";
+                txtLastname.Text = "";
+                txtUsername.Text = "";
+                txtPassword.Text = "";
+                txtPhoneNumber.Text = "";
+                txtEmail.Text = "";
+                combDepartments.SelectedItem = combDepartments.Items[0];
+               
+                MessageBox.Show("Faculty has been added to the database");
+            }
+
+            lvFaculty.Clear();
+            setupFacultyLV();
+        }
+
+        private void addUser(TutorMaster.User user)
+        {
+            TutorMasterDBEntities4 db = new TutorMasterDBEntities4();
+            db.Users.AddObject(user);
+            db.SaveChanges();
+        }
+
+        private void addFaculty(TutorMaster.Faculty faculty)
+        {
+            TutorMasterDBEntities4 db = new TutorMasterDBEntities4();
+            db.Faculties.AddObject(faculty);
+            db.SaveChanges();
+        }
+
+        private bool validateInfo(string email, string phone)
+        {
+            string address = email.Substring(email.Length - 4);
+            if ((email.Contains('@')) && (phone.Length == 14) && (address == ".edu" || address == ".com"))
+            {
+                return true;
+            }
+            return false;
+        }
+
+        private bool uniqueUsername(string username)
+        {
+            TutorMasterDBEntities4 db = new TutorMasterDBEntities4();
+            return (!db.Users.Any(u => u.Username == username));
+        }
+
+        private int getNextID()
+        {
+            TutorMasterDBEntities4 db = new TutorMasterDBEntities4();
+            int rowNum = db.Users.Count();
+
+            var lastRow = db.Users.OrderByDescending(u => u.ID).Select(r => r.ID).First();
+            return lastRow + 1;
+        }
+
+        private void btnFacultyDelete_Click(object sender, EventArgs e)
+        {
+            TutorMasterDBEntities4 db = new TutorMasterDBEntities4();
+            int facNum = lvFaculty.CheckedItems.Count;
+            for (int i = 0; i < facNum; i++)
+            {
+                string username = lvFaculty.CheckedItems[i].SubItems[0].Text;
+                User delU = (from row in db.Users where row.Username == username select row).First();
+                db.Users.DeleteObject(delU);
+                db.SaveChanges();
+            }
+
+            lvFaculty.Clear();
+            setupFacultyLV();
+        }
+
+        private void btnFacultyEdit_Click(object sender, EventArgs e)
+        {
+            //setEditFacultyControls();
+            TutorMasterDBEntities4 db = new TutorMasterDBEntities4();
+            string username = lvFaculty.CheckedItems[0].SubItems[0].Text;
+            var fac = (from row in db.Users where row.Username == username select row).First();
+
+            txtFirstname.Text = fac.FirstName;
+            txtLastname.Text = fac.LastName;
+            txtUsername.Text = username;
+            txtPassword.Text = fac.Password;
+            txtPhoneNumber.Text = fac.PhoneNumber; 
+            txtEmail.Text = fac.Email;
+
+            var department = (from row in db.Faculties where row.ID == fac.ID select row.Department).First();
+
+      
+            //combDepartments.SelectedItem = combDepartments.Items[0];
+                
         }
     }
 }

@@ -29,7 +29,9 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(StudentMain));
+
             this.weekStartDateTime = new System.Windows.Forms.DateTimePicker();
+
             this.cbxWeekly = new System.Windows.Forms.CheckBox();
             this.dayTabs = new System.Windows.Forms.TabControl();
             this.tabSunday = new System.Windows.Forms.TabPage();
@@ -75,8 +77,10 @@
             this.tabPendingTutor = new System.Windows.Forms.TabPage();
             this.lvPendingTutor = new System.Windows.Forms.ListView();
             this.tabPendingTutee = new System.Windows.Forms.TabPage();
+
             this.lvPendingTutee = new System.Windows.Forms.ListView();
             this.label10 = new System.Windows.Forms.Label();
+
             this.dayTabs.SuspendLayout();
             this.tabSunday.SuspendLayout();
             this.tabMonday.SuspendLayout();
@@ -104,6 +108,13 @@
             this.weekStartDateTime.TabIndex = 13;
             this.weekStartDateTime.Value = new System.DateTime(2017, 3, 23, 0, 0, 0, 0);
             this.weekStartDateTime.ValueChanged += new System.EventHandler(this.weekStartDateTime_ValueChanged);
+            // 
+            // dateTime
+            // 
+            this.dateTime.Location = new System.Drawing.Point(391, 35);
+            this.dateTime.Name = "dateTime";
+            this.dateTime.Size = new System.Drawing.Size(200, 20);
+            this.dateTime.TabIndex = 13;
             // 
             // cbxWeekly
             // 
@@ -613,22 +624,44 @@
             // 
             // label10
             // 
+
             this.label10.AutoSize = true;
             this.label10.Location = new System.Drawing.Point(803, 94);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(190, 13);
             this.label10.TabIndex = 15;
             this.label10.Text = "Date to load schedule a week out from";
+
+            this.btnLogout.Location = new System.Drawing.Point(991, 380);
+            this.btnLogout.Name = "btnLogout";
+            this.btnLogout.Size = new System.Drawing.Size(97, 23);
+            this.btnLogout.TabIndex = 1;
+            this.btnLogout.Text = "Logout";
+            this.btnLogout.UseVisualStyleBackColor = true;
+            this.btnLogout.Click += new System.EventHandler(this.btnLogout_Click);
+            // 
+            // btnRequest
+            // 
+            this.btnRequest.Location = new System.Drawing.Point(991, 342);
+            this.btnRequest.Name = "btnRequest";
+            this.btnRequest.Size = new System.Drawing.Size(97, 23);
+            this.btnRequest.TabIndex = 2;
+            this.btnRequest.Text = "Make Request";
+            this.btnRequest.UseVisualStyleBackColor = true;
+            this.btnRequest.Click += new System.EventHandler(this.btnRequest_Click);
+
             // 
             // StudentMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+
             this.ClientSize = new System.Drawing.Size(1284, 770);
             this.Controls.Add(this.label10);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.weekStartDateTime);
             this.Controls.Add(this.button1);
+
             this.Controls.Add(this.btnLogout);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "StudentMain";
@@ -664,7 +697,7 @@
         #endregion
 
         private System.Windows.Forms.Button btnLogout;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button btnRequest;
         private System.Windows.Forms.Button btnAddOpenBlock;
         private System.Windows.Forms.ComboBox combEndAmPm;
         private System.Windows.Forms.ComboBox combEndMinute;
