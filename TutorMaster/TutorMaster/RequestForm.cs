@@ -134,7 +134,7 @@ namespace TutorMaster
             }
             else
             {
-                for (int i = 0; i < cmtList.Count(); i++)
+                for (int i = 0; i < cmtList.Count()-1; i++)
                 {
                     DateTime currentCommitDate = Convert.ToDateTime(cmtList[i].StartTime);                   //get datetime of commitment we are on in loop
                     DateTime nextCommitDate = Convert.ToDateTime(cmtList[i + 1].StartTime);                  //get datetime of commitment ahead of it
@@ -146,7 +146,8 @@ namespace TutorMaster
                     }
                     else if (DateTime.Compare(nextCommitDate, currentCommitDate.AddMinutes(15)) == 0 && consecutiveCommits >= sessionLength)
                     {
-
+                        endTime = getCommitTime15(cmtList[i]);
+                        validSlots.Add(startTime + "," + endTime);
                     }
                     else if(DateTime.Compare(nextCommitDate, currentCommitDate.AddMinutes(15)) != 0 && consecutiveCommits >= sessionLength)
                     {
@@ -154,9 +155,21 @@ namespace TutorMaster
                         validSlots.Add(startTime + "," + endTime);
 
                         //update our carries
+                        consecutiveCommits = 1;
                         startTime = getCommitTime(cmtList[i + 1]);
                         endTime = getCommitTime15(cmtList[i + 1]);
                         initialCommit = cmtList[i + 1];
+                    }
+                    else if (DateTime.Compare(nextCommitDate, currentCommitDate.AddMinutes(15)) != 0 && consecutiveCommits < sessionLength)
+                    {
+                        consecutiveCommits = 1;
+                        startTime = getCommitTime(cmtList[i + 1]);
+                        endTime = getCommitTime15(cmtList[i + 1]);
+                        initialCommit = cmtList[i + 1];
+                    }
+                    else if (cmtList[i + 1] == cmtList[cmtList.Count() - 1] )
+                    {
+
                     }
                 }
                 endTime = getCommitTime15(cmtList[cmtList.Count() - 1]);
