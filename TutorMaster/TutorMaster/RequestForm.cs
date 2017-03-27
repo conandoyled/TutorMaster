@@ -106,11 +106,6 @@ namespace TutorMaster
                 DateTime endTime = new DateTime(2017, 1, intEndDay, endHour, endMinute, 0);
             }
         }
-
-        private void label3_Click(object sender, EventArgs e)
-        {
-
-        }
     }
 }
 
