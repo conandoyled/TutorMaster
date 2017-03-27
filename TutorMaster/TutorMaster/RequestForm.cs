@@ -17,6 +17,20 @@ namespace TutorMaster
         {
             id = accID;
             InitializeComponent();
+            SetUpClassName();
+            
+        }
+
+
+        private void SetUpClassName()
+        {
+            TutorMasterDBEntities4 db = new TutorMasterDBEntities4();
+
+            foreach (Class c in db.Classes)
+            {
+                combCourseName.Items.Add(c.ClassName); //add all the class names to this list 
+            }
+
         }
 
         private void btnExit_Click(object sender, EventArgs e)
@@ -26,48 +40,29 @@ namespace TutorMaster
             this.Close();
         }
 
-        private void RequestForm_Load(object sender, EventArgs e)
-        {
 
-        }
-
-        private int getDayIndex(string day) //This helper function is used to index days for date time object purposes
+        private List<DateTime> MakeFifteenBlocks(DateTime startTime, DateTime endTime)
         {
-            int numDay = 0;
-            switch (day)
+            DateTime begin = startTime;
+            int compare = begin.CompareTo(endTime);//returns -1 through postive 1 to represent the relation between the compared times 
+            List<DateTime> RequestTimes = new List<DateTime>(); //create a list to store the broken up commitments.
+
+            while (compare < 0) //if the first date is less than the second date
             {
-                case "Sunday":
-                    numDay = 1;
-                    break;
-                case "Monday":
-                    numDay = 2;
-                    break;
-                case "Tuesday":
-                    numDay = 3;
-                    break;
-                case "Wednesday":
-                    numDay = 4;
-                    break;
-                case "Thursday":
-                    numDay = 5;
-                    break;
-                case "Friday":
-                    numDay = 6;
-                    break;
-                case "Saturday":
-                    numDay = 7;
-                    break;
+                RequestTimes.Add(begin);
+                begin = begin.AddMinutes(15);
+                compare = begin.CompareTo(endTime);
             }
-            return numDay;
+            return RequestTimes;
         }
 
-        private void btnAddOpenBlock_Click(object sender, EventArgs e)
+        private void btnRequest_Click(object sender, EventArgs e)
         {
-            //first, error check to make sure that the user put something for each dropdownbox
-            if ((string.IsNullOrWhiteSpace(combStartDay.Text)) || (string.IsNullOrWhiteSpace(combStartHour.Text))
-            || (string.IsNullOrWhiteSpace(combStartMinute.Text) || (string.IsNullOrWhiteSpace(combStartAmPm.Text)))
-            || (string.IsNullOrWhiteSpace(combEndDay.Text)) || (string.IsNullOrWhiteSpace(combEndHour.Text))
-            || (string.IsNullOrWhiteSpace(combEndMinute.Text)) || (string.IsNullOrWhiteSpace(combEndAmPm.Text)))
+            //1. create the time objects
+
+            if ( (string.IsNullOrWhiteSpace(combStartHour.Text)) || (string.IsNullOrWhiteSpace(combStartMinute.Text) 
+            || (string.IsNullOrWhiteSpace(combStartAmPm.Text)))  ||  (string.IsNullOrWhiteSpace(combEndHour.Text))
+            || (string.IsNullOrWhiteSpace(combEndMinute.Text))   || (string.IsNullOrWhiteSpace(combEndAmPm.Text)))
             {
                 MessageBox.Show("Please fill out a starting and ending day, hour, minute, and part of day"); // give a popup if they don't enter a valid time
             }
@@ -75,37 +70,73 @@ namespace TutorMaster
             else //If the time the enter is valid then,
             {
                 //1. pull the information for the start date time object
-                string stringStartDay = combStartDay.Text;
-                int intStartDay = getDayIndex(stringStartDay);
+                //string stringStartDay = combStartDay.Text;
+
                 int startHour = int.Parse(combStartHour.Text);
                 int startMinute = int.Parse(combStartMinute.Text);
                 string startAmPm = combStartAmPm.Text;
 
-                if (startAmPm == "PM")
+                if (startAmPm == "PM" && startHour != 12)
                 {
                     startHour += 12;
                 }
+                else if (startAmPm == "AM" && startHour == 12)
+                {
+                    startHour = 0;
+                }
 
-                //2. Pull the information for the end date time object
-                string stringEndDay = combEndDay.Text;
-                int intEndDay = getDayIndex(stringEndDay);
+                //1.5 Pull the information for the end date time object
+                //string stringEndDay = combEndDay.Text;
+
                 int endHour = int.Parse(combEndHour.Text);
                 int endMinute = int.Parse(combEndMinute.Text);
                 string endAmPm = combEndAmPm.Text;
 
-                if (endAmPm == "PM")
+                if (endAmPm == "PM" && endHour != 12)
                 {
                     endHour += 12;
+                }
+                else if (endAmPm == "AM" && endHour == 12)
+                {
+                    endHour = 0;
                 }
 
                 //check if it is weekly
                 bool weekly = cbxWeekly.Checked;
 
                 //create the date time objects
-                DateTime startTime = new DateTime(2017, 1, intStartDay, startHour, startMinute, 0);
-                DateTime endTime = new DateTime(2017, 1, intEndDay, endHour, endMinute, 0);
+                DateTime startTime = new DateTime(dayStartDateTime.Value.Year, dayStartDateTime.Value.Month, dayStartDateTime.Value.Day, startHour, startMinute, 0);
+                DateTime endTime = new DateTime(dayEndDateTime.Value.Year, dayEndDateTime.Value.Month, dayEndDateTime.Value.Day, endHour, endMinute, 0);
+
+                //2. Break up the times into 15 minute blocks
+
+                List<DateTime> RequestTimes = MakeFifteenBlocks(startTime, endTime); //this gives us the list that contains all the fifteen minute blocks to be compared
+
+                //3. Match requests!
+
+                //3.1 Check if there are any tutors for the class!
+                TutorMasterDBEntities4 db = new TutorMasterDBEntities4(); //create new db entity to look at things
+                string CC = (from row in db.Classes where row.ClassName == combCourseName.Text select row.ClassCode).First(); //pull out the classcode to compare
+                List<int> IDs = new List<int>();
+                foreach (StudentClass sc in db.StudentClasses)
+                {
+                    if (sc.ClassCode == CC)
+                    {
+                        IDs.Add(sc.ID); //add the ID of the tutor that teaches the class I'm looking for to the list
+                    }
+                }
+                
             }
         }
+
+        private void combCourseName_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+
+
+
     }
 }
 

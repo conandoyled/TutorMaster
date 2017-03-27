@@ -37,13 +37,13 @@
             this.combStartHour = new System.Windows.Forms.ComboBox();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.txtCourseName = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.btnRequest = new System.Windows.Forms.Button();
             this.btnExit = new System.Windows.Forms.Button();
             this.cbxWeekly = new System.Windows.Forms.CheckBox();
             this.dayStartDateTime = new System.Windows.Forms.DateTimePicker();
             this.dayEndDateTime = new System.Windows.Forms.DateTimePicker();
+            this.combCourseName = new System.Windows.Forms.ComboBox();
             this.SuspendLayout();
             // 
             // combEndAmPm
@@ -155,13 +155,6 @@
             this.label1.TabIndex = 12;
             this.label1.Text = "Start Time";
             // 
-            // txtCourseName
-            // 
-            this.txtCourseName.Location = new System.Drawing.Point(114, 8);
-            this.txtCourseName.Name = "txtCourseName";
-            this.txtCourseName.Size = new System.Drawing.Size(100, 20);
-            this.txtCourseName.TabIndex = 14;
-            // 
             // label3
             // 
             this.label3.AutoSize = true;
@@ -179,6 +172,7 @@
             this.btnRequest.TabIndex = 16;
             this.btnRequest.Text = "Request";
             this.btnRequest.UseVisualStyleBackColor = true;
+            this.btnRequest.Click += new System.EventHandler(this.btnRequest_Click);
             // 
             // btnExit
             // 
@@ -220,18 +214,27 @@
             this.dayEndDateTime.TabIndex = 28;
             this.dayEndDateTime.Value = new System.DateTime(2017, 3, 23, 0, 0, 0, 0);
             // 
+            // combCourseName
+            // 
+            this.combCourseName.FormattingEnabled = true;
+            this.combCourseName.Location = new System.Drawing.Point(94, 11);
+            this.combCourseName.Name = "combCourseName";
+            this.combCourseName.Size = new System.Drawing.Size(121, 21);
+            this.combCourseName.TabIndex = 29;
+            this.combCourseName.SelectedIndexChanged += new System.EventHandler(this.combCourseName_SelectedIndexChanged);
+            // 
             // RequestForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(431, 198);
+            this.Controls.Add(this.combCourseName);
             this.Controls.Add(this.dayEndDateTime);
             this.Controls.Add(this.dayStartDateTime);
             this.Controls.Add(this.cbxWeekly);
             this.Controls.Add(this.btnExit);
             this.Controls.Add(this.btnRequest);
             this.Controls.Add(this.label3);
-            this.Controls.Add(this.txtCourseName);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.combEndAmPm);
@@ -243,7 +246,6 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "RequestForm";
             this.Text = "RequestForm";
-            this.Load += new System.EventHandler(this.RequestForm_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -259,12 +261,12 @@
         private System.Windows.Forms.ComboBox combStartHour;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.TextBox txtCourseName;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Button btnRequest;
         private System.Windows.Forms.Button btnExit;
         private System.Windows.Forms.CheckBox cbxWeekly;
         private System.Windows.Forms.DateTimePicker dayStartDateTime;
         private System.Windows.Forms.DateTimePicker dayEndDateTime;
+        private System.Windows.Forms.ComboBox combCourseName;
     }
 }
