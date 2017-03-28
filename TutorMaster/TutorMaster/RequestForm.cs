@@ -112,6 +112,8 @@ namespace TutorMaster
                         {
                             if (approvedTutorIds[i] != id)
                             {
+                                var tutorFirstName = (from row in db.Users.AsEnumerable() where row.ID == approvedTutorIds[i] select row.FirstName).First();
+                                var tutorLastName = (from row in db.Users.AsEnumerable() where row.ID == approvedTutorIds[i] select row.LastName).First();
                                 var tutorStdCommitments = (from row in db.StudentCommitments.AsEnumerable() where id == row.ID select row.CmtID).ToList();
                                 List<TutorMaster.Commitment> tutorCommits = new List<Commitment>();
                                 for (int j = 0; j < tuteeStdCommitments.Count(); j++)                                                 //look each up and add to a list of commitments
@@ -123,17 +125,67 @@ namespace TutorMaster
                                 removeNotOpens(ref tutorCommits);
                                 QuickSort(ref tutorCommits, tutorCommits.Count());
                                 List<string> tutorValidSlots = getValidSlots(ref tuteeCommits, sessionLength);
+                                bool done = false;
                                 for (int j = 0; j < tutorValidSlots.Count(); j++)
                                 {
                                     if (BinarySearch(tutorValidSlots, tutorValidSlots[j]))
                                     {
+                                        //MessageBox.Show("Here");
+                                        DialogResult choice = MessageBox.Show("You have been matched with " + tutorFirstName + " " + tutorLastName +
+                                            " for a time at: " + tutorValidSlots[j].Split(',')[0] + " - " + tutorValidSlots[j].Split(',')[1], "You've got a match!", MessageBoxButtons.YesNo);
+                                        if (choice == DialogResult.Yes)
+                                        {
+                                            int tutorId = Convert.ToInt32(approvedTutorIds[i]);
+                                            int tuteeId = Convert.ToInt32(id);
+                                            addCommits(tutorValidSlots[j], tutorId, tuteeId, tutorCommits, tuteeCommits);
+                                            break;
+                                        }
+                                        else if (choice == DialogResult.No)
+                                        {
+                                            continue;
+                                        }
                                         //MessageBox.Show("Match");
-                                        MessageBox.Show(tutorValidSlots[j]);
+                                        //MessageBox.Show(tutorValidSlots[j]);
                                     }
+
+                                }
+                                if (done)
+                                {
+                                    break;
                                 }
                             }
                         }
+                        MessageBox.Show("Done");
                     }
+                }
+            }
+        }
+
+        private void addCommits(string timeSlot, int tutorId, int tuteeId, List<TutorMaster.Commitment> tutorCommits, List<TutorMaster.Commitment> tuteeCommits)
+        {
+            TutorMasterDBEntities4 db = new TutorMasterDBEntities4();
+            DateTime startTime = getStartTime(timeSlot);
+            DateTime endTime = getEndTime(timeSlot);
+
+            for (int i = 0; i < tutorCommits.Count(); i++)
+            {
+                if (DateTime.Compare(startTime, Convert.ToDateTime(tutorCommits[i].StartTime)) >= 0 && DateTime.Compare(endTime, Convert.ToDateTime(tutorCommits[i].StartTime)) < 0)
+                {
+                    tutorCommits[i].Open = false;
+                    tutorCommits[i].Tutoring = true;
+                    tutorCommits[i].ID = tuteeId;
+                    db.SaveChanges();
+                }
+            }
+
+            for (int j = 0; j < tuteeCommits.Count(); j++)
+            {
+                if (DateTime.Compare(startTime, Convert.ToDateTime(tuteeCommits[j].StartTime)) >= 0 && DateTime.Compare(endTime, Convert.ToDateTime(tuteeCommits[j].StartTime)) < 0)
+                {
+                    tuteeCommits[j].Open = false;
+                    tuteeCommits[j].Tutoring = true;
+                    tuteeCommits[j].ID = tuteeId;
+                    db.SaveChanges();
                 }
             }
         }
@@ -177,6 +229,7 @@ namespace TutorMaster
                     {
                         endTime = getCommitTime15(cmtList[i]);
                         endDate = Convert.ToDateTime(cmtList[i].StartTime).AddMinutes(15);
+                        //MessageBox.Show(startDate.ToString() + "," + endDate.ToString());
                         validSlots.Add(startDate.ToString() + "," + endDate.ToString());
                         startTime = startDate.AddMinutes(15).ToString().Split(' ')[1] + " " + startDate.AddMinutes(15).ToString().Split(' ')[2];
                         startDate = startDate.AddMinutes(15);
@@ -185,6 +238,7 @@ namespace TutorMaster
                     {
                         endTime = getCommitTime15(cmtList[i]);                                   //if next commit is not, update endTime
                         endDate = Convert.ToDateTime(cmtList[i].StartTime).AddMinutes(15);
+                        //MessageBox.Show(startDate.ToString() + "," + endDate.ToString());
                         validSlots.Add(startDate.ToString() + "," + endDate.ToString());
 
                         //update our carries
@@ -275,6 +329,7 @@ namespace TutorMaster
             string startDateTime = slot.Split(',')[0];
             string startDate = startDateTime.Split(' ')[0];
             string startTime = startDateTime.Split(' ')[1];
+            string amPm = startDateTime.Split(' ')[2];
             
             int month = Convert.ToInt32(startDate.Split('/')[0]);
             int day = Convert.ToInt32(startDate.Split('/')[1]);
@@ -282,6 +337,43 @@ namespace TutorMaster
 
             int hour = Convert.ToInt32(startTime.Split(':')[0]);
             int min = Convert.ToInt32(startTime.Split(':')[1]);
+
+            
+            if (hour < 12 && amPm == "PM")
+            {
+                hour += 12;
+            }
+            else if (hour == 12 && amPm == "AM")
+            {
+                hour = 0;
+            }
+            DateTime date = new DateTime(year, month, day, hour, min, 0);
+            return date;
+        }
+
+        private DateTime getEndTime(string slot)
+        {
+            string startDateTime = slot.Split(',')[1];
+            string startDate = startDateTime.Split(' ')[0];
+            string startTime = startDateTime.Split(' ')[1];
+            string amPm = startDateTime.Split(' ')[2];
+
+            int month = Convert.ToInt32(startDate.Split('/')[0]);
+            int day = Convert.ToInt32(startDate.Split('/')[1]);
+            int year = Convert.ToInt32(startDate.Split('/')[2]);
+
+            int hour = Convert.ToInt32(startTime.Split(':')[0]);
+            int min = Convert.ToInt32(startTime.Split(':')[1]);
+
+
+            if (hour < 12 && amPm == "PM")
+            {
+                hour += 12;
+            }
+            else if (hour == 12 && amPm == "AM")
+            {
+                hour = 0;
+            }
 
             DateTime date = new DateTime(year, month, day, hour, min, 0);
             return date;
