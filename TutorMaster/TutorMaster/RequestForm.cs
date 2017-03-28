@@ -31,6 +31,9 @@ namespace TutorMaster
                 combCourseName.Items.Add(c.ClassName); //add all the class names to this list 
             }
 
+            combHours.Text = "0";
+            combMins.Text = "00";
+
         }
 
         private void btnExit_Click(object sender, EventArgs e)
@@ -125,11 +128,14 @@ namespace TutorMaster
                                 //MessageBox.Show(tutorCommits[0].StartTime.ToString());
                                 removeNotOpens(ref tutorCommits);
                                 QuickSort(ref tutorCommits, tutorCommits.Count());
-                                List<string> tutorValidSlots = getValidSlots(ref tuteeCommits, sessionLength);
+                                List<string> tutorValidSlots = getValidSlots(ref tutorCommits, sessionLength);
                                 bool done = false;
+                                MessageBox.Show(tuteeValidSlots.Count().ToString());
+                                MessageBox.Show(tuteeValidSlots[0]);
                                 for (int j = 0; j < tutorValidSlots.Count(); j++)
                                 {
-                                    if (BinarySearch(tutorValidSlots, tutorValidSlots[j]))
+                                    MessageBox.Show(tutorValidSlots.Count().ToString() + ", " + tuteeValidSlots.Count().ToString());
+                                    if (BinarySearch(tuteeValidSlots, tutorValidSlots[j]))
                                     {
                                         //MessageBox.Show("Here");
                                         DialogResult choice = MessageBox.Show("You have been matched with " + tutorFirstName + " " + tutorLastName +
@@ -187,7 +193,7 @@ namespace TutorMaster
             {
                 if (DateTime.Compare(startTime, Convert.ToDateTime(tutorCommits[i].StartTime)) <= 0 && DateTime.Compare(endTime, Convert.ToDateTime(tutorCommits[i].StartTime)) > 0)
                 {
-                    MessageBox.Show("Start: " + startTime.ToString() + " End:" + endTime.ToString() + "  Test: " + Convert.ToDateTime(tutorCommits[i].StartTime).ToString());
+                    //MessageBox.Show("Start: " + startTime.ToString() + " End:" + endTime.ToString() + "  Test: " + Convert.ToDateTime(tutorCommits[i].StartTime).ToString());
                     tutorCommits[i].Open = false;
                     tutorCommits[i].Tutoring = true;
                     tutorCommits[i].ID = tuteeId;
@@ -216,7 +222,9 @@ namespace TutorMaster
                 {
                     startTime = getCommitTime(cmtList[i]);
                     endTime = getCommitTime15(cmtList[i]);
-                    validSlots.Add(startTime + "," + endTime);
+                    DateTime start = Convert.ToDateTime(cmtList[i].StartTime);
+                    DateTime end = Convert.ToDateTime(cmtList[i].StartTime).AddMinutes(15);
+                    validSlots.Add(start.ToString() + "," + end.ToString());
                 }
             }
             else
@@ -310,9 +318,11 @@ namespace TutorMaster
             int last = cmtList.Count() - 1;
             while (first <= last && !found)
             {
+                MessageBox.Show("0");
                 int midpoint = (first + last) / 2;
                 if (DateTime.Compare(getStartTime(cmtList[midpoint]), getStartTime(commit)) == 0)
                 {
+                    MessageBox.Show("1");
                     found = true;
                     return found;
                 }
@@ -320,10 +330,12 @@ namespace TutorMaster
                 {
                     if (DateTime.Compare(getStartTime(commit), getStartTime(cmtList[midpoint])) < 0)
                     {
+                        MessageBox.Show("2");
                         last = midpoint - 1;
                     }
                     else
                     {
+                        MessageBox.Show("3");
                         first = midpoint + 1;
                     }
                 }
