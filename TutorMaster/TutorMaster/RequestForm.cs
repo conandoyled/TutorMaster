@@ -65,9 +65,9 @@ namespace TutorMaster
             else if (string.IsNullOrWhiteSpace(combHours.Text) || string.IsNullOrWhiteSpace(combMins.Text))// || (Convert.ToInt32(combMins.Text) == 0 &&
                 //Convert.ToInt32(combHours.Text) == 0) || ((Convert.ToInt32(combHours.Text) * 4 + (Convert.ToInt32(combMins) / 15)) > 12)
             {
-                MessageBox.Show("Please input values for the hours and minutes dropdown boxes";
+                MessageBox.Show("Please input values for the hours and minutes dropdown boxes");
             }
-            else if((Convert.ToInt32(combMins.Text) == 0 && Convert.ToInt32(combHours.Text) == 0) || ((Convert.ToInt32(combHours.Text) * 4 + (Convert.ToInt32(combMins) / 15)) > 12))
+            else if(((Convert.ToInt32(combHours.Text) * 4 + (Convert.ToInt32(combMins.Text) / 15)) == 0) || ((Convert.ToInt32(combHours.Text) * 4 + (Convert.ToInt32(combMins.Text) / 15)) > 12))
             {
                 MessageBox.Show("Please input values for the hours and minutes that are between a length of 15 minutes and 3 hours");
             }
@@ -94,7 +94,7 @@ namespace TutorMaster
                         tuteeCommits.Add(commit);
                     }
 
-                    int sessionLength = Convert.ToInt32(combHours.Text) * 4 + (Convert.ToInt32(combMins) / 15);
+                    int sessionLength = Convert.ToInt32(combHours.Text) * 4 + (Convert.ToInt32(combMins.Text) / 15);
 
                     removeNotOpens(ref tuteeCommits);
 
@@ -107,6 +107,32 @@ namespace TutorMaster
                         QuickSort(ref tuteeCommits, tuteeCommits.Count());
 
                         List<string> tuteeValidSlots = getValidSlots(ref tuteeCommits, sessionLength);
+
+                        for (int i = 0; i < approvedTutorIds.Count(); i++)
+                        {
+                            if (approvedTutorIds[i] != id)
+                            {
+                                var tutorStdCommitments = (from row in db.StudentCommitments.AsEnumerable() where id == row.ID select row.CmtID).ToList();
+                                List<TutorMaster.Commitment> tutorCommits = new List<Commitment>();
+                                for (int j = 0; j < tuteeStdCommitments.Count(); j++)                                                 //look each up and add to a list of commitments
+                                {
+                                    TutorMaster.Commitment commit = (from row in db.Commitments.AsEnumerable() where row.CmtID == tutorStdCommitments[j] select row).First();
+                                    tutorCommits.Add(commit);
+                                }
+                                //MessageBox.Show(tutorCommits[0].StartTime.ToString());
+                                removeNotOpens(ref tutorCommits);
+                                QuickSort(ref tutorCommits, tutorCommits.Count());
+                                List<string> tutorValidSlots = getValidSlots(ref tuteeCommits, sessionLength);
+                                for (int j = 0; j < tutorValidSlots.Count(); j++)
+                                {
+                                    if (BinarySearch(tutorValidSlots, tutorValidSlots[j]))
+                                    {
+                                        //MessageBox.Show("Match");
+                                        MessageBox.Show(tutorValidSlots[j]);
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -119,7 +145,9 @@ namespace TutorMaster
             List<string> validSlots = new List<string>();
             TutorMaster.Commitment initialCommit = cmtList[0];
             string startTime = getCommitTime(cmtList[0]);
+            DateTime startDate = Convert.ToDateTime(cmtList[0].StartTime);
             string endTime = getCommitTime15(cmtList[0]);
+            DateTime endDate = Convert.ToDateTime(cmtList[0].StartTime).AddMinutes(15);
             
             consecutiveCommits++;
 
@@ -142,38 +170,48 @@ namespace TutorMaster
                     if (DateTime.Compare(nextCommitDate, currentCommitDate.AddMinutes(15)) == 0 && consecutiveCommits < sessionLength) //if our next commit is 15 minutes later of our current
                     {
                         consecutiveCommits++;
+                        endDate = Convert.ToDateTime(cmtList[i].StartTime).AddMinutes(15);
                         endTime = getCommitTime15(cmtList[i]);                                   //only update endTime
                     }
                     else if (DateTime.Compare(nextCommitDate, currentCommitDate.AddMinutes(15)) == 0 && consecutiveCommits >= sessionLength)
                     {
                         endTime = getCommitTime15(cmtList[i]);
-                        validSlots.Add(startTime + "," + endTime);
+                        endDate = Convert.ToDateTime(cmtList[i].StartTime).AddMinutes(15);
+                        validSlots.Add(startDate.ToString() + "," + endDate.ToString());
+                        startTime = startDate.AddMinutes(15).ToString().Split(' ')[1] + " " + startDate.AddMinutes(15).ToString().Split(' ')[2];
+                        startDate = startDate.AddMinutes(15);
                     }
                     else if(DateTime.Compare(nextCommitDate, currentCommitDate.AddMinutes(15)) != 0 && consecutiveCommits >= sessionLength)
                     {
                         endTime = getCommitTime15(cmtList[i]);                                   //if next commit is not, update endTime
-                        validSlots.Add(startTime + "," + endTime);
+                        endDate = Convert.ToDateTime(cmtList[i].StartTime).AddMinutes(15);
+                        validSlots.Add(startDate.ToString() + "," + endDate.ToString());
 
                         //update our carries
                         consecutiveCommits = 1;
                         startTime = getCommitTime(cmtList[i + 1]);
+                        startDate = Convert.ToDateTime(cmtList[i + 1].StartTime);
                         endTime = getCommitTime15(cmtList[i + 1]);
+                        endDate = Convert.ToDateTime(cmtList[i + 1].StartTime).AddMinutes(15);
                         initialCommit = cmtList[i + 1];
                     }
                     else if (DateTime.Compare(nextCommitDate, currentCommitDate.AddMinutes(15)) != 0 && consecutiveCommits < sessionLength)
                     {
                         consecutiveCommits = 1;
                         startTime = getCommitTime(cmtList[i + 1]);
+                        startDate = Convert.ToDateTime(cmtList[i + 1].StartTime);
                         endTime = getCommitTime15(cmtList[i + 1]);
+                        endDate = Convert.ToDateTime(cmtList[i + 1].StartTime).AddMinutes(15);
                         initialCommit = cmtList[i + 1];
                     }
-                    else if (cmtList[i + 1] == cmtList[cmtList.Count() - 1] )
-                    {
-
-                    }
                 }
-                endTime = getCommitTime15(cmtList[cmtList.Count() - 1]);
-                validSlots.Add(startTime + "," + endTime);
+                //if (Convert.ToDateTime(cmtList[cmtList.Count() - 1].StartTime) == Convert.ToDateTime(cmtList[cmtList.Count() - 2].StartTime))
+                //{
+
+                //}
+                
+                //endTime = getCommitTime15(cmtList[cmtList.Count() - 1]);
+                //validSlots.Add(startTime + "," + endTime);
             }
             return validSlots;
         }
@@ -202,6 +240,51 @@ namespace TutorMaster
         private string getCommitTime15(TutorMaster.Commitment commit15)
         {
             return Convert.ToDateTime(commit15.StartTime).AddMinutes(15).ToString().Split(' ')[1] + " " + Convert.ToDateTime(commit15.StartTime).ToString().Split(' ')[2];
+        }
+
+        private bool BinarySearch(List<string> cmtList, string commit)
+        {
+            bool found = false;
+            int first = 0;
+            int last = cmtList.Count() - 1;
+            while (first <= last && !found)
+            {
+                int midpoint = (first + last) / 2;
+                if (DateTime.Compare(getStartTime(cmtList[midpoint]), getStartTime(commit)) == 0)
+                {
+                    found = true;
+                    return found;
+                }
+                else
+                {
+                    if (DateTime.Compare(getStartTime(commit), getStartTime(cmtList[midpoint])) < 0)
+                    {
+                        last = midpoint - 1;
+                    }
+                    else
+                    {
+                        first = midpoint + 1;
+                    }
+                }
+            }
+            return found;
+        }
+
+        private DateTime getStartTime(string slot)
+        {
+            string startDateTime = slot.Split(',')[0];
+            string startDate = startDateTime.Split(' ')[0];
+            string startTime = startDateTime.Split(' ')[1];
+            
+            int month = Convert.ToInt32(startDate.Split('/')[0]);
+            int day = Convert.ToInt32(startDate.Split('/')[1]);
+            int year = Convert.ToInt32(startDate.Split('/')[2]);
+
+            int hour = Convert.ToInt32(startTime.Split(':')[0]);
+            int min = Convert.ToInt32(startTime.Split(':')[1]);
+
+            DateTime date = new DateTime(year, month, day, hour, min, 0);
+            return date;
         }
         //    //1. create the time objects
 
