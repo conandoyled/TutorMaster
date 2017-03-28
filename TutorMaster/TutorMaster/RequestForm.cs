@@ -112,11 +112,12 @@ namespace TutorMaster
                         {
                             if (approvedTutorIds[i] != id)
                             {
+                                //var tutor = (from row in db.Users.AsEnumerable() where row.ID == approvedTutorIds[i] select row).First();
                                 var tutorFirstName = (from row in db.Users.AsEnumerable() where row.ID == approvedTutorIds[i] select row.FirstName).First();
                                 var tutorLastName = (from row in db.Users.AsEnumerable() where row.ID == approvedTutorIds[i] select row.LastName).First();
-                                var tutorStdCommitments = (from row in db.StudentCommitments.AsEnumerable() where id == row.ID select row.CmtID).ToList();
+                                var tutorStdCommitments = (from row in db.StudentCommitments.AsEnumerable() where approvedTutorIds[i] == row.ID select row.CmtID).ToList();
                                 List<TutorMaster.Commitment> tutorCommits = new List<Commitment>();
-                                for (int j = 0; j < tuteeStdCommitments.Count(); j++)                                                 //look each up and add to a list of commitments
+                                for (int j = 0; j < tutorStdCommitments.Count(); j++)                                                 //look each up and add to a list of commitments
                                 {
                                     TutorMaster.Commitment commit = (from row in db.Commitments.AsEnumerable() where row.CmtID == tutorStdCommitments[j] select row).First();
                                     tutorCommits.Add(commit);
@@ -137,17 +138,14 @@ namespace TutorMaster
                                         {
                                             int tutorId = Convert.ToInt32(approvedTutorIds[i]);
                                             int tuteeId = Convert.ToInt32(id);
-                                            addCommits(tutorValidSlots[j], tutorId, tuteeId, tutorCommits, tuteeCommits);
+                                            addCommits(tutorValidSlots[j], tutorId, tuteeId, tutorCommits, tuteeCommits, classCode, db);
                                             break;
                                         }
                                         else if (choice == DialogResult.No)
                                         {
-                                            continue;
+                                            break;
                                         }
-                                        //MessageBox.Show("Match");
-                                        //MessageBox.Show(tutorValidSlots[j]);
                                     }
-
                                 }
                                 if (done)
                                 {
@@ -155,36 +153,45 @@ namespace TutorMaster
                                 }
                             }
                         }
-                        MessageBox.Show("Done");
                     }
+                    StudentMain g = new StudentMain(id);
+                    g.Show();
+                    this.Close();
                 }
             }
         }
 
-        private void addCommits(string timeSlot, int tutorId, int tuteeId, List<TutorMaster.Commitment> tutorCommits, List<TutorMaster.Commitment> tuteeCommits)
+        private void addCommits(string timeSlot, int tutorId, int tuteeId, List<TutorMaster.Commitment> tutorCommits, List<TutorMaster.Commitment> tuteeCommits, string classCode, TutorMasterDBEntities4 db)
         {
-            TutorMasterDBEntities4 db = new TutorMasterDBEntities4();
+            //TutorMasterDBEntities4 db = new TutorMasterDBEntities4();
             DateTime startTime = getStartTime(timeSlot);
             DateTime endTime = getEndTime(timeSlot);
 
-            for (int i = 0; i < tutorCommits.Count(); i++)
-            {
-                if (DateTime.Compare(startTime, Convert.ToDateTime(tutorCommits[i].StartTime)) >= 0 && DateTime.Compare(endTime, Convert.ToDateTime(tutorCommits[i].StartTime)) < 0)
-                {
-                    tutorCommits[i].Open = false;
-                    tutorCommits[i].Tutoring = true;
-                    tutorCommits[i].ID = tuteeId;
-                    db.SaveChanges();
-                }
-            }
+          
 
             for (int j = 0; j < tuteeCommits.Count(); j++)
             {
-                if (DateTime.Compare(startTime, Convert.ToDateTime(tuteeCommits[j].StartTime)) >= 0 && DateTime.Compare(endTime, Convert.ToDateTime(tuteeCommits[j].StartTime)) < 0)
+                if (DateTime.Compare(startTime, Convert.ToDateTime(tuteeCommits[j].StartTime)) <= 0 && DateTime.Compare(endTime, Convert.ToDateTime(tuteeCommits[j].StartTime)) > 0)
                 {
+                    //MessageBox.Show("Here");
                     tuteeCommits[j].Open = false;
-                    tuteeCommits[j].Tutoring = true;
-                    tuteeCommits[j].ID = tuteeId;
+                    tuteeCommits[j].Tutoring = false;
+                    tuteeCommits[j].ID = tutorId;
+                    tuteeCommits[j].Class = classCode;
+                    db.SaveChanges();
+                    
+                }
+            }
+
+            for (int i = 0; i < tutorCommits.Count(); i++)
+            {
+                if (DateTime.Compare(startTime, Convert.ToDateTime(tutorCommits[i].StartTime)) <= 0 && DateTime.Compare(endTime, Convert.ToDateTime(tutorCommits[i].StartTime)) > 0)
+                {
+                    MessageBox.Show("Start: " + startTime.ToString() + " End:" + endTime.ToString() + "  Test: " + Convert.ToDateTime(tutorCommits[i].StartTime).ToString());
+                    tutorCommits[i].Open = false;
+                    tutorCommits[i].Tutoring = true;
+                    tutorCommits[i].ID = tuteeId;
+                    tutorCommits[i].Class = classCode;
                     db.SaveChanges();
                 }
             }
