@@ -851,5 +851,13 @@ namespace TutorMaster
             }
             return numDay;
         }
+
+        private void btnMakeRequest_Click(object sender, EventArgs e) //display the request form
+        {
+            RequestForm g = new RequestForm(id);
+            g.Show();
+            Close();
+        }
+
     }
 }

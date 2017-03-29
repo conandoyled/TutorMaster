@@ -63,7 +63,7 @@
             this.combStartMinute = new System.Windows.Forms.ComboBox();
             this.combStartHour = new System.Windows.Forms.ComboBox();
             this.btnLogout = new System.Windows.Forms.Button();
-            this.button1 = new System.Windows.Forms.Button();
+            this.btnMakeRequest = new System.Windows.Forms.Button();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabSchedule = new System.Windows.Forms.TabPage();
             this.dayEndDateTime = new System.Windows.Forms.DateTimePicker();
@@ -469,14 +469,15 @@
             this.btnLogout.UseVisualStyleBackColor = true;
             this.btnLogout.Click += new System.EventHandler(this.btnLogout_Click);
             // 
-            // button1
+            // btnMakeRequest
             // 
-            this.button1.Location = new System.Drawing.Point(736, 85);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(197, 23);
-            this.button1.TabIndex = 2;
-            this.button1.Text = "Make Request";
-            this.button1.UseVisualStyleBackColor = true;
+            this.btnMakeRequest.Location = new System.Drawing.Point(736, 85);
+            this.btnMakeRequest.Name = "btnMakeRequest";
+            this.btnMakeRequest.Size = new System.Drawing.Size(197, 23);
+            this.btnMakeRequest.TabIndex = 2;
+            this.btnMakeRequest.Text = "Make Request";
+            this.btnMakeRequest.UseVisualStyleBackColor = true;
+            this.btnMakeRequest.Click += new System.EventHandler(this.btnMakeRequest_Click);
             // 
             // tabControl1
             // 
@@ -628,7 +629,7 @@
             this.Controls.Add(this.label10);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.weekStartDateTime);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.btnMakeRequest);
             this.Controls.Add(this.btnLogout);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "StudentMain";
@@ -664,7 +665,7 @@
         #endregion
 
         private System.Windows.Forms.Button btnLogout;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button btnMakeRequest;
         private System.Windows.Forms.Button btnAddOpenBlock;
         private System.Windows.Forms.ComboBox combEndAmPm;
         private System.Windows.Forms.ComboBox combEndMinute;
