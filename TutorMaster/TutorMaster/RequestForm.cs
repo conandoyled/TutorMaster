@@ -61,6 +61,7 @@ namespace TutorMaster
             }
             else
             {
+                bool weekly = cbxWeekly.Checked;
                 DateTime start = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 0, 0, 0);
                 TutorMasterDBEntities4 db = new TutorMasterDBEntities4();
 
@@ -83,7 +84,7 @@ namespace TutorMaster
                     int sessionLength = Convert.ToInt32(combHours.Text) * 4 + (Convert.ToInt32(combMins.Text) / 15);
 
 
-                    removeNotOpens(ref tuteeCommits, start);
+                    removeNotOpens(ref tuteeCommits, start, weekly);
 
                     if (tuteeCommits.Count == 0)
                     {
@@ -109,7 +110,9 @@ namespace TutorMaster
                                                                              where stucmt.ID == approvedTutorIds[i]
                                                                              join cmt in db.Commitments.AsEnumerable() on stucmt.CmtID equals cmt.CmtID
                                                                              select cmt).ToList();
-                                removeNotOpens(ref tutorCommits, start);
+                                
+                                removeNotOpens(ref tutorCommits, start, weekly);
+                                
                                 QuickSort(ref tutorCommits, tutorCommits.Count());
                                 List<string> tutorValidSlots = getValidSlots(ref tutorCommits, sessionLength);
 
@@ -123,7 +126,7 @@ namespace TutorMaster
                                         {
                                             int tutorId = Convert.ToInt32(approvedTutorIds[i]);
                                             int tuteeId = Convert.ToInt32(id);
-                                            addCommits(tutorValidSlots[j], tutorId, tuteeId, tutorCommits, tuteeCommits, classCode, db);
+                                            addCommits(tutorValidSlots[j], tutorId, tuteeId, tutorCommits, tuteeCommits, classCode, db, weekly, sessionLength);
                                             done = true;
                                             break;
                                         }
@@ -151,36 +154,77 @@ namespace TutorMaster
             }
         }
 
-        private void addCommits(string timeSlot, int tutorId, int tuteeId, List<TutorMaster.Commitment> tutorCommits, List<TutorMaster.Commitment> tuteeCommits, string classCode, TutorMasterDBEntities4 db)
+        private void addCommits(string timeSlot, int tutorId, int tuteeId, List<TutorMaster.Commitment> tutorCommits, List<TutorMaster.Commitment> tuteeCommits, string classCode, TutorMasterDBEntities4 db, bool weekly, int numSessions)
         {
             //TutorMasterDBEntities4 db = new TutorMasterDBEntities4();
             DateTime startTime = getStartTime(timeSlot);
             DateTime endTime = getEndTime(timeSlot);
 
-          
 
-            for (int j = 0; j < tuteeCommits.Count(); j++)
+            if (!weekly)
             {
-                if (DateTime.Compare(startTime, Convert.ToDateTime(tuteeCommits[j].StartTime)) <= 0 && DateTime.Compare(endTime, Convert.ToDateTime(tuteeCommits[j].StartTime)) > 0)
+                for (int j = 0; j < tuteeCommits.Count(); j++)
                 {
-                    tuteeCommits[j].Open = false;
-                    tuteeCommits[j].Tutoring = false;
-                    tuteeCommits[j].ID = tutorId;
-                    tuteeCommits[j].Class = classCode;
-                    db.SaveChanges();
-                    
+                    if (DateTime.Compare(startTime, Convert.ToDateTime(tuteeCommits[j].StartTime)) <= 0 && DateTime.Compare(endTime, Convert.ToDateTime(tuteeCommits[j].StartTime)) > 0)
+                    {
+                        tuteeCommits[j].Open = false;
+                        tuteeCommits[j].Tutoring = false;
+                        tuteeCommits[j].ID = tutorId;
+                        tuteeCommits[j].Class = classCode;
+                        db.SaveChanges();
+                    }
+                }
+
+                for (int i = 0; i < tutorCommits.Count(); i++)
+                {
+                    if (DateTime.Compare(startTime, Convert.ToDateTime(tutorCommits[i].StartTime)) <= 0 && DateTime.Compare(endTime, Convert.ToDateTime(tutorCommits[i].StartTime)) > 0)
+                    {
+                        tutorCommits[i].Open = false;
+                        tutorCommits[i].Tutoring = true;
+                        tutorCommits[i].ID = tuteeId;
+                        tutorCommits[i].Class = classCode;
+                        db.SaveChanges();
+                    }
                 }
             }
-
-            for (int i = 0; i < tutorCommits.Count(); i++)
+            else
             {
-                if (DateTime.Compare(startTime, Convert.ToDateTime(tutorCommits[i].StartTime)) <= 0 && DateTime.Compare(endTime, Convert.ToDateTime(tutorCommits[i].StartTime)) > 0)
+                DateTime endSemes = new DateTime(2017, 5, 1, 0, 0, 0);
+                while (startTime.AddDays(7).CompareTo(endSemes) < 0)
                 {
-                    tutorCommits[i].Open = false;
-                    tutorCommits[i].Tutoring = true;
-                    tutorCommits[i].ID = tuteeId;
-                    tutorCommits[i].Class = classCode;
-                    db.SaveChanges();
+                    for (int j = 0; j < tuteeCommits.Count(); j++)
+                    {
+                        if (DateTime.Compare(startTime, Convert.ToDateTime(tuteeCommits[j].StartTime)) <= 0 && DateTime.Compare(endTime, Convert.ToDateTime(tuteeCommits[j].StartTime)) > 0)
+                        {
+                            tuteeCommits[j].Open = false;
+                            tuteeCommits[j].Tutoring = false;
+                            tuteeCommits[j].ID = tutorId;
+                            tuteeCommits[j].Class = classCode;
+                            db.SaveChanges();
+                        }
+                        else if(DateTime.Compare(endTime, Convert.ToDateTime(tutorCommits[j].StartTime)) <= 0)
+                        {
+                            break;
+                        }
+                    }
+
+                    for (int i = 0; i < tutorCommits.Count(); i++)
+                    {
+                        if (DateTime.Compare(startTime, Convert.ToDateTime(tutorCommits[i].StartTime)) <= 0 && DateTime.Compare(endTime, Convert.ToDateTime(tutorCommits[i].StartTime)) > 0)
+                        {
+                            tutorCommits[i].Open = false;
+                            tutorCommits[i].Tutoring = true;
+                            tutorCommits[i].ID = tuteeId;
+                            tutorCommits[i].Class = classCode;
+                            db.SaveChanges();
+                        }
+                        else if(DateTime.Compare(endTime, Convert.ToDateTime(tutorCommits[i].StartTime)) <= 0)
+                        {
+                            break;
+                        }
+                    }
+                    startTime = startTime.AddDays(7);
+                    endTime = endTime.AddDays(7);
                 }
             }
         }
@@ -260,11 +304,11 @@ namespace TutorMaster
             return validSlots;
         }
 
-        private void removeNotOpens(ref List<TutorMaster.Commitment> cmtList, DateTime start)
+        private void removeNotOpens(ref List<TutorMaster.Commitment> cmtList, DateTime start, bool weekly)
         {
             for (int i = 0; i < cmtList.Count(); i++)
             {
-                if (!isOpen(cmtList[i]) || DateTime.Compare(start, Convert.ToDateTime(cmtList[i].StartTime)) > 0)
+                if (!isOpen(cmtList[i]) || DateTime.Compare(start, Convert.ToDateTime(cmtList[i].StartTime)) > 0 || cmtList[i].Weekly != weekly)
                 {
                     cmtList.Remove(cmtList[i]);
                     i--;
