@@ -71,12 +71,18 @@
             this.tabAppointments = new System.Windows.Forms.TabPage();
             this.tabControl2 = new System.Windows.Forms.TabControl();
             this.tabAccepted = new System.Windows.Forms.TabPage();
-            this.lvAccepted = new System.Windows.Forms.ListView();
             this.tabPendingTutor = new System.Windows.Forms.TabPage();
-            this.lvPendingTutor = new System.Windows.Forms.ListView();
             this.tabPendingTutee = new System.Windows.Forms.TabPage();
-            this.lvPendingTutee = new System.Windows.Forms.ListView();
             this.label10 = new System.Windows.Forms.Label();
+            this.lvFinalized = new System.Windows.Forms.ListView();
+            this.lvPendingTutor = new System.Windows.Forms.ListView();
+            this.lvTutor = new System.Windows.Forms.ListView();
+            this.lvPendingTutee = new System.Windows.Forms.ListView();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
+            this.lvTutee = new System.Windows.Forms.ListView();
+            this.label5 = new System.Windows.Forms.Label();
             this.dayTabs.SuspendLayout();
             this.tabSunday.SuspendLayout();
             this.tabMonday.SuspendLayout();
@@ -555,62 +561,41 @@
             // 
             // tabAccepted
             // 
-            this.tabAccepted.Controls.Add(this.lvAccepted);
+            this.tabAccepted.Controls.Add(this.lvFinalized);
             this.tabAccepted.Location = new System.Drawing.Point(4, 22);
             this.tabAccepted.Name = "tabAccepted";
             this.tabAccepted.Padding = new System.Windows.Forms.Padding(3);
             this.tabAccepted.Size = new System.Drawing.Size(699, 367);
             this.tabAccepted.TabIndex = 0;
-            this.tabAccepted.Text = "Accepted";
+            this.tabAccepted.Text = "Finalized Appointments";
             this.tabAccepted.UseVisualStyleBackColor = true;
-            // 
-            // lvAccepted
-            // 
-            this.lvAccepted.Location = new System.Drawing.Point(0, 0);
-            this.lvAccepted.Name = "lvAccepted";
-            this.lvAccepted.Size = new System.Drawing.Size(699, 367);
-            this.lvAccepted.TabIndex = 14;
-            this.lvAccepted.UseCompatibleStateImageBehavior = false;
-            this.lvAccepted.View = System.Windows.Forms.View.Details;
             // 
             // tabPendingTutor
             // 
+            this.tabPendingTutor.Controls.Add(this.label4);
+            this.tabPendingTutor.Controls.Add(this.label3);
             this.tabPendingTutor.Controls.Add(this.lvPendingTutor);
+            this.tabPendingTutor.Controls.Add(this.lvTutor);
             this.tabPendingTutor.Location = new System.Drawing.Point(4, 22);
             this.tabPendingTutor.Name = "tabPendingTutor";
             this.tabPendingTutor.Padding = new System.Windows.Forms.Padding(3);
             this.tabPendingTutor.Size = new System.Drawing.Size(699, 367);
             this.tabPendingTutor.TabIndex = 1;
-            this.tabPendingTutor.Text = "Pending Tutor";
+            this.tabPendingTutor.Text = "Pending Tutoring Appointments";
             this.tabPendingTutor.UseVisualStyleBackColor = true;
-            // 
-            // lvPendingTutor
-            // 
-            this.lvPendingTutor.Location = new System.Drawing.Point(0, 0);
-            this.lvPendingTutor.Name = "lvPendingTutor";
-            this.lvPendingTutor.Size = new System.Drawing.Size(699, 367);
-            this.lvPendingTutor.TabIndex = 15;
-            this.lvPendingTutor.UseCompatibleStateImageBehavior = false;
-            this.lvPendingTutor.View = System.Windows.Forms.View.Details;
             // 
             // tabPendingTutee
             // 
+            this.tabPendingTutee.Controls.Add(this.label5);
+            this.tabPendingTutee.Controls.Add(this.lvTutee);
+            this.tabPendingTutee.Controls.Add(this.label6);
             this.tabPendingTutee.Controls.Add(this.lvPendingTutee);
             this.tabPendingTutee.Location = new System.Drawing.Point(4, 22);
             this.tabPendingTutee.Name = "tabPendingTutee";
             this.tabPendingTutee.Size = new System.Drawing.Size(699, 367);
             this.tabPendingTutee.TabIndex = 2;
-            this.tabPendingTutee.Text = "Pending Tutee";
+            this.tabPendingTutee.Text = "Pending Tutee Appointments";
             this.tabPendingTutee.UseVisualStyleBackColor = true;
-            // 
-            // lvPendingTutee
-            // 
-            this.lvPendingTutee.Location = new System.Drawing.Point(0, 0);
-            this.lvPendingTutee.Name = "lvPendingTutee";
-            this.lvPendingTutee.Size = new System.Drawing.Size(699, 367);
-            this.lvPendingTutee.TabIndex = 15;
-            this.lvPendingTutee.UseCompatibleStateImageBehavior = false;
-            this.lvPendingTutee.View = System.Windows.Forms.View.Details;
             // 
             // label10
             // 
@@ -620,6 +605,87 @@
             this.label10.Size = new System.Drawing.Size(190, 13);
             this.label10.TabIndex = 15;
             this.label10.Text = "Date to load schedule a week out from";
+            // 
+            // lvFinalized
+            // 
+            this.lvFinalized.Location = new System.Drawing.Point(0, 0);
+            this.lvFinalized.Name = "lvFinalized";
+            this.lvFinalized.Size = new System.Drawing.Size(699, 337);
+            this.lvFinalized.TabIndex = 16;
+            this.lvFinalized.UseCompatibleStateImageBehavior = false;
+            this.lvFinalized.View = System.Windows.Forms.View.Details;
+            // 
+            // lvPendingTutor
+            // 
+            this.lvPendingTutor.Location = new System.Drawing.Point(0, 24);
+            this.lvPendingTutor.Name = "lvPendingTutor";
+            this.lvPendingTutor.Size = new System.Drawing.Size(699, 140);
+            this.lvPendingTutor.TabIndex = 18;
+            this.lvPendingTutor.UseCompatibleStateImageBehavior = false;
+            this.lvPendingTutor.View = System.Windows.Forms.View.Details;
+            // 
+            // lvTutor
+            // 
+            this.lvTutor.Location = new System.Drawing.Point(0, 190);
+            this.lvTutor.Name = "lvTutor";
+            this.lvTutor.Size = new System.Drawing.Size(699, 140);
+            this.lvTutor.TabIndex = 17;
+            this.lvTutor.UseCompatibleStateImageBehavior = false;
+            this.lvTutor.View = System.Windows.Forms.View.Details;
+            // 
+            // lvPendingTutee
+            // 
+            this.lvPendingTutee.Location = new System.Drawing.Point(0, 190);
+            this.lvPendingTutee.Name = "lvPendingTutee";
+            this.lvPendingTutee.Size = new System.Drawing.Size(699, 140);
+            this.lvPendingTutee.TabIndex = 18;
+            this.lvPendingTutee.UseCompatibleStateImageBehavior = false;
+            this.lvPendingTutee.View = System.Windows.Forms.View.Details;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(6, 8);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(293, 13);
+            this.label3.TabIndex = 19;
+            this.label3.Text = "Appointments waiting for your approval and location proposal";
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(6, 172);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(223, 13);
+            this.label4.TabIndex = 20;
+            this.label4.Text = "Appointments waiting on the Tutee\'s Approval";
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(6, 172);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(189, 13);
+            this.label6.TabIndex = 21;
+            this.label6.Text = "Appointments waiting for your approval";
+            // 
+            // lvTutee
+            // 
+            this.lvTutee.Location = new System.Drawing.Point(0, 24);
+            this.lvTutee.Name = "lvTutee";
+            this.lvTutee.Size = new System.Drawing.Size(699, 140);
+            this.lvTutee.TabIndex = 22;
+            this.lvTutee.UseCompatibleStateImageBehavior = false;
+            this.lvTutee.View = System.Windows.Forms.View.Details;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(6, 8);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(190, 13);
+            this.label5.TabIndex = 23;
+            this.label5.Text = "Appointments waiting on tutor approval";
             // 
             // StudentMain
             // 
@@ -656,7 +722,9 @@
             this.tabControl2.ResumeLayout(false);
             this.tabAccepted.ResumeLayout(false);
             this.tabPendingTutor.ResumeLayout(false);
+            this.tabPendingTutor.PerformLayout();
             this.tabPendingTutee.ResumeLayout(false);
+            this.tabPendingTutee.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -697,11 +765,8 @@
         private System.Windows.Forms.TabPage tabSchedule;
         private System.Windows.Forms.TabPage tabAppointments;
         private System.Windows.Forms.TabPage tabPendingTutee;
-        private System.Windows.Forms.ListView lvPendingTutee;
         private System.Windows.Forms.TabPage tabPendingTutor;
-        private System.Windows.Forms.ListView lvPendingTutor;
         private System.Windows.Forms.TabPage tabAccepted;
-        private System.Windows.Forms.ListView lvAccepted;
         private System.Windows.Forms.TabControl tabControl2;
         private System.Windows.Forms.Label lblMonday;
         private System.Windows.Forms.Label lblTuesday;
@@ -712,5 +777,14 @@
         private System.Windows.Forms.DateTimePicker dayEndDateTime;
         private System.Windows.Forms.DateTimePicker dayStartDateTime;
         private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.ListView lvFinalized;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.ListView lvPendingTutor;
+        private System.Windows.Forms.ListView lvTutor;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.ListView lvPendingTutee;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.ListView lvTutee;
     }
 }
