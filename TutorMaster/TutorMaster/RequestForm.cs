@@ -44,33 +44,18 @@ namespace TutorMaster
         }
 
 
-        //private List<DateTime> MakeFifteenBlocks(DateTime startTime, DateTime endTime)
-        //{
-        //    DateTime begin = startTime;
-        //    int compare = begin.CompareTo(endTime);//returns -1 through postive 1 to represent the relation between the compared times 
-        //    List<DateTime> RequestTimes = new List<DateTime>(); //create a list to store the broken up commitments.
-
-        //    while (compare < 0) //if the first date is less than the second date
-        //    {
-        //        RequestTimes.Add(begin);
-        //        begin = begin.AddMinutes(15);
-        //        compare = begin.CompareTo(endTime);
-        //    }
-        //    return RequestTimes;
-        //}
-
         private void btnRequest_Click(object sender, EventArgs e)
         {
             if (string.IsNullOrWhiteSpace(combCourseName.Text))
             {
                 MessageBox.Show("Please select a course for the session.");
             }
-            else if (string.IsNullOrWhiteSpace(combHours.Text) || string.IsNullOrWhiteSpace(combMins.Text))// || (Convert.ToInt32(combMins.Text) == 0 &&
-                //Convert.ToInt32(combHours.Text) == 0) || ((Convert.ToInt32(combHours.Text) * 4 + (Convert.ToInt32(combMins) / 15)) > 12)
+            else if (string.IsNullOrWhiteSpace(combHours.Text) || string.IsNullOrWhiteSpace(combMins.Text))
             {
                 MessageBox.Show("Please input values for the hours and minutes dropdown boxes");
             }
-            else if(((Convert.ToInt32(combHours.Text) * 4 + (Convert.ToInt32(combMins.Text) / 15)) == 0) || ((Convert.ToInt32(combHours.Text) * 4 + (Convert.ToInt32(combMins.Text) / 15)) > 12))
+            else if(((Convert.ToInt32(combHours.Text) * 4 + (Convert.ToInt32(combMins.Text) / 15)) == 0) || 
+                ((Convert.ToInt32(combHours.Text) * 4 + (Convert.ToInt32(combMins.Text) / 15)) > 12))
             {
                 MessageBox.Show("Please input values for the hours and minutes that are between a length of 15 minutes and 3 hours");
             }
@@ -125,19 +110,14 @@ namespace TutorMaster
                                     TutorMaster.Commitment commit = (from row in db.Commitments.AsEnumerable() where row.CmtID == tutorStdCommitments[j] select row).First();
                                     tutorCommits.Add(commit);
                                 }
-                                //MessageBox.Show(tutorCommits[0].StartTime.ToString());
                                 removeNotOpens(ref tutorCommits);
                                 QuickSort(ref tutorCommits, tutorCommits.Count());
                                 List<string> tutorValidSlots = getValidSlots(ref tutorCommits, sessionLength);
                                 bool done = false;
-                                MessageBox.Show(tuteeValidSlots.Count().ToString());
-                                MessageBox.Show(tuteeValidSlots[0]);
                                 for (int j = 0; j < tutorValidSlots.Count(); j++)
                                 {
-                                    MessageBox.Show(tutorValidSlots.Count().ToString() + ", " + tuteeValidSlots.Count().ToString());
                                     if (BinarySearch(tuteeValidSlots, tutorValidSlots[j]))
                                     {
-                                        //MessageBox.Show("Here");
                                         DialogResult choice = MessageBox.Show("You have been matched with " + tutorFirstName + " " + tutorLastName +
                                             " for a time at: " + tutorValidSlots[j].Split(',')[0] + " - " + tutorValidSlots[j].Split(',')[1], "You've got a match!", MessageBoxButtons.YesNo);
                                         if (choice == DialogResult.Yes)
@@ -179,7 +159,6 @@ namespace TutorMaster
             {
                 if (DateTime.Compare(startTime, Convert.ToDateTime(tuteeCommits[j].StartTime)) <= 0 && DateTime.Compare(endTime, Convert.ToDateTime(tuteeCommits[j].StartTime)) > 0)
                 {
-                    //MessageBox.Show("Here");
                     tuteeCommits[j].Open = false;
                     tuteeCommits[j].Tutoring = false;
                     tuteeCommits[j].ID = tutorId;
@@ -193,7 +172,6 @@ namespace TutorMaster
             {
                 if (DateTime.Compare(startTime, Convert.ToDateTime(tutorCommits[i].StartTime)) <= 0 && DateTime.Compare(endTime, Convert.ToDateTime(tutorCommits[i].StartTime)) > 0)
                 {
-                    //MessageBox.Show("Start: " + startTime.ToString() + " End:" + endTime.ToString() + "  Test: " + Convert.ToDateTime(tutorCommits[i].StartTime).ToString());
                     tutorCommits[i].Open = false;
                     tutorCommits[i].Tutoring = true;
                     tutorCommits[i].ID = tuteeId;
@@ -274,13 +252,6 @@ namespace TutorMaster
                         initialCommit = cmtList[i + 1];
                     }
                 }
-                //if (Convert.ToDateTime(cmtList[cmtList.Count() - 1].StartTime) == Convert.ToDateTime(cmtList[cmtList.Count() - 2].StartTime))
-                //{
-
-                //}
-                
-                //endTime = getCommitTime15(cmtList[cmtList.Count() - 1]);
-                //validSlots.Add(startTime + "," + endTime);
             }
             return validSlots;
         }
@@ -318,11 +289,9 @@ namespace TutorMaster
             int last = cmtList.Count() - 1;
             while (first <= last && !found)
             {
-                MessageBox.Show("0");
                 int midpoint = (first + last) / 2;
                 if (DateTime.Compare(getStartTime(cmtList[midpoint]), getStartTime(commit)) == 0)
                 {
-                    MessageBox.Show("1");
                     found = true;
                     return found;
                 }
@@ -330,12 +299,10 @@ namespace TutorMaster
                 {
                     if (DateTime.Compare(getStartTime(commit), getStartTime(cmtList[midpoint])) < 0)
                     {
-                        MessageBox.Show("2");
                         last = midpoint - 1;
                     }
                     else
                     {
-                        MessageBox.Show("3");
                         first = midpoint + 1;
                     }
                 }
@@ -397,77 +364,6 @@ namespace TutorMaster
             DateTime date = new DateTime(year, month, day, hour, min, 0);
             return date;
         }
-        //    //1. create the time objects
-
-        //    if ( (string.IsNullOrWhiteSpace(combStartHour.Text)) || (string.IsNullOrWhiteSpace(combStartMinute.Text) 
-        //    || (string.IsNullOrWhiteSpace(combStartAmPm.Text)))  ||  (string.IsNullOrWhiteSpace(combEndHour.Text))
-        //    || (string.IsNullOrWhiteSpace(combEndMinute.Text))   || (string.IsNullOrWhiteSpace(combEndAmPm.Text)))
-        //    {
-        //        MessageBox.Show("Please fill out a starting and ending day, hour, minute, and part of day"); // give a popup if they don't enter a valid time
-        //    }
-
-        //    else //If the time the enter is valid then,
-        //    {
-        //        //1. pull the information for the start date time object
-        //        //string stringStartDay = combStartDay.Text;
-
-        //        int startHour = int.Parse(combStartHour.Text);
-        //        int startMinute = int.Parse(combStartMinute.Text);
-        //        string startAmPm = combStartAmPm.Text;
-
-        //        if (startAmPm == "PM" && startHour != 12)
-        //        {
-        //            startHour += 12;
-        //        }
-        //        else if (startAmPm == "AM" && startHour == 12)
-        //        {
-        //            startHour = 0;
-        //        }
-
-        //        //1.5 Pull the information for the end date time object
-        //        //string stringEndDay = combEndDay.Text;
-
-        //        int endHour = int.Parse(combEndHour.Text);
-        //        int endMinute = int.Parse(combEndMinute.Text);
-        //        string endAmPm = combEndAmPm.Text;
-
-        //        if (endAmPm == "PM" && endHour != 12)
-        //        {
-        //            endHour += 12;
-        //        }
-        //        else if (endAmPm == "AM" && endHour == 12)
-        //        {
-        //            endHour = 0;
-        //        }
-
-        //        //check if it is weekly
-        //        bool weekly = cbxWeekly.Checked;
-
-        //        //create the date time objects
-        //        DateTime startTime = new DateTime(dayStartDateTime.Value.Year, dayStartDateTime.Value.Month, dayStartDateTime.Value.Day, startHour, startMinute, 0);
-        //        DateTime endTime = new DateTime(dayEndDateTime.Value.Year, dayEndDateTime.Value.Month, dayEndDateTime.Value.Day, endHour, endMinute, 0);
-
-        //        //2. Break up the times into 15 minute blocks
-
-        //        List<DateTime> RequestTimes = MakeFifteenBlocks(startTime, endTime); //this gives us the list that contains all the fifteen minute blocks to be compared
-
-        //        //3. Match requests!
-
-        //        //3.1 Check if there are any tutors for the class!
-        //        TutorMasterDBEntities4 db = new TutorMasterDBEntities4(); //create new db entity to look at things
-        //        string CC = (from row in db.Classes where row.ClassName == combCourseName.Text select row.ClassCode).First(); //pull out the classcode to compare
-        //        List<int> IDs = new List<int>();
-        //        foreach (StudentClass sc in db.StudentClasses)
-        //        {
-        //            if (sc.ClassCode == CC)
-        //            {
-        //                IDs.Add(sc.ID); //add the ID of the tutor that teaches the class I'm looking for to the list
-        //            }
-        //        }
-                
-        //    }
-        //}
-
         private void combCourseName_SelectedIndexChanged(object sender, EventArgs e)
         {
 
