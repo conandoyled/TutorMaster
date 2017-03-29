@@ -47,12 +47,10 @@ namespace TutorMaster
                 var studentCommits = (from row in db.StudentCommitments.AsEnumerable() where row.ID == id select row.CmtID).ToArray(); //look for student that's logged in student committments
                 if (studentCommits.Count() > 0)                                                                      //if they have any
                 {
-                    List<TutorMaster.Commitment> cmtList = new List<TutorMaster.Commitment>();
-                    for (int j = 0; j < studentCommits.Count(); j++)                                                 //look each up and add to a list of commitments
-                    {
-                        TutorMaster.Commitment commit = (from row in db.Commitments.AsEnumerable() where row.CmtID == studentCommits[j] select row).First();
-                        cmtList.Add(commit);
-                    }
+                    List<Commitment> cmtList = (from stucmt in db.StudentCommitments
+                                                where stucmt.ID == id
+                                                join cmt in db.Commitments on stucmt.CmtID equals cmt.CmtID
+                                                select cmt).ToList();
 
                     QuickSort(ref cmtList, cmtList.Count());                                                         //sort the list by DateTime
                     //DateTime start = new DateTime(2017, 1, 1, 0, 0, 0);
@@ -247,72 +245,49 @@ namespace TutorMaster
             int num = db.StudentCommitments.Count();                                                                 //see if there are any student committments at all
             if (num > 0)
             {
-                var studentCommits = (from row in db.StudentCommitments.AsEnumerable() where row.ID == id select row.CmtID).ToArray(); //look for student that's logged in student committments
-                if (studentCommits.Count() > 0)                                                                      //if they have any
+
+
+                List<Commitment> cmtList = (from stucmt in db.StudentCommitments
+                                            where stucmt.ID == id
+                                            join cmt in db.Commitments on stucmt.CmtID equals cmt.CmtID
+                                            select cmt).ToList();
+                
+                QuickSort(ref cmtList, cmtList.Count());                                                     
+                //DateTime start = new DateTime(2017, 1, 1, 0, 0, 0);
+
+                removeOpens(ref cmtList);
+                if (cmtList.Count > 0)
                 {
-                    List<TutorMaster.Commitment> cmtList = new List<TutorMaster.Commitment>();
-                    DateTime lastWeek = new DateTime(2017, 4, 24, 0, 0, 0);
-                    for (int j = 0; j < studentCommits.Count(); j++)                                                 //look each up and add to a list of commitments
+                    TutorMaster.Commitment initialCommit = cmtList[0];
+                    string startTime = Convert.ToDateTime(cmtList[0].StartTime).ToString();
+                    string endTime = Convert.ToDateTime(cmtList[0].StartTime).AddMinutes(15).ToString();
+                    int numCmts = cmtList.Count;
+
+                    for (int i = 0; i < numCmts - 1; i++)
                     {
-                        TutorMaster.Commitment commit = (from row in db.Commitments.AsEnumerable() where row.CmtID == studentCommits[j] select row).First();
-                        cmtList.Add(commit);
-                    }
+                        DateTime currentCommitDate = Convert.ToDateTime(cmtList[i].StartTime);                   //get datetime of commitment we are on in loop
+                        DateTime nextCommitDate = Convert.ToDateTime(cmtList[i + 1].StartTime);                  //get datetime of commitment ahead of it
 
-                    QuickSort(ref cmtList, cmtList.Count());                                                      //sort the list by DateTime
-                    //DateTime start = new DateTime(2017, 1, 1, 0, 0, 0);
 
-                    removeOpens(ref cmtList);
-                    if (cmtList.Count > 0)
-                    {
-                        TutorMaster.Commitment initialCommit = cmtList[0];
-                        string startTime = Convert.ToDateTime(cmtList[0].StartTime).ToString();
-                        string endTime = Convert.ToDateTime(cmtList[0].StartTime).AddMinutes(15).ToString();
-                        int numCmts = cmtList.Count;
-
-                        for (int i = 0; i < numCmts - 1; i++)
+                        //if the two commits are distinct besides time and current commit is within week of start time
+                        if (!sameCategory(cmtList[i], cmtList[i + 1]) || currentCommitDate.AddMinutes(15) != nextCommitDate)
                         {
-                            DateTime currentCommitDate = Convert.ToDateTime(cmtList[i].StartTime);                   //get datetime of commitment we are on in loop
-                            DateTime nextCommitDate = Convert.ToDateTime(cmtList[i + 1].StartTime);                  //get datetime of commitment ahead of it
+                            endTime = endTime = Convert.ToDateTime(cmtList[i].StartTime).AddMinutes(15).ToString();                                               //update endtime and add what we have so far
+                            addToAppointments(initialCommit, startTime, endTime);
 
-                            //if (!(bool)initialCommit.Weekly)
-                            //{
-                                //if the two commits are distinct besides time and current commit is within week of start time
-                                if (!sameCategory(cmtList[i], cmtList[i + 1]) || currentCommitDate.AddMinutes(15) != nextCommitDate)
-                                {
-                                    endTime = endTime = Convert.ToDateTime(cmtList[i].StartTime).AddMinutes(15).ToString();                                               //update endtime and add what we have so far
-                                    addToAppointments(initialCommit, startTime, endTime);
-
-                                    //initialize carries to be the next commitment and begin scanning for that
-                                    startTime = Convert.ToDateTime(cmtList[i + 1].StartTime).ToString();
-                                    endTime = Convert.ToDateTime(cmtList[i + 1].StartTime).AddMinutes(15).ToString();
-                                    initialCommit = cmtList[i + 1];
-
-                                }
-                            //}
-                            /*else
-                            {
-                                if (DateTime.Compare(lastWeek, currentCommitDate) < 0)
-                                {
-                                    if (!sameCategory(cmtList[i], cmtList[i + 1]) || currentCommitDate.AddMinutes(15) != nextCommitDate)
-                                    {
-                                        endTime = endTime = Convert.ToDateTime(cmtList[i].StartTime).AddMinutes(15).ToString();                                               //update endtime and add what we have so far
-                                        addToAppointments(initialCommit, startTime, endTime);
-
-                                        //initialize carries to be the next commitment and begin scanning for that
-                                        startTime = Convert.ToDateTime(cmtList[i + 1].StartTime).ToString();
-                                        endTime = Convert.ToDateTime(cmtList[i + 1].StartTime).AddMinutes(15).ToString();
-                                        initialCommit = cmtList[i + 1];
-
-                                    }
-                                }
-                            }*/
+                            //initialize carries to be the next commitment and begin scanning for that
+                            startTime = Convert.ToDateTime(cmtList[i + 1].StartTime).ToString();
+                            endTime = Convert.ToDateTime(cmtList[i + 1].StartTime).AddMinutes(15).ToString();
+                            initialCommit = cmtList[i + 1];
 
                         }
-                        endTime = Convert.ToDateTime(cmtList[cmtList.Count() - 1].StartTime).ToString();
-                        addToAppointments(initialCommit, startTime, endTime);
+
                     }
+                    endTime = Convert.ToDateTime(cmtList[cmtList.Count() - 1].StartTime).ToString();
+                    addToAppointments(initialCommit, startTime, endTime);
                 }
             }
+            
         }
 
         private void addToAppointments(TutorMaster.Commitment commit, string startTime, string endTime)
