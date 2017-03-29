@@ -22,10 +22,13 @@ namespace TutorMaster
             InitializeComponent();
             populateColumns(tutor, tutee);
             weekStartDateTime.Value = DateTime.Today;
+            dayStartDateTime.Value = DateTime.Today;
+            dayEndDateTime.Value = DateTime.Today;
             DateTime start = DateTime.Now;
             loadAvail(start);
             setUpLabels(start);
             loadAppointments();
+            disableButtons();
         }
 
         //loading availability functions
@@ -451,20 +454,25 @@ namespace TutorMaster
         {
             TutorMasterDBEntities4 db = new TutorMasterDBEntities4();
             bool found = false;
-            var storedCommits = (from row in db.StudentCommitments.AsEnumerable() where row.ID == id select row.CmtID).ToArray();
+            /*var storedCommits = (from row in db.StudentCommitments.AsEnumerable() where row.ID == id select row.CmtID).ToArray();
             int numCommits = storedCommits.Length;
             List<DateTime> date = new List<DateTime>();
             
             for (int j = 0; j < numCommits; j++)
             {
                 date.Add(Convert.ToDateTime((from row in db.Commitments.AsEnumerable() where row.CmtID == storedCommits[j] select row.StartTime).First()));
-            }
+            }*/
+
+            var date = (from stucmt in db.StudentCommitments
+                                        where stucmt.ID == id
+                                        join cmt in db.Commitments on stucmt.CmtID equals cmt.CmtID
+                                        select cmt.StartTime).ToList();
 
             int dateCount = date.Count();
 
             for(int i = 0; i < dateCount; i++)
             {
-                if (begin == date[i])
+                if (begin == Convert.ToDateTime(date[i]))
                 {
                     found = true;
                     MessageBox.Show(date[i].ToString() + " is already in the database, this will not be added");
@@ -906,11 +914,149 @@ namespace TutorMaster
             return numDay;
         }
 
+        private void disableButtons()
+        {
+            btnCancelFinalized.Enabled = false;
+            btnAcceptAddLoc.Enabled = false;
+            btnRejectTutor.Enabled = false;
+            btnFinalize.Enabled = false;
+            btnRejectTutee.Enabled = false;
+        }
+
         private void btnMakeRequest_Click(object sender, EventArgs e) //display the request form
         {
             RequestForm g = new RequestForm(id);
             g.Show();
             Close();
+        }
+
+        private void btnDeselect1_Click(object sender, EventArgs e)
+        {
+            if (lvFinalized.CheckedItems.Count > 0)
+            {
+                foreach (ListViewItem listItem in lvFinalized.Items)
+                {
+                    listItem.Checked = false;
+                }
+            }
+            if (lvTutor.CheckedItems.Count > 0)
+            {
+                foreach (ListViewItem listItem in lvTutor.Items)
+                {
+                    listItem.Checked = false;
+                }
+            } if (lvTutee.CheckedItems.Count > 0)
+            {
+                foreach (ListViewItem listItem in lvTutee.Items)
+                {
+                    listItem.Checked = false;
+                }
+            } if (lvPendingTutor.CheckedItems.Count > 0)
+            {
+                foreach (ListViewItem listItem in lvPendingTutor.Items)
+                {
+                    listItem.Checked = false;
+                }
+            } if (lvPendingTutee.CheckedItems.Count > 0)
+            {
+                foreach (ListViewItem listItem in lvPendingTutee.Items)
+                {
+                    listItem.Checked = false;
+                }
+            }
+        }
+
+        private void btnDeselect1_Click(object sender, TabControlCancelEventArgs e)
+        {
+            if (lvFinalized.CheckedItems.Count > 0)
+            {
+                foreach (ListViewItem listItem in lvFinalized.Items)
+                {
+                    listItem.Checked = false;
+                }
+            }
+            if (lvTutor.CheckedItems.Count > 0)
+            {
+                foreach (ListViewItem listItem in lvTutor.Items)
+                {
+                    listItem.Checked = false;
+                }
+            } if (lvTutee.CheckedItems.Count > 0)
+            {
+                foreach (ListViewItem listItem in lvTutee.Items)
+                {
+                    listItem.Checked = false;
+                }
+            } if (lvPendingTutor.CheckedItems.Count > 0)
+            {
+                foreach (ListViewItem listItem in lvPendingTutor.Items)
+                {
+                    listItem.Checked = false;
+                }
+            } if (lvPendingTutee.CheckedItems.Count > 0)
+            {
+                foreach (ListViewItem listItem in lvPendingTutee.Items)
+                {
+                    listItem.Checked = false;
+                }
+            }
+        }
+
+        private void lvFinalized_ItemChecked(object sender, ItemCheckedEventArgs e)
+        {
+            int itemsChecked = lvFinalized.CheckedItems.Count; // .CheckedItems.Count tells how many things in the list box are clicked
+            if (itemsChecked > 0)
+            {
+                btnCancelFinalized.Enabled = true;
+            }
+            else
+            {
+                btnCancelFinalized.Enabled = false;
+            }
+        }
+
+        private void lvTutee_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            int itemsChecked1 = lvTutee.CheckedItems.Count; // .CheckedItems.Count tells how many things in the list box are clicked
+            int itemsChecked2 = lvPendingTutee.CheckedItems.Count;
+            if (itemsChecked1 + itemsChecked2 > 0)
+            {
+                btnRejectTutee.Enabled = true;
+            }
+            else
+            {
+                btnRejectTutee.Enabled = false;
+            }
+            if (itemsChecked2 > 0 && itemsChecked1 == 0)
+            {
+                btnFinalize.Enabled = true;
+            }
+            else
+            {
+                btnFinalize.Enabled = false;
+            }
+        }
+
+        private void lvTutor_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            int itemsChecked1 = lvTutor.CheckedItems.Count; // .CheckedItems.Count tells how many things in the list box are clicked
+            int itemsChecked2 = lvPendingTutor.CheckedItems.Count;
+            if (itemsChecked1 + itemsChecked2 > 0)
+            {
+                btnRejectTutor.Enabled = true;
+            }
+            else
+            {
+                btnRejectTutor.Enabled = false;
+            }
+            if (itemsChecked1 > 0 && itemsChecked2 == 0)
+            {
+                btnAcceptAddLoc.Enabled = true;
+            }
+            else
+            {
+                btnAcceptAddLoc.Enabled = false;
+            }
         }
 
     }

@@ -71,18 +71,26 @@
             this.tabAppointments = new System.Windows.Forms.TabPage();
             this.tabControl2 = new System.Windows.Forms.TabControl();
             this.tabAccepted = new System.Windows.Forms.TabPage();
-            this.tabPendingTutor = new System.Windows.Forms.TabPage();
-            this.tabPendingTutee = new System.Windows.Forms.TabPage();
-            this.label10 = new System.Windows.Forms.Label();
             this.lvFinalized = new System.Windows.Forms.ListView();
+            this.tabPendingTutor = new System.Windows.Forms.TabPage();
+            this.label4 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
             this.lvPendingTutor = new System.Windows.Forms.ListView();
             this.lvTutor = new System.Windows.Forms.ListView();
-            this.lvPendingTutee = new System.Windows.Forms.ListView();
-            this.label3 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
-            this.lvTutee = new System.Windows.Forms.ListView();
+            this.tabPendingTutee = new System.Windows.Forms.TabPage();
             this.label5 = new System.Windows.Forms.Label();
+            this.lvTutee = new System.Windows.Forms.ListView();
+            this.label6 = new System.Windows.Forms.Label();
+            this.lvPendingTutee = new System.Windows.Forms.ListView();
+            this.label10 = new System.Windows.Forms.Label();
+            this.btnCancelFinalized = new System.Windows.Forms.Button();
+            this.btnAcceptAddLoc = new System.Windows.Forms.Button();
+            this.btnRejectTutor = new System.Windows.Forms.Button();
+            this.btnRejectTutee = new System.Windows.Forms.Button();
+            this.btnFinalize = new System.Windows.Forms.Button();
+            this.btnDeselect1 = new System.Windows.Forms.Button();
+            this.btnDeselect2 = new System.Windows.Forms.Button();
+            this.btnDeselect3 = new System.Windows.Forms.Button();
             this.dayTabs.SuspendLayout();
             this.tabSunday.SuspendLayout();
             this.tabMonday.SuspendLayout();
@@ -558,9 +566,12 @@
             this.tabControl2.SelectedIndex = 0;
             this.tabControl2.Size = new System.Drawing.Size(707, 393);
             this.tabControl2.TabIndex = 0;
+            this.tabControl2.Selecting += new System.Windows.Forms.TabControlCancelEventHandler(this.btnDeselect1_Click);
             // 
             // tabAccepted
             // 
+            this.tabAccepted.Controls.Add(this.btnDeselect1);
+            this.tabAccepted.Controls.Add(this.btnCancelFinalized);
             this.tabAccepted.Controls.Add(this.lvFinalized);
             this.tabAccepted.Location = new System.Drawing.Point(4, 22);
             this.tabAccepted.Name = "tabAccepted";
@@ -570,8 +581,21 @@
             this.tabAccepted.Text = "Finalized Appointments";
             this.tabAccepted.UseVisualStyleBackColor = true;
             // 
+            // lvFinalized
+            // 
+            this.lvFinalized.Location = new System.Drawing.Point(0, 0);
+            this.lvFinalized.Name = "lvFinalized";
+            this.lvFinalized.Size = new System.Drawing.Size(699, 330);
+            this.lvFinalized.TabIndex = 16;
+            this.lvFinalized.UseCompatibleStateImageBehavior = false;
+            this.lvFinalized.View = System.Windows.Forms.View.Details;
+            this.lvFinalized.ItemChecked += new System.Windows.Forms.ItemCheckedEventHandler(this.lvFinalized_ItemChecked);
+            // 
             // tabPendingTutor
             // 
+            this.tabPendingTutor.Controls.Add(this.btnDeselect2);
+            this.tabPendingTutor.Controls.Add(this.btnRejectTutor);
+            this.tabPendingTutor.Controls.Add(this.btnAcceptAddLoc);
             this.tabPendingTutor.Controls.Add(this.label4);
             this.tabPendingTutor.Controls.Add(this.label3);
             this.tabPendingTutor.Controls.Add(this.lvPendingTutor);
@@ -584,36 +608,23 @@
             this.tabPendingTutor.Text = "Pending Tutoring Appointments";
             this.tabPendingTutor.UseVisualStyleBackColor = true;
             // 
-            // tabPendingTutee
+            // label4
             // 
-            this.tabPendingTutee.Controls.Add(this.label5);
-            this.tabPendingTutee.Controls.Add(this.lvTutee);
-            this.tabPendingTutee.Controls.Add(this.label6);
-            this.tabPendingTutee.Controls.Add(this.lvPendingTutee);
-            this.tabPendingTutee.Location = new System.Drawing.Point(4, 22);
-            this.tabPendingTutee.Name = "tabPendingTutee";
-            this.tabPendingTutee.Size = new System.Drawing.Size(699, 367);
-            this.tabPendingTutee.TabIndex = 2;
-            this.tabPendingTutee.Text = "Pending Tutee Appointments";
-            this.tabPendingTutee.UseVisualStyleBackColor = true;
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(6, 172);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(223, 13);
+            this.label4.TabIndex = 20;
+            this.label4.Text = "Appointments waiting on the Tutee\'s Approval";
             // 
-            // label10
+            // label3
             // 
-            this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(733, 40);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(190, 13);
-            this.label10.TabIndex = 15;
-            this.label10.Text = "Date to load schedule a week out from";
-            // 
-            // lvFinalized
-            // 
-            this.lvFinalized.Location = new System.Drawing.Point(0, 0);
-            this.lvFinalized.Name = "lvFinalized";
-            this.lvFinalized.Size = new System.Drawing.Size(699, 337);
-            this.lvFinalized.TabIndex = 16;
-            this.lvFinalized.UseCompatibleStateImageBehavior = false;
-            this.lvFinalized.View = System.Windows.Forms.View.Details;
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(6, 8);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(293, 13);
+            this.label3.TabIndex = 19;
+            this.label3.Text = "Appointments waiting for your approval and location proposal";
             // 
             // lvPendingTutor
             // 
@@ -633,32 +644,40 @@
             this.lvTutor.UseCompatibleStateImageBehavior = false;
             this.lvTutor.View = System.Windows.Forms.View.Details;
             // 
-            // lvPendingTutee
+            // tabPendingTutee
             // 
-            this.lvPendingTutee.Location = new System.Drawing.Point(0, 190);
-            this.lvPendingTutee.Name = "lvPendingTutee";
-            this.lvPendingTutee.Size = new System.Drawing.Size(699, 140);
-            this.lvPendingTutee.TabIndex = 18;
-            this.lvPendingTutee.UseCompatibleStateImageBehavior = false;
-            this.lvPendingTutee.View = System.Windows.Forms.View.Details;
+            this.tabPendingTutee.Controls.Add(this.btnDeselect3);
+            this.tabPendingTutee.Controls.Add(this.btnRejectTutee);
+            this.tabPendingTutee.Controls.Add(this.btnFinalize);
+            this.tabPendingTutee.Controls.Add(this.label5);
+            this.tabPendingTutee.Controls.Add(this.lvTutee);
+            this.tabPendingTutee.Controls.Add(this.label6);
+            this.tabPendingTutee.Controls.Add(this.lvPendingTutee);
+            this.tabPendingTutee.Location = new System.Drawing.Point(4, 22);
+            this.tabPendingTutee.Name = "tabPendingTutee";
+            this.tabPendingTutee.Size = new System.Drawing.Size(699, 367);
+            this.tabPendingTutee.TabIndex = 2;
+            this.tabPendingTutee.Text = "Pending Tutee Appointments";
+            this.tabPendingTutee.UseVisualStyleBackColor = true;
             // 
-            // label3
+            // label5
             // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(6, 8);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(293, 13);
-            this.label3.TabIndex = 19;
-            this.label3.Text = "Appointments waiting for your approval and location proposal";
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(6, 8);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(190, 13);
+            this.label5.TabIndex = 23;
+            this.label5.Text = "Appointments waiting on tutor approval";
             // 
-            // label4
+            // lvTutee
             // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(6, 172);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(223, 13);
-            this.label4.TabIndex = 20;
-            this.label4.Text = "Appointments waiting on the Tutee\'s Approval";
+            this.lvTutee.Location = new System.Drawing.Point(0, 24);
+            this.lvTutee.Name = "lvTutee";
+            this.lvTutee.Size = new System.Drawing.Size(699, 140);
+            this.lvTutee.TabIndex = 22;
+            this.lvTutee.UseCompatibleStateImageBehavior = false;
+            this.lvTutee.View = System.Windows.Forms.View.Details;
+            this.lvTutee.SelectedIndexChanged += new System.EventHandler(this.lvTutee_SelectedIndexChanged);
             // 
             // label6
             // 
@@ -669,23 +688,98 @@
             this.label6.TabIndex = 21;
             this.label6.Text = "Appointments waiting for your approval";
             // 
-            // lvTutee
+            // lvPendingTutee
             // 
-            this.lvTutee.Location = new System.Drawing.Point(0, 24);
-            this.lvTutee.Name = "lvTutee";
-            this.lvTutee.Size = new System.Drawing.Size(699, 140);
-            this.lvTutee.TabIndex = 22;
-            this.lvTutee.UseCompatibleStateImageBehavior = false;
-            this.lvTutee.View = System.Windows.Forms.View.Details;
+            this.lvPendingTutee.Location = new System.Drawing.Point(0, 190);
+            this.lvPendingTutee.Name = "lvPendingTutee";
+            this.lvPendingTutee.Size = new System.Drawing.Size(699, 140);
+            this.lvPendingTutee.TabIndex = 18;
+            this.lvPendingTutee.UseCompatibleStateImageBehavior = false;
+            this.lvPendingTutee.View = System.Windows.Forms.View.Details;
             // 
-            // label5
+            // label10
             // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(6, 8);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(190, 13);
-            this.label5.TabIndex = 23;
-            this.label5.Text = "Appointments waiting on tutor approval";
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(733, 40);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(190, 13);
+            this.label10.TabIndex = 15;
+            this.label10.Text = "Date to load schedule a week out from";
+            // 
+            // btnCancelFinalized
+            // 
+            this.btnCancelFinalized.Location = new System.Drawing.Point(6, 336);
+            this.btnCancelFinalized.Name = "btnCancelFinalized";
+            this.btnCancelFinalized.Size = new System.Drawing.Size(177, 23);
+            this.btnCancelFinalized.TabIndex = 17;
+            this.btnCancelFinalized.Text = "Cancel Appopintment(s)";
+            this.btnCancelFinalized.UseVisualStyleBackColor = true;
+            // 
+            // btnAcceptAddLoc
+            // 
+            this.btnAcceptAddLoc.Location = new System.Drawing.Point(6, 336);
+            this.btnAcceptAddLoc.Name = "btnAcceptAddLoc";
+            this.btnAcceptAddLoc.Size = new System.Drawing.Size(177, 23);
+            this.btnAcceptAddLoc.TabIndex = 21;
+            this.btnAcceptAddLoc.Text = "Accept/Add Location";
+            this.btnAcceptAddLoc.UseVisualStyleBackColor = true;
+            // 
+            // btnRejectTutor
+            // 
+            this.btnRejectTutor.Location = new System.Drawing.Point(189, 336);
+            this.btnRejectTutor.Name = "btnRejectTutor";
+            this.btnRejectTutor.Size = new System.Drawing.Size(177, 23);
+            this.btnRejectTutor.TabIndex = 22;
+            this.btnRejectTutor.Text = "Reject/Delete Appointment(s)";
+            this.btnRejectTutor.UseVisualStyleBackColor = true;
+            // 
+            // btnRejectTutee
+            // 
+            this.btnRejectTutee.Location = new System.Drawing.Point(189, 336);
+            this.btnRejectTutee.Name = "btnRejectTutee";
+            this.btnRejectTutee.Size = new System.Drawing.Size(177, 23);
+            this.btnRejectTutee.TabIndex = 25;
+            this.btnRejectTutee.Text = "Reject/Delete Appointment(s)";
+            this.btnRejectTutee.UseVisualStyleBackColor = true;
+            // 
+            // btnFinalize
+            // 
+            this.btnFinalize.Location = new System.Drawing.Point(6, 336);
+            this.btnFinalize.Name = "btnFinalize";
+            this.btnFinalize.Size = new System.Drawing.Size(177, 23);
+            this.btnFinalize.TabIndex = 24;
+            this.btnFinalize.Text = "Accept Appointment(s)";
+            this.btnFinalize.UseVisualStyleBackColor = true;
+            // 
+            // btnDeselect1
+            // 
+            this.btnDeselect1.Location = new System.Drawing.Point(592, 336);
+            this.btnDeselect1.Name = "btnDeselect1";
+            this.btnDeselect1.Size = new System.Drawing.Size(101, 23);
+            this.btnDeselect1.TabIndex = 18;
+            this.btnDeselect1.Text = "Deselect All";
+            this.btnDeselect1.UseVisualStyleBackColor = true;
+            this.btnDeselect1.Click += new System.EventHandler(this.btnDeselect1_Click);
+            // 
+            // btnDeselect2
+            // 
+            this.btnDeselect2.Location = new System.Drawing.Point(592, 336);
+            this.btnDeselect2.Name = "btnDeselect2";
+            this.btnDeselect2.Size = new System.Drawing.Size(101, 23);
+            this.btnDeselect2.TabIndex = 23;
+            this.btnDeselect2.Text = "Deselect All";
+            this.btnDeselect2.UseVisualStyleBackColor = true;
+            this.btnDeselect2.Click += new System.EventHandler(this.btnDeselect1_Click);
+            // 
+            // btnDeselect3
+            // 
+            this.btnDeselect3.Location = new System.Drawing.Point(592, 336);
+            this.btnDeselect3.Name = "btnDeselect3";
+            this.btnDeselect3.Size = new System.Drawing.Size(101, 23);
+            this.btnDeselect3.TabIndex = 26;
+            this.btnDeselect3.Text = "Deselect All";
+            this.btnDeselect3.UseVisualStyleBackColor = true;
+            this.btnDeselect3.Click += new System.EventHandler(this.btnDeselect1_Click);
             // 
             // StudentMain
             // 
@@ -786,5 +880,13 @@
         private System.Windows.Forms.ListView lvPendingTutee;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.ListView lvTutee;
+        private System.Windows.Forms.Button btnCancelFinalized;
+        private System.Windows.Forms.Button btnDeselect1;
+        private System.Windows.Forms.Button btnDeselect2;
+        private System.Windows.Forms.Button btnRejectTutor;
+        private System.Windows.Forms.Button btnAcceptAddLoc;
+        private System.Windows.Forms.Button btnDeselect3;
+        private System.Windows.Forms.Button btnRejectTutee;
+        private System.Windows.Forms.Button btnFinalize;
     }
 }
