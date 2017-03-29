@@ -54,37 +54,36 @@ namespace TutorMaster
             {
                 MessageBox.Show("Please input values for the hours and minutes dropdown boxes");
             }
-            else if(((Convert.ToInt32(combHours.Text) * 4 + (Convert.ToInt32(combMins.Text) / 15)) == 0) || 
+            else if (((Convert.ToInt32(combHours.Text) * 4 + (Convert.ToInt32(combMins.Text) / 15)) == 0) ||
                 ((Convert.ToInt32(combHours.Text) * 4 + (Convert.ToInt32(combMins.Text) / 15)) > 12))
             {
                 MessageBox.Show("Please input values for the hours and minutes that are between a length of 15 minutes and 3 hours");
             }
             else
             {
+                DateTime start = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 0, 0, 0);
                 TutorMasterDBEntities4 db = new TutorMasterDBEntities4();
 
                 string classCode = (from row in db.Classes where combCourseName.Text == row.ClassName select row.ClassCode).First();
 
                 var approvedTutorIds = (from row in db.StudentClasses.AsEnumerable() where classCode == row.ClassCode select row.ID).ToList();
-
-                var tuteeStdCommitments = (from row in db.StudentCommitments.AsEnumerable() where id == row.ID select row.CmtID).ToList();
-
-                if (tuteeStdCommitments.Count == 0)
+                if (approvedTutorIds.Count() == 0)
                 {
-                    MessageBox.Show("You currently have no available slots, please add some availability before attempting to schedule a session of this length");
+                    MessageBox.Show("There are currently no tutors approved to tutor this course. Sorry.");
                 }
                 else
                 {
-                    List<TutorMaster.Commitment> tuteeCommits = new List<Commitment>();
-                    for (int j = 0; j < tuteeStdCommitments.Count(); j++)                                                 //look each up and add to a list of commitments
-                    {
-                        TutorMaster.Commitment commit = (from row in db.Commitments.AsEnumerable() where row.CmtID == tuteeStdCommitments[j] select row).First();
-                        tuteeCommits.Add(commit);
-                    }
+
+                    List<Commitment> tuteeCommits = (from stucmt in db.StudentCommitments.AsEnumerable()
+                                                     where stucmt.ID == id
+                                                     join cmt in db.Commitments.AsEnumerable() on stucmt.CmtID equals cmt.CmtID
+                                                     select cmt).ToList();
+
 
                     int sessionLength = Convert.ToInt32(combHours.Text) * 4 + (Convert.ToInt32(combMins.Text) / 15);
 
-                    removeNotOpens(ref tuteeCommits);
+
+                    removeNotOpens(ref tuteeCommits, start);
 
                     if (tuteeCommits.Count == 0)
                     {
@@ -96,24 +95,24 @@ namespace TutorMaster
 
                         List<string> tuteeValidSlots = getValidSlots(ref tuteeCommits, sessionLength);
 
+                        bool done = false;
                         for (int i = 0; i < approvedTutorIds.Count(); i++)
                         {
+                            
                             if (approvedTutorIds[i] != id)
                             {
                                 //var tutor = (from row in db.Users.AsEnumerable() where row.ID == approvedTutorIds[i] select row).First();
                                 var tutorFirstName = (from row in db.Users.AsEnumerable() where row.ID == approvedTutorIds[i] select row.FirstName).First();
                                 var tutorLastName = (from row in db.Users.AsEnumerable() where row.ID == approvedTutorIds[i] select row.LastName).First();
-                                var tutorStdCommitments = (from row in db.StudentCommitments.AsEnumerable() where approvedTutorIds[i] == row.ID select row.CmtID).ToList();
-                                List<TutorMaster.Commitment> tutorCommits = new List<Commitment>();
-                                for (int j = 0; j < tutorStdCommitments.Count(); j++)                                                 //look each up and add to a list of commitments
-                                {
-                                    TutorMaster.Commitment commit = (from row in db.Commitments.AsEnumerable() where row.CmtID == tutorStdCommitments[j] select row).First();
-                                    tutorCommits.Add(commit);
-                                }
-                                removeNotOpens(ref tutorCommits);
+
+                                List<TutorMaster.Commitment> tutorCommits = (from stucmt in db.StudentCommitments.AsEnumerable()
+                                                                             where stucmt.ID == approvedTutorIds[i]
+                                                                             join cmt in db.Commitments.AsEnumerable() on stucmt.CmtID equals cmt.CmtID
+                                                                             select cmt).ToList();
+                                removeNotOpens(ref tutorCommits, start);
                                 QuickSort(ref tutorCommits, tutorCommits.Count());
                                 List<string> tutorValidSlots = getValidSlots(ref tutorCommits, sessionLength);
-                                bool done = false;
+
                                 for (int j = 0; j < tutorValidSlots.Count(); j++)
                                 {
                                     if (BinarySearch(tuteeValidSlots, tutorValidSlots[j]))
@@ -125,6 +124,7 @@ namespace TutorMaster
                                             int tutorId = Convert.ToInt32(approvedTutorIds[i]);
                                             int tuteeId = Convert.ToInt32(id);
                                             addCommits(tutorValidSlots[j], tutorId, tuteeId, tutorCommits, tuteeCommits, classCode, db);
+                                            done = true;
                                             break;
                                         }
                                         else if (choice == DialogResult.No)
@@ -138,6 +138,10 @@ namespace TutorMaster
                                     break;
                                 }
                             }
+                        }
+                        if (!done)
+                        {
+                            MessageBox.Show("There are no more tutors that meet your request requirements.");
                         }
                     }
                     StudentMain g = new StudentMain(id);
@@ -256,13 +260,14 @@ namespace TutorMaster
             return validSlots;
         }
 
-        private void removeNotOpens(ref List<TutorMaster.Commitment> cmtList)
+        private void removeNotOpens(ref List<TutorMaster.Commitment> cmtList, DateTime start)
         {
             for (int i = 0; i < cmtList.Count(); i++)
             {
-                if (!isOpen(cmtList[i]))
+                if (!isOpen(cmtList[i]) || DateTime.Compare(start, Convert.ToDateTime(cmtList[i].StartTime)) > 0)
                 {
                     cmtList.Remove(cmtList[i]);
+                    i--;
                 }
             }
         }
