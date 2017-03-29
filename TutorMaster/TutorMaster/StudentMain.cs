@@ -20,6 +20,10 @@ namespace TutorMaster
             bool tutor = (bool)(from row in db.Students where row.ID == id select row.Tutor).First();
             bool tutee = (bool)(from row in db.Students where row.ID == id select row.Tutee).First();
             InitializeComponent();
+            if (!tutee)
+            {
+                btnMakeRequest.Visible = false;
+            }
             populateColumns(tutor, tutee);
             weekStartDateTime.Value = DateTime.Today;
             dayStartDateTime.Value = DateTime.Today;
@@ -1015,7 +1019,7 @@ namespace TutorMaster
             }
         }
 
-        private void lvTutee_SelectedIndexChanged(object sender, EventArgs e)
+        private void lvTutor_ItemChecked(object sender, ItemCheckedEventArgs e)
         {
             int itemsChecked1 = lvTutee.CheckedItems.Count; // .CheckedItems.Count tells how many things in the list box are clicked
             int itemsChecked2 = lvPendingTutee.CheckedItems.Count;
@@ -1037,25 +1041,25 @@ namespace TutorMaster
             }
         }
 
-        private void lvTutor_SelectedIndexChanged(object sender, EventArgs e)
+        private void lvTutee_ItemCheck(object sender, ItemCheckEventArgs e)
         {
-            int itemsChecked1 = lvTutor.CheckedItems.Count; // .CheckedItems.Count tells how many things in the list box are clicked
-            int itemsChecked2 = lvPendingTutor.CheckedItems.Count;
+            int itemsChecked1 = lvTutee.CheckedItems.Count; // .CheckedItems.Count tells how many things in the list box are clicked
+            int itemsChecked2 = lvPendingTutee.CheckedItems.Count;
             if (itemsChecked1 + itemsChecked2 > 0)
             {
-                btnRejectTutor.Enabled = true;
+                btnRejectTutee.Enabled = true;
             }
             else
             {
-                btnRejectTutor.Enabled = false;
+                btnRejectTutee.Enabled = false;
             }
-            if (itemsChecked1 > 0 && itemsChecked2 == 0)
+            if (itemsChecked2 > 0 && itemsChecked1 == 0)
             {
-                btnAcceptAddLoc.Enabled = true;
+                btnFinalize.Enabled = true;
             }
             else
             {
-                btnAcceptAddLoc.Enabled = false;
+                btnFinalize.Enabled = false;
             }
         }
 
