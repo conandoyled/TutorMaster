@@ -608,6 +608,7 @@
             this.lvFinalized.TabIndex = 16;
             this.lvFinalized.UseCompatibleStateImageBehavior = false;
             this.lvFinalized.View = System.Windows.Forms.View.Details;
+            this.lvFinalized.ColumnWidthChanging += new System.Windows.Forms.ColumnWidthChangingEventHandler(this.lvFinalized_ColumnWidthChanging);
             this.lvFinalized.ItemChecked += new System.Windows.Forms.ItemCheckedEventHandler(this.lvFinalized_ItemChecked);
             // 
             // tabPendingTutor
@@ -654,6 +655,7 @@
             this.btnAcceptAddLoc.TabIndex = 21;
             this.btnAcceptAddLoc.Text = "Accept/Add Location";
             this.btnAcceptAddLoc.UseVisualStyleBackColor = true;
+            this.btnAcceptAddLoc.Click += new System.EventHandler(this.btnAcceptAddLoc_Click);
             // 
             // label4
             // 
@@ -681,6 +683,7 @@
             this.lvPendingTutor.TabIndex = 18;
             this.lvPendingTutor.UseCompatibleStateImageBehavior = false;
             this.lvPendingTutor.View = System.Windows.Forms.View.Details;
+            this.lvPendingTutor.ColumnWidthChanging += new System.Windows.Forms.ColumnWidthChangingEventHandler(this.lvPendingTutor_ColumnWidthChanging);
             this.lvPendingTutor.ItemChecked += new System.Windows.Forms.ItemCheckedEventHandler(this.lvTutor_ItemChecked);
             // 
             // lvTutor
@@ -691,6 +694,7 @@
             this.lvTutor.TabIndex = 17;
             this.lvTutor.UseCompatibleStateImageBehavior = false;
             this.lvTutor.View = System.Windows.Forms.View.Details;
+            this.lvTutor.ColumnWidthChanging += new System.Windows.Forms.ColumnWidthChangingEventHandler(this.lvTutor_ColumnWidthChanging);
             this.lvTutor.ItemChecked += new System.Windows.Forms.ItemCheckedEventHandler(this.lvTutor_ItemChecked);
             // 
             // tabPendingTutee
@@ -754,6 +758,7 @@
             this.lvTutee.TabIndex = 22;
             this.lvTutee.UseCompatibleStateImageBehavior = false;
             this.lvTutee.View = System.Windows.Forms.View.Details;
+            this.lvTutee.ColumnWidthChanging += new System.Windows.Forms.ColumnWidthChangingEventHandler(this.lvTutee_ColumnWidthChanging);
             this.lvTutee.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.lvTutee_ItemCheck);
             // 
             // label6
@@ -773,6 +778,7 @@
             this.lvPendingTutee.TabIndex = 18;
             this.lvPendingTutee.UseCompatibleStateImageBehavior = false;
             this.lvPendingTutee.View = System.Windows.Forms.View.Details;
+            this.lvPendingTutee.ColumnWidthChanging += new System.Windows.Forms.ColumnWidthChangingEventHandler(this.lvPendingTutee_ColumnWidthChanging);
             this.lvPendingTutee.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.lvTutee_ItemCheck);
             // 
             // label10
