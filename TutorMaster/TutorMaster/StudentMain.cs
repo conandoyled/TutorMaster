@@ -1086,6 +1086,88 @@ namespace TutorMaster
             this.Close();
         }
 
+        private void btnFinalize_Click(object sender, EventArgs e)
+        {
+            TutorMasterDBEntities4 db = new TutorMasterDBEntities4();
+            
+            List<Commitment> tutorCmtList = (from stucmt in db.StudentCommitments
+                                             where stucmt.ID == id
+                                             join cmt in db.Commitments on stucmt.CmtID equals cmt.CmtID
+                                             select cmt).ToList();
+
+            for (int i = 0; i < lvPendingTutee.CheckedItems.Count; i++)
+            {
+                DateTime startDate = getListViewTime(lvPendingTutee.CheckedItems[i].SubItems[0].Text);
+                DateTime endDate = getListViewTime(lvPendingTutee.CheckedItems[i].SubItems[1].Text);
+
+                for (int c = 0; c < tutorCmtList.Count(); c++)
+                {
+                    if (DateTime.Compare(startDate, Convert.ToDateTime(tutorCmtList[c].StartTime)) <= 0 && DateTime.Compare(endDate, Convert.ToDateTime(tutorCmtList[c].StartTime)) > 0)
+                    {
+                        tutorCmtList[c].Location = tutorCmtList[c].Location.Substring(0, tutorCmtList[c].Location.Length - 1);
+                        db.SaveChanges();
+                    }
+                }
+                
+                int partnerID = Convert.ToInt32(lvPendingTutee.CheckedItems[i].SubItems[8].Text);
+
+                List<Commitment> tuteeCmtList = (from stucmt in db.StudentCommitments
+                                                 where stucmt.ID == partnerID
+                                                 join cmt in db.Commitments on stucmt.CmtID equals cmt.CmtID
+                                                 select cmt).ToList();
+                
+                for (int m = 0; m < tuteeCmtList.Count(); m++)
+                {
+                    if (DateTime.Compare(startDate, Convert.ToDateTime(tuteeCmtList[m].StartTime)) <= 0 && DateTime.Compare(endDate, Convert.ToDateTime(tuteeCmtList[m].StartTime)) > 0)
+                    {
+                        tuteeCmtList[m].Location = tuteeCmtList[m].Location.Substring(0, tuteeCmtList[m].Location.Length - 1);
+                        db.SaveChanges();
+                    }
+                }
+            }
+        }
+
+
+        private DateTime getListViewTime(string slot)
+        {
+            string dateString = slot.Split(' ')[0];
+            
+            int month = Convert.ToInt32(dateString.Split('/')[0]);
+            int day = Convert.ToInt32(dateString.Split('/')[1]);
+
+            string timeString = slot.Split(' ')[1];
+
+            int hour = Convert.ToInt32(timeString.Split(':')[0]);
+            int min = Convert.ToInt32(timeString.Split(':')[1]);
+
+            string amPm = slot.Split(' ')[2];
+
+            if (hour < 12 && amPm == "PM")
+            {
+                hour += 12;
+            }
+            else if (hour == 12 && amPm == "AM")
+            {
+                hour = 0;
+            }
+            DateTime date = new DateTime(2017, month, day, hour, min, 0);
+            return date;
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         private void lvPendingTutor_ColumnWidthChanging(object sender, ColumnWidthChangingEventArgs e)
         {
             if (e.ColumnIndex == 8)
@@ -1130,5 +1212,7 @@ namespace TutorMaster
                 e.Cancel = true;
             }
         }
+
+        
     }
 }

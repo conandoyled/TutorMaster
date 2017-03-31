@@ -597,7 +597,7 @@
             this.btnCancelFinalized.Name = "btnCancelFinalized";
             this.btnCancelFinalized.Size = new System.Drawing.Size(177, 23);
             this.btnCancelFinalized.TabIndex = 17;
-            this.btnCancelFinalized.Text = "Cancel Appopintment(s)";
+            this.btnCancelFinalized.Text = "Cancel Appointment(s)";
             this.btnCancelFinalized.UseVisualStyleBackColor = true;
             // 
             // lvFinalized
@@ -740,6 +740,7 @@
             this.btnFinalize.TabIndex = 24;
             this.btnFinalize.Text = "Accept Appointment(s)";
             this.btnFinalize.UseVisualStyleBackColor = true;
+            this.btnFinalize.Click += new System.EventHandler(this.btnFinalize_Click);
             // 
             // label5
             // 
