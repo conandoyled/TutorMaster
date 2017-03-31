@@ -61,6 +61,7 @@ namespace TutorMaster
             }
             else
             {
+                bool weekly = cbxWeekly.Checked;
                 DateTime start = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 0, 0, 0);
                 TutorMasterDBEntities4 db = new TutorMasterDBEntities4();
 
@@ -83,7 +84,7 @@ namespace TutorMaster
                     int sessionLength = Convert.ToInt32(combHours.Text) * 4 + (Convert.ToInt32(combMins.Text) / 15);
 
 
-                    removeNotOpens(ref tuteeCommits, start);
+                    removeNotOpens(ref tuteeCommits, start, weekly);
 
                     if (tuteeCommits.Count == 0)
                     {
@@ -109,8 +110,11 @@ namespace TutorMaster
                                                                              where stucmt.ID == approvedTutorIds[i]
                                                                              join cmt in db.Commitments.AsEnumerable() on stucmt.CmtID equals cmt.CmtID
                                                                              select cmt).ToList();
-                                removeNotOpens(ref tutorCommits, start);
+                                
+                                removeNotOpens(ref tutorCommits, start, weekly);
+                                
                                 QuickSort(ref tutorCommits, tutorCommits.Count());
+                                //MessageBox.Show(tuteeCommits.Count().ToString());
                                 List<string> tutorValidSlots = getValidSlots(ref tutorCommits, sessionLength);
 
                                 for (int j = 0; j < tutorValidSlots.Count(); j++)
@@ -123,7 +127,7 @@ namespace TutorMaster
                                         {
                                             int tutorId = Convert.ToInt32(approvedTutorIds[i]);
                                             int tuteeId = Convert.ToInt32(id);
-                                            addCommits(tutorValidSlots[j], tutorId, tuteeId, tutorCommits, tuteeCommits, classCode, db);
+                                            addCommits(tutorValidSlots[j], tutorId, tuteeId, tutorCommits, tuteeCommits, classCode, db, weekly, sessionLength);
                                             done = true;
                                             break;
                                         }
@@ -151,49 +155,44 @@ namespace TutorMaster
             }
         }
 
-        private void addCommits(string timeSlot, int tutorId, int tuteeId, List<TutorMaster.Commitment> tutorCommits, List<TutorMaster.Commitment> tuteeCommits, string classCode, TutorMasterDBEntities4 db)
+        private void removeNotOpens(ref List<TutorMaster.Commitment> cmtList, DateTime start, bool weekly)
         {
-            //TutorMasterDBEntities4 db = new TutorMasterDBEntities4();
-            DateTime startTime = getStartTime(timeSlot);
-            DateTime endTime = getEndTime(timeSlot);
-
-          
-
-            for (int j = 0; j < tuteeCommits.Count(); j++)
+            if (weekly)
             {
-                if (DateTime.Compare(startTime, Convert.ToDateTime(tuteeCommits[j].StartTime)) <= 0 && DateTime.Compare(endTime, Convert.ToDateTime(tuteeCommits[j].StartTime)) > 0)
+                for (int i = 0; i < cmtList.Count(); i++)
                 {
-                    tuteeCommits[j].Open = false;
-                    tuteeCommits[j].Tutoring = false;
-                    tuteeCommits[j].ID = tutorId;
-                    tuteeCommits[j].Class = classCode;
-                    db.SaveChanges();
-                    
+                    if (!isOpen(cmtList[i]) || DateTime.Compare(start, Convert.ToDateTime(cmtList[i].StartTime)) > 0 || cmtList[i].Weekly != weekly)
+                    {
+                        cmtList.Remove(cmtList[i]);
+                        i--;
+                    }
                 }
             }
-
-            for (int i = 0; i < tutorCommits.Count(); i++)
+            else
             {
-                if (DateTime.Compare(startTime, Convert.ToDateTime(tutorCommits[i].StartTime)) <= 0 && DateTime.Compare(endTime, Convert.ToDateTime(tutorCommits[i].StartTime)) > 0)
+                for (int i = 0; i < cmtList.Count(); i++)
                 {
-                    tutorCommits[i].Open = false;
-                    tutorCommits[i].Tutoring = true;
-                    tutorCommits[i].ID = tuteeId;
-                    tutorCommits[i].Class = classCode;
-                    db.SaveChanges();
+                    if (!isOpen(cmtList[i]) || DateTime.Compare(start, Convert.ToDateTime(cmtList[i].StartTime)) > 0)
+                    {
+                        cmtList.Remove(cmtList[i]);
+                        i--;
+                    }
                 }
             }
         }
-
+ 
+        private bool isOpen(TutorMaster.Commitment commit)
+        {
+            return (commit.Class == "-" && commit.Location == "-" && commit.Open == true && commit.Tutoring == false && commit.ID == -1);
+        }
+        
         private List<string> getValidSlots(ref List<TutorMaster.Commitment> cmtList, int sessionLength)
         {
             int consecutiveCommits = 0;
             
             List<string> validSlots = new List<string>();
             TutorMaster.Commitment initialCommit = cmtList[0];
-            string startTime = getCommitTime(cmtList[0]);
             DateTime startDate = Convert.ToDateTime(cmtList[0].StartTime);
-            string endTime = getCommitTime15(cmtList[0]);
             DateTime endDate = Convert.ToDateTime(cmtList[0].StartTime).AddMinutes(15);
             
             consecutiveCommits++;
@@ -202,8 +201,6 @@ namespace TutorMaster
             {
                 for (int i = 0; i < cmtList.Count() - 1; i++)
                 {
-                    startTime = getCommitTime(cmtList[i]);
-                    endTime = getCommitTime15(cmtList[i]);
                     DateTime start = Convert.ToDateTime(cmtList[i].StartTime);
                     DateTime end = Convert.ToDateTime(cmtList[i].StartTime).AddMinutes(15);
                     validSlots.Add(start.ToString() + "," + end.ToString());
@@ -220,101 +217,133 @@ namespace TutorMaster
                     {
                         consecutiveCommits++;
                         endDate = Convert.ToDateTime(cmtList[i].StartTime).AddMinutes(15);
-                        endTime = getCommitTime15(cmtList[i]);                                   //only update endTime
                     }
                     else if (DateTime.Compare(nextCommitDate, currentCommitDate.AddMinutes(15)) == 0 && consecutiveCommits >= sessionLength)
                     {
-                        endTime = getCommitTime15(cmtList[i]);
                         endDate = Convert.ToDateTime(cmtList[i].StartTime).AddMinutes(15);
-                        //MessageBox.Show(startDate.ToString() + "," + endDate.ToString());
                         validSlots.Add(startDate.ToString() + "," + endDate.ToString());
-                        startTime = startDate.AddMinutes(15).ToString().Split(' ')[1] + " " + startDate.AddMinutes(15).ToString().Split(' ')[2];
                         startDate = startDate.AddMinutes(15);
                     }
                     else if(DateTime.Compare(nextCommitDate, currentCommitDate.AddMinutes(15)) != 0 && consecutiveCommits >= sessionLength)
                     {
-                        endTime = getCommitTime15(cmtList[i]);                                   //if next commit is not, update endTime
                         endDate = Convert.ToDateTime(cmtList[i].StartTime).AddMinutes(15);
-                        //MessageBox.Show(startDate.ToString() + "," + endDate.ToString());
                         validSlots.Add(startDate.ToString() + "," + endDate.ToString());
 
                         //update our carries
                         consecutiveCommits = 1;
-                        startTime = getCommitTime(cmtList[i + 1]);
                         startDate = Convert.ToDateTime(cmtList[i + 1].StartTime);
-                        endTime = getCommitTime15(cmtList[i + 1]);
                         endDate = Convert.ToDateTime(cmtList[i + 1].StartTime).AddMinutes(15);
                         initialCommit = cmtList[i + 1];
                     }
                     else if (DateTime.Compare(nextCommitDate, currentCommitDate.AddMinutes(15)) != 0 && consecutiveCommits < sessionLength)
                     {
                         consecutiveCommits = 1;
-                        startTime = getCommitTime(cmtList[i + 1]);
                         startDate = Convert.ToDateTime(cmtList[i + 1].StartTime);
-                        endTime = getCommitTime15(cmtList[i + 1]);
                         endDate = Convert.ToDateTime(cmtList[i + 1].StartTime).AddMinutes(15);
                         initialCommit = cmtList[i + 1];
                     }
                 }
+                //i believe i have the algorithm to catch the very last 15 minute time block in a person's schedule here. I've tested the first if statement and it seems to work. I don't know about the second one
+                //but the second one makes sense to me and I know I need a statement like it. the second statement is in case we are just one short in our block and the last commit is what's needed to get the valid slot
+                if (consecutiveCommits >= sessionLength && DateTime.Compare(Convert.ToDateTime(cmtList[cmtList.Count() - 2].StartTime).AddMinutes(15), Convert.ToDateTime(cmtList[cmtList.Count() - 1].StartTime)) == 0)
+                {
+                    startDate = startDate.AddMinutes(15);
+                    endDate = endDate.AddMinutes(15);
+                    validSlots.Add(startDate.ToString() + "," + endDate.ToString());
+                }
+                else if (consecutiveCommits == sessionLength - 1 && DateTime.Compare(Convert.ToDateTime(cmtList[cmtList.Count() - 2].StartTime).AddMinutes(15), Convert.ToDateTime(cmtList[cmtList.Count() - 1].StartTime)) == 0)
+                {
+                    endDate = endDate.AddMinutes(15);
+                    validSlots.Add(startDate.ToString() + "," + endDate.ToString());
+                }
             }
             return validSlots;
         }
-
-        private void removeNotOpens(ref List<TutorMaster.Commitment> cmtList, DateTime start)
+        
+        private void addCommits(string timeSlot, int tutorId, int tuteeId, List<TutorMaster.Commitment> tutorCommits, List<TutorMaster.Commitment> tuteeCommits, string classCode, TutorMasterDBEntities4 db, bool weekly, int numSessions)
         {
-            for (int i = 0; i < cmtList.Count(); i++)
+            //TutorMasterDBEntities4 db = new TutorMasterDBEntities4();
+            DateTime startTime = getStartTime(timeSlot);
+            DateTime endTime = getEndTime(timeSlot);
+            DateTime saveFirst = startTime;
+            DateTime saveEnd = endTime;
+
+
+            if (!weekly)
             {
-                if (!isOpen(cmtList[i]) || DateTime.Compare(start, Convert.ToDateTime(cmtList[i].StartTime)) > 0)
+                for (int j = 0; j < tuteeCommits.Count(); j++)
                 {
-                    cmtList.Remove(cmtList[i]);
-                    i--;
-                }
-            }
-        }
-
-        private bool isOpen(TutorMaster.Commitment commit)
-        {
-            return (commit.Class == "-" && commit.Location == "-" && commit.Open == true && commit.Tutoring == false && commit.ID == -1);
-        }
-
-        private string getCommitTime(TutorMaster.Commitment commit)
-        {
-            return Convert.ToDateTime(commit.StartTime).ToString().Split(' ')[1] + " " + Convert.ToDateTime(commit.StartTime).ToString().Split(' ')[2];
-        }
-
-        private string getCommitTime15(TutorMaster.Commitment commit15)
-        {
-            return Convert.ToDateTime(commit15.StartTime).AddMinutes(15).ToString().Split(' ')[1] + " " + Convert.ToDateTime(commit15.StartTime).ToString().Split(' ')[2];
-        }
-
-        private bool BinarySearch(List<string> cmtList, string commit)
-        {
-            bool found = false;
-            int first = 0;
-            int last = cmtList.Count() - 1;
-            while (first <= last && !found)
-            {
-                int midpoint = (first + last) / 2;
-                if (DateTime.Compare(getStartTime(cmtList[midpoint]), getStartTime(commit)) == 0)
-                {
-                    found = true;
-                    return found;
-                }
-                else
-                {
-                    if (DateTime.Compare(getStartTime(commit), getStartTime(cmtList[midpoint])) < 0)
+                    if (DateTime.Compare(startTime, Convert.ToDateTime(tuteeCommits[j].StartTime)) <= 0 && DateTime.Compare(endTime, Convert.ToDateTime(tuteeCommits[j].StartTime)) > 0)
                     {
-                        last = midpoint - 1;
+                        tuteeCommits[j].Open = false;
+                        tuteeCommits[j].Tutoring = false;
+                        tuteeCommits[j].ID = tutorId;
+                        tuteeCommits[j].Class = classCode;
+                        tuteeCommits[j].Weekly = false;
+                        db.SaveChanges();
                     }
-                    else
+                    else if (DateTime.Compare(endTime, Convert.ToDateTime(tuteeCommits[j].StartTime)) <= 0)
                     {
-                        first = midpoint + 1;
+                        break;
+                    }
+                }
+
+                for (int i = 0; i < tutorCommits.Count(); i++)
+                {
+                    if (DateTime.Compare(startTime, Convert.ToDateTime(tutorCommits[i].StartTime)) <= 0 && DateTime.Compare(endTime, Convert.ToDateTime(tutorCommits[i].StartTime)) > 0)
+                    {
+                        tutorCommits[i].Open = false;
+                        tutorCommits[i].Tutoring = true;
+                        tutorCommits[i].ID = tuteeId;
+                        tutorCommits[i].Class = classCode;
+                        tutorCommits[i].Weekly = false;
+                        db.SaveChanges();
+                    }
+                    else if (DateTime.Compare(endTime, Convert.ToDateTime(tutorCommits[i].StartTime)) <= 0)
+                    {
+                        break;
                     }
                 }
             }
-            return found;
+            else
+            {
+                for (int j = 0; j < tuteeCommits.Count(); j++)
+                {
+                    if (DateTime.Compare(startTime, Convert.ToDateTime(tuteeCommits[j].StartTime)) <= 0 && DateTime.Compare(endTime, Convert.ToDateTime(tuteeCommits[j].StartTime)) > 0)
+                    {
+                        tuteeCommits[j].Open = false;
+                        tuteeCommits[j].Tutoring = false;
+                        tuteeCommits[j].ID = tutorId;
+                        tuteeCommits[j].Class = classCode;
+                        db.SaveChanges();
+                    }
+                    else if (DateTime.Compare(endTime, Convert.ToDateTime(tuteeCommits[j].StartTime)) <= 0)
+                    {
+                        startTime = startTime.AddDays(7);
+                        endTime = endTime.AddDays(7);
+                    }
+                }
+                startTime = saveFirst;
+                endTime = saveEnd;
+                for (int i = 0; i < tutorCommits.Count(); i++)
+                {
+                    if (DateTime.Compare(startTime, Convert.ToDateTime(tutorCommits[i].StartTime)) <= 0 && DateTime.Compare(endTime, Convert.ToDateTime(tutorCommits[i].StartTime)) > 0)
+                    {
+                        tutorCommits[i].Open = false;
+                        tutorCommits[i].Tutoring = true;
+                        tutorCommits[i].ID = tuteeId;
+                        tutorCommits[i].Class = classCode;
+                        db.SaveChanges();
+                    }
+                    else if (DateTime.Compare(endTime, Convert.ToDateTime(tutorCommits[i].StartTime)) <= 0)
+                    {
+                        startTime = startTime.AddDays(7);
+                        endTime = endTime.AddDays(7);
+                    }
+                }
+            }
         }
-
+        
         private DateTime getStartTime(string slot)
         {
             string startDateTime = slot.Split(',')[0];
@@ -369,6 +398,45 @@ namespace TutorMaster
             DateTime date = new DateTime(year, month, day, hour, min, 0);
             return date;
         }
+        
+        private string getCommitTime(TutorMaster.Commitment commit)
+        {
+            return Convert.ToDateTime(commit.StartTime).ToString().Split(' ')[1] + " " + Convert.ToDateTime(commit.StartTime).ToString().Split(' ')[2];
+        }
+
+        private string getCommitTime15(TutorMaster.Commitment commit15)
+        {
+            return Convert.ToDateTime(commit15.StartTime).AddMinutes(15).ToString().Split(' ')[1] + " " + Convert.ToDateTime(commit15.StartTime).ToString().Split(' ')[2];
+        }
+
+        private bool BinarySearch(List<string> cmtList, string commit)
+        {
+            bool found = false;
+            int first = 0;
+            int last = cmtList.Count() - 1;
+            while (first <= last && !found)
+            {
+                int midpoint = (first + last) / 2;
+                if (DateTime.Compare(getStartTime(cmtList[midpoint]), getStartTime(commit)) == 0)
+                {
+                    found = true;
+                    return found;
+                }
+                else
+                {
+                    if (DateTime.Compare(getStartTime(commit), getStartTime(cmtList[midpoint])) < 0)
+                    {
+                        last = midpoint - 1;
+                    }
+                    else
+                    {
+                        first = midpoint + 1;
+                    }
+                }
+            }
+            return found;
+        }
+
         private void combCourseName_SelectedIndexChanged(object sender, EventArgs e)
         {
 
