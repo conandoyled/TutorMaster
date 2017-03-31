@@ -28,18 +28,18 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.txtLoc = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.btnSumbit = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
-            // textBox1
+            // txtLoc
             // 
-            this.textBox1.Location = new System.Drawing.Point(28, 41);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(186, 20);
-            this.textBox1.TabIndex = 0;
+            this.txtLoc.Location = new System.Drawing.Point(28, 41);
+            this.txtLoc.Name = "txtLoc";
+            this.txtLoc.Size = new System.Drawing.Size(186, 20);
+            this.txtLoc.TabIndex = 0;
             // 
             // label1
             // 
@@ -78,7 +78,7 @@
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnSumbit);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.txtLoc);
             this.Name = "ProposeLocationForm";
             this.Text = "ProposeLocationForm";
             this.ResumeLayout(false);
@@ -88,7 +88,7 @@
 
         #endregion
 
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox txtLoc;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button btnSumbit;
         private System.Windows.Forms.Button btnCancel;

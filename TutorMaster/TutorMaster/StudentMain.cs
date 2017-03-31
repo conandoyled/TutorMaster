@@ -1026,14 +1026,16 @@ namespace TutorMaster
 
         private void lvTutor_ItemChecked(object sender, ItemCheckedEventArgs e)
         {
-            int itemsChecked1 = lvTutee.CheckedItems.Count; // .CheckedItems.Count tells how many things in the list box are clicked
-            int itemsChecked2 = lvPendingTutee.CheckedItems.Count;
+            int itemsChecked1 = lvTutor.CheckedItems.Count; // .CheckedItems.Count tells how many things in the list box are clicked
+            int itemsChecked2 = lvPendingTutor.CheckedItems.Count;
             if (itemsChecked1 + itemsChecked2 > 0)
             {
+                btnAcceptAddLoc.Enabled = true;
                 btnRejectTutee.Enabled = true;
             }
             else
             {
+                btnAcceptAddLoc.Enabled = false;
                 btnRejectTutee.Enabled = false;
             }
             if (itemsChecked2 > 0 && itemsChecked1 == 0)
@@ -1073,12 +1075,15 @@ namespace TutorMaster
         {
             TutorMasterDBEntities4 db = new TutorMasterDBEntities4();
             List<string> commits = new List<string>();
+
             for (int i = 0; i < lvPendingTutor.CheckedItems.Count; i++)
             {
-                commits.Add(lvPendingTutor.SelectedItems[i].SubItems[0].ToString() + "," + lvPendingTutor.SelectedItems[i].SubItems[1].ToString() + Convert.ToString(lvPendingTutor.SelectedItems[i].SubItems[8]));
-                //partnerIDs = (from row in db.Users.AsEnumerable() where Convert.ToInt32(lvPendingTutor.SelectedItems[i].SubItems[8]) == Convert.ToInt32(row.ID) select).ToList();
+                commits.Add(lvPendingTutor.CheckedItems[i].SubItems[0].Text.ToString() +  "," + lvPendingTutor.CheckedItems[i].SubItems[1].Text.ToString() + "," + Convert.ToString(lvPendingTutor.CheckedItems[i].SubItems[8].Text));
             }
-
+            
+            ProposeLocationForm g = new ProposeLocationForm(id, commits);
+            g.Show();
+            this.Close();
         }
 
         private void lvPendingTutor_ColumnWidthChanging(object sender, ColumnWidthChangingEventArgs e)
