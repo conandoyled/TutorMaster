@@ -33,11 +33,12 @@
             this.btnReject = new System.Windows.Forms.Button();
             this.btnLogout = new System.Windows.Forms.Button();
             this.lvPendingRequests = new System.Windows.Forms.ListView();
+            this.textBox1 = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // btnAccept
             // 
-            this.btnAccept.Location = new System.Drawing.Point(73, 248);
+            this.btnAccept.Location = new System.Drawing.Point(73, 329);
             this.btnAccept.Name = "btnAccept";
             this.btnAccept.Size = new System.Drawing.Size(75, 23);
             this.btnAccept.TabIndex = 1;
@@ -47,7 +48,7 @@
             // 
             // btnReject
             // 
-            this.btnReject.Location = new System.Drawing.Point(168, 248);
+            this.btnReject.Location = new System.Drawing.Point(168, 329);
             this.btnReject.Name = "btnReject";
             this.btnReject.Size = new System.Drawing.Size(75, 23);
             this.btnReject.TabIndex = 2;
@@ -57,7 +58,7 @@
             // 
             // btnLogout
             // 
-            this.btnLogout.Location = new System.Drawing.Point(119, 277);
+            this.btnLogout.Location = new System.Drawing.Point(119, 358);
             this.btnLogout.Name = "btnLogout";
             this.btnLogout.Size = new System.Drawing.Size(75, 23);
             this.btnLogout.TabIndex = 3;
@@ -67,8 +68,9 @@
             // 
             // lvPendingRequests
             // 
+            this.lvPendingRequests.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.lvPendingRequests.Cursor = System.Windows.Forms.Cursors.Default;
-            this.lvPendingRequests.Location = new System.Drawing.Point(12, 12);
+            this.lvPendingRequests.Location = new System.Drawing.Point(12, 93);
             this.lvPendingRequests.Name = "lvPendingRequests";
             this.lvPendingRequests.Size = new System.Drawing.Size(303, 230);
             this.lvPendingRequests.Sorting = System.Windows.Forms.SortOrder.Ascending;
@@ -77,11 +79,24 @@
             this.lvPendingRequests.View = System.Windows.Forms.View.Details;
             this.lvPendingRequests.SelectedIndexChanged += new System.EventHandler(this.listView1_SelectedIndexChanged);
             // 
+            // textBox1
+            // 
+            this.textBox1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.textBox1.Location = new System.Drawing.Point(12, 43);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(303, 20);
+            this.textBox1.TabIndex = 5;
+            this.textBox1.Text = "Please select students to approve or deny as tutors";
+            this.textBox1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.textBox1.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
+            // 
             // FacultyMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(327, 312);
+            this.BackColor = System.Drawing.Color.SteelBlue;
+            this.ClientSize = new System.Drawing.Size(327, 387);
+            this.Controls.Add(this.textBox1);
             this.Controls.Add(this.lvPendingRequests);
             this.Controls.Add(this.btnLogout);
             this.Controls.Add(this.btnReject);
@@ -91,6 +106,7 @@
             this.Text = "FacultyMain";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.FacultyMain_FormClosed);
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -100,5 +116,6 @@
         private System.Windows.Forms.Button btnReject;
         private System.Windows.Forms.Button btnLogout;
         private System.Windows.Forms.ListView lvPendingRequests;
+        private System.Windows.Forms.TextBox textBox1;
     }
 }

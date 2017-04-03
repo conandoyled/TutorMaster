@@ -71,6 +71,12 @@
     <Compile Include="AdminMain.Designer.cs">
       <DependentUpon>AdminMain.cs</DependentUpon>
     </Compile>
+    <Compile Include="AdvancedRequest.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AdvancedRequest.Designer.cs">
+      <DependentUpon>AdvancedRequest.cs</DependentUpon>
+    </Compile>
     <Compile Include="CreateStudent.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -116,6 +122,9 @@
     </Compile>
     <EmbeddedResource Include="AdminMain.resx">
       <DependentUpon>AdminMain.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AdvancedRequest.resx">
+      <DependentUpon>AdvancedRequest.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="CreateStudent.resx">
       <DependentUpon>CreateStudent.cs</DependentUpon>
