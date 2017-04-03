@@ -11,6 +11,9 @@ namespace TutorMaster
 {
     public partial class AdminMain : Form
     {
+        Button btnFacSave = new Button();
+        Button btnFacCancel = new Button();
+
         public AdminMain()
         {
             InitializeComponent();
@@ -19,6 +22,7 @@ namespace TutorMaster
             setupFacultyLV();
             setupClassLV();
             setupDepartmentBoxes();
+            setupHiddenButtons();
             disableButtons();
         }
 
@@ -128,6 +132,29 @@ namespace TutorMaster
             combDepartmentsAdd.DropDownStyle = ComboBoxStyle.DropDownList;
         }
 
+        private void setupHiddenButtons()
+        {
+            btnFacSave.Left = 446;
+            btnFacSave.Top = 256;
+            btnFacSave.Width = 130;
+            btnFacSave.Height = 23;
+            btnFacSave.Text = "Save Changes";
+            btnFacSave.Click += new EventHandler(btnFacSave_Click);
+
+            btnFacCancel.Left = 446;
+            btnFacCancel.Top = 287;
+            btnFacCancel.Width = 130;
+            btnFacCancel.Height = 23;
+            btnFacCancel.Text = "Cancel Changes";
+            btnFacSave.Click += new EventHandler(btnFacCancel_Click);
+
+            tabFaculty.Controls.Add(btnFacSave);
+            tabFaculty.Controls.Add(btnFacCancel);
+
+            btnFacSave.Hide();
+            btnFacCancel.Hide();
+        }
+
         private void disableButtons()
         {
             btnDelete.Enabled = false;
@@ -146,6 +173,14 @@ namespace TutorMaster
             Login g = new Login(); //Are we going to create problems by create new loginb boxes on top of the hidden ones we already have?
             g.Show();
             this.Close();
+        }
+
+        private void btnFacSave_Click(object sender, EventArgs e)
+        {
+        }
+
+        private void btnFacCancel_Click(object sender, EventArgs e)
+        {
         }
 
         private void AdminMain_FormClosed(object sender, FormClosedEventArgs e)
@@ -363,7 +398,7 @@ namespace TutorMaster
 
         private void btnFacultyEdit_Click(object sender, EventArgs e)
         {
-            //setEditFacultyControls();
+            setEditFacultyControls();
             TutorMasterDBEntities4 db = new TutorMasterDBEntities4();
             string username = lvFaculty.CheckedItems[0].SubItems[0].Text;
             var fac = (from row in db.Users where row.Username == username select row).First();
@@ -375,11 +410,22 @@ namespace TutorMaster
             txtPhoneNumber.Text = fac.PhoneNumber; 
             txtEmail.Text = fac.Email;
 
-            var department = (from row in db.Faculties where row.ID == fac.ID select row.Department).First();
+            String department = (from row in db.Faculties where row.ID == fac.ID select row.Department).First();
+            combDepartments.SelectedItem = department;
 
       
             //combDepartments.SelectedItem = combDepartments.Items[0];
                 
+        }
+
+        private void setEditFacultyControls()
+        {
+            btnFacultyAdd.Hide();
+            btnFacultyDelete.Hide();
+            btnFacultyEdit.Hide();
+
+            btnFacSave.Show();
+            btnFacCancel.Show();
         }
     }
 }
