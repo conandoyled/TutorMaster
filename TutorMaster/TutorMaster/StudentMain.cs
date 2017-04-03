@@ -263,6 +263,7 @@ namespace TutorMaster
                 //DateTime start = new DateTime(2017, 1, 1, 0, 0, 0);
 
                 removeOpens(ref cmtList);
+                //MessageBox.Show(cmtList[cmtList.Count - 1].StartTime.ToString());
                 if (cmtList.Count > 0)
                 {
                     TutorMaster.Commitment initialCommit = cmtList[0];
@@ -290,7 +291,7 @@ namespace TutorMaster
                         }
 
                     }
-                    endTime = Convert.ToDateTime(cmtList[cmtList.Count() - 1].StartTime).ToString();
+                    endTime = Convert.ToDateTime(cmtList[cmtList.Count() - 1].StartTime).AddMinutes(15).ToString();
                     addToAppointments(initialCommit, startTime, endTime);
                 }
             }
@@ -346,6 +347,7 @@ namespace TutorMaster
 
         private void removeOpens(ref List<TutorMaster.Commitment> cmtList)
         {
+            //MessageBox.Show(cmtList[cmtList.Count() - 1].StartTime.ToString());
             for (int i = 0; i < cmtList.Count(); i++)
             {
                 if (isOpen(cmtList[i]))
@@ -353,6 +355,7 @@ namespace TutorMaster
                     cmtList.Remove(cmtList[i]);
                 }
             }
+            //MessageBox.Show(cmtList[cmtList.Count() - 1].StartTime.ToString());
         }
 
         private bool isOpen(TutorMaster.Commitment commit)
