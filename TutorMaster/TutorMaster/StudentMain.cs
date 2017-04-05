@@ -33,7 +33,7 @@ namespace TutorMaster
             DateTime start = DateTime.Now;
             loadAvail(start);                                                                                     //load availability starting from today
             setUpLabels(start);                                                                                   //set up the labels above each schedule list view a week from today
-            loadAppointments();                                                                                   //load the appointments
+            loadAppointments(false);                                                                              //load the appointments
             disableButtons();                                                                                     //disable necessary buttons
         }
 
@@ -253,7 +253,7 @@ namespace TutorMaster
         }
 
         //loading pending and accepted appointment functions
-        private void loadAppointments()
+        private void loadAppointments(bool reject)
         {
             TutorMasterDBEntities4 db = new TutorMasterDBEntities4();                                                //open Database
             int num = db.StudentCommitments.Count();                                                                 //see if there are any student committments at all
@@ -314,7 +314,7 @@ namespace TutorMaster
                     }
                     endTime = Convert.ToDateTime(cmtList[cmtList.Count() - 1].StartTime).AddMinutes(15).ToString();
                     addToAppointments(initialCommit, startTime, endTime);
-                    if (newNotifs > 0)                                                                             //if we have any new appointments, send the user a message about them
+                    if (newNotifs > 0 && !reject)                                                                             //if we have any new appointments, send the user a message about them
                     {
                         MessageBox.Show("You have " + newNotifs.ToString() + " new notifications in your appointments");
                     }
@@ -1186,11 +1186,14 @@ namespace TutorMaster
                 }
             }
             DateTime start = DateTime.Now;
-            lvPendingTutor.Items.Clear();
             lvTutor.Items.Clear();
+            lvPendingTutor.Items.Clear();
+            lvFinalized.Items.Clear();
+            lvPendingTutee.Items.Clear();
+            lvTutee.Items.Clear();
 
             loadAvail(start);
-            loadAppointments();
+            loadAppointments(true);
         }
         
         private void btnCancelFinalized_Click(object sender, EventArgs e)
@@ -1251,10 +1254,14 @@ namespace TutorMaster
             }
 
             DateTime start = DateTime.Now;
+            lvTutor.Items.Clear();
+            lvPendingTutor.Items.Clear();
             lvFinalized.Items.Clear();
+            lvPendingTutee.Items.Clear();
+            lvTutee.Items.Clear();
 
             loadAvail(start);
-            loadAppointments();
+            loadAppointments(true);
         }
 
         private void btnRejectTutee_Click(object sender, EventArgs e)
@@ -1319,11 +1326,14 @@ namespace TutorMaster
                 }
             }
             DateTime start = DateTime.Now;
+            lvTutor.Items.Clear();
+            lvPendingTutor.Items.Clear();
+            lvFinalized.Items.Clear();
             lvPendingTutee.Items.Clear();
             lvTutee.Items.Clear();
 
             loadAvail(start);
-            loadAppointments();
+            loadAppointments(true);
         }
 
         private void btnFinalize_Click(object sender, EventArgs e)
@@ -1366,13 +1376,16 @@ namespace TutorMaster
                 }
             }
             DateTime start = DateTime.Now;
-            loadAvail(start);
+            
             lvFinalized.Items.Clear();
             lvPendingTutee.Items.Clear();
             lvPendingTutor.Items.Clear();
             lvTutee.Items.Clear();
             lvTutor.Items.Clear();
-            loadAppointments();
+            
+            loadAvail(start);
+            
+            loadAppointments(false);
         }
 
 
