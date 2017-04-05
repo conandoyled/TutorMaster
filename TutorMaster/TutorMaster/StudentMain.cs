@@ -1043,12 +1043,12 @@ namespace TutorMaster
             if (itemsChecked1 + itemsChecked2 > 0)
             {
                 btnAcceptAddLoc.Enabled = true;
-                btnRejectTutee.Enabled = true;
+                btnRejectTutor.Enabled = true;
             }
             else
             {
                 btnAcceptAddLoc.Enabled = false;
-                btnRejectTutee.Enabled = false;
+                btnRejectTutor.Enabled = false;
             }
             if (itemsChecked2 > 0 && itemsChecked1 == 0)
             {
@@ -1120,8 +1120,50 @@ namespace TutorMaster
 
             for (int f = 0; f < commits.Count(); f++)
             {
+                DateTime startDate = getStartTime(commits[f]);
+                DateTime endDate = getEndTime(commits[f]);
 
+                for (int c = 0; c < tutorCmtList.Count(); c++)
+                {
+                    if (DateTime.Compare(startDate, Convert.ToDateTime(tutorCmtList[c].StartTime)) <= 0 && DateTime.Compare(endDate, Convert.ToDateTime(tutorCmtList[c].StartTime)) > 0)
+                    {
+                        tutorCmtList[c].Weekly = false;
+                        tutorCmtList[c].Tutoring = false;
+                        tutorCmtList[c].Class = "-";
+                        tutorCmtList[c].Location = "-";
+                        tutorCmtList[c].Open = true;
+                        tutorCmtList[c].ID = -1;
+                        db.SaveChanges();
+                    }
+                }
+
+                int partnerID = Convert.ToInt32(commits[f].Split(',')[2]);
+                
+                List<Commitment> tuteeCmtList = (from stucmt in db.StudentCommitments
+                                                 where stucmt.ID == partnerID
+                                                 join cmt in db.Commitments on stucmt.CmtID equals cmt.CmtID
+                                                 select cmt).ToList();
+                
+                for (int m = 0; m < tuteeCmtList.Count(); m++)
+                {
+                    if (DateTime.Compare(startDate, Convert.ToDateTime(tuteeCmtList[m].StartTime)) <= 0 && DateTime.Compare(endDate, Convert.ToDateTime(tuteeCmtList[m].StartTime)) > 0)
+                    {
+                        tuteeCmtList[m].Weekly = false;
+                        tuteeCmtList[m].Tutoring = false;
+                        tuteeCmtList[m].Class = "-";
+                        tuteeCmtList[m].Location = "-";
+                        tuteeCmtList[m].Open = true;
+                        tuteeCmtList[m].ID = -1;
+                        db.SaveChanges();
+                    }
+                }
             }
+            DateTime start = DateTime.Now;
+            lvPendingTutor.Items.Clear();
+            lvTutor.Items.Clear();
+
+            loadAvail(start);
+            loadAppointments();
         }
 
         private void btnFinalize_Click(object sender, EventArgs e)
