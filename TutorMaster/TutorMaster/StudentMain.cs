@@ -13,6 +13,7 @@ namespace TutorMaster
     {
         private int id;
         private int newNotifs = 0;
+        private int numCancels = 0;
         private List<TutorMaster.Commitment> searchList = new List<Commitment>();
 
         public StudentMain(int accID)
@@ -255,6 +256,8 @@ namespace TutorMaster
         //loading pending and accepted appointment functions
         private void loadAppointments(bool reject)
         {
+            newNotifs = 0;
+            numCancels = 0;
             TutorMasterDBEntities4 db = new TutorMasterDBEntities4();                                                //open Database
             int num = db.StudentCommitments.Count();                                                                 //see if there are any student committments at all
             if (num > 0)
@@ -278,6 +281,7 @@ namespace TutorMaster
                     string endTime = Convert.ToDateTime(cmtList[0].StartTime).AddMinutes(15).ToString();
                     int numCmts = cmtList.Count;
                     List<TutorMaster.Commitment> newAppoints = new List<Commitment>();                              //carry around a list for the new appointments that have !
+                    List<TutorMaster.Commitment> cancels = new List<Commitment>();
 
                     for (int i = 0; i < numCmts - 1; i++)
                     {
@@ -287,6 +291,10 @@ namespace TutorMaster
                         if (cmtList[i].Class.Contains('!'))                                                         //if it has an exclamation, add it to the new appointments list
                         {
                             newAppoints.Add(cmtList[i]);
+                        }
+                        else if (cmtList[i].Class == "@")
+                        {
+                            cancels.Add(cmtList[i]);
                         }
 
                         //if the two commits are distinct besides time and current commit is within week of start time
@@ -303,6 +311,16 @@ namespace TutorMaster
                                 db.SaveChanges();                                                                   //save changes to database
                                 newNotifs++;                                                                        //record the new appointment
                             }
+                            else if (cmtList[i].Class == "@")
+                            {
+                                for (int c = 0; c < cancels.Count(); c++)                                       //go through each time block in new appointment and get rid of !
+                                {
+                                    cancels[c].Class = "-";
+                                }
+                                cancels.Clear();                                                                //clear the newAppointments list to make room for the next chunk
+                                db.SaveChanges();                                                                   //save changes to database
+                                numCancels++;                                                                        //record the new appointment
+                            }
                             addToAppointments(initialCommit, startTime, endTime);                                   //add the chunk of time to our listviews
 
                             //initialize carries to be the next commitment and begin scanning for that
@@ -316,7 +334,11 @@ namespace TutorMaster
                     addToAppointments(initialCommit, startTime, endTime);
                     if (newNotifs > 0 && !reject)                                                                             //if we have any new appointments, send the user a message about them
                     {
-                        MessageBox.Show("You have " + newNotifs.ToString() + " new notifications in your appointments");
+                        MessageBox.Show("You have " + newNotifs.ToString() + " new notification(s) in your appointments");
+                    }
+                    if (numCancels > 0 && !reject)
+                    {
+                        MessageBox.Show("You have " + numCancels.ToString() + " cancellations whose time periods have returned to your availability as open times that are not weekly.");
                     }
                 }
             }
@@ -1177,7 +1199,7 @@ namespace TutorMaster
                     {
                         tuteeCmtList[m].Weekly = false;
                         tuteeCmtList[m].Tutoring = false;
-                        tuteeCmtList[m].Class = "-";
+                        tuteeCmtList[m].Class = "@";
                         tuteeCmtList[m].Location = "-";
                         tuteeCmtList[m].Open = true;
                         tuteeCmtList[m].ID = -1;
@@ -1244,7 +1266,7 @@ namespace TutorMaster
                     {
                         partnerCmtList[m].Weekly = false;
                         partnerCmtList[m].Tutoring = false;
-                        partnerCmtList[m].Class = "-";
+                        partnerCmtList[m].Class = "@";
                         partnerCmtList[m].Location = "-";
                         partnerCmtList[m].Open = true;
                         partnerCmtList[m].ID = -1;
@@ -1317,7 +1339,7 @@ namespace TutorMaster
                     {
                         tutorCmtList[m].Weekly = false;
                         tutorCmtList[m].Tutoring = false;
-                        tutorCmtList[m].Class = "-";
+                        tutorCmtList[m].Class = "@";
                         tutorCmtList[m].Location = "-";
                         tutorCmtList[m].Open = true;
                         tutorCmtList[m].ID = -1;
