@@ -47,7 +47,6 @@
             this.label6 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.txtEmail = new System.Windows.Forms.TextBox();
-
             this.btnFacultyDelete = new System.Windows.Forms.Button();
             this.btnFacultyAdd = new System.Windows.Forms.Button();
             this.btnFacultyEdit = new System.Windows.Forms.Button();
@@ -74,6 +73,7 @@
             this.txtClassCode = new System.Windows.Forms.TextBox();
             this.lvClass = new System.Windows.Forms.ListView();
             this.btnLogout = new System.Windows.Forms.Button();
+            this.lblID = new System.Windows.Forms.Label();
             this.tabAdmin.SuspendLayout();
             this.tabStudent.SuspendLayout();
             this.tabCommitments.SuspendLayout();
@@ -248,7 +248,6 @@
             this.tabFaculty.Text = "Faculty";
             this.tabFaculty.UseVisualStyleBackColor = true;
             // 
-
             // txtPhoneNumber
             // 
             this.txtPhoneNumber.Location = new System.Drawing.Point(431, 156);
@@ -316,7 +315,6 @@
             // 
             this.combDepartments.FormattingEnabled = true;
             this.combDepartments.Location = new System.Drawing.Point(431, 221);
-
             this.combDepartments.Name = "combDepartments";
             this.combDepartments.Size = new System.Drawing.Size(159, 21);
             this.combDepartments.TabIndex = 18;
@@ -389,9 +387,7 @@
             // 
             this.lvFaculty.Location = new System.Drawing.Point(0, 0);
             this.lvFaculty.Name = "lvFaculty";
-
             this.lvFaculty.Size = new System.Drawing.Size(410, 372);
-
             this.lvFaculty.TabIndex = 1;
             this.lvFaculty.UseCompatibleStateImageBehavior = false;
             this.lvFaculty.View = System.Windows.Forms.View.Details;
@@ -413,9 +409,7 @@
             this.tabClasses.Location = new System.Drawing.Point(4, 22);
             this.tabClasses.Name = "tabClasses";
             this.tabClasses.Padding = new System.Windows.Forms.Padding(3);
-
             this.tabClasses.Size = new System.Drawing.Size(617, 372);
-
             this.tabClasses.TabIndex = 3;
             this.tabClasses.Text = "Classes";
             this.tabClasses.UseVisualStyleBackColor = true;
@@ -509,9 +503,7 @@
             // 
             this.lvClass.Location = new System.Drawing.Point(0, 0);
             this.lvClass.Name = "lvClass";
-
             this.lvClass.Size = new System.Drawing.Size(372, 372);
-
             this.lvClass.TabIndex = 1;
             this.lvClass.UseCompatibleStateImageBehavior = false;
             this.lvClass.View = System.Windows.Forms.View.Details;
@@ -527,11 +519,22 @@
             this.btnLogout.UseVisualStyleBackColor = true;
             this.btnLogout.Click += new System.EventHandler(this.btnLogout_Click);
             // 
+            // lblID
+            // 
+            this.lblID.AutoSize = true;
+            this.lblID.Location = new System.Drawing.Point(12, 10);
+            this.lblID.Name = "lblID";
+            this.lblID.Size = new System.Drawing.Size(35, 13);
+            this.lblID.TabIndex = 6;
+            this.lblID.Text = "label9";
+            this.lblID.Visible = false;
+            // 
             // AdminMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(648, 449);
+            this.Controls.Add(this.lblID);
             this.Controls.Add(this.btnLogout);
             this.Controls.Add(this.tabAdmin);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -547,6 +550,7 @@
             this.tabClasses.ResumeLayout(false);
             this.tabClasses.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -596,5 +600,6 @@
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.TextBox txtEmail;
+        private System.Windows.Forms.Label lblID;
     }
 }

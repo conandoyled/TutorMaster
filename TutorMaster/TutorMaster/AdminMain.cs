@@ -146,7 +146,7 @@ namespace TutorMaster
             btnFacCancel.Width = 130;
             btnFacCancel.Height = 23;
             btnFacCancel.Text = "Cancel Changes";
-            btnFacSave.Click += new EventHandler(btnFacCancel_Click);
+            btnFacCancel.Click += new EventHandler(btnFacCancel_Click);
 
             tabFaculty.Controls.Add(btnFacSave);
             tabFaculty.Controls.Add(btnFacCancel);
@@ -177,10 +177,71 @@ namespace TutorMaster
 
         private void btnFacSave_Click(object sender, EventArgs e)
         {
+            TutorMasterDBEntities4 db = new TutorMasterDBEntities4();
+            Int32 id = Int32.Parse(lblID.Text.ToString());
+
+            var fac = (from r in db.Users where r.ID == id select r).First();
+            var facU = (from r in db.Faculties where r.ID == id select r).First();
+
+            string fname = txtFirstname.Text;
+            string lname = txtLastname.Text;
+            string username = txtUsername.Text;
+            string password = txtPassword.Text;
+            string phone = txtPhoneNumber.Text;
+            string email = txtEmail.Text;
+            string department = combDepartments.Text;
+
+            if (string.IsNullOrEmpty(fname) || string.IsNullOrWhiteSpace(lname) ||
+                string.IsNullOrWhiteSpace(username) || string.IsNullOrWhiteSpace(password) ||
+                    department == "Department...")
+            {
+                MessageBox.Show("Please fill in all of the textboxes with the approriate information");
+            }
+            else if (!validateInfo(email, phone))
+            {
+                MessageBox.Show("Please put in a valid email address and phone number");
+            }
+            else if (!uniqueUsername(username) && !(username == fac.Username))
+            {
+                MessageBox.Show("Username is already taken. Please pick another one.");
+            }
+            else
+            {
+                fac.FirstName = fname;
+                fac.LastName = lname;
+                fac.Username = username;
+                fac.Password = password;
+                fac.PhoneNumber = phone;
+                fac.Email = email;
+                facU.Department = department;
+
+                txtFirstname.Text = "";
+                txtLastname.Text = "";
+                txtUsername.Text = "";
+                txtPassword.Text = "";
+                txtPhoneNumber.Text = "";
+                txtEmail.Text = "";
+                lblID.Text = "";
+
+                db.SaveChanges();
+
+                unsetEditFacultyControls();
+                
+            }
+
         }
 
         private void btnFacCancel_Click(object sender, EventArgs e)
         {
+            unsetEditFacultyControls();
+
+            txtFirstname.Text = "";
+            txtLastname.Text = "";
+            txtUsername.Text = "";
+            txtPassword.Text = "";
+            txtPhoneNumber.Text = "";
+            txtEmail.Text = "";
+            lblID.Text = "";
         }
 
         private void AdminMain_FormClosed(object sender, FormClosedEventArgs e)
@@ -409,6 +470,7 @@ namespace TutorMaster
             txtPassword.Text = fac.Password;
             txtPhoneNumber.Text = fac.PhoneNumber; 
             txtEmail.Text = fac.Email;
+            lblID.Text = fac.ID.ToString();
 
             String department = (from row in db.Faculties where row.ID == fac.ID select row.Department).First();
             combDepartments.SelectedItem = department;
@@ -426,6 +488,16 @@ namespace TutorMaster
 
             btnFacSave.Show();
             btnFacCancel.Show();
+        }
+
+        private void unsetEditFacultyControls()
+        {
+            btnFacultyAdd.Show();
+            btnFacultyDelete.Show();
+            btnFacultyEdit.Show();
+
+            btnFacSave.Hide();
+            btnFacCancel.Hide();
         }
     }
 }
