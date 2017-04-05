@@ -542,6 +542,7 @@ namespace TutorMaster
                     lastSCR += 1;
                     lastCR += 1;
 
+                    //add the commitment first and then add the student commitment
                     TutorMaster.Commitment newCommitW = new TutorMaster.Commitment();
                     newCommitW.CmtID = lastCR;
                     newCommitW.Class = "-";
@@ -1358,99 +1359,90 @@ namespace TutorMaster
         }
 
 
-        private DateTime getListViewTime(string slot)
+        private DateTime getListViewTime(string slot)                                    //take a string of datetime from listview's string
         {
-            string dateString = slot.Split(' ')[0];
+            string dateString = slot.Split(' ')[0];                                      //get the entire start datetime string
             
-            int month = Convert.ToInt32(dateString.Split('/')[0]);
-            int day = Convert.ToInt32(dateString.Split('/')[1]);
+            int month = Convert.ToInt32(dateString.Split('/')[0]);                       //convert its month value into an integer
+            int day = Convert.ToInt32(dateString.Split('/')[1]);                         //convert its day value into an integer
 
-            string timeString = slot.Split(' ')[1];
+            string timeString = slot.Split(' ')[1];                                      //get the time part of the start datetime
 
-            int hour = Convert.ToInt32(timeString.Split(':')[0]);
-            int min = Convert.ToInt32(timeString.Split(':')[1]);
+            int hour = Convert.ToInt32(timeString.Split(':')[0]);                        //convert its hour into an integer
+            int min = Convert.ToInt32(timeString.Split(':')[1]);                         //convert its minutes into an integer
 
-            string amPm = slot.Split(' ')[2];
+            string amPm = slot.Split(' ')[2];                                            //record whether this is in the morning or evening
 
-            if (hour < 12 && amPm == "PM")
+            if (hour < 12 && amPm == "PM")                                               //add 12 to hours if necessary
             {
                 hour += 12;
             }
-            else if (hour == 12 && amPm == "AM")
+            else if (hour == 12 && amPm == "AM")                                         //if first hour of the day, set hour to 0
             {
                 hour = 0;
             }
-            DateTime date = new DateTime(2017, month, day, hour, min, 0);
+            DateTime date = new DateTime(2017, month, day, hour, min, 0);                //make a datetime instance with the collected data and return it
             return date;
         }
 
 
 
-
-
-
-
-
-
-
-
-
-
-        private DateTime getStartTime(string slot)
+        private DateTime getStartTime(string slot)                                    //take a string that has the start datetime seperated by a comma with the end datetime
         {
             string startDateTime = slot.Split(',')[0];
-            string startDate = startDateTime.Split(' ')[0];
-            string startTime = startDateTime.Split(' ')[1];
-            string amPm = startDateTime.Split(' ')[2];
+            string startDate = startDateTime.Split(' ')[0];                           //get the entire date of start datetime string
+            string startTime = startDateTime.Split(' ')[1];                           //get the entire time of the start datetime string
+            string amPm = startDateTime.Split(' ')[2];                                //record if this is in the morning or evening
 
-            int month = Convert.ToInt32(startDate.Split('/')[0]);
-            int day = Convert.ToInt32(startDate.Split('/')[1]);
-            int year = Convert.ToInt32(startDate.Split('/')[2]);
+            int month = Convert.ToInt32(startDate.Split('/')[0]);                     //get the month
+            int day = Convert.ToInt32(startDate.Split('/')[1]);                       //get the day
+            int year = Convert.ToInt32(startDate.Split('/')[2]);                      //get the year
 
-            int hour = Convert.ToInt32(startTime.Split(':')[0]);
-            int min = Convert.ToInt32(startTime.Split(':')[1]);
+            int hour = Convert.ToInt32(startTime.Split(':')[0]);                      //get the hour
+            int min = Convert.ToInt32(startTime.Split(':')[1]);                       //get the minutes
 
 
-            if (hour < 12 && amPm == "PM")
+            if (hour < 12 && amPm == "PM")                                            //add 12 to hours if necessary
             {
                 hour += 12;
             }
-            else if (hour == 12 && amPm == "AM")
+            else if (hour == 12 && amPm == "AM")                                      //if first hour of the day, set hour to 0
             {
                 hour = 0;
             }
-            DateTime date = new DateTime(year, month, day, hour, min, 0);
+            DateTime date = new DateTime(year, month, day, hour, min, 0);             //make a datetime instance with the collected data and return it
             return date;
         }
 
-        private DateTime getEndTime(string slot)
+        private DateTime getEndTime(string slot)                                      //take a string that has the start datetime seperated by a comma with the end datetime
         {
             string startDateTime = slot.Split(',')[1];
-            string startDate = startDateTime.Split(' ')[0];
-            string startTime = startDateTime.Split(' ')[1];
-            string amPm = startDateTime.Split(' ')[2];
+            string startDate = startDateTime.Split(' ')[0];                           //get the entire date of end datetime string
+            string startTime = startDateTime.Split(' ')[1];                           //get the entire time of the end datetime string
+            string amPm = startDateTime.Split(' ')[2];                                //record if this is in the morning or evening
 
-            int month = Convert.ToInt32(startDate.Split('/')[0]);
-            int day = Convert.ToInt32(startDate.Split('/')[1]);
-            int year = Convert.ToInt32(startDate.Split('/')[2]);
+            int month = Convert.ToInt32(startDate.Split('/')[0]);                     //get the month
+            int day = Convert.ToInt32(startDate.Split('/')[1]);                       //get the day
+            int year = Convert.ToInt32(startDate.Split('/')[2]);                      //get the year
 
             int hour = Convert.ToInt32(startTime.Split(':')[0]);
             int min = Convert.ToInt32(startTime.Split(':')[1]);
 
 
-            if (hour < 12 && amPm == "PM")
+            if (hour < 12 && amPm == "PM")                                            //add 12 to hours if necessary
             {
                 hour += 12;
             }
-            else if (hour == 12 && amPm == "AM")
+            else if (hour == 12 && amPm == "AM")                                      //if first hour of the day, set hour to 0
             {
                 hour = 0;
             }
 
-            DateTime date = new DateTime(year, month, day, hour, min, 0);
+            DateTime date = new DateTime(year, month, day, hour, min, 0);             //make a datetime instance with the collected data and return it
             return date;
         }
 
+        //code to have hidden columns that have partner ID numbers in the listviews and prevent user from seeing said columns
         private void lvPendingTutor_ColumnWidthChanging(object sender, ColumnWidthChangingEventArgs e)
         {
             if (e.ColumnIndex == 8)
@@ -1496,12 +1488,8 @@ namespace TutorMaster
             }
         }
 
-        
 
-        
 
-        
 
-        
     }
 }
