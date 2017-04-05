@@ -599,6 +599,7 @@
             this.btnCancelFinalized.TabIndex = 17;
             this.btnCancelFinalized.Text = "Cancel Appointment(s)";
             this.btnCancelFinalized.UseVisualStyleBackColor = true;
+            this.btnCancelFinalized.Click += new System.EventHandler(this.btnCancelFinalized_Click);
             // 
             // lvFinalized
             // 
