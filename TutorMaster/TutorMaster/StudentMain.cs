@@ -13,6 +13,7 @@ namespace TutorMaster
     {
         private int id;
         private int newNotifs = 0;
+        private List<TutorMaster.Commitment> searchList = new List<Commitment>();
 
         public StudentMain(int accID)
         {
@@ -61,7 +62,9 @@ namespace TutorMaster
                                                 select cmt).ToList();
 
                     QuickSort(ref cmtList, cmtList.Count());                                                         //sort the list by DateTime
-                    //DateTime start = new DateTime(2017, 1, 1, 0, 0, 0);
+
+                    searchList = cmtList;
+
                     getRidOfOutOfBounds(start, ref cmtList);
 
                     if (cmtList.Count() == 1)                                                                        //base case of having only one committment
@@ -483,24 +486,31 @@ namespace TutorMaster
 
         private bool recordedTime(DateTime begin)
         {
-            TutorMasterDBEntities4 db = new TutorMasterDBEntities4();
-            bool found = false;
+            //TutorMasterDBEntities4 db = new TutorMasterDBEntities4();
+            //bool found = false;
 
-            var date = (from stucmt in db.StudentCommitments
-                        where stucmt.ID == id
-                        join cmt in db.Commitments on stucmt.CmtID equals cmt.CmtID
-                        select cmt.StartTime).ToList(); //pull all of the student's commitments
+            //var date = (from stucmt in db.StudentCommitments
+            //            where stucmt.ID == id
+            //            join cmt in db.Commitments on stucmt.CmtID equals cmt.CmtID
+            //            select cmt.StartTime).ToList(); //pull all of the student's commitments
 
-            int dateCount = date.Count();               //count the number of dates
+            //int dateCount = date.Count();               //count the number of dates
 
-            for (int i = 0; i < dateCount; i++)
+            //for (int i = 0; i < dateCount; i++)
+            //{
+            //    if (begin == Convert.ToDateTime(date[i]))//if a datetime is already taken, say it has and output a message about it
+            //    {
+            //        found = true;
+            //        MessageBox.Show(date[i].ToString() + " is already in the database, this will not be added");
+            //    }
+            //}
+
+            bool found = BinarySearch(begin);
+            if (found)
             {
-                if (begin == Convert.ToDateTime(date[i]))//if a datetime is already taken, say it has and output a message about it
-                {
-                    found = true;
-                    MessageBox.Show(date[i].ToString() + " is already in the database, this will not be added");
-                }
+                MessageBox.Show(begin.ToString() + " is already in the database, this will not be added");
             }
+
 
             return found;
         }
@@ -562,6 +572,8 @@ namespace TutorMaster
                 }
             }
         }
+
+
 
         private void addCommit(TutorMaster.Commitment commit)
         {
@@ -1440,6 +1452,35 @@ namespace TutorMaster
 
             DateTime date = new DateTime(year, month, day, hour, min, 0);             //make a datetime instance with the collected data and return it
             return date;
+        }
+
+        private bool BinarySearch(DateTime date)
+        {
+            bool found = false;
+            int first = 0;
+            int last = searchList.Count()-1;
+            while (first <= last && !found)
+            {
+                int midpoint = (first + last) / 2;
+                if (DateTime.Compare(Convert.ToDateTime(searchList[midpoint].StartTime), date) == 0)
+                {
+                    found = true;
+                    return found;
+                }
+                else
+                {
+                    if (DateTime.Compare(date, Convert.ToDateTime(searchList[midpoint].StartTime)) < 0)
+                    {
+                        last = midpoint - 1;
+                    }
+                    else
+                    {
+                        first = midpoint + 1;
+                    }
+                }
+            }
+
+            return found;
         }
 
         //code to have hidden columns that have partner ID numbers in the listviews and prevent user from seeing said columns
