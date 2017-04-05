@@ -14,8 +14,8 @@ namespace TutorMaster
         public AdvancedRequest()
         {
             InitializeComponent();
-            //intialize the list of tutors
-            setupClasses();// this sets up the initial list with all the classes. I would change this to list all the classes that a specific tutor teaches after one is selected
+            setupTutorList();                   //intialize the list of tutors
+            // this sets up the initial list with all the classes. I would change this to list all the classes that a specific tutor teaches after one is selected
             //set up the availability box with the tutors available times       
         }
 
@@ -37,25 +37,37 @@ namespace TutorMaster
                 foreach (int i in TutorID)
                 {
                     if (usrr.ID == i)
-                        Tutors.Add(usrr.FirstName + usrr.LastName);
+                        Tutors.Add(usrr.FirstName + ' ' + usrr.LastName);
                 }
             }
    
 
             //2. set them up in the combo box 
+
+            foreach (string name in Tutors)
+            {
+                combTutorName.Items.Add(name);
+            }
         }
 
-
-
-
-        private void setupClasses()
+        private void setupClasses(string TutorName)
         {
             tvClasses.CheckBoxes = true;
 
             TutorMasterDBEntities4 db = new TutorMasterDBEntities4();
+            string[] TName = TutorName.Split(' '); //split the name into 2 pieces
+            string firstname= TName[0]; //get the first name
+            string lastname=TName[1]; //get the last name
+            
+            //1. find the tutors ID
+
+            //2. make a list of the classes they can tutor
+
             var classes = from c in db.Classes select c;
             List<Class> cls = new List<Class>();
             cls = classes.ToList();
+
+            //3. upload those classes to the display
 
             foreach (Class cl in cls)
             {
@@ -73,6 +85,18 @@ namespace TutorMaster
             }
 
             tvClasses.Sort();
+        }
+
+        private void combTutorName_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnExit_Click(object sender, EventArgs e) //Add an ID to this!!
+        {
+          //  StudentMain g = new StudentMain(ID);
+            g.Show();
+            this.Close();
         }
     }
 }

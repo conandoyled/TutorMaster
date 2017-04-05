@@ -34,6 +34,7 @@
             this.combTutorName = new System.Windows.Forms.ComboBox();
             this.tvClasses = new System.Windows.Forms.TreeView();
             this.lvTutorAvailability = new System.Windows.Forms.ListView();
+            this.btnExit = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // txtTutorName
@@ -66,7 +67,9 @@
             this.combTutorName.Location = new System.Drawing.Point(44, 156);
             this.combTutorName.Name = "combTutorName";
             this.combTutorName.Size = new System.Drawing.Size(93, 21);
+            this.combTutorName.Sorted = true;
             this.combTutorName.TabIndex = 3;
+            this.combTutorName.SelectedIndexChanged += new System.EventHandler(this.combTutorName_SelectedIndexChanged);
             // 
             // tvClasses
             // 
@@ -83,11 +86,22 @@
             this.lvTutorAvailability.TabIndex = 5;
             this.lvTutorAvailability.UseCompatibleStateImageBehavior = false;
             // 
+            // btnExit
+            // 
+            this.btnExit.Location = new System.Drawing.Point(536, 12);
+            this.btnExit.Name = "btnExit";
+            this.btnExit.Size = new System.Drawing.Size(101, 23);
+            this.btnExit.TabIndex = 15;
+            this.btnExit.Text = "Exit";
+            this.btnExit.UseVisualStyleBackColor = true;
+            this.btnExit.Click += new System.EventHandler(this.btnExit_Click);
+            // 
             // AdvancedRequest
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(777, 542);
+            this.Controls.Add(this.btnExit);
             this.Controls.Add(this.lvTutorAvailability);
             this.Controls.Add(this.tvClasses);
             this.Controls.Add(this.combTutorName);
@@ -109,5 +123,6 @@
         private System.Windows.Forms.ComboBox combTutorName;
         private System.Windows.Forms.TreeView tvClasses;
         private System.Windows.Forms.ListView lvTutorAvailability;
+        private System.Windows.Forms.Button btnExit;
     }
 }
