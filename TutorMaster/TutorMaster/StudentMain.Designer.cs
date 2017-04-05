@@ -733,6 +733,7 @@
             this.btnRejectTutee.TabIndex = 25;
             this.btnRejectTutee.Text = "Reject/Delete Appointment(s)";
             this.btnRejectTutee.UseVisualStyleBackColor = true;
+            this.btnRejectTutee.Click += new System.EventHandler(this.btnRejectTutee_Click);
             // 
             // btnFinalize
             // 

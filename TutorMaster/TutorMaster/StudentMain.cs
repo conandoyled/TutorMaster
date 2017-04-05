@@ -1239,6 +1239,75 @@ namespace TutorMaster
             loadAppointments();
         }
 
+        private void btnRejectTutee_Click(object sender, EventArgs e)
+        {
+            TutorMasterDBEntities4 db = new TutorMasterDBEntities4();
+            List<string> commits = new List<string>();
+
+            for (int i = 0; i < lvPendingTutee.CheckedItems.Count; i++)
+            {
+                commits.Add(lvPendingTutee.CheckedItems[i].SubItems[0].Text.ToString() + "," + lvPendingTutee.CheckedItems[i].SubItems[1].Text.ToString() + "," + lvPendingTutee.CheckedItems[i].SubItems[8].Text.ToString());
+            }
+
+            for (int n = 0; n < lvTutee.CheckedItems.Count; n++)
+            {
+                commits.Add(lvTutee.CheckedItems[n].SubItems[0].Text.ToString() + "," + lvTutee.CheckedItems[n].SubItems[1].Text.ToString() + "," + lvTutee.CheckedItems[n].SubItems[8].Text.ToString());
+            }
+
+
+            List<Commitment> tuteeCmtList = (from stucmt in db.StudentCommitments
+                                           where stucmt.ID == id
+                                           join cmt in db.Commitments on stucmt.CmtID equals cmt.CmtID
+                                           select cmt).ToList();
+
+            for (int f = 0; f < commits.Count(); f++)
+            {
+                DateTime startDate = getStartTime(commits[f]);
+                DateTime endDate = getEndTime(commits[f]);
+
+                for (int c = 0; c < tuteeCmtList.Count(); c++)
+                {
+                    if (DateTime.Compare(startDate, Convert.ToDateTime(tuteeCmtList[c].StartTime)) <= 0 && DateTime.Compare(endDate, Convert.ToDateTime(tuteeCmtList[c].StartTime)) > 0)
+                    {
+                        tuteeCmtList[c].Weekly = false;
+                        tuteeCmtList[c].Tutoring = false;
+                        tuteeCmtList[c].Class = "-";
+                        tuteeCmtList[c].Location = "-";
+                        tuteeCmtList[c].Open = true;
+                        tuteeCmtList[c].ID = -1;
+                        db.SaveChanges();
+                    }
+                }
+
+                int partnerID = Convert.ToInt32(commits[f].Split(',')[2]);
+
+                List<Commitment> tutorCmtList = (from stucmt in db.StudentCommitments
+                                                   where stucmt.ID == partnerID
+                                                   join cmt in db.Commitments on stucmt.CmtID equals cmt.CmtID
+                                                   select cmt).ToList();
+
+                for (int m = 0; m < tutorCmtList.Count(); m++)
+                {
+                    if (DateTime.Compare(startDate, Convert.ToDateTime(tutorCmtList[m].StartTime)) <= 0 && DateTime.Compare(endDate, Convert.ToDateTime(tutorCmtList[m].StartTime)) > 0)
+                    {
+                        tutorCmtList[m].Weekly = false;
+                        tutorCmtList[m].Tutoring = false;
+                        tutorCmtList[m].Class = "-";
+                        tutorCmtList[m].Location = "-";
+                        tutorCmtList[m].Open = true;
+                        tutorCmtList[m].ID = -1;
+                        db.SaveChanges();
+                    }
+                }
+            }
+            DateTime start = DateTime.Now;
+            lvPendingTutee.Items.Clear();
+            lvTutee.Items.Clear();
+
+            loadAvail(start);
+            loadAppointments();
+        }
+
         private void btnFinalize_Click(object sender, EventArgs e)
         {
             TutorMasterDBEntities4 db = new TutorMasterDBEntities4();
@@ -1426,6 +1495,8 @@ namespace TutorMaster
                 e.Cancel = true;
             }
         }
+
+        
 
         
 
