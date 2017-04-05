@@ -1097,6 +1097,32 @@ namespace TutorMaster
             g.Show();
             this.Close();
         }
+        
+        private void btnRejectTutor_Click(object sender, EventArgs e)
+        {
+            TutorMasterDBEntities4 db = new TutorMasterDBEntities4();
+            List<string> commits = new List<string>();
+
+            for (int i = 0; i < lvPendingTutor.CheckedItems.Count; i++)
+            {
+                commits.Add(lvPendingTutor.CheckedItems[i].SubItems[0].Text.ToString() + "," + lvPendingTutor.CheckedItems[i].SubItems[1].Text.ToString() + "," + lvPendingTutor.CheckedItems[i].SubItems[8].Text.ToString());
+            }
+
+            for (int n = 0; n < lvTutor.CheckedItems.Count; n++)
+            {
+                commits.Add(lvTutor.CheckedItems[n].SubItems[0].Text.ToString() + "," + lvTutor.CheckedItems[n].SubItems[1].Text.ToString() + "," + lvTutor.CheckedItems[n].SubItems[8].Text.ToString());
+            }
+
+            List<Commitment> tutorCmtList = (from stucmt in db.StudentCommitments
+                                             where stucmt.ID == id
+                                             join cmt in db.Commitments on stucmt.CmtID equals cmt.CmtID
+                                             select cmt).ToList();
+
+            for (int f = 0; f < commits.Count(); f++)
+            {
+
+            }
+        }
 
         private void btnFinalize_Click(object sender, EventArgs e)
         {
@@ -1186,7 +1212,60 @@ namespace TutorMaster
 
 
 
+        private DateTime getStartTime(string slot)
+        {
+            string startDateTime = slot.Split(',')[0];
+            string startDate = startDateTime.Split(' ')[0];
+            string startTime = startDateTime.Split(' ')[1];
+            string amPm = startDateTime.Split(' ')[2];
 
+            int month = Convert.ToInt32(startDate.Split('/')[0]);
+            int day = Convert.ToInt32(startDate.Split('/')[1]);
+            int year = Convert.ToInt32(startDate.Split('/')[2]);
+
+            int hour = Convert.ToInt32(startTime.Split(':')[0]);
+            int min = Convert.ToInt32(startTime.Split(':')[1]);
+
+
+            if (hour < 12 && amPm == "PM")
+            {
+                hour += 12;
+            }
+            else if (hour == 12 && amPm == "AM")
+            {
+                hour = 0;
+            }
+            DateTime date = new DateTime(year, month, day, hour, min, 0);
+            return date;
+        }
+
+        private DateTime getEndTime(string slot)
+        {
+            string startDateTime = slot.Split(',')[1];
+            string startDate = startDateTime.Split(' ')[0];
+            string startTime = startDateTime.Split(' ')[1];
+            string amPm = startDateTime.Split(' ')[2];
+
+            int month = Convert.ToInt32(startDate.Split('/')[0]);
+            int day = Convert.ToInt32(startDate.Split('/')[1]);
+            int year = Convert.ToInt32(startDate.Split('/')[2]);
+
+            int hour = Convert.ToInt32(startTime.Split(':')[0]);
+            int min = Convert.ToInt32(startTime.Split(':')[1]);
+
+
+            if (hour < 12 && amPm == "PM")
+            {
+                hour += 12;
+            }
+            else if (hour == 12 && amPm == "AM")
+            {
+                hour = 0;
+            }
+
+            DateTime date = new DateTime(year, month, day, hour, min, 0);
+            return date;
+        }
 
         private void lvPendingTutor_ColumnWidthChanging(object sender, ColumnWidthChangingEventArgs e)
         {
@@ -1232,6 +1311,8 @@ namespace TutorMaster
                 e.Cancel = true;
             }
         }
+
+        
 
         
     }
