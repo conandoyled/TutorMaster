@@ -12,6 +12,7 @@ namespace TutorMaster
     public partial class StudentMain : Form
     {
         private int id;
+        private int newNotifs = 0;
         //private int count = 0;
         public StudentMain(int accID)
         {
@@ -164,8 +165,8 @@ namespace TutorMaster
         private bool sameCategory(TutorMaster.Commitment commitFirst, TutorMaster.Commitment commitSecond)
         {
             return (commitFirst.Class == commitSecond.Class && commitFirst.Location == commitSecond.Location
-                && commitFirst.Open == commitSecond.Open && commitFirst.Weekly == commitSecond.Weekly
-                && commitFirst.ID == commitSecond.ID);
+                    && commitFirst.Open == commitSecond.Open && commitFirst.Weekly == commitSecond.Weekly
+                    && commitFirst.ID == commitSecond.ID);
         }
 
         private string getCommitTime(TutorMaster.Commitment commit)
@@ -196,7 +197,10 @@ namespace TutorMaster
                 var partnerData = (from row in db.Users where row.ID == commit.ID select row).First();
                 partner = partnerData.FirstName + " " + partnerData.LastName;
             }
-
+            if(commit.Class.Contains('!'))
+            {
+                commit.Class = commit.Class.Substring(0, commit.Class.Length-1);
+            }
             switch (day)
             {
                 case "Sunday":
@@ -270,29 +274,47 @@ namespace TutorMaster
                     string startTime = Convert.ToDateTime(cmtList[0].StartTime).ToString();
                     string endTime = Convert.ToDateTime(cmtList[0].StartTime).AddMinutes(15).ToString();
                     int numCmts = cmtList.Count;
+                    List<TutorMaster.Commitment> newAppoints = new List<Commitment>();
 
                     for (int i = 0; i < numCmts - 1; i++)
                     {
                         DateTime currentCommitDate = Convert.ToDateTime(cmtList[i].StartTime);                   //get datetime of commitment we are on in loop
                         DateTime nextCommitDate = Convert.ToDateTime(cmtList[i + 1].StartTime);                  //get datetime of commitment ahead of it
 
+                        if (cmtList[i].Class.Contains('!'))
+                        {
+                            newAppoints.Add(cmtList[i]);
+                        }
 
                         //if the two commits are distinct besides time and current commit is within week of start time
                         if (!sameCategory(cmtList[i], cmtList[i + 1]) || currentCommitDate.AddMinutes(15) != nextCommitDate)
                         {
                             endTime = endTime = Convert.ToDateTime(cmtList[i].StartTime).AddMinutes(15).ToString();                                               //update endtime and add what we have so far
+                            if(cmtList[i].Class.Contains('!'))
+                            {
+                                for (int j = 0; j < newAppoints.Count(); j++)
+                                {
+                                    newAppoints[j].Class = newAppoints[j].Class.Substring(0, newAppoints[j].Class.Length - 1);
+                                }
+                                newAppoints.Clear();
+                                db.SaveChanges();
+                                newNotifs++;
+                            }
                             addToAppointments(initialCommit, startTime, endTime);
 
                             //initialize carries to be the next commitment and begin scanning for that
                             startTime = Convert.ToDateTime(cmtList[i + 1].StartTime).ToString();
                             endTime = Convert.ToDateTime(cmtList[i + 1].StartTime).AddMinutes(15).ToString();
                             initialCommit = cmtList[i + 1];
-
                         }
 
                     }
                     endTime = Convert.ToDateTime(cmtList[cmtList.Count() - 1].StartTime).AddMinutes(15).ToString();
                     addToAppointments(initialCommit, startTime, endTime);
+                    if (newNotifs > 0)
+                    {
+                        MessageBox.Show("You have " + newNotifs.ToString() + " new notifications in your appointments");
+                    }
                 }
             }
 
@@ -306,7 +328,7 @@ namespace TutorMaster
             string open = getYesNo((bool)commit.Open);
             string tutoring = getYesNo((bool)commit.Tutoring);
             string weekly = getYesNo((bool)commit.Weekly);
-
+           
             if (commit.ID == -1)
             {
                 partner = "None";
@@ -392,17 +414,14 @@ namespace TutorMaster
         private void btnAddOpenBlock_Click(object sender, EventArgs e)
         {
             //first, error check to make sure that the user put something for each dropdownbox
-            if (/*(string.IsNullOrWhiteSpace(combStartDay.Text)) ||*/ (string.IsNullOrWhiteSpace(combStartHour.Text))
-            || (string.IsNullOrWhiteSpace(combStartMinute.Text) || (string.IsNullOrWhiteSpace(combStartAmPm.Text)))
-                /*|| (string.IsNullOrWhiteSpace(combEndDay.Text))*/ || (string.IsNullOrWhiteSpace(combEndHour.Text))
+            if ((string.IsNullOrWhiteSpace(combStartHour.Text))|| (string.IsNullOrWhiteSpace(combStartMinute.Text)
+            || (string.IsNullOrWhiteSpace(combStartAmPm.Text)))|| (string.IsNullOrWhiteSpace(combEndHour.Text))
             || (string.IsNullOrWhiteSpace(combEndMinute.Text)) || (string.IsNullOrWhiteSpace(combEndAmPm.Text)))
             {
                 MessageBox.Show("Please fill out a starting and ending day, hour, minute, and part of day");
             }
             else
             {
-                //string stringStartDay = combStartDay.Text;
-                //int intStartDay = getDayIndex(stringStartDay);
                 int startHour = int.Parse(combStartHour.Text);
                 int startMinute = int.Parse(combStartMinute.Text);
                 string startAmPm = combStartAmPm.Text;
@@ -416,8 +435,6 @@ namespace TutorMaster
                     startHour = 0;
                 }
 
-                // string stringEndDay = combEndDay.Text;
-                //int intEndDay = getDayIndex(stringEndDay);
                 int endHour = int.Parse(combEndHour.Text);
                 int endMinute = int.Parse(combEndMinute.Text);
                 string endAmPm = combEndAmPm.Text;
@@ -461,14 +478,6 @@ namespace TutorMaster
         {
             TutorMasterDBEntities4 db = new TutorMasterDBEntities4();
             bool found = false;
-            /*var storedCommits = (from row in db.StudentCommitments.AsEnumerable() where row.ID == id select row.CmtID).ToArray();
-            int numCommits = storedCommits.Length;
-            List<DateTime> date = new List<DateTime>();
-            
-            for (int j = 0; j < numCommits; j++)
-            {
-                date.Add(Convert.ToDateTime((from row in db.Commitments.AsEnumerable() where row.CmtID == storedCommits[j] select row.StartTime).First()));
-            }*/
 
             var date = (from stucmt in db.StudentCommitments
                         where stucmt.ID == id

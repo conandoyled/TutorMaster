@@ -278,7 +278,7 @@ namespace TutorMaster
                         tuteeCommits[j].Open = false;
                         tuteeCommits[j].Tutoring = false;
                         tuteeCommits[j].ID = tutorId;
-                        tuteeCommits[j].Class = classCode;
+                        tuteeCommits[j].Class = classCode+"!";
                         tuteeCommits[j].Weekly = false;
                         db.SaveChanges();
                     }
@@ -295,7 +295,7 @@ namespace TutorMaster
                         tutorCommits[i].Open = false;
                         tutorCommits[i].Tutoring = true;
                         tutorCommits[i].ID = tuteeId;
-                        tutorCommits[i].Class = classCode;
+                        tutorCommits[i].Class = classCode+"!";
                         tutorCommits[i].Weekly = false;
                         db.SaveChanges();
                     }
@@ -314,7 +314,7 @@ namespace TutorMaster
                         tuteeCommits[j].Open = false;
                         tuteeCommits[j].Tutoring = false;
                         tuteeCommits[j].ID = tutorId;
-                        tuteeCommits[j].Class = classCode;
+                        tuteeCommits[j].Class = classCode+"!";
                         db.SaveChanges();
                     }
                     else if (DateTime.Compare(endTime, Convert.ToDateTime(tuteeCommits[j].StartTime)) <= 0)
@@ -332,7 +332,7 @@ namespace TutorMaster
                         tutorCommits[i].Open = false;
                         tutorCommits[i].Tutoring = true;
                         tutorCommits[i].ID = tuteeId;
-                        tutorCommits[i].Class = classCode;
+                        tutorCommits[i].Class = classCode+"!";
                         db.SaveChanges();
                     }
                     else if (DateTime.Compare(endTime, Convert.ToDateTime(tutorCommits[i].StartTime)) <= 0)
