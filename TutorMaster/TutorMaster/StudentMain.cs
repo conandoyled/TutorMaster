@@ -470,18 +470,24 @@ namespace TutorMaster
         {
             DateTime begin = startTime;
             int compare = begin.CompareTo(endTime);
-
-            while (compare < 0)                      //if the first date is earlier than the second date
+            if (compare < 0)
             {
-                if (!recordedTime(begin))            //and if this time slot has not already been recorded
+                while (compare < 0)                      //if the first date is earlier than the second date
                 {
-                    add15Block(begin, weekly);       //add the 15 minute time block and whether or not its weekly
+                    if (!recordedTime(begin))            //and if this time slot has not already been recorded
+                    {
+                        add15Block(begin, weekly);       //add the 15 minute time block and whether or not its weekly
+                    }
+                    begin = begin.AddMinutes(15);        //repeat this process until we get to the endtime
+                    compare = begin.CompareTo(endTime);
                 }
-                begin = begin.AddMinutes(15);        //repeat this process until we get to the endtime
-                compare = begin.CompareTo(endTime);
+                DateTime start = new DateTime(weekStartDateTime.Value.Year, weekStartDateTime.Value.Month, weekStartDateTime.Value.Day, 0, 0, 0);
+                loadAvail(start);                        //reload the availability
             }
-            DateTime start = new DateTime(weekStartDateTime.Value.Year, weekStartDateTime.Value.Month, weekStartDateTime.Value.Day, 0, 0, 0);
-            loadAvail(start);                        //reload the availability
+            else
+            {
+                MessageBox.Show("Please have your start time at an earlier time then your end time.");
+            }
         }
 
         private bool recordedTime(DateTime begin)
@@ -510,7 +516,6 @@ namespace TutorMaster
             {
                 MessageBox.Show(begin.ToString() + " is already in the database, this will not be added");
             }
-
 
             return found;
         }
