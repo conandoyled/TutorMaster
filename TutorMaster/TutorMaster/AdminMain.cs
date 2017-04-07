@@ -103,6 +103,9 @@ namespace TutorMaster
 
         private void setupDepartmentBoxes()
         {
+            combDepartments.Items.Clear();
+            combDepartmentsAdd.Items.Clear();
+
             TutorMasterDBEntities4 db = new TutorMasterDBEntities4();
             var classes = from r in db.Classes select r;
             HashSet<String> departments = new HashSet<String>();
@@ -416,6 +419,13 @@ namespace TutorMaster
             db.SaveChanges();
         }
 
+        private void addClass(TutorMaster.Class cl)
+        {
+            TutorMasterDBEntities4 db = new TutorMasterDBEntities4();
+            db.Classes.AddObject(cl);
+            db.SaveChanges();
+        }
+
         private bool validateInfo(string email, string phone)
         {
             string address = email.Substring(email.Length - 4);
@@ -430,6 +440,18 @@ namespace TutorMaster
         {
             TutorMasterDBEntities4 db = new TutorMasterDBEntities4();
             return (!db.Users.Any(u => u.Username == username));
+        }
+
+        private bool uniqueClassCode(string classCode)
+        {
+            TutorMasterDBEntities4 db = new TutorMasterDBEntities4();
+            return (!db.Classes.Any(c => c.ClassCode == classCode));
+        }
+
+        private bool uniqueClassName(string className)
+        {
+            TutorMasterDBEntities4 db = new TutorMasterDBEntities4();
+            return (!db.Classes.Any(c => c.ClassName == className));
         }
 
         private int getNextID()
@@ -498,6 +520,115 @@ namespace TutorMaster
 
             btnFacSave.Hide();
             btnFacCancel.Hide();
+        }
+
+        private void btnClassDelete_Click(object sender, EventArgs e)
+        {
+            TutorMasterDBEntities4 db = new TutorMasterDBEntities4();
+            int clNum = lvClass.CheckedItems.Count;
+            for (int i = 0; i < clNum; i++)
+            {
+                string classCode = lvClass.CheckedItems[i].SubItems[0].Text;
+                Class delC = (from row in db.Classes where row.ClassCode == classCode select row).First();
+                db.Classes.DeleteObject(delC);
+                db.SaveChanges();
+            }
+
+            lvClass.Clear();
+            setupClassLV();
+        }
+
+        private void combDepartmentsAdd_DropDownClosed(object sender, EventArgs e)
+        {
+            if (combDepartmentsAdd.SelectedIndex == combDepartmentsAdd.Items.Count-1)
+            {
+                txtDepartment.Show();
+                lblDepartment.Show();
+            }
+            else
+            {
+                txtDepartment.Hide();
+                lblDepartment.Hide();
+            }
+        }
+
+        private void btnClassAdd_Click(object sender, EventArgs e)
+        {
+            string classCode = txtClassCode.Text.ToString();
+            string className = txtClassName.Text.ToString();
+            int classSelection = combDepartmentsAdd.SelectedIndex;
+
+            if (classSelection == combDepartmentsAdd.Items.Count - 1)
+            {
+                string classDepartment = txtDepartment.Text.ToString();
+                if (string.IsNullOrEmpty(classCode) || string.IsNullOrEmpty(className)
+                    || string.IsNullOrEmpty(classDepartment))
+                {
+                    MessageBox.Show("Please fill in all of the textboxes with the approriate information");
+                }
+                else if (!uniqueClassCode(classCode))
+                {
+                    MessageBox.Show("Class Code is already taken. Please pick another one.");
+                }
+                else if (!uniqueClassName(className))
+                {
+                    MessageBox.Show("Class Name is already taken. Please pick another one.");
+                }
+                else
+                {
+                    TutorMaster.Class newClass = new TutorMaster.Class();
+                    newClass.ClassCode = classCode;
+                    newClass.ClassName = className;
+                    newClass.Department = classDepartment;
+                    addClass(newClass);
+
+                    txtClassCode.Text = "";
+                    txtClassName.Text = "";
+                    combDepartmentsAdd.SelectedIndex = 0;
+                    txtDepartment.Hide();
+                    lblDepartment.Hide();
+
+                    MessageBox.Show("Class has been added to the database");
+
+                    setupDepartmentBoxes();
+                }
+            }
+            else
+            {
+                string classDepartment = combDepartmentsAdd.Items[classSelection].ToString();
+                if (string.IsNullOrEmpty(classCode) || string.IsNullOrEmpty(className)
+                    || string.IsNullOrEmpty(classDepartment))
+                {
+                    MessageBox.Show("Please fill in all of the textboxes with the approriate information");
+                }
+                else if (!uniqueClassCode(classCode))
+                {
+                    MessageBox.Show("Class Code is already taken. Please pick another one.");
+                }
+                else if (!uniqueClassName(className))
+                {
+                    MessageBox.Show("Class Name is already taken. Please pick another one.");
+                }
+                else
+                {
+                    TutorMaster.Class newClass = new TutorMaster.Class();
+                    newClass.ClassCode = classCode;
+                    newClass.ClassName = className;
+                    newClass.Department = classDepartment;
+                    addClass(newClass);
+
+                    txtClassCode.Text = "";
+                    txtClassName.Text = "";
+                    combDepartmentsAdd.SelectedIndex = 0;
+                    txtDepartment.Hide();
+                    lblDepartment.Hide();
+
+                    MessageBox.Show("Class has been added to the database");
+                }
+            }
+
+            lvClass.Clear();
+            setupClassLV();
         }
     }
 }

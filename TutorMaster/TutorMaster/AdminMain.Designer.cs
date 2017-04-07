@@ -254,7 +254,7 @@
             this.txtPhoneNumber.Mask = "(999) 000-0000";
             this.txtPhoneNumber.Name = "txtPhoneNumber";
             this.txtPhoneNumber.Size = new System.Drawing.Size(100, 20);
-            this.txtPhoneNumber.TabIndex = 22;
+            this.txtPhoneNumber.TabIndex = 4;
             // 
             // label6
             // 
@@ -279,7 +279,7 @@
             this.txtEmail.Location = new System.Drawing.Point(431, 190);
             this.txtEmail.Name = "txtEmail";
             this.txtEmail.Size = new System.Drawing.Size(100, 20);
-            this.txtEmail.TabIndex = 23;
+            this.txtEmail.TabIndex = 5;
             // 
             // btnFacultyDelete
             // 
@@ -317,7 +317,7 @@
             this.combDepartments.Location = new System.Drawing.Point(431, 221);
             this.combDepartments.Name = "combDepartments";
             this.combDepartments.Size = new System.Drawing.Size(159, 21);
-            this.combDepartments.TabIndex = 18;
+            this.combDepartments.TabIndex = 6;
             // 
             // label4
             // 
@@ -360,28 +360,28 @@
             this.txtPassword.Location = new System.Drawing.Point(431, 124);
             this.txtPassword.Name = "txtPassword";
             this.txtPassword.Size = new System.Drawing.Size(100, 20);
-            this.txtPassword.TabIndex = 13;
+            this.txtPassword.TabIndex = 3;
             // 
             // txtUsername
             // 
             this.txtUsername.Location = new System.Drawing.Point(431, 92);
             this.txtUsername.Name = "txtUsername";
             this.txtUsername.Size = new System.Drawing.Size(100, 20);
-            this.txtUsername.TabIndex = 12;
+            this.txtUsername.TabIndex = 2;
             // 
             // txtLastname
             // 
             this.txtLastname.Location = new System.Drawing.Point(431, 59);
             this.txtLastname.Name = "txtLastname";
             this.txtLastname.Size = new System.Drawing.Size(100, 20);
-            this.txtLastname.TabIndex = 11;
+            this.txtLastname.TabIndex = 1;
             // 
             // txtFirstname
             // 
             this.txtFirstname.Location = new System.Drawing.Point(431, 26);
             this.txtFirstname.Name = "txtFirstname";
             this.txtFirstname.Size = new System.Drawing.Size(100, 20);
-            this.txtFirstname.TabIndex = 10;
+            this.txtFirstname.TabIndex = 0;
             // 
             // lvFaculty
             // 
@@ -422,6 +422,7 @@
             this.btnClassDelete.TabIndex = 29;
             this.btnClassDelete.Text = "Delete Class(es)";
             this.btnClassDelete.UseVisualStyleBackColor = true;
+            this.btnClassDelete.Click += new System.EventHandler(this.btnClassDelete_Click);
             // 
             // btnClassAdd
             // 
@@ -431,6 +432,7 @@
             this.btnClassAdd.TabIndex = 27;
             this.btnClassAdd.Text = "Create New Class";
             this.btnClassAdd.UseVisualStyleBackColor = true;
+            this.btnClassAdd.Click += new System.EventHandler(this.btnClassAdd_Click);
             // 
             // btnClassEdit
             // 
@@ -447,7 +449,8 @@
             this.combDepartmentsAdd.Location = new System.Drawing.Point(416, 107);
             this.combDepartmentsAdd.Name = "combDepartmentsAdd";
             this.combDepartmentsAdd.Size = new System.Drawing.Size(159, 21);
-            this.combDepartmentsAdd.TabIndex = 26;
+            this.combDepartmentsAdd.TabIndex = 9;
+            this.combDepartmentsAdd.DropDownClosed += new System.EventHandler(this.combDepartmentsAdd_DropDownClosed);
             // 
             // lblDepartment
             // 
@@ -482,7 +485,7 @@
             this.txtDepartment.Location = new System.Drawing.Point(416, 150);
             this.txtDepartment.Name = "txtDepartment";
             this.txtDepartment.Size = new System.Drawing.Size(100, 20);
-            this.txtDepartment.TabIndex = 21;
+            this.txtDepartment.TabIndex = 10;
             this.txtDepartment.Visible = false;
             // 
             // txtClassName
@@ -490,14 +493,14 @@
             this.txtClassName.Location = new System.Drawing.Point(416, 65);
             this.txtClassName.Name = "txtClassName";
             this.txtClassName.Size = new System.Drawing.Size(100, 20);
-            this.txtClassName.TabIndex = 19;
+            this.txtClassName.TabIndex = 8;
             // 
             // txtClassCode
             // 
             this.txtClassCode.Location = new System.Drawing.Point(416, 26);
             this.txtClassCode.Name = "txtClassCode";
             this.txtClassCode.Size = new System.Drawing.Size(100, 20);
-            this.txtClassCode.TabIndex = 18;
+            this.txtClassCode.TabIndex = 7;
             // 
             // lvClass
             // 
