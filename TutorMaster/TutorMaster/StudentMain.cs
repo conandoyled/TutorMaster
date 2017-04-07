@@ -1086,17 +1086,6 @@ namespace TutorMaster
 
         private void lvTutor_ItemChecked(object sender, ItemCheckedEventArgs e)
         {
-            int itemsChecked1 = lvPendingTutor.CheckedItems.Count;
-            if (itemsChecked1 > 0)
-            {
-                btnAcceptAddLoc.Enabled = true;
-                btnRejectTutor.Enabled = true;
-            }
-            else
-            {
-                btnAcceptAddLoc.Enabled = false;
-                btnRejectTutor.Enabled = false;
-            }
 
         }
 
@@ -1104,24 +1093,7 @@ namespace TutorMaster
         
         private void lvTutee_ItemCheck(object sender, ItemCheckEventArgs e)
         {
-            int itemsChecked1 = lvTutee.CheckedItems.Count; // .CheckedItems.Count tells how many things in the list box are clicked
-            int itemsChecked2 = lvPendingTutee.CheckedItems.Count;
-            if (itemsChecked1 + itemsChecked2 > 0)
-            {
-                btnRejectTutee.Enabled = true;
-            }
-            else
-            {
-                btnRejectTutee.Enabled = false;
-            }
-            if (itemsChecked2 > 0 && itemsChecked1 == 0)
-            {
-                btnFinalize.Enabled = true;
-            }
-            else
-            {
-                btnFinalize.Enabled = false;
-            }
+
         }
 
 
@@ -1566,6 +1538,115 @@ namespace TutorMaster
         {
 
         }
+
+        private void lvPendingTutor_ItemChecked(object sender, ItemCheckedEventArgs e)
+        {
+            int itemsChecked1 = lvPendingTutor.CheckedItems.Count;
+            int itemsChecked2 = lvTutor.CheckedItems.Count;
+            if (itemsChecked1 > 0)
+            {
+                btnAcceptAddLoc.Enabled = true;
+                btnRejectTutor.Enabled = true;
+            }
+            else if(itemsChecked1 + itemsChecked2 == 0)
+            {
+                btnAcceptAddLoc.Enabled = false;
+                btnRejectTutor.Enabled = false;
+            }
+            else if (itemsChecked1 == 0)
+            {
+                btnAcceptAddLoc.Enabled = false;
+            }
+            
+            if (itemsChecked1 > 0 && itemsChecked2 > 0)
+            {
+                btnAcceptAddLoc.Enabled = false;
+                btnRejectTutor.Enabled = true;
+            }
+
+        }
+
+        private void lvTutor_ItemChecked_2(object sender, ItemCheckedEventArgs e)
+        {
+            int itemsChecked1 = lvPendingTutor.CheckedItems.Count;
+            int itemsChecked2 = lvTutor.CheckedItems.Count;
+            if (itemsChecked2 > 0)
+            {
+                btnRejectTutor.Enabled = true;
+            }
+            else if (itemsChecked1 + itemsChecked2 > 0)
+            {
+                btnRejectTutor.Enabled = false;
+            }
+            else
+            {
+                btnRejectTutor.Enabled = false;
+            }
+            if (itemsChecked1 > 0 && itemsChecked2 > 0)
+            {
+                btnAcceptAddLoc.Enabled = false;
+                btnRejectTutor.Enabled = true;
+            }
+        }
+
+        private void lvTutee_ItemChecked(object sender, ItemCheckedEventArgs e)
+        {
+            int itemsChecked1 = lvPendingTutee.CheckedItems.Count;
+            int itemsChecked2 = lvTutee.CheckedItems.Count;
+            if (itemsChecked2 > 0)
+            {
+                btnRejectTutee.Enabled = true;
+            }
+            else if (itemsChecked1 + itemsChecked2 > 0)
+            {
+                btnRejectTutee.Enabled = false;
+            }
+            else
+            {
+                btnRejectTutee.Enabled = false;
+            }
+            if (itemsChecked1 > 0 && itemsChecked2 > 0)
+            {
+                btnAcceptAddLoc.Enabled = false;
+                btnRejectTutee.Enabled = true;
+            }
+            else if (itemsChecked1 > 0 && itemsChecked2 == 0)
+            {
+                btnFinalize.Enabled = true;
+            }
+
+        }
+
+        private void lvPendingTutee_ItemChecked(object sender, ItemCheckedEventArgs e)
+        {
+            int itemsChecked1 = lvPendingTutee.CheckedItems.Count;
+            int itemsChecked2 = lvTutee.CheckedItems.Count;
+            if (itemsChecked1 > 0)
+            {
+                btnFinalize.Enabled = true;
+                btnRejectTutor.Enabled = true;
+            }
+            else if (itemsChecked1 + itemsChecked2 == 0)
+            {
+                btnFinalize.Enabled = false;
+                btnRejectTutee.Enabled = false;
+            }
+            else if (itemsChecked1 == 0)
+            {
+                btnFinalize.Enabled = false;
+            }
+            if (itemsChecked2 > 0 && itemsChecked1 > 0)
+            {
+                btnFinalize.Enabled = false;
+                btnRejectTutee.Enabled = true;
+            }
+            else if (itemsChecked1 > 0 && itemsChecked2 == 0)
+            {
+                btnFinalize.Enabled = true;
+            }
+        }
+
+
 
         
 

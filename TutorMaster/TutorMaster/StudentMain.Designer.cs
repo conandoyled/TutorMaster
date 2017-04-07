@@ -687,7 +687,7 @@
             this.lvPendingTutor.UseCompatibleStateImageBehavior = false;
             this.lvPendingTutor.View = System.Windows.Forms.View.Details;
             this.lvPendingTutor.ColumnWidthChanging += new System.Windows.Forms.ColumnWidthChangingEventHandler(this.lvPendingTutor_ColumnWidthChanging);
-            this.lvPendingTutor.ItemChecked += new System.Windows.Forms.ItemCheckedEventHandler(this.lvTutor_ItemChecked);
+            this.lvPendingTutor.ItemChecked += new System.Windows.Forms.ItemCheckedEventHandler(this.lvPendingTutor_ItemChecked);
             // 
             // lvTutor
             // 
@@ -698,6 +698,7 @@
             this.lvTutor.UseCompatibleStateImageBehavior = false;
             this.lvTutor.View = System.Windows.Forms.View.Details;
             this.lvTutor.ColumnWidthChanging += new System.Windows.Forms.ColumnWidthChangingEventHandler(this.lvTutor_ColumnWidthChanging);
+            this.lvTutor.ItemChecked += new System.Windows.Forms.ItemCheckedEventHandler(this.lvTutor_ItemChecked_2);
             // 
             // tabPendingTutee
             // 
@@ -763,7 +764,7 @@
             this.lvTutee.UseCompatibleStateImageBehavior = false;
             this.lvTutee.View = System.Windows.Forms.View.Details;
             this.lvTutee.ColumnWidthChanging += new System.Windows.Forms.ColumnWidthChangingEventHandler(this.lvTutee_ColumnWidthChanging);
-            this.lvTutee.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.lvTutee_ItemCheck);
+            this.lvTutee.ItemChecked += new System.Windows.Forms.ItemCheckedEventHandler(this.lvTutee_ItemChecked);
             // 
             // label6
             // 
@@ -776,14 +777,14 @@
             // 
             // lvPendingTutee
             // 
-            this.lvPendingTutee.Location = new System.Drawing.Point(0, 190);
+            this.lvPendingTutee.Location = new System.Drawing.Point(-8, 188);
             this.lvPendingTutee.Name = "lvPendingTutee";
             this.lvPendingTutee.Size = new System.Drawing.Size(699, 140);
             this.lvPendingTutee.TabIndex = 18;
             this.lvPendingTutee.UseCompatibleStateImageBehavior = false;
             this.lvPendingTutee.View = System.Windows.Forms.View.Details;
             this.lvPendingTutee.ColumnWidthChanging += new System.Windows.Forms.ColumnWidthChangingEventHandler(this.lvPendingTutee_ColumnWidthChanging);
-            this.lvPendingTutee.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.lvTutee_ItemCheck);
+            this.lvPendingTutee.ItemChecked += new System.Windows.Forms.ItemCheckedEventHandler(this.lvPendingTutee_ItemChecked);
             // 
             // label10
             // 
