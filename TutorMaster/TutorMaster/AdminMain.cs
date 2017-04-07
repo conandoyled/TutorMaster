@@ -13,10 +13,12 @@ namespace TutorMaster
     {
         Button btnFacSave = new Button();
         Button btnFacCancel = new Button();
+        Button btnClassSave = new Button();
+        Button btnClassCancel = new Button();
 
         public AdminMain()
         {
-            InitializeComponent();
+            InitializeComponent(); 
 
             setupStudentLV();
             setupFacultyLV();
@@ -154,8 +156,28 @@ namespace TutorMaster
             tabFaculty.Controls.Add(btnFacSave);
             tabFaculty.Controls.Add(btnFacCancel);
 
+            btnClassSave.Left = 446;
+            btnClassSave.Top = 256;
+            btnClassSave.Width = 130;
+            btnClassSave.Height = 23;
+            btnClassSave.Text = "Save Changes";
+            btnClassSave.Click += new EventHandler(btnClassSave_Click);
+
+            btnClassCancel.Left = 446;
+            btnClassCancel.Top = 287;
+            btnClassCancel.Width = 130;
+            btnClassCancel.Height = 23;
+            btnClassCancel.Text = "Cancel Changes";
+            btnClassCancel.Click += new EventHandler(btnClassCancel_Click);
+
+            tabClasses.Controls.Add(btnFacSave);
+            tabClasses.Controls.Add(btnFacCancel);
+
             btnFacSave.Hide();
             btnFacCancel.Hide();
+
+            btnClassSave.Hide();
+            btnClassCancel.Hide();
         }
 
         private void disableButtons()
@@ -245,6 +267,23 @@ namespace TutorMaster
             txtPhoneNumber.Text = "";
             txtEmail.Text = "";
             lblID.Text = "";
+        }
+
+        private void btnClassSave_Click(object sender, EventArgs e)
+        {
+            TutorMasterDBEntities4 db = new TutorMasterDBEntities4();
+
+        }
+
+        private void btnClassCancel_Click(object sender, EventArgs e)
+        {
+            unsetEditClassControls();
+
+            txtClassCode.Text = "";
+            txtClassName.Text = "";
+            combDepartmentsAdd.SelectedIndex = 0;
+            txtDepartment.Hide();
+            lblDepartment.Hide();
         }
 
         private void AdminMain_FormClosed(object sender, FormClosedEventArgs e)
@@ -522,6 +561,26 @@ namespace TutorMaster
             btnFacCancel.Hide();
         }
 
+        private void setEditClassControls()
+        {
+            btnClassAdd.Hide();
+            btnClassDelete.Hide();
+            btnClassEdit.Hide();
+
+            btnClassSave.Show();
+            btnClassCancel.Show();
+        }
+
+        private void unsetEditClassControls()
+        {
+            btnClassAdd.Show();
+            btnClassDelete.Show();
+            btnClassEdit.Show();
+
+            btnClassSave.Hide();
+            btnClassCancel.Hide();
+        }
+
         private void btnClassDelete_Click(object sender, EventArgs e)
         {
             TutorMasterDBEntities4 db = new TutorMasterDBEntities4();
@@ -629,6 +688,32 @@ namespace TutorMaster
 
             lvClass.Clear();
             setupClassLV();
+        }
+
+        private void btnClassEdit_Click(object sender, EventArgs e)
+        {
+            setEditFacultyControls();
+            TutorMasterDBEntities4 db = new TutorMasterDBEntities4();
+            string username = lvFaculty.CheckedItems[0].SubItems[0].Text;
+            var fac = (from row in db.Users where row.Username == username select row).First();
+
+            txtFirstname.Text = fac.FirstName;
+            txtLastname.Text = fac.LastName;
+            txtUsername.Text = username;
+            txtPassword.Text = fac.Password;
+            txtPhoneNumber.Text = fac.PhoneNumber;
+            txtEmail.Text = fac.Email;
+            lblID.Text = fac.ID.ToString();
+
+            String department = (from row in db.Faculties where row.ID == fac.ID select row.Department).First();
+            combDepartments.SelectedItem = department;
+        }
+
+        private void tabAdmin_TabIndexChanged(object sender, EventArgs e)
+        {
+            unsetEditFacultyControls();
+            unsetEditClassControls();
+            setupDepartmentBoxes();
         }
     }
 }

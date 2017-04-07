@@ -93,6 +93,7 @@
             this.tabAdmin.SelectedIndex = 0;
             this.tabAdmin.Size = new System.Drawing.Size(625, 398);
             this.tabAdmin.TabIndex = 0;
+            this.tabAdmin.TabIndexChanged += new System.EventHandler(this.tabAdmin_TabIndexChanged);
             // 
             // tabStudent
             // 
@@ -442,6 +443,7 @@
             this.btnClassEdit.TabIndex = 28;
             this.btnClassEdit.Text = "Edit Class";
             this.btnClassEdit.UseVisualStyleBackColor = true;
+            this.btnClassEdit.Click += new System.EventHandler(this.btnClassEdit_Click);
             // 
             // combDepartmentsAdd
             // 
