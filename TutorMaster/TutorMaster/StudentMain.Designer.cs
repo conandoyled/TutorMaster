@@ -91,6 +91,7 @@
             this.label6 = new System.Windows.Forms.Label();
             this.lvPendingTutee = new System.Windows.Forms.ListView();
             this.label10 = new System.Windows.Forms.Label();
+            this.btnRemoveAvail = new System.Windows.Forms.Button();
             this.dayTabs.SuspendLayout();
             this.tabSunday.SuspendLayout();
             this.tabMonday.SuspendLayout();
@@ -697,7 +698,6 @@
             this.lvTutor.UseCompatibleStateImageBehavior = false;
             this.lvTutor.View = System.Windows.Forms.View.Details;
             this.lvTutor.ColumnWidthChanging += new System.Windows.Forms.ColumnWidthChangingEventHandler(this.lvTutor_ColumnWidthChanging);
-            this.lvTutor.ItemChecked += new System.Windows.Forms.ItemCheckedEventHandler(this.lvTutor_ItemChecked);
             // 
             // tabPendingTutee
             // 
@@ -794,11 +794,22 @@
             this.label10.TabIndex = 15;
             this.label10.Text = "Date to load schedule a week out from";
             // 
+            // btnRemoveAvail
+            // 
+            this.btnRemoveAvail.Location = new System.Drawing.Point(736, 144);
+            this.btnRemoveAvail.Name = "btnRemoveAvail";
+            this.btnRemoveAvail.Size = new System.Drawing.Size(197, 23);
+            this.btnRemoveAvail.TabIndex = 16;
+            this.btnRemoveAvail.Text = "Remove Availability";
+            this.btnRemoveAvail.UseVisualStyleBackColor = true;
+            this.btnRemoveAvail.Click += new System.EventHandler(this.btnRemoveAvail_Click);
+            // 
             // StudentMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(948, 441);
+            this.Controls.Add(this.btnRemoveAvail);
             this.Controls.Add(this.label10);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.weekStartDateTime);
@@ -901,5 +912,6 @@
         private System.Windows.Forms.Button btnDeselect3;
         private System.Windows.Forms.Button btnRejectTutee;
         private System.Windows.Forms.Button btnFinalize;
+        private System.Windows.Forms.Button btnRemoveAvail;
     }
 }

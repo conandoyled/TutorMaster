@@ -12,8 +12,6 @@ namespace TutorMaster
     public partial class StudentMain : Form
     {
         private int id;
-        private int newNotifs = 0;
-        private int numCancels = 0;
         private List<TutorMaster.Commitment> searchList = new List<Commitment>();
 
         public StudentMain(int accID)
@@ -256,8 +254,8 @@ namespace TutorMaster
         //loading pending and accepted appointment functions
         private void loadAppointments(bool reject)
         {
-            newNotifs = 0;
-            numCancels = 0;
+            int newNotifs = 0;
+            int numCancels = 0;
             TutorMasterDBEntities4 db = new TutorMasterDBEntities4();                                                //open Database
             int num = db.StudentCommitments.Count();                                                                 //see if there are any student committments at all
             if (num > 0)
@@ -273,6 +271,7 @@ namespace TutorMaster
 
 
                 removeOpens(ref cmtList);                                                                           //remove their open slots
+
 
                 if (cmtList.Count > 0)
                 {                                                                                                   //initialize carries to the first commitment
@@ -1087,9 +1086,8 @@ namespace TutorMaster
 
         private void lvTutor_ItemChecked(object sender, ItemCheckedEventArgs e)
         {
-            int itemsChecked1 = lvTutor.CheckedItems.Count; // .CheckedItems.Count tells how many things in the list box are clicked
-            int itemsChecked2 = lvPendingTutor.CheckedItems.Count;
-            if (itemsChecked1 + itemsChecked2 > 0)
+            int itemsChecked1 = lvPendingTutor.CheckedItems.Count;
+            if (itemsChecked1 > 0)
             {
                 btnAcceptAddLoc.Enabled = true;
                 btnRejectTutor.Enabled = true;
@@ -1099,16 +1097,11 @@ namespace TutorMaster
                 btnAcceptAddLoc.Enabled = false;
                 btnRejectTutor.Enabled = false;
             }
-            if (itemsChecked2 > 0 && itemsChecked1 == 0)
-            {
-                btnFinalize.Enabled = true;
-            }
-            else
-            {
-                btnFinalize.Enabled = false;
-            }
+
         }
 
+        
+        
         private void lvTutee_ItemCheck(object sender, ItemCheckEventArgs e)
         {
             int itemsChecked1 = lvTutee.CheckedItems.Count; // .CheckedItems.Count tells how many things in the list box are clicked
@@ -1568,6 +1561,13 @@ namespace TutorMaster
                 e.Cancel = true;
             }
         }
+
+        private void btnRemoveAvail_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        
 
 
 
