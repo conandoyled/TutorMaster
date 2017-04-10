@@ -35,19 +35,11 @@
             this.btnDelete = new System.Windows.Forms.Button();
             this.btnCreateStudent = new System.Windows.Forms.Button();
             this.btnEdit = new System.Windows.Forms.Button();
-            this.tabCommitments = new System.Windows.Forms.TabPage();
-            this.tabAppointments = new System.Windows.Forms.TabControl();
-            this.tabAccepted = new System.Windows.Forms.TabPage();
-            this.tabPendingTutee = new System.Windows.Forms.TabPage();
-            this.tabPendingTutor = new System.Windows.Forms.TabPage();
-            this.tabOpen = new System.Windows.Forms.TabPage();
-            this.btnCreateSession = new System.Windows.Forms.Button();
             this.tabFaculty = new System.Windows.Forms.TabPage();
             this.txtPhoneNumber = new System.Windows.Forms.MaskedTextBox();
             this.label6 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.txtEmail = new System.Windows.Forms.TextBox();
-
             this.btnFacultyDelete = new System.Windows.Forms.Button();
             this.btnFacultyAdd = new System.Windows.Forms.Button();
             this.btnFacultyEdit = new System.Windows.Forms.Button();
@@ -74,10 +66,10 @@
             this.txtClassCode = new System.Windows.Forms.TextBox();
             this.lvClass = new System.Windows.Forms.ListView();
             this.btnLogout = new System.Windows.Forms.Button();
+            this.lblID = new System.Windows.Forms.Label();
+            this.btnStudentSchedule = new System.Windows.Forms.Button();
             this.tabAdmin.SuspendLayout();
             this.tabStudent.SuspendLayout();
-            this.tabCommitments.SuspendLayout();
-            this.tabAppointments.SuspendLayout();
             this.tabFaculty.SuspendLayout();
             this.tabClasses.SuspendLayout();
             this.SuspendLayout();
@@ -85,7 +77,6 @@
             // tabAdmin
             // 
             this.tabAdmin.Controls.Add(this.tabStudent);
-            this.tabAdmin.Controls.Add(this.tabCommitments);
             this.tabAdmin.Controls.Add(this.tabFaculty);
             this.tabAdmin.Controls.Add(this.tabClasses);
             this.tabAdmin.Location = new System.Drawing.Point(12, 39);
@@ -93,9 +84,11 @@
             this.tabAdmin.SelectedIndex = 0;
             this.tabAdmin.Size = new System.Drawing.Size(625, 398);
             this.tabAdmin.TabIndex = 0;
+            this.tabAdmin.TabIndexChanged += new System.EventHandler(this.tabAdmin_TabIndexChanged);
             // 
             // tabStudent
             // 
+            this.tabStudent.Controls.Add(this.btnStudentSchedule);
             this.tabStudent.Controls.Add(this.lvStudent);
             this.tabStudent.Controls.Add(this.btnDelete);
             this.tabStudent.Controls.Add(this.btnCreateStudent);
@@ -117,7 +110,6 @@
             this.lvStudent.UseCompatibleStateImageBehavior = false;
             this.lvStudent.View = System.Windows.Forms.View.Details;
             this.lvStudent.ItemChecked += new System.Windows.Forms.ItemCheckedEventHandler(this.lvStudent_ItemChecked);
-            this.lvStudent.SelectedIndexChanged += new System.EventHandler(this.lvStudent_SelectedIndexChanged);
             // 
             // btnDelete
             // 
@@ -149,78 +141,6 @@
             this.btnEdit.UseVisualStyleBackColor = true;
             this.btnEdit.Click += new System.EventHandler(this.btnEdit_Click);
             // 
-            // tabCommitments
-            // 
-            this.tabCommitments.Controls.Add(this.tabAppointments);
-            this.tabCommitments.Controls.Add(this.btnCreateSession);
-            this.tabCommitments.Location = new System.Drawing.Point(4, 22);
-            this.tabCommitments.Name = "tabCommitments";
-            this.tabCommitments.Padding = new System.Windows.Forms.Padding(3);
-            this.tabCommitments.Size = new System.Drawing.Size(617, 372);
-            this.tabCommitments.TabIndex = 1;
-            this.tabCommitments.Text = "Commitments";
-            this.tabCommitments.UseVisualStyleBackColor = true;
-            // 
-            // tabAppointments
-            // 
-            this.tabAppointments.Controls.Add(this.tabAccepted);
-            this.tabAppointments.Controls.Add(this.tabPendingTutee);
-            this.tabAppointments.Controls.Add(this.tabPendingTutor);
-            this.tabAppointments.Controls.Add(this.tabOpen);
-            this.tabAppointments.Location = new System.Drawing.Point(7, 7);
-            this.tabAppointments.Name = "tabAppointments";
-            this.tabAppointments.SelectedIndex = 0;
-            this.tabAppointments.Size = new System.Drawing.Size(599, 306);
-            this.tabAppointments.TabIndex = 0;
-            // 
-            // tabAccepted
-            // 
-            this.tabAccepted.Location = new System.Drawing.Point(4, 22);
-            this.tabAccepted.Name = "tabAccepted";
-            this.tabAccepted.Padding = new System.Windows.Forms.Padding(3);
-            this.tabAccepted.Size = new System.Drawing.Size(591, 280);
-            this.tabAccepted.TabIndex = 0;
-            this.tabAccepted.Text = "Accepted";
-            this.tabAccepted.UseVisualStyleBackColor = true;
-            // 
-            // tabPendingTutee
-            // 
-            this.tabPendingTutee.Location = new System.Drawing.Point(4, 22);
-            this.tabPendingTutee.Name = "tabPendingTutee";
-            this.tabPendingTutee.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPendingTutee.Size = new System.Drawing.Size(591, 280);
-            this.tabPendingTutee.TabIndex = 1;
-            this.tabPendingTutee.Text = "Pending Tutee";
-            this.tabPendingTutee.UseVisualStyleBackColor = true;
-            // 
-            // tabPendingTutor
-            // 
-            this.tabPendingTutor.Location = new System.Drawing.Point(4, 22);
-            this.tabPendingTutor.Name = "tabPendingTutor";
-            this.tabPendingTutor.Size = new System.Drawing.Size(591, 280);
-            this.tabPendingTutor.TabIndex = 2;
-            this.tabPendingTutor.Text = "Pending Tutor";
-            this.tabPendingTutor.UseVisualStyleBackColor = true;
-            // 
-            // tabOpen
-            // 
-            this.tabOpen.Location = new System.Drawing.Point(4, 22);
-            this.tabOpen.Name = "tabOpen";
-            this.tabOpen.Padding = new System.Windows.Forms.Padding(3);
-            this.tabOpen.Size = new System.Drawing.Size(591, 280);
-            this.tabOpen.TabIndex = 3;
-            this.tabOpen.Text = "Open";
-            this.tabOpen.UseVisualStyleBackColor = true;
-            // 
-            // btnCreateSession
-            // 
-            this.btnCreateSession.Location = new System.Drawing.Point(7, 319);
-            this.btnCreateSession.Name = "btnCreateSession";
-            this.btnCreateSession.Size = new System.Drawing.Size(144, 23);
-            this.btnCreateSession.TabIndex = 1;
-            this.btnCreateSession.Text = "Create Session";
-            this.btnCreateSession.UseVisualStyleBackColor = true;
-            // 
             // tabFaculty
             // 
             this.tabFaculty.Controls.Add(this.txtPhoneNumber);
@@ -248,14 +168,13 @@
             this.tabFaculty.Text = "Faculty";
             this.tabFaculty.UseVisualStyleBackColor = true;
             // 
-
             // txtPhoneNumber
             // 
             this.txtPhoneNumber.Location = new System.Drawing.Point(431, 156);
             this.txtPhoneNumber.Mask = "(999) 000-0000";
             this.txtPhoneNumber.Name = "txtPhoneNumber";
             this.txtPhoneNumber.Size = new System.Drawing.Size(100, 20);
-            this.txtPhoneNumber.TabIndex = 22;
+            this.txtPhoneNumber.TabIndex = 4;
             // 
             // label6
             // 
@@ -280,7 +199,7 @@
             this.txtEmail.Location = new System.Drawing.Point(431, 190);
             this.txtEmail.Name = "txtEmail";
             this.txtEmail.Size = new System.Drawing.Size(100, 20);
-            this.txtEmail.TabIndex = 23;
+            this.txtEmail.TabIndex = 5;
             // 
             // btnFacultyDelete
             // 
@@ -316,10 +235,9 @@
             // 
             this.combDepartments.FormattingEnabled = true;
             this.combDepartments.Location = new System.Drawing.Point(431, 221);
-
             this.combDepartments.Name = "combDepartments";
             this.combDepartments.Size = new System.Drawing.Size(159, 21);
-            this.combDepartments.TabIndex = 18;
+            this.combDepartments.TabIndex = 6;
             // 
             // label4
             // 
@@ -362,37 +280,35 @@
             this.txtPassword.Location = new System.Drawing.Point(431, 124);
             this.txtPassword.Name = "txtPassword";
             this.txtPassword.Size = new System.Drawing.Size(100, 20);
-            this.txtPassword.TabIndex = 13;
+            this.txtPassword.TabIndex = 3;
             // 
             // txtUsername
             // 
             this.txtUsername.Location = new System.Drawing.Point(431, 92);
             this.txtUsername.Name = "txtUsername";
             this.txtUsername.Size = new System.Drawing.Size(100, 20);
-            this.txtUsername.TabIndex = 12;
+            this.txtUsername.TabIndex = 2;
             // 
             // txtLastname
             // 
             this.txtLastname.Location = new System.Drawing.Point(431, 59);
             this.txtLastname.Name = "txtLastname";
             this.txtLastname.Size = new System.Drawing.Size(100, 20);
-            this.txtLastname.TabIndex = 11;
+            this.txtLastname.TabIndex = 1;
             // 
             // txtFirstname
             // 
             this.txtFirstname.Location = new System.Drawing.Point(431, 26);
             this.txtFirstname.Name = "txtFirstname";
             this.txtFirstname.Size = new System.Drawing.Size(100, 20);
-            this.txtFirstname.TabIndex = 10;
+            this.txtFirstname.TabIndex = 0;
             // 
             // lvFaculty
             // 
             this.lvFaculty.Location = new System.Drawing.Point(0, 0);
             this.lvFaculty.Name = "lvFaculty";
-
             this.lvFaculty.Size = new System.Drawing.Size(410, 372);
-
-            this.lvFaculty.TabIndex = 1;
+            this.lvFaculty.TabIndex = 100;
             this.lvFaculty.UseCompatibleStateImageBehavior = false;
             this.lvFaculty.View = System.Windows.Forms.View.Details;
             this.lvFaculty.ItemChecked += new System.Windows.Forms.ItemCheckedEventHandler(this.lvFaculty_ItemChecked);
@@ -413,9 +329,7 @@
             this.tabClasses.Location = new System.Drawing.Point(4, 22);
             this.tabClasses.Name = "tabClasses";
             this.tabClasses.Padding = new System.Windows.Forms.Padding(3);
-
             this.tabClasses.Size = new System.Drawing.Size(617, 372);
-
             this.tabClasses.TabIndex = 3;
             this.tabClasses.Text = "Classes";
             this.tabClasses.UseVisualStyleBackColor = true;
@@ -428,6 +342,7 @@
             this.btnClassDelete.TabIndex = 29;
             this.btnClassDelete.Text = "Delete Class(es)";
             this.btnClassDelete.UseVisualStyleBackColor = true;
+            this.btnClassDelete.Click += new System.EventHandler(this.btnClassDelete_Click);
             // 
             // btnClassAdd
             // 
@@ -437,6 +352,7 @@
             this.btnClassAdd.TabIndex = 27;
             this.btnClassAdd.Text = "Create New Class";
             this.btnClassAdd.UseVisualStyleBackColor = true;
+            this.btnClassAdd.Click += new System.EventHandler(this.btnClassAdd_Click);
             // 
             // btnClassEdit
             // 
@@ -446,6 +362,7 @@
             this.btnClassEdit.TabIndex = 28;
             this.btnClassEdit.Text = "Edit Class";
             this.btnClassEdit.UseVisualStyleBackColor = true;
+            this.btnClassEdit.Click += new System.EventHandler(this.btnClassEdit_Click);
             // 
             // combDepartmentsAdd
             // 
@@ -453,7 +370,8 @@
             this.combDepartmentsAdd.Location = new System.Drawing.Point(416, 107);
             this.combDepartmentsAdd.Name = "combDepartmentsAdd";
             this.combDepartmentsAdd.Size = new System.Drawing.Size(159, 21);
-            this.combDepartmentsAdd.TabIndex = 26;
+            this.combDepartmentsAdd.TabIndex = 9;
+            this.combDepartmentsAdd.DropDownClosed += new System.EventHandler(this.combDepartmentsAdd_DropDownClosed);
             // 
             // lblDepartment
             // 
@@ -488,7 +406,7 @@
             this.txtDepartment.Location = new System.Drawing.Point(416, 150);
             this.txtDepartment.Name = "txtDepartment";
             this.txtDepartment.Size = new System.Drawing.Size(100, 20);
-            this.txtDepartment.TabIndex = 21;
+            this.txtDepartment.TabIndex = 10;
             this.txtDepartment.Visible = false;
             // 
             // txtClassName
@@ -496,22 +414,20 @@
             this.txtClassName.Location = new System.Drawing.Point(416, 65);
             this.txtClassName.Name = "txtClassName";
             this.txtClassName.Size = new System.Drawing.Size(100, 20);
-            this.txtClassName.TabIndex = 19;
+            this.txtClassName.TabIndex = 8;
             // 
             // txtClassCode
             // 
             this.txtClassCode.Location = new System.Drawing.Point(416, 26);
             this.txtClassCode.Name = "txtClassCode";
             this.txtClassCode.Size = new System.Drawing.Size(100, 20);
-            this.txtClassCode.TabIndex = 18;
+            this.txtClassCode.TabIndex = 7;
             // 
             // lvClass
             // 
             this.lvClass.Location = new System.Drawing.Point(0, 0);
             this.lvClass.Name = "lvClass";
-
             this.lvClass.Size = new System.Drawing.Size(372, 372);
-
             this.lvClass.TabIndex = 1;
             this.lvClass.UseCompatibleStateImageBehavior = false;
             this.lvClass.View = System.Windows.Forms.View.Details;
@@ -527,11 +443,32 @@
             this.btnLogout.UseVisualStyleBackColor = true;
             this.btnLogout.Click += new System.EventHandler(this.btnLogout_Click);
             // 
+            // lblID
+            // 
+            this.lblID.AutoSize = true;
+            this.lblID.Location = new System.Drawing.Point(12, 10);
+            this.lblID.Name = "lblID";
+            this.lblID.Size = new System.Drawing.Size(35, 13);
+            this.lblID.TabIndex = 6;
+            this.lblID.Text = "label9";
+            this.lblID.Visible = false;
+            // 
+            // btnStudentSchedule
+            // 
+            this.btnStudentSchedule.Location = new System.Drawing.Point(415, 343);
+            this.btnStudentSchedule.Name = "btnStudentSchedule";
+            this.btnStudentSchedule.Size = new System.Drawing.Size(140, 23);
+            this.btnStudentSchedule.TabIndex = 5;
+            this.btnStudentSchedule.Text = "See and Edit Student Schedule";
+            this.btnStudentSchedule.UseVisualStyleBackColor = true;
+            this.btnStudentSchedule.Click += new System.EventHandler(this.btnStudentSchedule_Click);
+            // 
             // AdminMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(648, 449);
+            this.Controls.Add(this.lblID);
             this.Controls.Add(this.btnLogout);
             this.Controls.Add(this.tabAdmin);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -540,13 +477,12 @@
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.AdminMain_FormClosed);
             this.tabAdmin.ResumeLayout(false);
             this.tabStudent.ResumeLayout(false);
-            this.tabCommitments.ResumeLayout(false);
-            this.tabAppointments.ResumeLayout(false);
             this.tabFaculty.ResumeLayout(false);
             this.tabFaculty.PerformLayout();
             this.tabClasses.ResumeLayout(false);
             this.tabClasses.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -554,18 +490,11 @@
 
         private System.Windows.Forms.TabControl tabAdmin;
         private System.Windows.Forms.TabPage tabStudent;
-        private System.Windows.Forms.TabPage tabCommitments;
-        private System.Windows.Forms.TabControl tabAppointments;
-        private System.Windows.Forms.TabPage tabAccepted;
-        private System.Windows.Forms.TabPage tabPendingTutee;
-        private System.Windows.Forms.TabPage tabPendingTutor;
-        private System.Windows.Forms.Button btnCreateSession;
         private System.Windows.Forms.Button btnCreateStudent;
         private System.Windows.Forms.Button btnEdit;
         private System.Windows.Forms.Button btnDelete;
         private System.Windows.Forms.Button btnLogout;
         private System.Windows.Forms.ListView lvStudent;
-        private System.Windows.Forms.TabPage tabOpen;
         private System.Windows.Forms.TabPage tabFaculty;
         private System.Windows.Forms.TabPage tabClasses;
         private System.Windows.Forms.ListView lvFaculty;
@@ -596,5 +525,7 @@
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.TextBox txtEmail;
+        private System.Windows.Forms.Label lblID;
+        private System.Windows.Forms.Button btnStudentSchedule;
     }
 }

@@ -11,15 +11,33 @@ namespace TutorMaster
 {
     public partial class AdminMain : Form
     {
+        Button btnFacSave = new Button();
+        Button btnFacCancel = new Button();
+        Button btnClassSave = new Button();
+        Button btnClassCancel = new Button();
+
         public AdminMain()
         {
-            InitializeComponent();
+            InitializeComponent(); 
 
             setupStudentLV();
             setupFacultyLV();
             setupClassLV();
             setupDepartmentBoxes();
+            setupHiddenButtons();
             disableButtons();
+        }
+
+        private void tabAdmin_TabIndexChanged(object sender, EventArgs e)
+        {
+            unsetEditFacultyControls();
+            unsetEditClassControls();
+            setupDepartmentBoxes();
+        }
+
+        private void AdminMain_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            //System.Windows.Forms.Application.Exit();
         }
 
         private void setupStudentLV() //This is what populates the box of students
@@ -99,6 +117,9 @@ namespace TutorMaster
 
         private void setupDepartmentBoxes()
         {
+            combDepartments.Items.Clear();
+            combDepartmentsAdd.Items.Clear();
+
             TutorMasterDBEntities4 db = new TutorMasterDBEntities4();
             var classes = from r in db.Classes select r;
             HashSet<String> departments = new HashSet<String>();
@@ -128,6 +149,49 @@ namespace TutorMaster
             combDepartmentsAdd.DropDownStyle = ComboBoxStyle.DropDownList;
         }
 
+        private void setupHiddenButtons()
+        {
+            btnFacSave.Left = 446;
+            btnFacSave.Top = 256;
+            btnFacSave.Width = 130;
+            btnFacSave.Height = 23;
+            btnFacSave.Text = "Save Changes";
+            btnFacSave.Click += new EventHandler(btnFacSave_Click);
+
+            btnFacCancel.Left = 446;
+            btnFacCancel.Top = 287;
+            btnFacCancel.Width = 130;
+            btnFacCancel.Height = 23;
+            btnFacCancel.Text = "Cancel Changes";
+            btnFacCancel.Click += new EventHandler(btnFacCancel_Click);
+
+            tabFaculty.Controls.Add(btnFacSave);
+            tabFaculty.Controls.Add(btnFacCancel);
+
+            btnClassSave.Left = 434;
+            btnClassSave.Top = 237;
+            btnClassSave.Width = 130;
+            btnClassSave.Height = 23;
+            btnClassSave.Text = "Save Changes";
+            btnClassSave.Click += new EventHandler(btnClassSave_Click);
+
+            btnClassCancel.Left = 434;
+            btnClassCancel.Top = 266;
+            btnClassCancel.Width = 130;
+            btnClassCancel.Height = 23;
+            btnClassCancel.Text = "Cancel Changes";
+            btnClassCancel.Click += new EventHandler(btnClassCancel_Click);
+
+            tabClasses.Controls.Add(btnClassSave);
+            tabClasses.Controls.Add(btnClassCancel);
+
+            btnFacSave.Hide();
+            btnFacCancel.Hide();
+
+            btnClassSave.Hide();
+            btnClassCancel.Hide();
+        }
+
         private void disableButtons()
         {
             btnDelete.Enabled = false;
@@ -148,9 +212,176 @@ namespace TutorMaster
             this.Close();
         }
 
-        private void AdminMain_FormClosed(object sender, FormClosedEventArgs e)
+        private void btnFacSave_Click(object sender, EventArgs e)
         {
-            //System.Windows.Forms.Application.Exit();
+            TutorMasterDBEntities4 db = new TutorMasterDBEntities4();
+            Int32 id = Int32.Parse(lblID.Text.ToString());
+
+            var fac = (from r in db.Users where r.ID == id select r).First();
+            var facU = (from r in db.Faculties where r.ID == id select r).First();
+
+            string fname = txtFirstname.Text;
+            string lname = txtLastname.Text;
+            string username = txtUsername.Text;
+            string password = txtPassword.Text;
+            string phone = txtPhoneNumber.Text;
+            string email = txtEmail.Text;
+            string department = combDepartments.Text;
+
+            if (string.IsNullOrEmpty(fname) || string.IsNullOrWhiteSpace(lname) ||
+                string.IsNullOrWhiteSpace(username) || string.IsNullOrWhiteSpace(password) ||
+                    department == "Department...")
+            {
+                MessageBox.Show("Please fill in all of the textboxes with the approriate information");
+            }
+            else if (!validateInfo(email, phone))
+            {
+                MessageBox.Show("Please put in a valid email address and phone number");
+            }
+            else if (!uniqueUsername(username) && !(username == fac.Username))
+            {
+                MessageBox.Show("Username is already taken. Please pick another one.");
+            }
+            else
+            {
+                fac.FirstName = fname;
+                fac.LastName = lname;
+                fac.Username = username;
+                fac.Password = password;
+                fac.PhoneNumber = phone;
+                fac.Email = email;
+                facU.Department = department;
+
+                txtFirstname.Text = "";
+                txtLastname.Text = "";
+                txtUsername.Text = "";
+                txtPassword.Text = "";
+                txtPhoneNumber.Text = "";
+                txtEmail.Text = "";
+                lblID.Text = "";
+
+                db.SaveChanges();
+
+                unsetEditFacultyControls();
+                
+            }
+
+        }
+
+        private void btnFacCancel_Click(object sender, EventArgs e)
+        {
+            unsetEditFacultyControls();
+
+            txtFirstname.Text = "";
+            txtLastname.Text = "";
+            txtUsername.Text = "";
+            txtPassword.Text = "";
+            txtPhoneNumber.Text = "";
+            txtEmail.Text = "";
+            lblID.Text = "";
+        }
+
+        private void btnClassSave_Click(object sender, EventArgs e)
+        {
+            TutorMasterDBEntities4 db = new TutorMasterDBEntities4();
+            String code = lblID.Text.ToString();
+
+            var cla = (from r in db.Classes where r.ClassCode == code select r).First();
+
+            string classCode = txtClassCode.Text.ToString();
+            string className = txtClassName.Text.ToString();
+            int classSelection = combDepartmentsAdd.SelectedIndex;
+
+            if (classSelection == combDepartmentsAdd.Items.Count - 1)
+            {
+                string classDepartment = txtDepartment.Text.ToString();
+                if (string.IsNullOrEmpty(classCode) || string.IsNullOrEmpty(className)
+                    || string.IsNullOrEmpty(classDepartment))
+                {
+                    MessageBox.Show("Please fill in all of the textboxes with the approriate information");
+                }
+                else if (!uniqueClassCode(classCode) && !(classCode == cla.ClassCode))
+                {
+                    MessageBox.Show("Class Code is already taken. Please pick another one.");
+                }
+                else if (!uniqueClassName(className) && !(className == cla.ClassName))
+                {
+                    MessageBox.Show("Class Name is already taken. Please pick another one.");
+                }
+                else
+                {
+                    cla.ClassCode = classCode;
+                    cla.ClassName = className;
+                    cla.Department = classDepartment;
+
+                    txtClassCode.Text = "";
+                    txtClassName.Text = "";
+                    combDepartmentsAdd.SelectedIndex = 0;
+                    txtDepartment.Hide();
+                    lblDepartment.Hide();
+
+                    MessageBox.Show("Class has been edited in the database");
+
+                    setupDepartmentBoxes();
+
+                    db.SaveChanges();
+
+                    unsetEditClassControls();
+                }
+            }
+            else
+            {
+                string classDepartment = combDepartmentsAdd.Items[classSelection].ToString();
+                if (string.IsNullOrEmpty(classCode) || string.IsNullOrEmpty(className)
+                    || classDepartment == "Department...")
+                {
+                    MessageBox.Show("Please fill in all of the textboxes with the approriate information");
+                }
+                else if (!uniqueClassCode(classCode) && !(classCode == cla.ClassCode))
+                {
+                    MessageBox.Show("Class Code is already taken. Please pick another one.");
+                    if (!(classCode == cla.ClassCode))
+                    {
+                        MessageBox.Show("AHH");
+                    }
+                }
+                else if (!uniqueClassName(className) && !(className == cla.ClassName))
+                {
+                    MessageBox.Show("Class Name is already taken. Please pick another one.");
+                }
+                else
+                {
+                    cla.ClassCode = classCode;
+                    cla.ClassName = className;
+                    cla.Department = classDepartment;
+
+                    txtClassCode.Text = "";
+                    txtClassName.Text = "";
+                    combDepartmentsAdd.SelectedIndex = 0;
+                    txtDepartment.Hide();
+                    lblDepartment.Hide();
+
+                    MessageBox.Show("Class has been edited in the database");
+
+                    db.SaveChanges();
+
+                    unsetEditClassControls();
+                }
+            }
+
+            lvClass.Clear();
+            setupClassLV();
+        }
+
+        private void btnClassCancel_Click(object sender, EventArgs e)
+        {
+            unsetEditClassControls();
+
+            txtClassCode.Text = "";
+            txtClassName.Text = "";
+            combDepartmentsAdd.SelectedIndex = 0;
+            txtDepartment.Hide();
+            lblDepartment.Hide();
         }
 
         private void lvStudent_ItemChecked(object sender, ItemCheckedEventArgs e) //This function determines when certain buttons should be activated or deativated
@@ -172,37 +403,6 @@ namespace TutorMaster
             {
                 btnDelete.Enabled = false;
             }
-        }
-
-        private void btnEdit_Click(object sender, EventArgs e)
-        {
-            TutorMasterDBEntities4 db = new TutorMasterDBEntities4();
-            string username = lvStudent.CheckedItems[0].Text.ToString();
-            int studentID = (from row in db.Users where row.Username == username select row.ID).First();
-            EditStudentForm g = new EditStudentForm(studentID);
-            g.Show();
-            this.Close();
-        }
-
-        private void btnDelete_Click(object sender, EventArgs e)
-        {
-            TutorMasterDBEntities4 db = new TutorMasterDBEntities4();
-            int stuNum = lvStudent.CheckedItems.Count;
-            for (int i = 0; i < stuNum; i++)
-            {
-                string username = lvStudent.CheckedItems[i].SubItems[0].Text;
-                User delU = (from row in db.Users where row.Username == username select row).First();
-                db.Users.DeleteObject(delU);
-                db.SaveChanges();
-            }
-
-            lvStudent.Clear();
-            setupStudentLV();
-        }
-
-        private void lvStudent_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
         }
 
         private void lvFaculty_ItemChecked(object sender, ItemCheckedEventArgs e)
@@ -245,6 +445,32 @@ namespace TutorMaster
             {
                 btnClassDelete.Enabled = false;
             }
+        }
+
+        private void btnEdit_Click(object sender, EventArgs e)
+        {
+            TutorMasterDBEntities4 db = new TutorMasterDBEntities4();
+            string username = lvStudent.CheckedItems[0].Text.ToString();
+            int studentID = (from row in db.Users where row.Username == username select row.ID).First();
+            EditStudentForm g = new EditStudentForm(studentID);
+            g.Show();
+            this.Close();
+        }
+
+        private void btnDelete_Click(object sender, EventArgs e)
+        {
+            TutorMasterDBEntities4 db = new TutorMasterDBEntities4();
+            int stuNum = lvStudent.CheckedItems.Count;
+            for (int i = 0; i < stuNum; i++)
+            {
+                string username = lvStudent.CheckedItems[i].SubItems[0].Text;
+                User delU = (from row in db.Users where row.Username == username select row).First();
+                db.Users.DeleteObject(delU);
+                db.SaveChanges();
+            }
+
+            lvStudent.Clear();
+            setupStudentLV();
         }
 
         private void btnFacultyAdd_Click(object sender, EventArgs e)
@@ -306,6 +532,174 @@ namespace TutorMaster
             setupFacultyLV();
         }
 
+        private void btnFacultyDelete_Click(object sender, EventArgs e)
+        {
+            TutorMasterDBEntities4 db = new TutorMasterDBEntities4();
+            int facNum = lvFaculty.CheckedItems.Count;
+            for (int i = 0; i < facNum; i++)
+            {
+                string username = lvFaculty.CheckedItems[i].SubItems[0].Text;
+                User delU = (from row in db.Users where row.Username == username select row).First();
+                db.Users.DeleteObject(delU);
+                db.SaveChanges();
+            }
+
+            lvFaculty.Clear();
+            setupFacultyLV();
+        }
+
+        private void btnFacultyEdit_Click(object sender, EventArgs e)
+        {
+            setEditFacultyControls();
+            TutorMasterDBEntities4 db = new TutorMasterDBEntities4();
+            string username = lvFaculty.CheckedItems[0].SubItems[0].Text;
+            var fac = (from row in db.Users where row.Username == username select row).First();
+
+            txtFirstname.Text = fac.FirstName;
+            txtLastname.Text = fac.LastName;
+            txtUsername.Text = username;
+            txtPassword.Text = fac.Password;
+            txtPhoneNumber.Text = fac.PhoneNumber; 
+            txtEmail.Text = fac.Email;
+            lblID.Text = fac.ID.ToString();
+
+            String department = (from row in db.Faculties where row.ID == fac.ID select row.Department).First();
+            combDepartments.SelectedItem = department;
+
+      
+            //combDepartments.SelectedItem = combDepartments.Items[0];
+                
+        }
+
+        private void btnClassDelete_Click(object sender, EventArgs e)
+        {
+            TutorMasterDBEntities4 db = new TutorMasterDBEntities4();
+            int clNum = lvClass.CheckedItems.Count;
+            for (int i = 0; i < clNum; i++)
+            {
+                string classCode = lvClass.CheckedItems[i].SubItems[0].Text;
+                Class delC = (from row in db.Classes where row.ClassCode == classCode select row).First();
+                db.Classes.DeleteObject(delC);
+                db.SaveChanges();
+            }
+
+            lvClass.Clear();
+            setupClassLV();
+        }
+
+        private void combDepartmentsAdd_DropDownClosed(object sender, EventArgs e)
+        {
+            if (combDepartmentsAdd.SelectedIndex == combDepartmentsAdd.Items.Count-1)
+            {
+                txtDepartment.Show();
+                lblDepartment.Show();
+            }
+            else
+            {
+                txtDepartment.Hide();
+                lblDepartment.Hide();
+            }
+        }
+
+        private void btnClassAdd_Click(object sender, EventArgs e)
+        {
+            string classCode = txtClassCode.Text.ToString();
+            string className = txtClassName.Text.ToString();
+            int classSelection = combDepartmentsAdd.SelectedIndex;
+
+            if (classSelection == combDepartmentsAdd.Items.Count - 1)
+            {
+                string classDepartment = txtDepartment.Text.ToString();
+                if (string.IsNullOrEmpty(classCode) || string.IsNullOrEmpty(className)
+                    || string.IsNullOrEmpty(classDepartment))
+                {
+                    MessageBox.Show("Please fill in all of the textboxes with the approriate information");
+                }
+                else if (!uniqueClassCode(classCode))
+                {
+                    MessageBox.Show("Class Code is already taken. Please pick another one.");
+                }
+                else if (!uniqueClassName(className))
+                {
+                    MessageBox.Show("Class Name is already taken. Please pick another one.");
+                }
+                else
+                {
+                    TutorMaster.Class newClass = new TutorMaster.Class();
+                    newClass.ClassCode = classCode;
+                    newClass.ClassName = className;
+                    newClass.Department = classDepartment;
+                    addClass(newClass);
+
+                    txtClassCode.Text = "";
+                    txtClassName.Text = "";
+                    combDepartmentsAdd.SelectedIndex = 0;
+                    txtDepartment.Hide();
+                    lblDepartment.Hide();
+
+                    MessageBox.Show("Class has been added to the database");
+
+                    setupDepartmentBoxes();
+                }
+            }
+            else
+            {
+                string classDepartment = combDepartmentsAdd.Items[classSelection].ToString();
+                if (string.IsNullOrEmpty(classCode) || string.IsNullOrEmpty(className)
+                    || string.IsNullOrEmpty(classDepartment))
+                {
+                    MessageBox.Show("Please fill in all of the textboxes with the approriate information");
+                }
+                else if (!uniqueClassCode(classCode))
+                {
+                    MessageBox.Show("Class Code is already taken. Please pick another one.");
+                }
+                else if (!uniqueClassName(className))
+                {
+                    MessageBox.Show("Class Name is already taken. Please pick another one.");
+                }
+                else
+                {
+                    TutorMaster.Class newClass = new TutorMaster.Class();
+                    newClass.ClassCode = classCode;
+                    newClass.ClassName = className;
+                    newClass.Department = classDepartment;
+                    addClass(newClass);
+
+                    txtClassCode.Text = "";
+                    txtClassName.Text = "";
+                    combDepartmentsAdd.SelectedIndex = 0;
+                    txtDepartment.Hide();
+                    lblDepartment.Hide();
+
+                    MessageBox.Show("Class has been added to the database");
+                }
+            }
+
+            lvClass.Clear();
+            setupClassLV();
+        }
+
+        private void btnClassEdit_Click(object sender, EventArgs e)
+        {
+            setEditClassControls();
+            TutorMasterDBEntities4 db = new TutorMasterDBEntities4();
+            string classCode = lvClass.CheckedItems[0].SubItems[0].Text;
+            var cl = (from row in db.Classes where row.ClassCode == classCode select row).First();
+
+            txtClassCode.Text = cl.ClassCode.ToString();
+            txtClassName.Text = cl.ClassName.ToString();
+            combDepartmentsAdd.SelectedText = cl.Department.ToString();
+            lblID.Text = classCode;
+        }
+
+        private void btnStudentSchedule_Click(object sender, EventArgs e)
+        {
+            AdminSeeSchedule g = new AdminSeeSchedule();
+            g.Show();
+            this.Close();
+        }
+
         private void addUser(TutorMaster.User user)
         {
             TutorMasterDBEntities4 db = new TutorMasterDBEntities4();
@@ -317,6 +711,13 @@ namespace TutorMaster
         {
             TutorMasterDBEntities4 db = new TutorMasterDBEntities4();
             db.Faculties.AddObject(faculty);
+            db.SaveChanges();
+        }
+
+        private void addClass(TutorMaster.Class cl)
+        {
+            TutorMasterDBEntities4 db = new TutorMasterDBEntities4();
+            db.Classes.AddObject(cl);
             db.SaveChanges();
         }
 
@@ -336,6 +737,18 @@ namespace TutorMaster
             return (!db.Users.Any(u => u.Username == username));
         }
 
+        private bool uniqueClassCode(string classCode)
+        {
+            TutorMasterDBEntities4 db = new TutorMasterDBEntities4();
+            return (!db.Classes.Any(c => c.ClassCode == classCode));
+        }
+
+        private bool uniqueClassName(string className)
+        {
+            TutorMasterDBEntities4 db = new TutorMasterDBEntities4();
+            return (!db.Classes.Any(c => c.ClassName == className));
+        }
+
         private int getNextID()
         {
             TutorMasterDBEntities4 db = new TutorMasterDBEntities4();
@@ -345,41 +758,44 @@ namespace TutorMaster
             return lastRow + 1;
         }
 
-        private void btnFacultyDelete_Click(object sender, EventArgs e)
+        private void setEditFacultyControls()
         {
-            TutorMasterDBEntities4 db = new TutorMasterDBEntities4();
-            int facNum = lvFaculty.CheckedItems.Count;
-            for (int i = 0; i < facNum; i++)
-            {
-                string username = lvFaculty.CheckedItems[i].SubItems[0].Text;
-                User delU = (from row in db.Users where row.Username == username select row).First();
-                db.Users.DeleteObject(delU);
-                db.SaveChanges();
-            }
+            btnFacultyAdd.Hide();
+            btnFacultyDelete.Hide();
+            btnFacultyEdit.Hide();
 
-            lvFaculty.Clear();
-            setupFacultyLV();
+            btnFacSave.Show();
+            btnFacCancel.Show();
         }
 
-        private void btnFacultyEdit_Click(object sender, EventArgs e)
+        private void unsetEditFacultyControls()
         {
-            //setEditFacultyControls();
-            TutorMasterDBEntities4 db = new TutorMasterDBEntities4();
-            string username = lvFaculty.CheckedItems[0].SubItems[0].Text;
-            var fac = (from row in db.Users where row.Username == username select row).First();
+            btnFacultyAdd.Show();
+            btnFacultyDelete.Show();
+            btnFacultyEdit.Show();
 
-            txtFirstname.Text = fac.FirstName;
-            txtLastname.Text = fac.LastName;
-            txtUsername.Text = username;
-            txtPassword.Text = fac.Password;
-            txtPhoneNumber.Text = fac.PhoneNumber; 
-            txtEmail.Text = fac.Email;
+            btnFacSave.Hide();
+            btnFacCancel.Hide();
+        }
 
-            var department = (from row in db.Faculties where row.ID == fac.ID select row.Department).First();
+        private void setEditClassControls()
+        {
+            btnClassAdd.Hide();
+            btnClassDelete.Hide();
+            btnClassEdit.Hide();
 
-      
-            //combDepartments.SelectedItem = combDepartments.Items[0];
-                
+            btnClassSave.Show();
+            btnClassCancel.Show();
+        }
+
+        private void unsetEditClassControls()
+        {
+            btnClassAdd.Show();
+            btnClassDelete.Show();
+            btnClassEdit.Show();
+
+            btnClassSave.Hide();
+            btnClassCancel.Hide();
         }
     }
 }
