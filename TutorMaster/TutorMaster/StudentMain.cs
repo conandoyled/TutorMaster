@@ -1563,6 +1563,14 @@ namespace TutorMaster
                 btnAcceptAddLoc.Enabled = false;
                 btnRejectTutor.Enabled = true;
             }
+            else if (itemsChecked1 > 0 && itemsChecked2 == 0)
+            {
+                btnAcceptAddLoc.Enabled = true;
+            }
+            if (itemsChecked1 == 0 && itemsChecked2 == 0)
+            {
+                btnRejectTutor.Enabled = false;
+            }
 
         }
 
@@ -1576,16 +1584,24 @@ namespace TutorMaster
             }
             else if (itemsChecked1 + itemsChecked2 > 0)
             {
-                btnRejectTutor.Enabled = false;
+                btnRejectTutor.Enabled = true;
             }
             else
             {
-                btnRejectTutor.Enabled = false;
+                btnRejectTutor.Enabled = true;
             }
             if (itemsChecked1 > 0 && itemsChecked2 > 0)
             {
                 btnAcceptAddLoc.Enabled = false;
                 btnRejectTutor.Enabled = true;
+            }
+            else if (itemsChecked1 > 0 && itemsChecked2 == 0)
+            {
+                btnAcceptAddLoc.Enabled = true;
+            }
+            if (itemsChecked1 == 0 && itemsChecked2 == 0)
+            {
+                btnRejectTutor.Enabled = false;
             }
         }
 
@@ -1599,20 +1615,27 @@ namespace TutorMaster
             }
             else if (itemsChecked1 + itemsChecked2 > 0)
             {
-                btnRejectTutee.Enabled = false;
+                btnFinalize.Enabled = true;
+                btnRejectTutee.Enabled = true;
             }
             else
             {
-                btnRejectTutee.Enabled = false;
+                btnRejectTutee.Enabled = true;
             }
+            
             if (itemsChecked1 > 0 && itemsChecked2 > 0)
             {
-                btnAcceptAddLoc.Enabled = false;
+                btnFinalize.Enabled = false;
                 btnRejectTutee.Enabled = true;
             }
             else if (itemsChecked1 > 0 && itemsChecked2 == 0)
             {
                 btnFinalize.Enabled = true;
+            }
+            
+            if (itemsChecked1 == 0 && itemsChecked2 == 0)
+            {
+                btnRejectTutee.Enabled = false;
             }
 
         }
@@ -1643,6 +1666,11 @@ namespace TutorMaster
             else if (itemsChecked1 > 0 && itemsChecked2 == 0)
             {
                 btnFinalize.Enabled = true;
+            }
+
+            if (itemsChecked1 == 0 && itemsChecked2 == 0)
+            {
+                btnRejectTutee.Enabled = false;
             }
         }
 
