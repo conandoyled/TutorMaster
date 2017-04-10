@@ -91,6 +91,7 @@
             this.label6 = new System.Windows.Forms.Label();
             this.lvPendingTutee = new System.Windows.Forms.ListView();
             this.label10 = new System.Windows.Forms.Label();
+            this.btnRemoveAvail = new System.Windows.Forms.Button();
             this.dayTabs.SuspendLayout();
             this.tabSunday.SuspendLayout();
             this.tabMonday.SuspendLayout();
@@ -597,8 +598,9 @@
             this.btnCancelFinalized.Name = "btnCancelFinalized";
             this.btnCancelFinalized.Size = new System.Drawing.Size(177, 23);
             this.btnCancelFinalized.TabIndex = 17;
-            this.btnCancelFinalized.Text = "Cancel Appopintment(s)";
+            this.btnCancelFinalized.Text = "Cancel Appointment(s)";
             this.btnCancelFinalized.UseVisualStyleBackColor = true;
+            this.btnCancelFinalized.Click += new System.EventHandler(this.btnCancelFinalized_Click);
             // 
             // lvFinalized
             // 
@@ -608,6 +610,7 @@
             this.lvFinalized.TabIndex = 16;
             this.lvFinalized.UseCompatibleStateImageBehavior = false;
             this.lvFinalized.View = System.Windows.Forms.View.Details;
+            this.lvFinalized.ColumnWidthChanging += new System.Windows.Forms.ColumnWidthChangingEventHandler(this.lvFinalized_ColumnWidthChanging);
             this.lvFinalized.ItemChecked += new System.Windows.Forms.ItemCheckedEventHandler(this.lvFinalized_ItemChecked);
             // 
             // tabPendingTutor
@@ -645,6 +648,7 @@
             this.btnRejectTutor.TabIndex = 22;
             this.btnRejectTutor.Text = "Reject/Delete Appointment(s)";
             this.btnRejectTutor.UseVisualStyleBackColor = true;
+            this.btnRejectTutor.Click += new System.EventHandler(this.btnRejectTutor_Click);
             // 
             // btnAcceptAddLoc
             // 
@@ -654,6 +658,7 @@
             this.btnAcceptAddLoc.TabIndex = 21;
             this.btnAcceptAddLoc.Text = "Accept/Add Location";
             this.btnAcceptAddLoc.UseVisualStyleBackColor = true;
+            this.btnAcceptAddLoc.Click += new System.EventHandler(this.btnAcceptAddLoc_Click);
             // 
             // label4
             // 
@@ -681,7 +686,8 @@
             this.lvPendingTutor.TabIndex = 18;
             this.lvPendingTutor.UseCompatibleStateImageBehavior = false;
             this.lvPendingTutor.View = System.Windows.Forms.View.Details;
-            this.lvPendingTutor.ItemChecked += new System.Windows.Forms.ItemCheckedEventHandler(this.lvTutor_ItemChecked);
+            this.lvPendingTutor.ColumnWidthChanging += new System.Windows.Forms.ColumnWidthChangingEventHandler(this.lvPendingTutor_ColumnWidthChanging);
+            this.lvPendingTutor.ItemChecked += new System.Windows.Forms.ItemCheckedEventHandler(this.lvPendingTutor_ItemChecked);
             // 
             // lvTutor
             // 
@@ -691,7 +697,8 @@
             this.lvTutor.TabIndex = 17;
             this.lvTutor.UseCompatibleStateImageBehavior = false;
             this.lvTutor.View = System.Windows.Forms.View.Details;
-            this.lvTutor.ItemChecked += new System.Windows.Forms.ItemCheckedEventHandler(this.lvTutor_ItemChecked);
+            this.lvTutor.ColumnWidthChanging += new System.Windows.Forms.ColumnWidthChangingEventHandler(this.lvTutor_ColumnWidthChanging);
+            this.lvTutor.ItemChecked += new System.Windows.Forms.ItemCheckedEventHandler(this.lvTutor_ItemChecked_2);
             // 
             // tabPendingTutee
             // 
@@ -727,6 +734,7 @@
             this.btnRejectTutee.TabIndex = 25;
             this.btnRejectTutee.Text = "Reject/Delete Appointment(s)";
             this.btnRejectTutee.UseVisualStyleBackColor = true;
+            this.btnRejectTutee.Click += new System.EventHandler(this.btnRejectTutee_Click);
             // 
             // btnFinalize
             // 
@@ -736,6 +744,7 @@
             this.btnFinalize.TabIndex = 24;
             this.btnFinalize.Text = "Accept Appointment(s)";
             this.btnFinalize.UseVisualStyleBackColor = true;
+            this.btnFinalize.Click += new System.EventHandler(this.btnFinalize_Click);
             // 
             // label5
             // 
@@ -754,7 +763,8 @@
             this.lvTutee.TabIndex = 22;
             this.lvTutee.UseCompatibleStateImageBehavior = false;
             this.lvTutee.View = System.Windows.Forms.View.Details;
-            this.lvTutee.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.lvTutee_ItemCheck);
+            this.lvTutee.ColumnWidthChanging += new System.Windows.Forms.ColumnWidthChangingEventHandler(this.lvTutee_ColumnWidthChanging);
+            this.lvTutee.ItemChecked += new System.Windows.Forms.ItemCheckedEventHandler(this.lvTutee_ItemChecked);
             // 
             // label6
             // 
@@ -767,13 +777,14 @@
             // 
             // lvPendingTutee
             // 
-            this.lvPendingTutee.Location = new System.Drawing.Point(0, 190);
+            this.lvPendingTutee.Location = new System.Drawing.Point(-8, 188);
             this.lvPendingTutee.Name = "lvPendingTutee";
             this.lvPendingTutee.Size = new System.Drawing.Size(699, 140);
             this.lvPendingTutee.TabIndex = 18;
             this.lvPendingTutee.UseCompatibleStateImageBehavior = false;
             this.lvPendingTutee.View = System.Windows.Forms.View.Details;
-            this.lvPendingTutee.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.lvTutee_ItemCheck);
+            this.lvPendingTutee.ColumnWidthChanging += new System.Windows.Forms.ColumnWidthChangingEventHandler(this.lvPendingTutee_ColumnWidthChanging);
+            this.lvPendingTutee.ItemChecked += new System.Windows.Forms.ItemCheckedEventHandler(this.lvPendingTutee_ItemChecked);
             // 
             // label10
             // 
@@ -784,11 +795,22 @@
             this.label10.TabIndex = 15;
             this.label10.Text = "Date to load schedule a week out from";
             // 
+            // btnRemoveAvail
+            // 
+            this.btnRemoveAvail.Location = new System.Drawing.Point(736, 144);
+            this.btnRemoveAvail.Name = "btnRemoveAvail";
+            this.btnRemoveAvail.Size = new System.Drawing.Size(197, 23);
+            this.btnRemoveAvail.TabIndex = 16;
+            this.btnRemoveAvail.Text = "Remove Availability";
+            this.btnRemoveAvail.UseVisualStyleBackColor = true;
+            this.btnRemoveAvail.Click += new System.EventHandler(this.btnRemoveAvail_Click);
+            // 
             // StudentMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(948, 441);
+            this.Controls.Add(this.btnRemoveAvail);
             this.Controls.Add(this.label10);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.weekStartDateTime);
@@ -891,5 +913,6 @@
         private System.Windows.Forms.Button btnDeselect3;
         private System.Windows.Forms.Button btnRejectTutee;
         private System.Windows.Forms.Button btnFinalize;
+        private System.Windows.Forms.Button btnRemoveAvail;
     }
 }
