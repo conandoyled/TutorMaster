@@ -83,6 +83,9 @@ namespace TutorMaster
 
                     int sessionLength = Convert.ToInt32(combHours.Text) * 4 + (Convert.ToInt32(combMins.Text) / 15);
 
+                    QuickSort(ref tuteeCommits, tuteeCommits.Count());
+                    
+                    checkMax(ref tuteeCommits);
 
                     removeNotOpens(ref tuteeCommits, start, weekly);
 
@@ -92,8 +95,6 @@ namespace TutorMaster
                     }
                     else
                     {
-                        QuickSort(ref tuteeCommits, tuteeCommits.Count());
-
                         List<string> tuteeValidSlots = getValidSlots(ref tuteeCommits, sessionLength);
 
                         bool done = false;
@@ -111,9 +112,13 @@ namespace TutorMaster
                                                                              join cmt in db.Commitments.AsEnumerable() on stucmt.CmtID equals cmt.CmtID
                                                                              select cmt).ToList();
                                 
+                                QuickSort(ref tutorCommits, tutorCommits.Count());
+
+                                checkMax(ref tutorCommits);
+
                                 removeNotOpens(ref tutorCommits, start, weekly);
                                 
-                                QuickSort(ref tutorCommits, tutorCommits.Count());
+                                
                                 //MessageBox.Show(tuteeCommits.Count().ToString());
                                 List<string> tutorValidSlots = getValidSlots(ref tutorCommits, sessionLength);
 
@@ -159,7 +164,7 @@ namespace TutorMaster
         {
             if (weekly)
             {
-                for (int i = 0; i < cmtList.Count(); i++)
+                for (int i = 0; i < cmtList.Count() - 1; i++)
                 {
                     if (!isOpen(cmtList[i]) || DateTime.Compare(start, Convert.ToDateTime(cmtList[i].StartTime)) > 0 || cmtList[i].Weekly != weekly)
                     {
@@ -170,7 +175,7 @@ namespace TutorMaster
             }
             else
             {
-                for (int i = 0; i < cmtList.Count(); i++)
+                for (int i = 0; i < cmtList.Count() - 1; i++)
                 {
                     if (!isOpen(cmtList[i]) || DateTime.Compare(start, Convert.ToDateTime(cmtList[i].StartTime)) > 0)
                     {
@@ -180,7 +185,41 @@ namespace TutorMaster
                 }
             }
         }
- 
+
+        private void checkMax(ref List<TutorMaster.Commitment> cmtList)
+        {
+            int consec = 1;
+            
+            for (int i = 0; i < cmtList.Count()-1; i++)
+            {
+                DateTime currentCommit = Convert.ToDateTime(cmtList[i].StartTime);
+                DateTime nextCommit = Convert.ToDateTime(cmtList[i + 1].StartTime);
+
+                if (consec > 11)
+                {
+                    MessageBox.Show(cmtList[i + 1].StartTime.ToString());
+                    cmtList.Remove(cmtList[i + 1]);
+                    i--;
+                    consec = 1;
+                }
+                if (DateTime.Compare(currentCommit.AddMinutes(15), nextCommit) == 0 && sameCategory(cmtList[i], cmtList[i + 1]) && !isOpen(cmtList[i]))
+                {
+                    consec++;
+                }
+                else
+                {
+                    consec = 1;
+                }
+            }
+        }
+
+        private bool sameCategory(TutorMaster.Commitment commitFirst, TutorMaster.Commitment commitSecond)      //ask if the 15 minute time block of the first has the same values as the second
+        {
+            return (commitFirst.Class == commitSecond.Class && commitFirst.Location == commitSecond.Location
+                    && commitFirst.Open == commitSecond.Open && commitFirst.Weekly == commitSecond.Weekly
+                    && commitFirst.ID == commitSecond.ID);
+        }
+
         private bool isOpen(TutorMaster.Commitment commit)
         {
             return (commit.Class == "-" && commit.Location == "-" && commit.Open == true && commit.Tutoring == false && commit.ID == -1);
