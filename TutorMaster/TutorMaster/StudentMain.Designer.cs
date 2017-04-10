@@ -174,6 +174,7 @@
             this.lvSunday.TabIndex = 0;
             this.lvSunday.UseCompatibleStateImageBehavior = false;
             this.lvSunday.View = System.Windows.Forms.View.Details;
+            this.lvSunday.ItemChecked += new System.Windows.Forms.ItemCheckedEventHandler(this.lvSunday_ItemChecked);
             // 
             // tabMonday
             // 

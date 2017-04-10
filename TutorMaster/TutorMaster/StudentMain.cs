@@ -1536,7 +1536,42 @@ namespace TutorMaster
 
         private void btnRemoveAvail_Click(object sender, EventArgs e)
         {
+            List<string> removeList = loadItemsForRemoval();
+        }
 
+        private List<string> loadItemsForRemoval()
+        {
+            List<string> itemsSunday = new List<string>();
+            List<string> itemsMonday = new List<string>();
+            List<string> itemsTuesday = new List<string>();
+            List<string> itemsWednesday = new List<string>();
+            List<string> itemsThursday = new List<string>();
+            List<string> itemsFriday = new List<string>();
+            List<string> itemsSaturday = new List<string>();
+
+            for (int i = 0; i < lvSunday.CheckedItems.Count; i++)
+            {
+                DateTime f = getSundayDate(lvSunday.CheckedItems[i].SubItems[0].ToString());
+                string slot = lvSunday.CheckedItems[i].SubItems[0].ToString() + ",";
+            }
+
+            List<string> all = new List<string>();
+
+            return all;
+        }
+
+        private DateTime getSundayDate(string startTime)
+        {
+            List<string> months = new List<string>() {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
+
+            string monthDay = lblSunday.Text.Split(',')[1];
+            for (int n = 0; n < months.Count(); n++)
+            {
+                if(
+            }
+            string year = lblSunday.Text.Split(',')[2];
+            DateTime result = new DateTime();
+            return result;
         }
 
         private void lvPendingTutor_ItemChecked(object sender, ItemCheckedEventArgs e)
@@ -1671,6 +1706,29 @@ namespace TutorMaster
             if (itemsChecked1 == 0 && itemsChecked2 == 0)
             {
                 btnRejectTutee.Enabled = false;
+            }
+        }
+
+        private void lvSunday_ItemChecked(object sender, ItemCheckedEventArgs e)
+        {
+            int itemsChecked = lvSunday.CheckedItems.Count;
+            bool allOpen = true;
+            for (int i = 0; i < itemsChecked; i++)
+            {
+                string yesNo = lvSunday.CheckedItems[i].SubItems[4].ToString();
+                if (yesNo == "No")
+                {
+                    allOpen = false;
+                }
+            }
+
+            if (allOpen)
+            {
+                btnRemoveAvail.Enabled = true;
+            }
+            else
+            {
+                btnRemoveAvail.Enabled = false;
             }
         }
 
