@@ -1551,8 +1551,10 @@ namespace TutorMaster
 
             for (int i = 0; i < lvSunday.CheckedItems.Count; i++)
             {
-                DateTime f = getSundayDate(lvSunday.CheckedItems[i].SubItems[0].ToString());
-                string slot = lvSunday.CheckedItems[i].SubItems[0].ToString() + ",";
+                DateTime startDate = getSundayDate(lvSunday.CheckedItems[i].SubItems[0].ToString());
+                DateTime endDate = getSundayDate(lvSunday.CheckedItems[i].SubItems[1].ToString());
+                string slot = startDate.ToString() + "," + endDate.ToString();
+                itemsSunday.Add(slot);
             }
 
             List<string> all = new List<string>();
@@ -1562,15 +1564,40 @@ namespace TutorMaster
 
         private DateTime getSundayDate(string startTime)
         {
-            List<string> months = new List<string>() {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
+            
+            int year = Convert.ToInt32(lblSunday.Text.Split(',')[2]);
+            
+            List<string> monthsList = new List<string>() {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
 
             string monthDay = lblSunday.Text.Split(',')[1];
-            for (int n = 0; n < months.Count(); n++)
+            string month = monthDay.Split(' ')[0];
+            int monthInt = 0;
+            for (int n = 0; n < monthsList.Count(); n++)
             {
-                if(
+                if (month == monthsList[n])
+                {
+                    monthInt = n;
+                    break;
+                }
             }
-            string year = lblSunday.Text.Split(',')[2];
-            DateTime result = new DateTime();
+
+            
+            int day = Convert.ToInt32(monthDay.Split(' ')[1]);
+
+            int hour = Convert.ToInt32(startTime.Split(':')[0]);
+            int min = Convert.ToInt32(startTime.Split(':')[1]);
+            string amPm = startTime.Split(' ')[1];
+
+            if (amPm == "PM" && hour != 12)
+            {
+                hour += 12;
+            }
+            else if (amPm == "AM" && hour == 12)
+            {
+                hour = 0;
+            }
+
+            DateTime result = new DateTime(year, monthInt, day, hour, min ,0);
             return result;
         }
 
