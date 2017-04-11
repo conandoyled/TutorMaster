@@ -1537,40 +1537,118 @@ namespace TutorMaster
         private void btnRemoveAvail_Click(object sender, EventArgs e)
         {
             List<string> removeList = loadItemsForRemoval();
+            for (int i = 0; i < removeList.Count; i++)
+            {
+                MessageBox.Show(removeList[i]);
+            }
         }
 
         private List<string> loadItemsForRemoval()
         {
-            List<string> itemsSunday = new List<string>();
-            List<string> itemsMonday = new List<string>();
-            List<string> itemsTuesday = new List<string>();
-            List<string> itemsWednesday = new List<string>();
-            List<string> itemsThursday = new List<string>();
-            List<string> itemsFriday = new List<string>();
-            List<string> itemsSaturday = new List<string>();
-
-            for (int i = 0; i < lvSunday.CheckedItems.Count; i++)
-            {
-                DateTime startDate = getSundayDate(lvSunday.CheckedItems[i].SubItems[0].ToString());
-                DateTime endDate = getSundayDate(lvSunday.CheckedItems[i].SubItems[1].ToString());
-                string slot = startDate.ToString() + "," + endDate.ToString();
-                itemsSunday.Add(slot);
-            }
+            //List<string> itemsSunday = new List<string>();
+            //List<string> itemsMonday = new List<string>();
+            //List<string> itemsTuesday = new List<string>();
+            //List<string> itemsWednesday = new List<string>();
+            //List<string> itemsThursday = new List<string>();
+            //List<string> itemsFriday = new List<string>();
+            //List<string> itemsSaturday = new List<string>();
 
             List<string> all = new List<string>();
+            
+            for (int i = 0; i < lvSunday.CheckedItems.Count; i++)
+            {
+                DateTime startDate = getDate("Sunday", lvSunday.CheckedItems[i].SubItems[0].Text.ToString());
+                DateTime endDate = getDate("Sunday", lvSunday.CheckedItems[i].SubItems[1].Text.ToString());
+                string slot = startDate.ToString() + "," + endDate.ToString();
+                all.Add(slot);
+            }
+            
+            for (int n = 0; n < lvMonday.CheckedItems.Count; n++)
+            {
+                DateTime startDate = getDate("Monday", lvMonday.CheckedItems[n].SubItems[0].Text.ToString());
+                DateTime endDate = getDate("Monday", lvMonday.CheckedItems[n].SubItems[1].Text.ToString());
+                string slot = startDate.ToString() + "," + endDate.ToString();
+                all.Add(slot);
+            }
+
+            for (int f = 0; f < lvTuesday.CheckedItems.Count; f++)
+            {
+                DateTime startDate = getDate("Tuesday", lvTuesday.CheckedItems[f].SubItems[0].Text.ToString());
+                DateTime endDate = getDate("Tuesday", lvTuesday.CheckedItems[f].SubItems[1].Text.ToString());
+                string slot = startDate.ToString() + "," + endDate.ToString();
+                all.Add(slot);
+            }
+
+            for (int j = 0; j < lvWednesday.CheckedItems.Count; j++)
+            {
+                DateTime startDate = getDate("Wednesday", lvWednesday.CheckedItems[j].SubItems[0].Text.ToString());
+                DateTime endDate = getDate("Wednesday", lvWednesday.CheckedItems[j].SubItems[1].Text.ToString());
+                string slot = startDate.ToString() + "," + endDate.ToString();
+                all.Add(slot);
+            }
+
+            for (int g = 0; g < lvThursday.CheckedItems.Count; g++)
+            {
+                DateTime startDate = getDate("Thursday", lvThursday.CheckedItems[g].SubItems[0].Text.ToString());
+                DateTime endDate = getDate("Thursday", lvThursday.CheckedItems[g].SubItems[1].Text.ToString());
+                string slot = startDate.ToString() + "," + endDate.ToString();
+                all.Add(slot);
+            }
+
+            for (int p = 0; p < lvFriday.CheckedItems.Count; p++)
+            {
+                DateTime startDate = getDate("Friday", lvFriday.CheckedItems[p].SubItems[0].Text.ToString());
+                DateTime endDate = getDate("Friday", lvFriday.CheckedItems[p].SubItems[1].Text.ToString());
+                string slot = startDate.ToString() + "," + endDate.ToString();
+                all.Add(slot);
+            }
+
+            for (int q = 0; q < lvSaturday.CheckedItems.Count; q++)
+            {
+                DateTime startDate = getDate("Saturday", lvFriday.CheckedItems[q].SubItems[0].Text.ToString());
+                DateTime endDate = getDate("Saturday", lvFriday.CheckedItems[q].SubItems[1].Text.ToString());
+                string slot = startDate.ToString() + "," + endDate.ToString();
+                all.Add(slot);
+            }
 
             return all;
         }
 
-        private DateTime getSundayDate(string startTime)
+        private DateTime getDate(string dayOfWeek, string startTime)
         {
-            
-            int year = Convert.ToInt32(lblSunday.Text.Split(',')[2]);
+            string monthDay = "";
+
+            switch (dayOfWeek)
+            {
+                case "Sunday":
+                    monthDay = lblSunday.Text.Split(',')[1];
+                    break;
+                case "Monday":
+                    monthDay = lblMonday.Text.Split(',')[1];
+                    break;
+                case "Tuesday":
+                    monthDay = lblTuesday.Text.Split(',')[1];
+                    break;
+                case "Wednesday":
+                    monthDay = lblWednesday.Text.Split(',')[1];
+                    break;
+                case "Thursday":
+                    monthDay = lblThursday.Text.Split(',')[1];
+                    break;
+                case "Friday":
+                    monthDay = lblFriday.Text.Split(',')[1];
+                    break;
+                case "Saturday":
+                    monthDay = lblSaturday.Text.Split(',')[1];
+                    break;
+            }
+
+            int year = 2017;
             
             List<string> monthsList = new List<string>() {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
 
-            string monthDay = lblSunday.Text.Split(',')[1];
-            string month = monthDay.Split(' ')[0];
+            
+            string month = monthDay.Split(' ')[1];
             int monthInt = 0;
             for (int n = 0; n < monthsList.Count(); n++)
             {
@@ -1580,9 +1658,8 @@ namespace TutorMaster
                     break;
                 }
             }
+            int day = Convert.ToInt32(monthDay.Split(' ')[2]);
 
-            
-            int day = Convert.ToInt32(monthDay.Split(' ')[1]);
 
             int hour = Convert.ToInt32(startTime.Split(':')[0]);
             int min = Convert.ToInt32(startTime.Split(':')[1]);
