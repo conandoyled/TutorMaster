@@ -81,7 +81,9 @@ namespace TutorMaster
             {
                 if (BinarySearch(searchList, Convert.ToDateTime(cmtList[i].StartTime)))
                 {
-                    MessageBox.Show("Found");
+                    
+                    db.Commitments.DeleteObject(cmtList[i]);
+                    db.SaveChanges();
                 }
             }
         }
