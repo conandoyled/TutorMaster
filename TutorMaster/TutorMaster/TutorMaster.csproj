@@ -114,6 +114,12 @@
     <Compile Include="ProposeLocationForm.Designer.cs">
       <DependentUpon>ProposeLocationForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="RemoveAvailForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="RemoveAvailForm.Designer.cs">
+      <DependentUpon>RemoveAvailForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="RequestForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -155,6 +161,9 @@
     </Compile>
     <EmbeddedResource Include="ProposeLocationForm.resx">
       <DependentUpon>ProposeLocationForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="RemoveAvailForm.resx">
+      <DependentUpon>RemoveAvailForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="RequestForm.resx">
       <DependentUpon>RequestForm.cs</DependentUpon>

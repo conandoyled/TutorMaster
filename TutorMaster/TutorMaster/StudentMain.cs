@@ -1536,22 +1536,18 @@ namespace TutorMaster
 
         private void btnRemoveAvail_Click(object sender, EventArgs e)
         {
+            TutorMasterDBEntities4 db = new TutorMasterDBEntities4();
+
             List<string> removeList = loadItemsForRemoval();
-            for (int i = 0; i < removeList.Count; i++)
-            {
-                MessageBox.Show(removeList[i]);
-            }
+            //MessageBox.Show(removeList[0]);
+
+            RemoveAvailForm g = new RemoveAvailForm(id, removeList);
+            g.Show();
+            this.Close();
         }
 
         private List<string> loadItemsForRemoval()
         {
-            //List<string> itemsSunday = new List<string>();
-            //List<string> itemsMonday = new List<string>();
-            //List<string> itemsTuesday = new List<string>();
-            //List<string> itemsWednesday = new List<string>();
-            //List<string> itemsThursday = new List<string>();
-            //List<string> itemsFriday = new List<string>();
-            //List<string> itemsSaturday = new List<string>();
 
             List<string> all = new List<string>();
             
@@ -1559,7 +1555,7 @@ namespace TutorMaster
             {
                 DateTime startDate = getDate("Sunday", lvSunday.CheckedItems[i].SubItems[0].Text.ToString());
                 DateTime endDate = getDate("Sunday", lvSunday.CheckedItems[i].SubItems[1].Text.ToString());
-                string slot = startDate.ToString() + "," + endDate.ToString();
+                string slot = startDate.ToString() + "," + endDate.ToString() + "," + lvSunday.CheckedItems[i].SubItems[6].Text.ToString(); ;
                 all.Add(slot);
             }
             
@@ -1567,7 +1563,7 @@ namespace TutorMaster
             {
                 DateTime startDate = getDate("Monday", lvMonday.CheckedItems[n].SubItems[0].Text.ToString());
                 DateTime endDate = getDate("Monday", lvMonday.CheckedItems[n].SubItems[1].Text.ToString());
-                string slot = startDate.ToString() + "," + endDate.ToString();
+                string slot = startDate.ToString() + "," + endDate.ToString() + "," + lvMonday.CheckedItems[n].SubItems[6].Text.ToString(); ;
                 all.Add(slot);
             }
 
@@ -1575,7 +1571,7 @@ namespace TutorMaster
             {
                 DateTime startDate = getDate("Tuesday", lvTuesday.CheckedItems[f].SubItems[0].Text.ToString());
                 DateTime endDate = getDate("Tuesday", lvTuesday.CheckedItems[f].SubItems[1].Text.ToString());
-                string slot = startDate.ToString() + "," + endDate.ToString();
+                string slot = startDate.ToString() + "," + endDate.ToString() + "," + lvTuesday.CheckedItems[f].SubItems[6].Text.ToString(); ;
                 all.Add(slot);
             }
 
@@ -1583,7 +1579,7 @@ namespace TutorMaster
             {
                 DateTime startDate = getDate("Wednesday", lvWednesday.CheckedItems[j].SubItems[0].Text.ToString());
                 DateTime endDate = getDate("Wednesday", lvWednesday.CheckedItems[j].SubItems[1].Text.ToString());
-                string slot = startDate.ToString() + "," + endDate.ToString();
+                string slot = startDate.ToString() + "," + endDate.ToString() + "," + lvWednesday.CheckedItems[j].SubItems[6].Text.ToString(); ;
                 all.Add(slot);
             }
 
@@ -1591,7 +1587,7 @@ namespace TutorMaster
             {
                 DateTime startDate = getDate("Thursday", lvThursday.CheckedItems[g].SubItems[0].Text.ToString());
                 DateTime endDate = getDate("Thursday", lvThursday.CheckedItems[g].SubItems[1].Text.ToString());
-                string slot = startDate.ToString() + "," + endDate.ToString();
+                string slot = startDate.ToString() + "," + endDate.ToString() + "," + lvThursday.CheckedItems[g].SubItems[6].Text.ToString(); ;
                 all.Add(slot);
             }
 
@@ -1599,7 +1595,7 @@ namespace TutorMaster
             {
                 DateTime startDate = getDate("Friday", lvFriday.CheckedItems[p].SubItems[0].Text.ToString());
                 DateTime endDate = getDate("Friday", lvFriday.CheckedItems[p].SubItems[1].Text.ToString());
-                string slot = startDate.ToString() + "," + endDate.ToString();
+                string slot = startDate.ToString() + "," + endDate.ToString() + "," + lvFriday.CheckedItems[p].SubItems[6].Text.ToString();
                 all.Add(slot);
             }
 
@@ -1607,7 +1603,7 @@ namespace TutorMaster
             {
                 DateTime startDate = getDate("Saturday", lvFriday.CheckedItems[q].SubItems[0].Text.ToString());
                 DateTime endDate = getDate("Saturday", lvFriday.CheckedItems[q].SubItems[1].Text.ToString());
-                string slot = startDate.ToString() + "," + endDate.ToString();
+                string slot = startDate.ToString() + "," + endDate.ToString() + "," + lvSaturday.CheckedItems[q].SubItems[6].Text.ToString(); ;
                 all.Add(slot);
             }
 
