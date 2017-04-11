@@ -1654,7 +1654,7 @@ namespace TutorMaster
             {
                 if (month == monthsList[n])
                 {
-                    monthInt = n;
+                    monthInt = n+1;
                     break;
                 }
             }
