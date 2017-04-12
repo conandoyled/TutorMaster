@@ -80,7 +80,46 @@ namespace TutorMaster
             for (int i = 0; i < cmtList.Count(); i++)
             {
                 if (BinarySearch(searchList, Convert.ToDateTime(cmtList[i].StartTime)))
-                {       
+                {
+                    if (cmtList[i].Weekly == true)
+                    {
+
+                        DateTime startSemes = new DateTime(2017, 1, 1, 0, 0, 0);
+                        DateTime weekBack = Convert.ToDateTime(cmtList[i].StartTime).AddDays(-7);
+                        while (DateTime.Compare(startSemes, weekBack) <= 0)
+                        {
+                            bool found = false;
+                            int first = 0;
+                            int last = cmtList.Count() - 1;
+                            while (first <= last && !found)
+                            {
+                                int midpoint = (first + last) / 2;
+                                if (DateTime.Compare(Convert.ToDateTime(cmtList[midpoint].StartTime), weekBack) == 0)
+                                {
+                                    if (cmtList[midpoint].Open == true)
+                                    {
+                                        //MessageBox.Show(tuteeCmtList[midpoint].StartTime.ToString());
+                                        cmtList[midpoint].Weekly = false;
+                                        //MessageBox.Show(tuteeCmtList[midpoint].Weekly.ToString());
+                                        db.SaveChanges();
+                                    }
+                                    found = true;
+                                }
+                                else
+                                {
+                                    if (DateTime.Compare(weekBack, Convert.ToDateTime(cmtList[midpoint].StartTime)) < 0)
+                                    {
+                                        last = midpoint - 1;
+                                    }
+                                    else
+                                    {
+                                        first = midpoint + 1;
+                                    }
+                                }
+                            }
+                            weekBack = weekBack.AddDays(-7);
+                        }
+                    }
                     db.Commitments.DeleteObject(cmtList[i]);
                     db.SaveChanges();
                 }
