@@ -31,6 +31,8 @@
             this.lvTimeSlots = new System.Windows.Forms.ListView();
             this.btnCancel = new System.Windows.Forms.Button();
             this.btnRemove = new System.Windows.Forms.Button();
+            this.btnSelectAll = new System.Windows.Forms.Button();
+            this.btnDeselectAll = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // lvTimeSlots
@@ -54,7 +56,7 @@
             // 
             // btnRemove
             // 
-            this.btnRemove.Location = new System.Drawing.Point(327, 313);
+            this.btnRemove.Location = new System.Drawing.Point(336, 313);
             this.btnRemove.Name = "btnRemove";
             this.btnRemove.Size = new System.Drawing.Size(75, 23);
             this.btnRemove.TabIndex = 2;
@@ -62,11 +64,33 @@
             this.btnRemove.UseVisualStyleBackColor = true;
             this.btnRemove.Click += new System.EventHandler(this.btnRemove_Click);
             // 
+            // btnSelectAll
+            // 
+            this.btnSelectAll.Location = new System.Drawing.Point(117, 313);
+            this.btnSelectAll.Name = "btnSelectAll";
+            this.btnSelectAll.Size = new System.Drawing.Size(75, 23);
+            this.btnSelectAll.TabIndex = 3;
+            this.btnSelectAll.Text = "Select All";
+            this.btnSelectAll.UseVisualStyleBackColor = true;
+            this.btnSelectAll.Click += new System.EventHandler(this.btnSelectAll_Click);
+            // 
+            // btnDeselectAll
+            // 
+            this.btnDeselectAll.Location = new System.Drawing.Point(255, 313);
+            this.btnDeselectAll.Name = "btnDeselectAll";
+            this.btnDeselectAll.Size = new System.Drawing.Size(75, 23);
+            this.btnDeselectAll.TabIndex = 4;
+            this.btnDeselectAll.Text = "Deselect All";
+            this.btnDeselectAll.UseVisualStyleBackColor = true;
+            this.btnDeselectAll.Click += new System.EventHandler(this.btnDeselectAll_Click);
+            // 
             // RemoveAvailForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(482, 370);
+            this.Controls.Add(this.btnDeselectAll);
+            this.Controls.Add(this.btnSelectAll);
             this.Controls.Add(this.btnRemove);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.lvTimeSlots);
@@ -81,5 +105,7 @@
         private System.Windows.Forms.ListView lvTimeSlots;
         private System.Windows.Forms.Button btnCancel;
         private System.Windows.Forms.Button btnRemove;
+        private System.Windows.Forms.Button btnSelectAll;
+        private System.Windows.Forms.Button btnDeselectAll;
     }
 }

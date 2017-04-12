@@ -144,6 +144,7 @@
             this.dayTabs.SelectedIndex = 0;
             this.dayTabs.Size = new System.Drawing.Size(685, 316);
             this.dayTabs.TabIndex = 9;
+            this.dayTabs.Selected += new System.Windows.Forms.TabControlEventHandler(this.dayTabs_Selected);
             // 
             // tabSunday
             // 
@@ -205,6 +206,7 @@
             this.lvMonday.TabIndex = 1;
             this.lvMonday.UseCompatibleStateImageBehavior = false;
             this.lvMonday.View = System.Windows.Forms.View.Details;
+            this.lvMonday.ItemChecked += new System.Windows.Forms.ItemCheckedEventHandler(this.lvMonday_ItemChecked);
             // 
             // tabTuesday
             // 
@@ -234,6 +236,7 @@
             this.lvTuesday.TabIndex = 1;
             this.lvTuesday.UseCompatibleStateImageBehavior = false;
             this.lvTuesday.View = System.Windows.Forms.View.Details;
+            this.lvTuesday.ItemChecked += new System.Windows.Forms.ItemCheckedEventHandler(this.lvTuesday_ItemChecked);
             // 
             // tabWednesday
             // 
@@ -263,6 +266,7 @@
             this.lvWednesday.TabIndex = 1;
             this.lvWednesday.UseCompatibleStateImageBehavior = false;
             this.lvWednesday.View = System.Windows.Forms.View.Details;
+            this.lvWednesday.ItemChecked += new System.Windows.Forms.ItemCheckedEventHandler(this.lvWednesday_ItemChecked);
             // 
             // tabThursday
             // 
@@ -292,6 +296,7 @@
             this.lvThursday.TabIndex = 1;
             this.lvThursday.UseCompatibleStateImageBehavior = false;
             this.lvThursday.View = System.Windows.Forms.View.Details;
+            this.lvThursday.ItemChecked += new System.Windows.Forms.ItemCheckedEventHandler(this.lvThursday_ItemChecked);
             // 
             // tabFriday
             // 
@@ -321,6 +326,7 @@
             this.lvFriday.TabIndex = 1;
             this.lvFriday.UseCompatibleStateImageBehavior = false;
             this.lvFriday.View = System.Windows.Forms.View.Details;
+            this.lvFriday.ItemChecked += new System.Windows.Forms.ItemCheckedEventHandler(this.lvFriday_ItemChecked);
             // 
             // tabSaturday
             // 
@@ -350,6 +356,7 @@
             this.lvSaturday.TabIndex = 1;
             this.lvSaturday.UseCompatibleStateImageBehavior = false;
             this.lvSaturday.View = System.Windows.Forms.View.Details;
+            this.lvSaturday.ItemChecked += new System.Windows.Forms.ItemCheckedEventHandler(this.lvSaturday_ItemChecked);
             // 
             // label2
             // 
@@ -569,6 +576,7 @@
             this.tabControl2.Size = new System.Drawing.Size(707, 393);
             this.tabControl2.TabIndex = 0;
             this.tabControl2.Selecting += new System.Windows.Forms.TabControlCancelEventHandler(this.btnDeselect1_Click);
+            this.tabControl2.Selected += new System.Windows.Forms.TabControlEventHandler(this.tabControl2_Selected);
             // 
             // tabAccepted
             // 

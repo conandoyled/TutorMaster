@@ -80,15 +80,24 @@ namespace TutorMaster
             for (int i = 0; i < cmtList.Count(); i++)
             {
                 if (BinarySearch(searchList, Convert.ToDateTime(cmtList[i].StartTime)))
-                {
-                    
+                {       
                     db.Commitments.DeleteObject(cmtList[i]);
                     db.SaveChanges();
                 }
             }
+
+            for (int c = 0; c < lvTimeSlots.CheckedItems.Count; c++)
+            {
+                lvTimeSlots.CheckedItems[c].Remove();
+                c--;
+            }
+
+            StudentMain g = new StudentMain(id);
+            g.Show();
+            this.Close();
         }
 
-       
+
 
         private bool BinarySearch(List<DateTime> cmtList, DateTime commit)
         {
@@ -240,6 +249,22 @@ namespace TutorMaster
             StudentMain g = new StudentMain(id);
             g.Show();
             this.Close();
+        }
+
+        private void btnDeselectAll_Click(object sender, EventArgs e)
+        {
+            for(int i = 0; i < lvTimeSlots.Items.Count; i++)
+            {
+                lvTimeSlots.Items[i].Checked = false;
+            }
+        }
+
+        private void btnSelectAll_Click(object sender, EventArgs e)
+        {
+            for(int i = 0; i < lvTimeSlots.Items.Count; i++)
+            {
+                lvTimeSlots.Items[i].Checked = true;
+            }
         }
 
     }

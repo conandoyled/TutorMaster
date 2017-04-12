@@ -166,7 +166,29 @@ namespace TutorMaster
 
         private bool sameCategory(TutorMaster.Commitment commitFirst, TutorMaster.Commitment commitSecond)      //ask if the 15 minute time block of the first has the same values as the second
         {
-            return (commitFirst.Class == commitSecond.Class && commitFirst.Location == commitSecond.Location
+            string class1;
+            string class2;
+
+            if (commitFirst.Class == "@")
+            {
+                class1 = "-";
+            }
+            else
+            {
+                class1 = commitFirst.Class;
+            }
+            
+            if (commitSecond.Class == "@")
+            {
+                class2 = "-";
+            }
+            else
+            {
+                class2 = commitSecond.Class;
+            }
+
+
+            return (class1 == class2 && commitFirst.Location == commitSecond.Location
                     && commitFirst.Open == commitSecond.Open && commitFirst.Weekly == commitSecond.Weekly
                     && commitFirst.ID == commitSecond.ID);
         }
@@ -202,6 +224,10 @@ namespace TutorMaster
             if(commit.Class.Contains('!'))                                                                 //if commit has ! point in its class, print everything but the !
             {
                 commit.Class = commit.Class.Substring(0, commit.Class.Length-1);
+            }
+            else if (commit.Class == "@")
+            {
+                commit.Class = "-";
             }
             switch (day)
             {
@@ -990,6 +1016,7 @@ namespace TutorMaster
             btnRejectTutor.Enabled = false;
             btnFinalize.Enabled = false;
             btnRejectTutee.Enabled = false;
+            btnRemoveAvail.Enabled = false;
         }
 
         private void btnMakeRequest_Click(object sender, EventArgs e) //display the request form
@@ -1818,23 +1845,277 @@ namespace TutorMaster
         {
             
             int itemsChecked = lvSunday.CheckedItems.Count;
-            bool allOpen = true;
-            for (int i = 0; i < itemsChecked; i++)
+            if (itemsChecked == 0)
             {
-                string yesNo = lvSunday.CheckedItems[i].SubItems[4].Text.ToString();
-                if (yesNo == "No")
-                {
-                    allOpen = false;
-                }
-            }
-
-            if (allOpen)
-            {
-                btnRemoveAvail.Enabled = true;
+                btnRemoveAvail.Enabled = false;
             }
             else
             {
+                bool allOpen = true;
+                for (int i = 0; i < itemsChecked; i++)
+                {
+                    string yesNo = lvSunday.CheckedItems[i].SubItems[4].Text.ToString();
+                    if (yesNo == "No")
+                    {
+                        allOpen = false;
+                    }
+                }
+
+                if (allOpen)
+                {
+                    btnRemoveAvail.Enabled = true;
+                }
+                else
+                {
+                    btnRemoveAvail.Enabled = false;
+                }
+            }
+        }
+
+        private void lvMonday_ItemChecked(object sender, ItemCheckedEventArgs e)
+        {
+            int itemsChecked = lvMonday.CheckedItems.Count;
+            bool allOpen = true;
+            if (itemsChecked == 0)
+            {
                 btnRemoveAvail.Enabled = false;
+            }
+            else
+            {
+                for (int i = 0; i < itemsChecked; i++)
+                {
+                    string yesNo = lvMonday.CheckedItems[i].SubItems[4].Text.ToString();
+                    if (yesNo == "No")
+                    {
+                        allOpen = false;
+                    }
+                }
+
+                if (allOpen)
+                {
+                    btnRemoveAvail.Enabled = true;
+                }
+                else
+                {
+                    btnRemoveAvail.Enabled = false;
+                }
+            }
+        }
+
+        private void lvTuesday_ItemChecked(object sender, ItemCheckedEventArgs e)
+        {
+            int itemsChecked = lvTuesday.CheckedItems.Count;
+            if (itemsChecked == 0)
+            {
+                btnRemoveAvail.Enabled = false;
+            }
+            else
+            {
+                bool allOpen = true;
+                for (int i = 0; i < itemsChecked; i++)
+                {
+                    string yesNo = lvTuesday.CheckedItems[i].SubItems[4].Text.ToString();
+                    if (yesNo == "No")
+                    {
+                        allOpen = false;
+                    }
+                }
+
+                if (allOpen)
+                {
+                    btnRemoveAvail.Enabled = true;
+                }
+                else
+                {
+                    btnRemoveAvail.Enabled = false;
+                }
+            }
+        }
+
+        private void lvWednesday_ItemChecked(object sender, ItemCheckedEventArgs e)
+        {
+            int itemsChecked = lvWednesday.CheckedItems.Count;
+            if (itemsChecked == 0)
+            {
+                btnRemoveAvail.Enabled = false;
+            }
+            else
+            {
+                bool allOpen = true;
+                for (int i = 0; i < itemsChecked; i++)
+                {
+                    string yesNo = lvWednesday.CheckedItems[i].SubItems[4].Text.ToString();
+                    if (yesNo == "No")
+                    {
+                        allOpen = false;
+                    }
+                }
+
+                if (allOpen)
+                {
+                    btnRemoveAvail.Enabled = true;
+                }
+                else
+                {
+                    btnRemoveAvail.Enabled = false;
+                }
+            }
+        }
+
+        private void lvThursday_ItemChecked(object sender, ItemCheckedEventArgs e)
+        {
+            int itemsChecked = lvThursday.CheckedItems.Count;
+            if (itemsChecked == 0)
+            {
+                btnRemoveAvail.Enabled = false;
+            }
+            else
+            {
+                bool allOpen = true;
+                for (int i = 0; i < itemsChecked; i++)
+                {
+                    string yesNo = lvThursday.CheckedItems[i].SubItems[4].Text.ToString();
+                    if (yesNo == "No")
+                    {
+                        allOpen = false;
+                    }
+                }
+
+                if (allOpen)
+                {
+                    btnRemoveAvail.Enabled = true;
+                }
+                else
+                {
+                    btnRemoveAvail.Enabled = false;
+                }
+            }
+        }
+
+        private void lvFriday_ItemChecked(object sender, ItemCheckedEventArgs e)
+        {
+            int itemsChecked = lvFriday.CheckedItems.Count;
+            if (itemsChecked == 0)
+            {
+                btnRemoveAvail.Enabled = false;
+            }
+            else
+            {
+                bool allOpen = true;
+                for (int i = 0; i < itemsChecked; i++)
+                {
+                    string yesNo = lvFriday.CheckedItems[i].SubItems[4].Text.ToString();
+                    if (yesNo == "No")
+                    {
+                        allOpen = false;
+                    }
+                }
+
+                if (allOpen)
+                {
+                    btnRemoveAvail.Enabled = true;
+                }
+                else
+                {
+                    btnRemoveAvail.Enabled = false;
+                }
+            }
+        }
+
+        private void lvSaturday_ItemChecked(object sender, ItemCheckedEventArgs e)
+        {
+            int itemsChecked = lvSaturday.CheckedItems.Count;
+            if (itemsChecked == 0)
+            {
+                btnRemoveAvail.Enabled = false;
+            }
+            else
+            {
+                bool allOpen = true;
+                for (int i = 0; i < itemsChecked; i++)
+                {
+                    string yesNo = lvSaturday.CheckedItems[i].SubItems[4].Text.ToString();
+                    if (yesNo == "No")
+                    {
+                        allOpen = false;
+                    }
+                }
+
+                if (allOpen)
+                {
+                    btnRemoveAvail.Enabled = true;
+                }
+                else
+                {
+                    btnRemoveAvail.Enabled = false;
+                }
+            }
+        }
+
+        private void dayTabs_Selected(object sender, TabControlEventArgs e)
+        {
+            for (int i = 0; i < lvSunday.CheckedItems.Count; i++)
+            {
+                lvSunday.CheckedItems[i].Checked = false;
+            }
+            
+            for (int n = 0; n < lvMonday.CheckedItems.Count; n++)
+            {
+                lvMonday.CheckedItems[n].Checked = false;
+            }
+           
+            for (int f = 0; f < lvTuesday.CheckedItems.Count; f++)
+            {
+                lvTuesday.CheckedItems[f].Checked = false;
+            }
+            
+            for (int j = 0; j < lvWednesday.CheckedItems.Count; j++)
+            {
+                lvWednesday.CheckedItems[j].Checked = false;
+            }
+
+            for (int c = 0; c < lvThursday.CheckedItems.Count; c++)
+            {
+                lvThursday.CheckedItems[c].Checked = false;
+            }
+
+            for (int t = 0; t < lvFriday.CheckedItems.Count; t++)
+            {
+                lvFriday.CheckedItems[t].Checked = false;
+            }
+
+            for (int a = 0; a < lvSaturday.CheckedItems.Count; a++)
+            {
+                lvSaturday.CheckedItems[a].Checked = false;
+            }
+            btnRemoveAvail.Enabled = false;
+        }
+
+        private void tabControl2_Selected(object sender, TabControlEventArgs e)
+        {
+            for (int i = 0; i < lvTutor.CheckedItems.Count; i++)
+            {
+                lvTutor.CheckedItems[i].Checked = false;
+            }
+            
+            for (int n = 0; n < lvPendingTutor.CheckedItems.Count; n++)
+            {
+                lvPendingTutor.CheckedItems[n].Checked = false;
+            }
+
+            for (int f = 0; f < lvTutee.CheckedItems.Count; f++)
+            {
+                lvTutee.CheckedItems[f].Checked = false;
+            }
+
+            for (int j = 0; j < lvPendingTutee.CheckedItems.Count; j++)
+            {
+                lvPendingTutee.CheckedItems[j].Checked = false;
+            }
+
+            for (int c = 0; c < lvFinalized.CheckedItems.Count; c++)
+            {
+                lvFinalized.CheckedItems[c].Checked = false;
             }
         }
 
