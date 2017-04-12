@@ -1185,11 +1185,11 @@ namespace TutorMaster
                                     int midpoint = (first + last) / 2;
                                     if (DateTime.Compare(Convert.ToDateTime(tutorCmtList[midpoint].StartTime), weekBack) == 0)
                                     {
-                                        if (tutorCmtList[midpoint].Open == true)
+                                        if (tutorCmtList[midpoint].Open == true || sameCategory(tutorCmtList[c], tutorCmtList[midpoint]))
                                         {
-                                            MessageBox.Show(tutorCmtList[midpoint].StartTime.ToString());
+                                            //MessageBox.Show(tutorCmtList[midpoint].StartTime.ToString());
                                             tutorCmtList[midpoint].Weekly = false;
-                                            MessageBox.Show(tutorCmtList[midpoint].Weekly.ToString());
+                                            //MessageBox.Show(tutorCmtList[midpoint].Weekly.ToString());
                                             db.SaveChanges();
                                         }
                                         found = true;
@@ -1246,11 +1246,11 @@ namespace TutorMaster
                                     int midpoint = (first + last) / 2;
                                     if (DateTime.Compare(Convert.ToDateTime(tuteeCmtList[midpoint].StartTime), weekBack) == 0)
                                     {
-                                        if (tuteeCmtList[midpoint].Open == true)
+                                        if (tuteeCmtList[midpoint].Open == true || sameCategory(tuteeCmtList[m], tuteeCmtList[midpoint]))
                                         {
-                                            MessageBox.Show(tuteeCmtList[midpoint].StartTime.ToString());
+                                            //MessageBox.Show(tuteeCmtList[midpoint].StartTime.ToString());
                                             tuteeCmtList[midpoint].Weekly = false;
-                                            MessageBox.Show(tuteeCmtList[midpoint].Weekly.ToString());
+                                            //MessageBox.Show(tuteeCmtList[midpoint].Weekly.ToString());
                                             db.SaveChanges();
                                         }
                                         found = true;
@@ -1363,6 +1363,44 @@ namespace TutorMaster
                 {
                     if (DateTime.Compare(startDate, Convert.ToDateTime(stdCmtList[c].StartTime)) <= 0 && DateTime.Compare(endDate, Convert.ToDateTime(stdCmtList[c].StartTime)) > 0)
                     {
+                        if (stdCmtList[c].Weekly == true)
+                        {
+                            DateTime startSemes = new DateTime(2017, 1, 1, 0, 0, 0);
+                            DateTime weekBack = Convert.ToDateTime(stdCmtList[c].StartTime).AddDays(-7);
+                            while (DateTime.Compare(startSemes, weekBack) <= 0)
+                            {
+                                bool found = false;
+                                int first = 0;
+                                int last = stdCmtList.Count() - 1;
+                                while (first <= last && !found)
+                                {
+                                    int midpoint = (first + last) / 2;
+                                    if (DateTime.Compare(Convert.ToDateTime(stdCmtList[midpoint].StartTime), weekBack) == 0)
+                                    {
+                                        if (stdCmtList[midpoint].Open == true || sameCategory(stdCmtList[c], stdCmtList[midpoint]))
+                                        {
+                                            //MessageBox.Show(stdCmtList[midpoint].StartTime.ToString());
+                                            stdCmtList[midpoint].Weekly = false;
+                                            //MessageBox.Show(stdCmtList[midpoint].Weekly.ToString());
+                                            db.SaveChanges();
+                                        }
+                                        found = true;
+                                    }
+                                    else
+                                    {
+                                        if (DateTime.Compare(weekBack, Convert.ToDateTime(stdCmtList[midpoint].StartTime)) < 0)
+                                        {
+                                            last = midpoint - 1;
+                                        }
+                                        else
+                                        {
+                                            first = midpoint + 1;
+                                        }
+                                    }
+                                }
+                                weekBack = weekBack.AddDays(-7);
+                            }
+                        }
                         stdCmtList[c].Weekly = false;
                         stdCmtList[c].Tutoring = false;
                         stdCmtList[c].Class = "-";
@@ -1384,6 +1422,44 @@ namespace TutorMaster
                 {
                     if (DateTime.Compare(startDate, Convert.ToDateTime(partnerCmtList[m].StartTime)) <= 0 && DateTime.Compare(endDate, Convert.ToDateTime(partnerCmtList[m].StartTime)) > 0)
                     {
+                        if (partnerCmtList[m].Weekly == true)
+                        {
+                            DateTime startSemes = new DateTime(2017, 1, 1, 0, 0, 0);
+                            DateTime weekBack = Convert.ToDateTime(partnerCmtList[m].StartTime).AddDays(-7);
+                            while (DateTime.Compare(startSemes, weekBack) <= 0)
+                            {
+                                bool found = false;
+                                int first = 0;
+                                int last = partnerCmtList.Count() - 1;
+                                while (first <= last && !found)
+                                {
+                                    int midpoint = (first + last) / 2;
+                                    if (DateTime.Compare(Convert.ToDateTime(partnerCmtList[midpoint].StartTime), weekBack) == 0)
+                                    {
+                                        if (partnerCmtList[midpoint].Open == true || sameCategory(partnerCmtList[m], partnerCmtList[midpoint]))
+                                        {
+                                            //MessageBox.Show(partnerCmtList[midpoint].StartTime.ToString());
+                                            partnerCmtList[midpoint].Weekly = false;
+                                            //MessageBox.Show(partnerCmtList[midpoint].Weekly.ToString());
+                                            db.SaveChanges();
+                                        }
+                                        found = true;
+                                    }
+                                    else
+                                    {
+                                        if (DateTime.Compare(weekBack, Convert.ToDateTime(partnerCmtList[midpoint].StartTime)) < 0)
+                                        {
+                                            last = midpoint - 1;
+                                        }
+                                        else
+                                        {
+                                            first = midpoint + 1;
+                                        }
+                                    }
+                                }
+                                weekBack = weekBack.AddDays(-7);
+                            }
+                        }
                         partnerCmtList[m].Weekly = false;
                         partnerCmtList[m].Tutoring = false;
                         partnerCmtList[m].Class = "@";
@@ -1436,6 +1512,44 @@ namespace TutorMaster
                 {
                     if (DateTime.Compare(startDate, Convert.ToDateTime(tuteeCmtList[c].StartTime)) <= 0 && DateTime.Compare(endDate, Convert.ToDateTime(tuteeCmtList[c].StartTime)) > 0)
                     {
+                        if (tuteeCmtList[c].Weekly == true)
+                        {
+                            DateTime startSemes = new DateTime(2017, 1, 1, 0, 0, 0);
+                            DateTime weekBack = Convert.ToDateTime(tuteeCmtList[c].StartTime).AddDays(-7);
+                            while (DateTime.Compare(startSemes, weekBack) <= 0)
+                            {
+                                bool found = false;
+                                int first = 0;
+                                int last = tuteeCmtList.Count() - 1;
+                                while (first <= last && !found)
+                                {
+                                    int midpoint = (first + last) / 2;
+                                    if (DateTime.Compare(Convert.ToDateTime(tuteeCmtList[midpoint].StartTime), weekBack) == 0)
+                                    {
+                                        if (tuteeCmtList[midpoint].Open == true || sameCategory(tuteeCmtList[c], tuteeCmtList[midpoint]))
+                                        {
+                                            //MessageBox.Show(tuteeCmtList[midpoint].StartTime.ToString());
+                                            tuteeCmtList[midpoint].Weekly = false;
+                                            //MessageBox.Show(tuteeCmtList[midpoint].Weekly.ToString());
+                                            db.SaveChanges();
+                                        }
+                                        found = true;
+                                    }
+                                    else
+                                    {
+                                        if (DateTime.Compare(weekBack, Convert.ToDateTime(tuteeCmtList[midpoint].StartTime)) < 0)
+                                        {
+                                            last = midpoint - 1;
+                                        }
+                                        else
+                                        {
+                                            first = midpoint + 1;
+                                        }
+                                    }
+                                }
+                                weekBack = weekBack.AddDays(-7);
+                            }
+                        }
                         tuteeCmtList[c].Weekly = false;
                         tuteeCmtList[c].Tutoring = false;
                         tuteeCmtList[c].Class = "-";
@@ -1457,6 +1571,45 @@ namespace TutorMaster
                 {
                     if (DateTime.Compare(startDate, Convert.ToDateTime(tutorCmtList[m].StartTime)) <= 0 && DateTime.Compare(endDate, Convert.ToDateTime(tutorCmtList[m].StartTime)) > 0)
                     {
+                        if (tutorCmtList[m].Weekly == true)
+                        {
+                            DateTime startSemes = new DateTime(2017, 1, 1, 0, 0, 0);
+                            DateTime weekBack = Convert.ToDateTime(tutorCmtList[m].StartTime).AddDays(-7);
+                            while (DateTime.Compare(startSemes, weekBack) <= 0)
+                            {
+                                bool found = false;
+                                int first = 0;
+                                int last = tutorCmtList.Count() - 1;
+                                while (first <= last && !found)
+                                {
+                                    int midpoint = (first + last) / 2;
+                                    if (DateTime.Compare(Convert.ToDateTime(tutorCmtList[midpoint].StartTime), weekBack) == 0)
+                                    {
+                                        if (tutorCmtList[midpoint].Open == true || sameCategory(tutorCmtList[m], tutorCmtList[midpoint]))
+                                        {
+                                            //MessageBox.Show(tutorCmtList[midpoint].StartTime.ToString());
+                                            tutorCmtList[midpoint].Weekly = false;
+                                            //MessageBox.Show(tutorCmtList[midpoint].Weekly.ToString());
+                                            db.SaveChanges();
+                                        }
+                                        found = true;
+                                    }
+                                    else
+                                    {
+                                        if (DateTime.Compare(weekBack, Convert.ToDateTime(tutorCmtList[midpoint].StartTime)) < 0)
+                                        {
+                                            last = midpoint - 1;
+                                        }
+                                        else
+                                        {
+                                            first = midpoint + 1;
+                                        }
+                                    }
+                                }
+                                weekBack = weekBack.AddDays(-7);
+                            }
+                        }
+
                         tutorCmtList[m].Weekly = false;
                         tutorCmtList[m].Tutoring = false;
                         tutorCmtList[m].Class = "@";
