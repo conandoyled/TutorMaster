@@ -31,6 +31,7 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AdminMain));
             this.tabAdmin = new System.Windows.Forms.TabControl();
             this.tabStudent = new System.Windows.Forms.TabPage();
+            this.btnStudentSchedule = new System.Windows.Forms.Button();
             this.lvStudent = new System.Windows.Forms.ListView();
             this.btnDelete = new System.Windows.Forms.Button();
             this.btnCreateStudent = new System.Windows.Forms.Button();
@@ -67,7 +68,6 @@
             this.lvClass = new System.Windows.Forms.ListView();
             this.btnLogout = new System.Windows.Forms.Button();
             this.lblID = new System.Windows.Forms.Label();
-            this.btnStudentSchedule = new System.Windows.Forms.Button();
             this.tabAdmin.SuspendLayout();
             this.tabStudent.SuspendLayout();
             this.tabFaculty.SuspendLayout();
@@ -84,7 +84,7 @@
             this.tabAdmin.SelectedIndex = 0;
             this.tabAdmin.Size = new System.Drawing.Size(625, 398);
             this.tabAdmin.TabIndex = 0;
-            this.tabAdmin.TabIndexChanged += new System.EventHandler(this.tabAdmin_TabIndexChanged);
+            this.tabAdmin.SelectedIndexChanged += new System.EventHandler(this.tabAdmin_SelectedIndexChanged);
             // 
             // tabStudent
             // 
@@ -100,6 +100,16 @@
             this.tabStudent.TabIndex = 0;
             this.tabStudent.Text = "Students";
             this.tabStudent.UseVisualStyleBackColor = true;
+            // 
+            // btnStudentSchedule
+            // 
+            this.btnStudentSchedule.Location = new System.Drawing.Point(415, 343);
+            this.btnStudentSchedule.Name = "btnStudentSchedule";
+            this.btnStudentSchedule.Size = new System.Drawing.Size(140, 23);
+            this.btnStudentSchedule.TabIndex = 5;
+            this.btnStudentSchedule.Text = "See and Edit Student Schedule";
+            this.btnStudentSchedule.UseVisualStyleBackColor = true;
+            this.btnStudentSchedule.Click += new System.EventHandler(this.btnStudentSchedule_Click);
             // 
             // lvStudent
             // 
@@ -452,16 +462,6 @@
             this.lblID.TabIndex = 6;
             this.lblID.Text = "label9";
             this.lblID.Visible = false;
-            // 
-            // btnStudentSchedule
-            // 
-            this.btnStudentSchedule.Location = new System.Drawing.Point(415, 343);
-            this.btnStudentSchedule.Name = "btnStudentSchedule";
-            this.btnStudentSchedule.Size = new System.Drawing.Size(140, 23);
-            this.btnStudentSchedule.TabIndex = 5;
-            this.btnStudentSchedule.Text = "See and Edit Student Schedule";
-            this.btnStudentSchedule.UseVisualStyleBackColor = true;
-            this.btnStudentSchedule.Click += new System.EventHandler(this.btnStudentSchedule_Click);
             // 
             // AdminMain
             // 

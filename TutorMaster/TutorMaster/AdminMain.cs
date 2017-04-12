@@ -28,13 +28,6 @@ namespace TutorMaster
             disableButtons();
         }
 
-        private void tabAdmin_TabIndexChanged(object sender, EventArgs e)
-        {
-            unsetEditFacultyControls();
-            unsetEditClassControls();
-            setupDepartmentBoxes();
-        }
-
         private void AdminMain_FormClosed(object sender, FormClosedEventArgs e)
         {
             //System.Windows.Forms.Application.Exit();
@@ -390,10 +383,12 @@ namespace TutorMaster
             if (itemsChecked == 1)
             {
                 btnEdit.Enabled = true;
+                btnStudentSchedule.Enabled = true;
             }
             else
             {
                 btnEdit.Enabled = false;
+                btnStudentSchedule.Enabled = false;
             }
             if (itemsChecked > 0)
             {
@@ -695,9 +690,11 @@ namespace TutorMaster
 
         private void btnStudentSchedule_Click(object sender, EventArgs e)
         {
-            AdminSeeSchedule g = new AdminSeeSchedule();
+            TutorMasterDBEntities4 db = new TutorMasterDBEntities4();
+            string username = lvStudent.CheckedItems[0].Text.ToString();
+            int studentID = (from row in db.Users where row.Username == username select row.ID).First();
+            AdminSeeSchedule g = new AdminSeeSchedule(studentID);
             g.Show();
-            this.Close();
         }
 
         private void addUser(TutorMaster.User user)
@@ -796,6 +793,34 @@ namespace TutorMaster
 
             btnClassSave.Hide();
             btnClassCancel.Hide();
+        }
+
+        private void tabAdmin_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            unsetEditFacultyControls();
+            unsetEditClassControls();
+            setupDepartmentBoxes();
+
+            if (lvStudent.CheckedItems.Count > 0)
+            {
+                foreach (ListViewItem listItem in lvStudent.Items)
+                {
+                    listItem.Checked = false;
+                }
+            }
+            if (lvFaculty.CheckedItems.Count > 0)
+            {
+                foreach (ListViewItem listItem in lvFaculty.Items)
+                {
+                    listItem.Checked = false;
+                }
+            } if (lvClass.CheckedItems.Count > 0)
+            {
+                foreach (ListViewItem listItem in lvClass.Items)
+                {
+                    listItem.Checked = false;
+                }
+            } 
         }
     }
 }
