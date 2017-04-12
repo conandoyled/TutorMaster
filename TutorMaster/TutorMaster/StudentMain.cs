@@ -1539,11 +1539,16 @@ namespace TutorMaster
             TutorMasterDBEntities4 db = new TutorMasterDBEntities4();
 
             List<string> removeList = loadItemsForRemoval();
-            //MessageBox.Show(removeList[0]);
-
-            RemoveAvailForm g = new RemoveAvailForm(id, removeList);
-            g.Show();
-            this.Close();
+            if (removeList.Count() != 1)
+            {
+                MessageBox.Show("Please pick exactly one open time slot to remove from your availability");
+            }
+            else
+            {
+                RemoveAvailForm g = new RemoveAvailForm(id, removeList);
+                g.Show();
+                this.Close();
+            }
         }
 
         private List<string> loadItemsForRemoval()
@@ -1811,11 +1816,12 @@ namespace TutorMaster
 
         private void lvSunday_ItemChecked(object sender, ItemCheckedEventArgs e)
         {
+            
             int itemsChecked = lvSunday.CheckedItems.Count;
             bool allOpen = true;
             for (int i = 0; i < itemsChecked; i++)
             {
-                string yesNo = lvSunday.CheckedItems[i].SubItems[4].ToString();
+                string yesNo = lvSunday.CheckedItems[i].SubItems[4].Text.ToString();
                 if (yesNo == "No")
                 {
                     allOpen = false;
