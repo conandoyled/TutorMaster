@@ -1159,6 +1159,8 @@ namespace TutorMaster
                                              join cmt in db.Commitments on stucmt.CmtID equals cmt.CmtID
                                              select cmt).ToList();
 
+            QuickSort(ref tutorCmtList, tutorCmtList.Count());
+
             for (int f = 0; f < commits.Count(); f++)
             {
                 DateTime startDate = getStartTime(commits[f]);
@@ -1168,6 +1170,10 @@ namespace TutorMaster
                 {
                     if (DateTime.Compare(startDate, Convert.ToDateTime(tutorCmtList[c].StartTime)) <= 0 && DateTime.Compare(endDate, Convert.ToDateTime(tutorCmtList[c].StartTime)) > 0)
                     {
+                        if (tutorCmtList[f].Weekly == true)
+                        {
+                            backTrackWeekly(Convert.ToDateTime(tutorCmtList[f].StartTime), tutorCmtList, ref db);
+                        }
                         tutorCmtList[c].Weekly = false;
                         tutorCmtList[c].Tutoring = false;
                         tutorCmtList[c].Class = "-";
@@ -1184,11 +1190,16 @@ namespace TutorMaster
                                                  where stucmt.ID == partnerID
                                                  join cmt in db.Commitments on stucmt.CmtID equals cmt.CmtID
                                                  select cmt).ToList();
+                QuickSort(ref tuteeCmtList, tuteeCmtList.Count());
                 
                 for (int m = 0; m < tuteeCmtList.Count(); m++)
                 {
                     if (DateTime.Compare(startDate, Convert.ToDateTime(tuteeCmtList[m].StartTime)) <= 0 && DateTime.Compare(endDate, Convert.ToDateTime(tuteeCmtList[m].StartTime)) > 0)
                     {
+                        if (tuteeCmtList[m].Weekly == true)
+                        {
+                            backTrackWeekly(Convert.ToDateTime(tuteeCmtList[m].StartTime), tuteeCmtList, ref db);
+                        }
                         tuteeCmtList[m].Weekly = false;
                         tuteeCmtList[m].Tutoring = false;
                         tuteeCmtList[m].Class = "@";
@@ -1208,6 +1219,53 @@ namespace TutorMaster
 
             loadAvail(start);
             loadAppointments(true);
+        }
+
+        private void backTrackWeekly(DateTime time, List<Commitment> cmtList, ref TutorMasterDBEntities4 db)
+        {
+            DateTime startSemes = new DateTime(2017, 1, 1, 0, 0, 0);
+            DateTime weekBack = time.AddDays(-7);
+            while(DateTime.Compare(startSemes, weekBack) <= 0)
+            {
+                BinarySearchFalsifyWeeklies(weekBack, cmtList, ref db);
+                weekBack = weekBack.AddDays(-7);
+                
+            }
+        }
+
+        private bool BinarySearchFalsifyWeeklies(DateTime date, List<Commitment> cmtList, ref TutorMasterDBEntities4 db)
+        {
+            bool found = false;
+            int first = 0;
+            int last = cmtList.Count()-1;
+            while (first <= last && !found)
+            {
+                int midpoint = (first + last) / 2;
+                if (DateTime.Compare(Convert.ToDateTime(cmtList[midpoint].StartTime), date) == 0)
+                {
+                    if (cmtList[midpoint].Open == true)
+                    {
+                        MessageBox.Show(cmtList[midpoint].StartTime.ToString());
+                        cmtList[midpoint].Weekly = false;
+                        db.SaveChanges();
+                    }
+                    found = true;
+                    return found;
+                }
+                else
+                {
+                    if (DateTime.Compare(date, Convert.ToDateTime(cmtList[midpoint].StartTime)) < 0)
+                    {
+                        last = midpoint - 1;
+                    }
+                    else
+                    {
+                        first = midpoint + 1;
+                    }
+                }
+            }
+
+            return found;
         }
         
         private void btnCancelFinalized_Click(object sender, EventArgs e)
