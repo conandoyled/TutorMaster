@@ -11,8 +11,10 @@ namespace TutorMaster
 {
     public partial class AdvancedRequest : Form
     {
-        public AdvancedRequest()
+        private int ACCID;
+        public AdvancedRequest(int accID)
         {
+            ACCID = accID;
             InitializeComponent();
             setupTutorList();                   //intialize the list of tutors
             // this sets up the initial list with all the classes. I would change this to list all the classes that a specific tutor teaches after one is selected
@@ -60,16 +62,37 @@ namespace TutorMaster
             string lastname=TName[1]; //get the last name
             
             //1. find the tutors ID
+            int id = (from row in db.Users where ((firstname == row.FirstName) && (lastname == row.LastName)) select row.ID).First();
 
-            //2. make a list of the classes they can tutor
+            //2. make a list of the classes they can tutor, turn those into class objects with join, then use them for the presentation set up
 
-            var classes = from c in db.Classes select c;
-            List<Class> cls = new List<Class>();
+            /*var classes = (from c in db.StudentClasses where id == c.ID select c);
+            List<StudentClass> cls = new List<StudentClass>();
             cls = classes.ToList();
+
+            //2.5 turn the list of student classes into a list of Class objects so you can present them
+            List<Class> cls2 = new List<Class>();
+            //try using the join clause here. you may have to redo some of the code getting the list before to make this work
+
+            foreach (Class c in db.Classes)
+            {
+                foreach (StudentClass s in cls)
+                {
+                    if (s.ClassCode == c.ClassCode)
+                        cls2.Add(c);
+                }
+            }
+            */
+            List<Class> listofclasses =
+                (from row in db.StudentClasses
+                 where row.ID == id
+                 join cl in db.Classes 
+                 on row.ClassCode equals cl.ClassCode
+                 select cl).ToList<Class>();
 
             //3. upload those classes to the display
 
-            foreach (Class cl in cls)
+            foreach (Class cl in listofclasses)
             {
                 if (tvClasses.Nodes.ContainsKey(cl.Department))
                 {
@@ -89,14 +112,16 @@ namespace TutorMaster
 
         private void combTutorName_SelectedIndexChanged(object sender, EventArgs e)
         {
-
+            setupClasses(combTutorName.Text);
         }
 
-        private void btnExit_Click(object sender, EventArgs e) //Add an ID to this!!
+        private void btnExit_Click(object sender, EventArgs e) //This doesn't work still!!
         {
-          //  StudentMain g = new StudentMain(ID);
+            StudentMain g = new StudentMain(ACCID);
             g.Show();
             this.Close();
         }
+
+
     }
 }
