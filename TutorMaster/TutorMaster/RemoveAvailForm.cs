@@ -79,48 +79,98 @@ namespace TutorMaster
 
             for (int i = 0; i < cmtList.Count(); i++)
             {
+                if (cmtList[i].Weekly == true && BinarySearch(searchList, Convert.ToDateTime(cmtList[i].StartTime)))
+                {
+                    DateTime startSemes = new DateTime(2017, 1, 1, 0, 0, 0);
+                    DateTime weekBack = Convert.ToDateTime(cmtList[i].StartTime).AddDays(-7);
+                    while (DateTime.Compare(startSemes, weekBack) <= 0)
+                    {
+                        bool found = false;
+                        int first = 0;
+                        int last = cmtList.Count() - 1;
+                        while (first <= last && !found)
+                        {
+                            int midpoint = (first + last) / 2;
+                            if (DateTime.Compare(Convert.ToDateTime(cmtList[midpoint].StartTime), weekBack) == 0)
+                            {
+                                if (cmtList[midpoint].Open == true)
+                                {
+                                    cmtList[midpoint].Weekly = false;
+                                    db.SaveChanges();
+                                }
+                                found = true;
+                            }
+                            else
+                            {
+                                if (DateTime.Compare(weekBack, Convert.ToDateTime(cmtList[midpoint].StartTime)) < 0)
+                                {
+                                    last = midpoint - 1;
+                                }
+                                else
+                                {
+                                    first = midpoint + 1;
+                                }
+                            }
+                        }
+                        weekBack = weekBack.AddDays(-7);
+                    }
+                }
                 if (BinarySearch(searchList, Convert.ToDateTime(cmtList[i].StartTime)))
                 {
                     if (cmtList[i].Weekly == true)
                     {
-
-                        DateTime startSemes = new DateTime(2017, 1, 1, 0, 0, 0);
-                        DateTime weekBack = Convert.ToDateTime(cmtList[i].StartTime).AddDays(-7);
-                        while (DateTime.Compare(startSemes, weekBack) <= 0)
+                        DialogResult choice = MessageBox.Show("Would you like to delete this time slot until the end of the semester?", "Delete weekly timeslot?", MessageBoxButtons.YesNo);
+                        if (choice == DialogResult.Yes)
                         {
-                            bool found = false;
-                            int first = 0;
-                            int last = cmtList.Count() - 1;
-                            while (first <= last && !found)
+                            MessageBox.Show(cmtList[i].StartTime.ToString());
+                            DateTime endSemes = new DateTime(2017, 5, 1, 0, 0, 0);
+                            DateTime weekFoward = Convert.ToDateTime(cmtList[i].StartTime).AddDays(7);
+                            while (DateTime.Compare(endSemes, weekFoward) > 0)
                             {
-                                int midpoint = (first + last) / 2;
-                                if (DateTime.Compare(Convert.ToDateTime(cmtList[midpoint].StartTime), weekBack) == 0)
+                                //MessageBox.Show(cmtList[i].StartTime.ToString());
+                                bool found = false;
+                                int first = 0;
+                                int last = cmtList.Count() - 1;
+                                while (first <= last && !found)
                                 {
-                                    if (cmtList[midpoint].Open == true)
+                                    int midpoint = (first + last) / 2;
+                                    //MessageBox.Show((DateTime.Compare(Convert.ToDateTime(cmtList[midpoint].StartTime), weekFoward)).ToString());
+                                    if (DateTime.Compare(Convert.ToDateTime(cmtList[midpoint].StartTime), weekFoward) == 0)
                                     {
-                                        //MessageBox.Show(tuteeCmtList[midpoint].StartTime.ToString());
-                                        cmtList[midpoint].Weekly = false;
-                                        //MessageBox.Show(tuteeCmtList[midpoint].Weekly.ToString());
-                                        db.SaveChanges();
-                                    }
-                                    found = true;
-                                }
-                                else
-                                {
-                                    if (DateTime.Compare(weekBack, Convert.ToDateTime(cmtList[midpoint].StartTime)) < 0)
-                                    {
-                                        last = midpoint - 1;
+                                        if (cmtList[midpoint].Open == true)
+                                        {
+                                            //MessageBox.Show("Deleting " + cmtList[midpoint].StartTime.ToString());
+                                            db.Commitments.DeleteObject(cmtList[midpoint]);
+                                            cmtList.Remove(cmtList[midpoint]);
+                                            db.SaveChanges();
+                                            //i--;
+                                        }
+                                        found = true;
+                                        break;
                                     }
                                     else
                                     {
-                                        first = midpoint + 1;
+                                        if (DateTime.Compare(weekFoward, Convert.ToDateTime(cmtList[midpoint].StartTime)) < 0)
+                                        {
+                                            last = midpoint - 1;
+                                        }
+                                        else
+                                        {
+                                            first = midpoint + 1;
+                                        }
                                     }
                                 }
+                                weekFoward = weekFoward.AddDays(7);
                             }
-                            weekBack = weekBack.AddDays(-7);
+                        }
+                        else if (choice == DialogResult.No)
+                        {
+
                         }
                     }
+                    searchList.Remove(Convert.ToDateTime(cmtList[i].StartTime));
                     db.Commitments.DeleteObject(cmtList[i]);
+                    i--;
                     db.SaveChanges();
                 }
             }
