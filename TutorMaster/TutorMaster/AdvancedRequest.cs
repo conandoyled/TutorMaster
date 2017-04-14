@@ -112,6 +112,7 @@ namespace TutorMaster
 
         private void combTutorName_SelectedIndexChanged(object sender, EventArgs e)
         {
+            tvClasses.Nodes.Clear();
             setupClasses(combTutorName.Text);
         }
 
@@ -121,7 +122,5 @@ namespace TutorMaster
             g.Show();
             this.Close();
         }
-
-
     }
 }
