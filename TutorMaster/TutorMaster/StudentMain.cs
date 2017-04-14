@@ -1248,9 +1248,7 @@ namespace TutorMaster
                                     {
                                         if (tuteeCmtList[midpoint].Open == true || sameCategory(tuteeCmtList[m], tuteeCmtList[midpoint]))
                                         {
-                                            //MessageBox.Show(tuteeCmtList[midpoint].StartTime.ToString());
                                             tuteeCmtList[midpoint].Weekly = false;
-                                            //MessageBox.Show(tuteeCmtList[midpoint].Weekly.ToString());
                                             db.SaveChanges();
                                         }
                                         found = true;
@@ -1353,6 +1351,7 @@ namespace TutorMaster
                                              where stucmt.ID == id
                                              join cmt in db.Commitments on stucmt.CmtID equals cmt.CmtID
                                              select cmt).ToList();
+            QuickSort(ref stdCmtList, stdCmtList.Count());
 
             for (int f = 0; f < commits.Count(); f++)
             {
@@ -1417,6 +1416,8 @@ namespace TutorMaster
                                                  where stucmt.ID == partnerID
                                                  join cmt in db.Commitments on stucmt.CmtID equals cmt.CmtID
                                                  select cmt).ToList();
+
+                QuickSort(ref partnerCmtList, partnerCmtList.Count());
 
                 for (int m = 0; m < partnerCmtList.Count(); m++)
                 {
@@ -1503,6 +1504,8 @@ namespace TutorMaster
                                            join cmt in db.Commitments on stucmt.CmtID equals cmt.CmtID
                                            select cmt).ToList();
 
+            QuickSort(ref tuteeCmtList, tuteeCmtList.Count());
+
             for (int f = 0; f < commits.Count(); f++)
             {
                 DateTime startDate = getStartTime(commits[f]);
@@ -1566,6 +1569,8 @@ namespace TutorMaster
                                                    where stucmt.ID == partnerID
                                                    join cmt in db.Commitments on stucmt.CmtID equals cmt.CmtID
                                                    select cmt).ToList();
+                
+                QuickSort(ref tutorCmtList, tutorCmtList.Count());
 
                 for (int m = 0; m < tutorCmtList.Count(); m++)
                 {
@@ -1577,9 +1582,11 @@ namespace TutorMaster
                             DateTime weekBack = Convert.ToDateTime(tutorCmtList[m].StartTime).AddDays(-7);
                             while (DateTime.Compare(startSemes, weekBack) <= 0)
                             {
+                                
                                 bool found = false;
                                 int first = 0;
                                 int last = tutorCmtList.Count() - 1;
+                                //MessageBox.Show(sameCategory(tutorCmtList[m], tutorCmtList[((first + last) / 2)]).ToString());
                                 while (first <= last && !found)
                                 {
                                     int midpoint = (first + last) / 2;
@@ -1587,9 +1594,7 @@ namespace TutorMaster
                                     {
                                         if (tutorCmtList[midpoint].Open == true || sameCategory(tutorCmtList[m], tutorCmtList[midpoint]))
                                         {
-                                            //MessageBox.Show(tutorCmtList[midpoint].StartTime.ToString());
                                             tutorCmtList[midpoint].Weekly = false;
-                                            //MessageBox.Show(tutorCmtList[midpoint].Weekly.ToString());
                                             db.SaveChanges();
                                         }
                                         found = true;
@@ -1630,6 +1635,7 @@ namespace TutorMaster
             loadAvail(start);
             loadAppointments(true);
         }
+
 
         private void btnFinalize_Click(object sender, EventArgs e)
         {
