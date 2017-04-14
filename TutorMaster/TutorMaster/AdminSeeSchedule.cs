@@ -616,7 +616,7 @@ namespace TutorMaster
                                              join cmt in db.Commitments on stucmt.CmtID equals cmt.CmtID
                                              select cmt).ToList();
 
-            for (int i = 0; i < lvPendingTutee.CheckedItems.Count; i++)
+            /*for (int i = 0; i < lvPendingTutee.CheckedItems.Count; i++)
             {
                 DateTime startDate = getListViewTime(lvPendingTutee.CheckedItems[i].SubItems[0].Text);
                 DateTime endDate = getListViewTime(lvPendingTutee.CheckedItems[i].SubItems[1].Text);
@@ -653,7 +653,7 @@ namespace TutorMaster
             lvPendingTutor.Items.Clear();
             lvTutee.Items.Clear();
             lvTutor.Items.Clear();
-            lvOpen.Items.Clear();
+            lvOpen.Items.Clear();*/
 
             loadAppointments(false);
         }
