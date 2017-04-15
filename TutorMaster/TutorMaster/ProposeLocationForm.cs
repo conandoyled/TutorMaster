@@ -69,6 +69,7 @@ namespace TutorMaster
                     {
                         if (DateTime.Compare(startDate, Convert.ToDateTime(tuteeCmtList[m].StartTime)) <= 0 && DateTime.Compare(endDate, Convert.ToDateTime(tuteeCmtList[m].StartTime)) > 0)
                         {
+                            tuteeCmtList[m].Class = tuteeCmtList[m].Class + "!";
                             tuteeCmtList[m].Location = loc + "?";
                             db.SaveChanges();
                         }
