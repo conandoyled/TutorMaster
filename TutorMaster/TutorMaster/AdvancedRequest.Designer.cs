@@ -125,6 +125,7 @@
             this.btnByTutor.TabIndex = 20;
             this.btnByTutor.Text = "Tutor";
             this.btnByTutor.UseVisualStyleBackColor = true;
+            this.btnByTutor.Click += new System.EventHandler(this.btnByTutor_Click);
             // 
             // btnByClass
             // 
@@ -134,6 +135,7 @@
             this.btnByClass.TabIndex = 21;
             this.btnByClass.Text = "Class";
             this.btnByClass.UseVisualStyleBackColor = true;
+            this.btnByClass.Click += new System.EventHandler(this.btnByClass_Click);
             // 
             // lblClasses
             // 

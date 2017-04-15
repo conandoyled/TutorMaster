@@ -12,15 +12,24 @@ namespace TutorMaster
     public partial class AdvancedRequest : Form
     {
         private int ACCID;
-        public AdvancedRequest(int accID)
+        public AdvancedRequest(int accID)  //change this to initialize the tutor and class box once and then leave it alone so that we don't double fill it and don't have to constantly clear and refill it
         {
             ACCID = accID;
             InitializeComponent();
-            setupTutorList();                   //intialize the list of tutors
-            // this sets up the initial list with all the classes. I would change this to list all the classes that a specific tutor teaches after one is selected
-            //set up the availability box with the tutors available times       
+            //hide everything so you can show it when appropriate
+            lblAvailableTimes.Hide();
+            lblClasses.Hide();
+            lblClassesAvailable.Hide();
+            lblTutorName.Hide();
+            label1.Hide();
+            label2.Hide();
+            combClassBox.Hide();
+            combTutorName.Hide();
+            combTutorName2.Hide();
+            lvTutorAvailability.Hide();
+            lvTutorAvailability2.Hide();
+            tvClasses.Hide();
         }
-
 
         private void setupTutorList()
         {
@@ -52,7 +61,7 @@ namespace TutorMaster
             }
         }
 
-        private void setupClasses(string TutorName)
+        private void setupTreeViewClasses(string TutorName)
         {
             tvClasses.CheckBoxes = true;
 
@@ -110,17 +119,66 @@ namespace TutorMaster
             tvClasses.Sort();
         }
 
-        private void combTutorName_SelectedIndexChanged(object sender, EventArgs e)
+        private void setupComboClasses()
         {
-            tvClasses.Nodes.Clear();
-            setupClasses(combTutorName.Text);
+            TutorMasterDBEntities4 db = new TutorMasterDBEntities4();
+            var Classes = (from row in db.StudentClasses select row); // pull out all the classes that are being tutored [including duplicates]
+            List<StudentClass> ListOfClasses = Classes.ToList<StudentClass>(); //put all of those classes into a list to manipuate
+            foreach (StudentClass SC in ListOfClasses)
+            {
+                combClassBox.Items.Add(SC.ClassCode);
+            }
+
         }
 
-        private void btnExit_Click(object sender, EventArgs e) //This doesn't work still!!
+        private void combTutorName_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            tvClasses.Show();
+            tvClasses.Nodes.Clear(); //clears the class box
+            setupTreeViewClasses(combTutorName.Text); //fills it with the appropriate classes
+            //set up the tutor time matches
+        }
+
+        private void btnExit_Click(object sender, EventArgs e) 
         {
             StudentMain g = new StudentMain(ACCID);
             g.Show();
             this.Close();
+        }
+
+        private void btnByTutor_Click(object sender, EventArgs e)
+        {
+            //hide the right side of the form
+            combClassBox.Hide();
+            lvTutorAvailability2.Hide();
+            combTutorName2.Hide();
+            lblClasses.Hide();
+            label1.Hide();
+            label2.Hide();
+
+            //show lblTutorName and combTutorName
+            lblTutorName.Show();
+            combTutorName.Show();
+
+            setupTutorList();           //populate combTutorName
+        }
+
+        private void btnByClass_Click(object sender, EventArgs e)
+        {
+            //Hide left side of form
+            lblTutorName.Hide();
+            lblClassesAvailable.Hide();
+            lblAvailableTimes.Hide();
+            combTutorName.Hide();
+            tvClasses.Hide();
+            lvTutorAvailability.Hide();
+
+            //Show Class Options
+            lblClasses.Show();
+            combClassBox.Show();
+
+            setupComboClasses(); //populate the combo box with all the available classes
+
         }
     }
 }
