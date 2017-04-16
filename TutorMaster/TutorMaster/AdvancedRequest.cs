@@ -12,7 +12,7 @@ namespace TutorMaster
     public partial class AdvancedRequest : Form
     {
         private int ACCID;
-        public AdvancedRequest(int accID)  //change this to initialize the tutor and class box once and then leave it alone so that we don't double fill it and don't have to constantly clear and refill it
+        public AdvancedRequest(int accID)  //Get rid of all the references to tvClasses and set up the new comboboxjust like the other one
         {
             ACCID = accID;
             InitializeComponent();
@@ -22,13 +22,16 @@ namespace TutorMaster
             lblClassesAvailable.Hide();
             lblTutorName.Hide();
             label1.Hide();
-            label2.Hide();
-            combClassBox.Hide();
-            combTutorName.Hide();
-            combTutorName2.Hide();
+            combClassBoxRight.Hide();
+            combTutorNameLeft.Hide();
+            combTutorNameRight.Hide();
             lvTutorAvailability.Hide();
-            lvTutorAvailability2.Hide();
             tvClasses.Hide();
+            lblHowLong.Hide();
+            combMeetingLength.Hide();
+            cbxWeekly.Hide();
+            label2.Hide();
+            btnManualTime.Hide();
 
             //initialize the tutor names and list of classes
             setupTutorList();           //populate combTutorName
@@ -62,7 +65,7 @@ namespace TutorMaster
 
             foreach (string name in Tutors)
             {
-                combTutorName.Items.Add(name);
+                combTutorNameLeft.Items.Add(name);
             }
         }
 
@@ -115,7 +118,7 @@ namespace TutorMaster
             List<StudentClass> ListOfClasses = Classes.ToList<StudentClass>(); //put all of those classes into a list to manipuate
             foreach (StudentClass SC in ListOfClasses)
             {
-                combClassBox.Items.Add(SC.ClassCode);
+                combClassBoxRight.Items.Add(SC.ClassCode);
             }
         }
 
@@ -123,7 +126,7 @@ namespace TutorMaster
         {
             tvClasses.Show();
             tvClasses.Nodes.Clear(); //clears the class box
-            setupTreeViewClasses(combTutorName.Text); //fills it with the appropriate classes
+            setupTreeViewClasses(combTutorNameLeft.Text); //fills it with the appropriate classes
             //set up the tutor time matches
         }
 
@@ -137,16 +140,15 @@ namespace TutorMaster
         private void btnByTutor_Click(object sender, EventArgs e)
         {
             //hide the right side of the form
-            combClassBox.Hide();
-            lvTutorAvailability2.Hide();
-            combTutorName2.Hide();
+            combClassBoxRight.Hide();
+            combTutorNameRight.Hide();
             lblClasses.Hide();
             label1.Hide();
-            label2.Hide();
+            
 
             //show lblTutorName and combTutorName
             lblTutorName.Show();
-            combTutorName.Show();
+            combTutorNameLeft.Show();
         }
 
         private void btnByClass_Click(object sender, EventArgs e)
@@ -155,21 +157,21 @@ namespace TutorMaster
             lblTutorName.Hide();
             lblClassesAvailable.Hide();
             lblAvailableTimes.Hide();
-            combTutorName.Hide();
+            combTutorNameLeft.Hide();
             tvClasses.Hide();
             lvTutorAvailability.Hide();
 
             //Show Class Options
             lblClasses.Show();
-            combClassBox.Show();
+            combClassBoxRight.Show();
         }
 
         private void combClassBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             //1. Show and clear all the appropriate items
             label1.Show();
-            combTutorName2.Show();
-            combTutorName2.Items.Clear();
+            combTutorNameRight.Show();
+            combTutorNameRight.Items.Clear();
 
             //This populates the available tutors for the selected class
             TutorMasterDBEntities4 db = new TutorMasterDBEntities4();
@@ -177,7 +179,7 @@ namespace TutorMaster
             //Create a list of all the Users that tutor the class that was selected
             List<User> ListOfTutors =
                 (from row in db.StudentClasses
-                 where row.ClassCode == combClassBox.Text
+                 where row.ClassCode == combClassBoxRight.Text
                  join usr in db.Users 
                  on row.ID equals usr.ID
                  select usr).ToList<User>();
@@ -185,7 +187,7 @@ namespace TutorMaster
             //display them in the combo box
             foreach(User usr in ListOfTutors) 
             {
-                combTutorName2.Items.Add(usr.FirstName+' '+usr.LastName);
+                combTutorNameRight.Items.Add(usr.FirstName+' '+usr.LastName);
             }
         }
 
