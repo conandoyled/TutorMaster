@@ -153,6 +153,7 @@
             this.combClassBox.Name = "combClassBox";
             this.combClassBox.Size = new System.Drawing.Size(121, 21);
             this.combClassBox.TabIndex = 23;
+            this.combClassBox.SelectedIndexChanged += new System.EventHandler(this.combClassBox_SelectedIndexChanged);
             // 
             // combTutorName2
             // 
@@ -161,6 +162,7 @@
             this.combTutorName2.Name = "combTutorName2";
             this.combTutorName2.Size = new System.Drawing.Size(121, 21);
             this.combTutorName2.TabIndex = 24;
+            this.combTutorName2.SelectedIndexChanged += new System.EventHandler(this.combTutorName2_SelectedIndexChanged);
             // 
             // label1
             // 

@@ -29,6 +29,11 @@ namespace TutorMaster
             lvTutorAvailability.Hide();
             lvTutorAvailability2.Hide();
             tvClasses.Hide();
+
+            //initialize the tutor names and list of classes
+            setupTutorList();           //populate combTutorName
+            setupComboClasses(); //populate the combo box with all the available classes
+
         }
 
         private void setupTutorList()
@@ -74,24 +79,8 @@ namespace TutorMaster
             int id = (from row in db.Users where ((firstname == row.FirstName) && (lastname == row.LastName)) select row.ID).First();
 
             //2. make a list of the classes they can tutor, turn those into class objects with join, then use them for the presentation set up
-
-            /*var classes = (from c in db.StudentClasses where id == c.ID select c);
-            List<StudentClass> cls = new List<StudentClass>();
-            cls = classes.ToList();
-
             //2.5 turn the list of student classes into a list of Class objects so you can present them
-            List<Class> cls2 = new List<Class>();
-            //try using the join clause here. you may have to redo some of the code getting the list before to make this work
 
-            foreach (Class c in db.Classes)
-            {
-                foreach (StudentClass s in cls)
-                {
-                    if (s.ClassCode == c.ClassCode)
-                        cls2.Add(c);
-                }
-            }
-            */
             List<Class> listofclasses =
                 (from row in db.StudentClasses
                  where row.ID == id
@@ -128,7 +117,6 @@ namespace TutorMaster
             {
                 combClassBox.Items.Add(SC.ClassCode);
             }
-
         }
 
         private void combTutorName_SelectedIndexChanged(object sender, EventArgs e)
@@ -159,8 +147,6 @@ namespace TutorMaster
             //show lblTutorName and combTutorName
             lblTutorName.Show();
             combTutorName.Show();
-
-            setupTutorList();           //populate combTutorName
         }
 
         private void btnByClass_Click(object sender, EventArgs e)
@@ -176,9 +162,42 @@ namespace TutorMaster
             //Show Class Options
             lblClasses.Show();
             combClassBox.Show();
+        }
 
-            setupComboClasses(); //populate the combo box with all the available classes
+        private void combClassBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            //1. Show and clear all the appropriate items
+            label1.Show();
+            combTutorName2.Show();
+            combTutorName2.Items.Clear();
 
+            //This populates the available tutors for the selected class
+            TutorMasterDBEntities4 db = new TutorMasterDBEntities4();
+
+            //Create a list of all the Users that tutor the class that was selected
+            List<User> ListOfTutors =
+                (from row in db.StudentClasses
+                 where row.ClassCode == combClassBox.Text
+                 join usr in db.Users 
+                 on row.ID equals usr.ID
+                 select usr).ToList<User>();
+
+            //display them in the combo box
+            foreach(User usr in ListOfTutors) 
+            {
+                combTutorName2.Items.Add(usr.FirstName+' '+usr.LastName);
+            }
+        }
+
+        private void combTutorName2_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            //call our tutor match function
+        }
+
+        private void MatchTimes()
+        {
+            //do the matching thing that myles and I talked about
+            //try to meet with him tomorrow and talk to him about it all
         }
     }
 }
