@@ -119,7 +119,7 @@ namespace TutorMaster
                 class1 = commitFirst.Class;
             }
             
-            if (commitSecond.Class == "@")
+            if (commitSecond.Class == "@")                                                                     //do the same for the second commitment passed in here
             {
                 class2 = "-";
             }
@@ -166,6 +166,11 @@ namespace TutorMaster
             return day;
         }
 
+        private void addOnlyCommit(Commitment commit)
+        {
+            addToListView(commit, getDay(Convert.ToDateTime(commit.StartTime)), getCommitTime(commit), getCommitTime15(commit));
+        }
+
         //end of helper functions
         
         //load student's entire schedule into days listview functions
@@ -194,7 +199,7 @@ namespace TutorMaster
 
                     if (cmtList.Count() == 1)                                                                        //base case of having only one committment
                     {
-                        addToListView(cmtList[0], getDay(Convert.ToDateTime(cmtList[0].StartTime)), getCommitTime(cmtList[0]), getCommitTime15(cmtList[0]));
+                        addOnlyCommit(cmtList[0]);    
                     }
                     else if (cmtList.Count() > 1)                                                                    //general case of having more than one committment
                     {
@@ -1057,9 +1062,9 @@ namespace TutorMaster
         {
             for (int i = 0; i < 7; i++)
             {
-                DateTime dateD = start.AddDays(i);
-                string day = dateD.ToString("D").Split(',')[0];
-                switch (day)
+                DateTime dateD = start.AddDays(i);                                              //add days up to a week to our start date
+                string day = dateD.ToString("D").Split(',')[0];                                 //get the day of the week of the day
+                switch (day)                                                                    //set the appropriate label
                 {
                     case "Sunday":
                         lblSunday.Text = dateD.ToString("D");
@@ -1351,50 +1356,71 @@ namespace TutorMaster
             loadAppointments(true);
         }
 
+        private bool betweenGivenStartAndEndTime(DateTime startDate, DateTime endDate, Commitment commit)
+        {
+            return DateTime.Compare(startDate, Convert.ToDateTime(commit.StartTime)) <= 0 && DateTime.Compare(endDate, Convert.ToDateTime(commit.StartTime)) > 0;
+        }
+
+        private bool sameTime(Commitment commit, DateTime weekBack)
+        {
+            return DateTime.Compare(Convert.ToDateTime(commit.StartTime), weekBack) == 0;
+        }
+
+        private bool openOrSameType(Commitment listCommit, Commitment midCommit)
+        {
+            return midCommit.Open == true || sameCategory(listCommit, midCommit);
+        }
+
+        private bool weekBackEarlier(DateTime weekBack, Commitment commit)
+        {
+            return DateTime.Compare(weekBack, Convert.ToDateTime(commit.StartTime)) < 0;
+        }
+
+
         private void cancelAppointments(List<string> commits, int accID, bool partner)
         {
-            TutorMasterDBEntities4 db = new TutorMasterDBEntities4();
+            TutorMasterDBEntities4 db = new TutorMasterDBEntities4();                                                   //Connect to database
 
-            List<Commitment> stdCmtList = (from stucmt in db.StudentCommitments
+            List<Commitment> stdCmtList = (from stucmt in db.StudentCommitments                                         //get the student's commitments
                                            where stucmt.ID == accID
                                            join cmt in db.Commitments on stucmt.CmtID equals cmt.CmtID
                                            select cmt).ToList();
 
-            QuickSort(ref stdCmtList, stdCmtList.Count());
+            QuickSort(ref stdCmtList, stdCmtList.Count());                                                              //sort them
 
-            for (int f = 0; f < commits.Count(); f++)
+            for (int f = 0; f < commits.Count(); f++)                                                                   //for each cancellation in the list
             {
-                DateTime startDate = getStartTime(commits[f]);
+                DateTime startDate = getStartTime(commits[f]);                                                          //get its start and end times of the cancellation
                 DateTime endDate = getEndTime(commits[f]);
 
-                for (int c = 0; c < stdCmtList.Count(); c++)
+                for (int c = 0; c < stdCmtList.Count(); c++)                                                            //go through the student's commitments
                 {
-                    if (DateTime.Compare(startDate, Convert.ToDateTime(stdCmtList[c].StartTime)) <= 0 && DateTime.Compare(endDate, Convert.ToDateTime(stdCmtList[c].StartTime)) > 0)
+                    if (betweenGivenStartAndEndTime(startDate, endDate, stdCmtList[c]))                                 //if the commitment is between the start and end times
                     {
-                        if (stdCmtList[c].Weekly == true)
+                        if (stdCmtList[c].Weekly == true)                                                               //if the commitment is weekly
                         {
-                            DateTime startSemes = new DateTime(2017, 1, 1, 0, 0, 0);
+                            DateTime startSemes = new DateTime(2017, 1, 1, 0, 0, 0);                                    //look a week back from the commitment
                             DateTime weekBack = Convert.ToDateTime(stdCmtList[c].StartTime).AddDays(-7);
-                            while (DateTime.Compare(startSemes, weekBack) <= 0)
-                            {
-                                bool found = false;
+                            while (DateTime.Compare(startSemes, weekBack) <= 0)                                         //if it is at the day of the start of the semester or before it
+                            {                                                                                           //begin to execute a binary search
+                                bool found = false;                                                                     //NOTE: this has to be done here so the changes made can be recorded in the database connection
                                 int first = 0;
                                 int last = stdCmtList.Count() - 1;
-                                while (first <= last && !found)
+                                while (first <= last && !found)                                                         //if we haven't found the time in the list and start search pos is less than or equal to our end search position
                                 {
-                                    int midpoint = (first + last) / 2;
-                                    if (DateTime.Compare(Convert.ToDateTime(stdCmtList[midpoint].StartTime), weekBack) == 0)
+                                    int midpoint = (first + last) / 2;                                                  //get the midpoint between the two
+                                    if (sameTime(stdCmtList[midpoint], weekBack))                                       //if the mid commit and the weekback time at the same
                                     {
-                                        if (stdCmtList[midpoint].Open == true || sameCategory(stdCmtList[c], stdCmtList[midpoint]))
+                                        if (openOrSameType(stdCmtList[c], stdCmtList[midpoint]))                        //ask if it is open or the same type of commitment as our cancel commit
                                         {
-                                            stdCmtList[midpoint].Weekly = false;
-                                            db.SaveChanges();
+                                            stdCmtList[midpoint].Weekly = false;                                        //if it is, turn its weekly to false
+                                            db.SaveChanges();                                                           //save the changes to the database
                                         }
-                                        found = true;
+                                        found = true;                                                                   //set found equal to true
                                     }
                                     else
                                     {
-                                        if (DateTime.Compare(weekBack, Convert.ToDateTime(stdCmtList[midpoint].StartTime)) < 0)
+                                        if (weekBackEarlier(weekBack, stdCmtList[midpoint]))                            //adjust the start and end search indexes as necessary
                                         {
                                             last = midpoint - 1;
                                         }
@@ -1404,19 +1430,20 @@ namespace TutorMaster
                                         }
                                     }
                                 }
-                                weekBack = weekBack.AddDays(-7);
+                                weekBack = weekBack.AddDays(-7);                                                        //repeat the process for another date that is a week back until you reach the beginning of the semester
                             }
                         }
-                        stdCmtList[c].Weekly = false;
+
+                        stdCmtList[c].Weekly = false;                                                                   //for this commitment, set it to a new, open state
                         stdCmtList[c].Tutoring = false;
                         stdCmtList[c].Location = "-";
-                        if (partner)
+                        if (partner)                                                                                 
                         {
-                            stdCmtList[c].Class = "@";
+                            stdCmtList[c].Class = "@";                                                                  //if they have a partner, set it to a cancel state
                         }
                         else
                         {
-                            stdCmtList[c].Class = "-";
+                            stdCmtList[c].Class = "-";                                                                  //else, just say its open
                         }
                         stdCmtList[c].Open = true;
                         stdCmtList[c].ID = -1;
