@@ -86,7 +86,7 @@ namespace TutorMaster
             return false;
         }
 
-        private void saveNewUser(string fname, string lname, string username, string password, string email, string accounttype, int id)
+        private void saveNewUser(string fname, string lname, string username, string password, string email, string phone, string accounttype, int id)
         {
             TutorMasterDBEntities4 db = new TutorMasterDBEntities4();
             User newUser = new User();
@@ -97,6 +97,7 @@ namespace TutorMaster
             newUser.Password = password;
             newUser.Email = email;
             newUser.AccountType = accounttype;
+            newUser.PhoneNumber = phone;
             db.Users.AddObject(newUser);
             db.SaveChanges();
         }
@@ -208,12 +209,15 @@ namespace TutorMaster
             if(goodToAdd(fname, lname, username, password, phone, email, tutor, tutee))
             {
                 int ID = getNextID();
-                saveNewUser(fname, lname, username, password, email, accounttype, ID);
+                saveNewUser(fname, lname, username, password, email, phone, accounttype, ID);
                 saveNewTutorTutee(tutor, tutee, ID);
                 if (tutor)
                 {
                     recordTutorRequests(ID);
                 }
+                Login g = new Login();
+                g.Show();
+                this.Close();
             }
         }
 
@@ -242,7 +246,7 @@ namespace TutorMaster
         {
             for (int i = 0; i < usernameList.Count(); i++)
             {
-                if (txtUsername.Text == usernameList[i])
+                if (txtUsername.Text == usernameList[i] || (txtUsername.Text+"?") == usernameList[i])
                 {
                     lblUsername.Text = "Already Taken";
                     return true;

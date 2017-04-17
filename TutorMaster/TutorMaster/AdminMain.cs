@@ -44,6 +44,15 @@ namespace TutorMaster
             lvStudent.Columns.Add("Email", 100);
             lvStudent.Columns.Add("Phone Number", 100);
 
+            lvRequests.CheckBoxes = true;
+            lvRequests.Columns.Add("     Username", 110);// This first block of commands sets up the top row.
+            lvRequests.Columns.Add("Last Name", 100);
+            lvRequests.Columns.Add("First Name", 100);
+            lvRequests.Columns.Add("Tutor", 50);
+            lvRequests.Columns.Add("Tutee", 50);
+            lvRequests.Columns.Add("Email", 100);
+            lvRequests.Columns.Add("Phone Number", 100);
+
             TutorMasterDBEntities4 db = new TutorMasterDBEntities4(); //create a new indirect entity
             var students = from c in db.Students select c; // c is arbitay thing to pull. from var in tabletopullfrom select 
             
@@ -68,13 +77,17 @@ namespace TutorMaster
                 if (user.Username.Contains('?'))
                 {
                     newUsers++;
+                    lvRequests.Items.Add(new ListViewItem(new string[] { user.Username, user.LastName, user.FirstName, tutor, tutee, user.Email, user.PhoneNumber }));
                 }
-                lvStudent.Items.Add(new ListViewItem(new string[] { user.Username, user.LastName, user.FirstName, tutor, tutee, user.Email, user.PhoneNumber }));
+                else
+                {
+                    lvStudent.Items.Add(new ListViewItem(new string[] { user.Username, user.LastName, user.FirstName, tutor, tutee, user.Email, user.PhoneNumber }));
+                }
             }
 
             if (newUsers > 0)
             {
-                MessageBox.Show("There are " + newUsers.ToString() + " students that want to sign up as a tutor or tutee");
+                MessageBox.Show("There are " + newUsers.ToString() + " student(s) that requesting to become tutor(s) or tutee(s)");
             }
 
             
@@ -832,6 +845,105 @@ namespace TutorMaster
                     listItem.Checked = false;
                 }
             } 
+        }
+
+        private void btnEditRequests_Click(object sender, EventArgs e)
+        {
+            TutorMasterDBEntities4 db = new TutorMasterDBEntities4();
+            string lvUsername = lvRequests.CheckedItems[0].SubItems[0].Text.ToString();
+            int studentID = (from row in db.Users where row.Username == lvUsername select row.ID).First();
+            
+            EditStudentForm g = new EditStudentForm(studentID);
+            g.Show();
+            this.Close();
+        }
+
+        private void lvRequests_ItemChecked(object sender, ItemCheckedEventArgs e)
+        {
+            if (lvRequests.CheckedItems.Count == 0)
+            {
+                btnAcceptRequest.Enabled = false;
+                btnEditRequests.Enabled = false;
+                btnRejectRequests.Enabled = false;
+            }
+            else if (lvRequests.CheckedItems.Count == 1)
+            {
+                btnAcceptRequest.Enabled = true;
+                btnEditRequests.Enabled = true;
+                btnRejectRequests.Enabled = true;
+            }
+            else if (lvRequests.CheckedItems.Count > 1)
+            {
+                btnAcceptRequest.Enabled = true;
+                btnEditRequests.Enabled = false;
+                btnRejectRequests.Enabled = true;
+            }
+
+        }
+
+        private void btnRejectRequests_Click(object sender, EventArgs e)
+        {
+            TutorMasterDBEntities4 db = new TutorMasterDBEntities4();
+            List<string> usernameList = new List<string>();
+            List<int> idList = new List<int>();
+
+            for (int i = 0; i < lvRequests.CheckedItems.Count; i++)
+            {
+                usernameList.Add(lvRequests.CheckedItems[i].SubItems[0].Text.ToString());
+            }
+
+            for (int j = 0; j < usernameList.Count(); j++)
+            {
+                idList.Add((from row in db.Users.AsEnumerable() where row.Username == usernameList[j] select row.ID).First());
+            }
+
+            for (int c = 0; c < idList.Count(); c++)
+            {
+                List<TutorRequest> tutorRequest = (from row in db.TutorRequests.AsEnumerable() where row.ID == idList[c] select row).ToList();
+                for (int h = 0; h < tutorRequest.Count(); h++)
+                {
+                    db.TutorRequests.DeleteObject(tutorRequest[h]);
+                    db.SaveChanges();
+                }
+
+                Student student = (from row in db.Students.AsEnumerable() where row.ID == idList[c] select row).First();
+                db.Students.DeleteObject(student);
+                db.SaveChanges();
+
+                User user = (from row in db.Users.AsEnumerable() where row.ID == idList[c] select row).First();
+                db.Users.DeleteObject(user);
+                db.SaveChanges();
+            }
+
+            lvStudent.Items.Clear();
+            lvRequests.Items.Clear();
+            setupStudentLV();
+        }
+
+        private void btnAcceptRequest_Click(object sender, EventArgs e)
+        {
+            TutorMasterDBEntities4 db = new TutorMasterDBEntities4();
+            List<string> usernameList = new List<string>();
+            List<User> userList = new List<User>();
+
+            for (int i = 0; i < lvRequests.CheckedItems.Count; i++)
+            {
+                usernameList.Add(lvRequests.CheckedItems[i].SubItems[0].Text.ToString());
+            }
+
+            for (int j = 0; j < usernameList.Count(); j++)
+            {
+                userList.Add((from row in db.Users.AsEnumerable() where row.Username == usernameList[j] select row).First());
+            }
+
+            for (int c = 0; c < userList.Count(); c++)
+            {
+                userList[c].Username = userList[c].Username.Substring(0, userList[c].Username.Length - 1);
+            }
+            db.SaveChanges();
+            lvStudent.Items.Clear();
+            lvRequests.Items.Clear();
+            setupStudentLV();
         }
     }
 }
