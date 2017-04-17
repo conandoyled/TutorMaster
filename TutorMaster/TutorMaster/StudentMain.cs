@@ -1376,7 +1376,6 @@ namespace TutorMaster
             return DateTime.Compare(weekBack, Convert.ToDateTime(commit.StartTime)) < 0;
         }
 
-
         private void cancelAppointments(List<string> commits, int accID, bool partner)
         {
             TutorMasterDBEntities4 db = new TutorMasterDBEntities4();                                                   //Connect to database
