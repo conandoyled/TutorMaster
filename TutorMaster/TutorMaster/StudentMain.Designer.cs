@@ -91,6 +91,7 @@
             this.label6 = new System.Windows.Forms.Label();
             this.lvPendingTutee = new System.Windows.Forms.ListView();
             this.label10 = new System.Windows.Forms.Label();
+            this.btnRemoveAvail = new System.Windows.Forms.Button();
             this.dayTabs.SuspendLayout();
             this.tabSunday.SuspendLayout();
             this.tabMonday.SuspendLayout();
@@ -143,6 +144,7 @@
             this.dayTabs.SelectedIndex = 0;
             this.dayTabs.Size = new System.Drawing.Size(685, 316);
             this.dayTabs.TabIndex = 9;
+            this.dayTabs.Selected += new System.Windows.Forms.TabControlEventHandler(this.dayTabs_Selected);
             // 
             // tabSunday
             // 
@@ -173,6 +175,7 @@
             this.lvSunday.TabIndex = 0;
             this.lvSunday.UseCompatibleStateImageBehavior = false;
             this.lvSunday.View = System.Windows.Forms.View.Details;
+            this.lvSunday.ItemChecked += new System.Windows.Forms.ItemCheckedEventHandler(this.lvSunday_ItemChecked);
             // 
             // tabMonday
             // 
@@ -203,6 +206,7 @@
             this.lvMonday.TabIndex = 1;
             this.lvMonday.UseCompatibleStateImageBehavior = false;
             this.lvMonday.View = System.Windows.Forms.View.Details;
+            this.lvMonday.ItemChecked += new System.Windows.Forms.ItemCheckedEventHandler(this.lvMonday_ItemChecked);
             // 
             // tabTuesday
             // 
@@ -232,6 +236,7 @@
             this.lvTuesday.TabIndex = 1;
             this.lvTuesday.UseCompatibleStateImageBehavior = false;
             this.lvTuesday.View = System.Windows.Forms.View.Details;
+            this.lvTuesday.ItemChecked += new System.Windows.Forms.ItemCheckedEventHandler(this.lvTuesday_ItemChecked);
             // 
             // tabWednesday
             // 
@@ -261,6 +266,7 @@
             this.lvWednesday.TabIndex = 1;
             this.lvWednesday.UseCompatibleStateImageBehavior = false;
             this.lvWednesday.View = System.Windows.Forms.View.Details;
+            this.lvWednesday.ItemChecked += new System.Windows.Forms.ItemCheckedEventHandler(this.lvWednesday_ItemChecked);
             // 
             // tabThursday
             // 
@@ -290,6 +296,7 @@
             this.lvThursday.TabIndex = 1;
             this.lvThursday.UseCompatibleStateImageBehavior = false;
             this.lvThursday.View = System.Windows.Forms.View.Details;
+            this.lvThursday.ItemChecked += new System.Windows.Forms.ItemCheckedEventHandler(this.lvThursday_ItemChecked);
             // 
             // tabFriday
             // 
@@ -319,6 +326,7 @@
             this.lvFriday.TabIndex = 1;
             this.lvFriday.UseCompatibleStateImageBehavior = false;
             this.lvFriday.View = System.Windows.Forms.View.Details;
+            this.lvFriday.ItemChecked += new System.Windows.Forms.ItemCheckedEventHandler(this.lvFriday_ItemChecked);
             // 
             // tabSaturday
             // 
@@ -348,6 +356,7 @@
             this.lvSaturday.TabIndex = 1;
             this.lvSaturday.UseCompatibleStateImageBehavior = false;
             this.lvSaturday.View = System.Windows.Forms.View.Details;
+            this.lvSaturday.ItemChecked += new System.Windows.Forms.ItemCheckedEventHandler(this.lvSaturday_ItemChecked);
             // 
             // label2
             // 
@@ -567,6 +576,7 @@
             this.tabControl2.Size = new System.Drawing.Size(707, 393);
             this.tabControl2.TabIndex = 0;
             this.tabControl2.Selecting += new System.Windows.Forms.TabControlCancelEventHandler(this.btnDeselect1_Click);
+            this.tabControl2.Selected += new System.Windows.Forms.TabControlEventHandler(this.tabControl2_Selected);
             // 
             // tabAccepted
             // 
@@ -597,8 +607,9 @@
             this.btnCancelFinalized.Name = "btnCancelFinalized";
             this.btnCancelFinalized.Size = new System.Drawing.Size(177, 23);
             this.btnCancelFinalized.TabIndex = 17;
-            this.btnCancelFinalized.Text = "Cancel Appopintment(s)";
+            this.btnCancelFinalized.Text = "Cancel Appointment(s)";
             this.btnCancelFinalized.UseVisualStyleBackColor = true;
+            this.btnCancelFinalized.Click += new System.EventHandler(this.btnCancelFinalized_Click);
             // 
             // lvFinalized
             // 
@@ -608,6 +619,7 @@
             this.lvFinalized.TabIndex = 16;
             this.lvFinalized.UseCompatibleStateImageBehavior = false;
             this.lvFinalized.View = System.Windows.Forms.View.Details;
+            this.lvFinalized.ColumnWidthChanging += new System.Windows.Forms.ColumnWidthChangingEventHandler(this.lvFinalized_ColumnWidthChanging);
             this.lvFinalized.ItemChecked += new System.Windows.Forms.ItemCheckedEventHandler(this.lvFinalized_ItemChecked);
             // 
             // tabPendingTutor
@@ -645,6 +657,7 @@
             this.btnRejectTutor.TabIndex = 22;
             this.btnRejectTutor.Text = "Reject/Delete Appointment(s)";
             this.btnRejectTutor.UseVisualStyleBackColor = true;
+            this.btnRejectTutor.Click += new System.EventHandler(this.btnRejectTutor_Click);
             // 
             // btnAcceptAddLoc
             // 
@@ -654,6 +667,7 @@
             this.btnAcceptAddLoc.TabIndex = 21;
             this.btnAcceptAddLoc.Text = "Accept/Add Location";
             this.btnAcceptAddLoc.UseVisualStyleBackColor = true;
+            this.btnAcceptAddLoc.Click += new System.EventHandler(this.btnAcceptAddLoc_Click);
             // 
             // label4
             // 
@@ -681,7 +695,8 @@
             this.lvPendingTutor.TabIndex = 18;
             this.lvPendingTutor.UseCompatibleStateImageBehavior = false;
             this.lvPendingTutor.View = System.Windows.Forms.View.Details;
-            this.lvPendingTutor.ItemChecked += new System.Windows.Forms.ItemCheckedEventHandler(this.lvTutor_ItemChecked);
+            this.lvPendingTutor.ColumnWidthChanging += new System.Windows.Forms.ColumnWidthChangingEventHandler(this.lvPendingTutor_ColumnWidthChanging);
+            this.lvPendingTutor.ItemChecked += new System.Windows.Forms.ItemCheckedEventHandler(this.lvPendingTutor_ItemChecked);
             // 
             // lvTutor
             // 
@@ -691,7 +706,8 @@
             this.lvTutor.TabIndex = 17;
             this.lvTutor.UseCompatibleStateImageBehavior = false;
             this.lvTutor.View = System.Windows.Forms.View.Details;
-            this.lvTutor.ItemChecked += new System.Windows.Forms.ItemCheckedEventHandler(this.lvTutor_ItemChecked);
+            this.lvTutor.ColumnWidthChanging += new System.Windows.Forms.ColumnWidthChangingEventHandler(this.lvTutor_ColumnWidthChanging);
+            this.lvTutor.ItemChecked += new System.Windows.Forms.ItemCheckedEventHandler(this.lvTutor_ItemChecked_2);
             // 
             // tabPendingTutee
             // 
@@ -727,6 +743,7 @@
             this.btnRejectTutee.TabIndex = 25;
             this.btnRejectTutee.Text = "Reject/Delete Appointment(s)";
             this.btnRejectTutee.UseVisualStyleBackColor = true;
+            this.btnRejectTutee.Click += new System.EventHandler(this.btnRejectTutee_Click);
             // 
             // btnFinalize
             // 
@@ -736,6 +753,7 @@
             this.btnFinalize.TabIndex = 24;
             this.btnFinalize.Text = "Accept Appointment(s)";
             this.btnFinalize.UseVisualStyleBackColor = true;
+            this.btnFinalize.Click += new System.EventHandler(this.btnFinalize_Click);
             // 
             // label5
             // 
@@ -754,7 +772,8 @@
             this.lvTutee.TabIndex = 22;
             this.lvTutee.UseCompatibleStateImageBehavior = false;
             this.lvTutee.View = System.Windows.Forms.View.Details;
-            this.lvTutee.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.lvTutee_ItemCheck);
+            this.lvTutee.ColumnWidthChanging += new System.Windows.Forms.ColumnWidthChangingEventHandler(this.lvTutee_ColumnWidthChanging);
+            this.lvTutee.ItemChecked += new System.Windows.Forms.ItemCheckedEventHandler(this.lvTutee_ItemChecked);
             // 
             // label6
             // 
@@ -767,13 +786,14 @@
             // 
             // lvPendingTutee
             // 
-            this.lvPendingTutee.Location = new System.Drawing.Point(0, 190);
+            this.lvPendingTutee.Location = new System.Drawing.Point(-8, 188);
             this.lvPendingTutee.Name = "lvPendingTutee";
             this.lvPendingTutee.Size = new System.Drawing.Size(699, 140);
             this.lvPendingTutee.TabIndex = 18;
             this.lvPendingTutee.UseCompatibleStateImageBehavior = false;
             this.lvPendingTutee.View = System.Windows.Forms.View.Details;
-            this.lvPendingTutee.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.lvTutee_ItemCheck);
+            this.lvPendingTutee.ColumnWidthChanging += new System.Windows.Forms.ColumnWidthChangingEventHandler(this.lvPendingTutee_ColumnWidthChanging);
+            this.lvPendingTutee.ItemChecked += new System.Windows.Forms.ItemCheckedEventHandler(this.lvPendingTutee_ItemChecked);
             // 
             // label10
             // 
@@ -784,11 +804,22 @@
             this.label10.TabIndex = 15;
             this.label10.Text = "Date to load schedule a week out from";
             // 
+            // btnRemoveAvail
+            // 
+            this.btnRemoveAvail.Location = new System.Drawing.Point(736, 144);
+            this.btnRemoveAvail.Name = "btnRemoveAvail";
+            this.btnRemoveAvail.Size = new System.Drawing.Size(197, 23);
+            this.btnRemoveAvail.TabIndex = 16;
+            this.btnRemoveAvail.Text = "Remove Availability";
+            this.btnRemoveAvail.UseVisualStyleBackColor = true;
+            this.btnRemoveAvail.Click += new System.EventHandler(this.btnRemoveAvail_Click);
+            // 
             // StudentMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(948, 441);
+            this.Controls.Add(this.btnRemoveAvail);
             this.Controls.Add(this.label10);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.weekStartDateTime);
@@ -891,5 +922,6 @@
         private System.Windows.Forms.Button btnDeselect3;
         private System.Windows.Forms.Button btnRejectTutee;
         private System.Windows.Forms.Button btnFinalize;
+        private System.Windows.Forms.Button btnRemoveAvail;
     }
 }
