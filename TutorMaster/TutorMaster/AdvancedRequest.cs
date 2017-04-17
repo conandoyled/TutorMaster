@@ -126,7 +126,7 @@ namespace TutorMaster
         {
            // tvClasses.Show();
             //tvClasses.Nodes.Clear(); //clears the class box
-            setupTreeViewClasses(combTutorNameLeft.Text); //fills it with the appropriate classes
+            //setupTreeViewClasses(combTutorNameLeft.Text); //fills it with the appropriate classes
             //set up the tutor time matches
         }
 

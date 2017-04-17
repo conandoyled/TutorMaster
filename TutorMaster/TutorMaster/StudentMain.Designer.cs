@@ -92,6 +92,7 @@
             this.lvPendingTutee = new System.Windows.Forms.ListView();
             this.label10 = new System.Windows.Forms.Label();
             this.btnRemoveAvail = new System.Windows.Forms.Button();
+            this.btnAdvanceRequest = new System.Windows.Forms.Button();
             this.dayTabs.SuspendLayout();
             this.tabSunday.SuspendLayout();
             this.tabMonday.SuspendLayout();
@@ -814,11 +815,22 @@
             this.btnRemoveAvail.UseVisualStyleBackColor = true;
             this.btnRemoveAvail.Click += new System.EventHandler(this.btnRemoveAvail_Click);
             // 
+            // btnAdvanceRequest
+            // 
+            this.btnAdvanceRequest.Location = new System.Drawing.Point(736, 173);
+            this.btnAdvanceRequest.Name = "btnAdvanceRequest";
+            this.btnAdvanceRequest.Size = new System.Drawing.Size(200, 23);
+            this.btnAdvanceRequest.TabIndex = 17;
+            this.btnAdvanceRequest.Text = "Advanced Request";
+            this.btnAdvanceRequest.UseVisualStyleBackColor = true;
+            this.btnAdvanceRequest.Click += new System.EventHandler(this.btnAdvanceRequest_Click);
+            // 
             // StudentMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(948, 441);
+            this.Controls.Add(this.btnAdvanceRequest);
             this.Controls.Add(this.btnRemoveAvail);
             this.Controls.Add(this.label10);
             this.Controls.Add(this.tabControl1);
@@ -828,6 +840,7 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "StudentMain";
             this.Text = "StudentMain";
+            this.Load += new System.EventHandler(this.StudentMain_Load);
             this.dayTabs.ResumeLayout(false);
             this.tabSunday.ResumeLayout(false);
             this.tabSunday.PerformLayout();
@@ -923,5 +936,6 @@
         private System.Windows.Forms.Button btnRejectTutee;
         private System.Windows.Forms.Button btnFinalize;
         private System.Windows.Forms.Button btnRemoveAvail;
+        private System.Windows.Forms.Button btnAdvanceRequest;
     }
 }

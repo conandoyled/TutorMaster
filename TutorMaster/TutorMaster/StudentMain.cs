@@ -2217,5 +2217,17 @@ namespace TutorMaster
             g.Show();
             this.Close();
         }
+
+        private void StudentMain_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnAdvanceRequest_Click(object sender, EventArgs e)
+        {
+            AdvancedRequest g = new AdvancedRequest(id);
+            g.Show();
+            Close();
+        }
     }
 }
