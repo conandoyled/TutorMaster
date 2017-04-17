@@ -31,6 +31,8 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AdminSeeSchedule));
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.btnCreateAppointment = new System.Windows.Forms.Button();
+            this.btnAddAvailability = new System.Windows.Forms.Button();
             this.lvOpen = new System.Windows.Forms.ListView();
             this.tabAccepted = new System.Windows.Forms.TabPage();
             this.btnDeselect1 = new System.Windows.Forms.Button();
@@ -54,9 +56,6 @@
             this.lvPendingTutee = new System.Windows.Forms.ListView();
             this.lblNameTitle = new System.Windows.Forms.Label();
             this.btnDone = new System.Windows.Forms.Button();
-            this.btnAcceptAppointment = new System.Windows.Forms.Button();
-            this.btnAddAvailability = new System.Windows.Forms.Button();
-            this.btnCreateAppointment = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabAccepted.SuspendLayout();
@@ -88,6 +87,26 @@
             this.tabPage1.TabIndex = 3;
             this.tabPage1.Text = "Open Availability";
             this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // btnCreateAppointment
+            // 
+            this.btnCreateAppointment.Location = new System.Drawing.Point(164, 336);
+            this.btnCreateAppointment.Name = "btnCreateAppointment";
+            this.btnCreateAppointment.Size = new System.Drawing.Size(152, 23);
+            this.btnCreateAppointment.TabIndex = 19;
+            this.btnCreateAppointment.Text = "Create Appointment";
+            this.btnCreateAppointment.UseVisualStyleBackColor = true;
+            this.btnCreateAppointment.Click += new System.EventHandler(this.btnCreateAppointment_Click);
+            // 
+            // btnAddAvailability
+            // 
+            this.btnAddAvailability.Location = new System.Drawing.Point(6, 336);
+            this.btnAddAvailability.Name = "btnAddAvailability";
+            this.btnAddAvailability.Size = new System.Drawing.Size(152, 23);
+            this.btnAddAvailability.TabIndex = 18;
+            this.btnAddAvailability.Text = "Add Availability";
+            this.btnAddAvailability.UseVisualStyleBackColor = true;
+            this.btnAddAvailability.Click += new System.EventHandler(this.btnAddAvailability_Click);
             // 
             // lvOpen
             // 
@@ -223,7 +242,6 @@
             // 
             // tabPendingTutee
             // 
-            this.tabPendingTutee.Controls.Add(this.btnAcceptAppointment);
             this.tabPendingTutee.Controls.Add(this.btnDeselect3);
             this.tabPendingTutee.Controls.Add(this.btnRejectTutee);
             this.tabPendingTutee.Controls.Add(this.btnFinalize);
@@ -324,36 +342,6 @@
             this.btnDone.UseVisualStyleBackColor = true;
             this.btnDone.Click += new System.EventHandler(this.btnDone_Click);
             // 
-            // btnAcceptAppointment
-            // 
-            this.btnAcceptAppointment.Location = new System.Drawing.Point(165, 336);
-            this.btnAcceptAppointment.Name = "btnAcceptAppointment";
-            this.btnAcceptAppointment.Size = new System.Drawing.Size(153, 23);
-            this.btnAcceptAppointment.TabIndex = 27;
-            this.btnAcceptAppointment.Text = "Accept Appointment(s)";
-            this.btnAcceptAppointment.UseVisualStyleBackColor = true;
-            this.btnAcceptAppointment.Click += new System.EventHandler(this.btnAcceptAppointment_Click);
-            // 
-            // btnAddAvailability
-            // 
-            this.btnAddAvailability.Location = new System.Drawing.Point(6, 336);
-            this.btnAddAvailability.Name = "btnAddAvailability";
-            this.btnAddAvailability.Size = new System.Drawing.Size(152, 23);
-            this.btnAddAvailability.TabIndex = 18;
-            this.btnAddAvailability.Text = "Add Availability";
-            this.btnAddAvailability.UseVisualStyleBackColor = true;
-            this.btnAddAvailability.Click += new System.EventHandler(this.btnAddAvailability_Click);
-            // 
-            // btnCreateAppointment
-            // 
-            this.btnCreateAppointment.Location = new System.Drawing.Point(164, 336);
-            this.btnCreateAppointment.Name = "btnCreateAppointment";
-            this.btnCreateAppointment.Size = new System.Drawing.Size(152, 23);
-            this.btnCreateAppointment.TabIndex = 19;
-            this.btnCreateAppointment.Text = "Create Appointment";
-            this.btnCreateAppointment.UseVisualStyleBackColor = true;
-            this.btnCreateAppointment.Click += new System.EventHandler(this.btnCreateAppointment_Click);
-            // 
             // AdminSeeSchedule
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -404,7 +392,6 @@
         private System.Windows.Forms.ListView lvPendingTutee;
         private System.Windows.Forms.Label lblNameTitle;
         private System.Windows.Forms.Button btnDone;
-        private System.Windows.Forms.Button btnAcceptAppointment;
         private System.Windows.Forms.Button btnCreateAppointment;
         private System.Windows.Forms.Button btnAddAvailability;
     }
