@@ -26,16 +26,17 @@ namespace TutorMaster
             combTutorNameLeft.Hide();
             combTutorNameRight.Hide();
             lvTutorAvailability.Hide();
-            //tvClasses.Hide();
             lblHowLong.Hide();
             combMeetingLength.Hide();
             cbxWeekly.Hide();
             label2.Hide();
             btnManualTime.Hide();
+            btnSendRequest.Hide();
+            combClassBoxLeft.Hide();
 
             //initialize the tutor names and list of classes
             setupTutorList();           //populate combTutorName
-            setupComboClasses(); //populate the combo box with all the available classes
+            setupComboClasses(combClassBoxRight); //populate the right combo box with all the available classes
 
         }
 
@@ -111,23 +112,30 @@ namespace TutorMaster
             tvClasses.Sort();
         }
         */
-        private void setupComboClasses()
+       
+        private void setupComboClasses(ComboBox combClassBox)
         {
             TutorMasterDBEntities4 db = new TutorMasterDBEntities4();
             var Classes = (from row in db.StudentClasses select row); // pull out all the classes that are being tutored [including duplicates]
             List<StudentClass> ListOfClasses = Classes.ToList<StudentClass>(); //put all of those classes into a list to manipuate
             foreach (StudentClass SC in ListOfClasses)
             {
-                combClassBoxRight.Items.Add(SC.ClassCode);
+                combClassBox.Items.Add(SC.ClassCode);
             }
         }
 
-        private void combTutorName_SelectedIndexChanged(object sender, EventArgs e)
+        private void combTutorNameLeft_SelectedIndexChanged(object sender, EventArgs e)
         {
-           // tvClasses.Show();
-            //tvClasses.Nodes.Clear(); //clears the class box
-            //setupTreeViewClasses(combTutorNameLeft.Text); //fills it with the appropriate classes
-            //set up the tutor time matches
+            //show the appropriate objercts 
+            combClassBoxLeft.Show();
+            lblClassesAvailable.Show();
+            combMeetingLength.Show();
+            lblHowLong.Show();
+            cbxWeekly.Show(); 
+
+            combClassBoxLeft.Items.Clear();         //clears the class box
+            setupComboClasses(combClassBoxLeft);    //fills it with the appropriate classes
+            MatchTimes(); //set up the tutor time matches
         }
 
         private void btnExit_Click(object sender, EventArgs e) 
@@ -144,7 +152,12 @@ namespace TutorMaster
             combTutorNameRight.Hide();
             lblClasses.Hide();
             label1.Hide();
-            
+            label2.Hide();
+            btnManualTime.Hide();
+            btnSendRequest.Hide();
+            combMeetingLength.Hide();
+            lblHowLong.Hide();
+            cbxWeekly.Hide();
 
             //show lblTutorName and combTutorName
             lblTutorName.Show();
@@ -158,20 +171,30 @@ namespace TutorMaster
             lblClassesAvailable.Hide();
             lblAvailableTimes.Hide();
             combTutorNameLeft.Hide();
-            //tvClasses.Hide();
             lvTutorAvailability.Hide();
+            label2.Hide();
+            btnManualTime.Hide();
+            btnSendRequest.Hide();
+            combClassBoxLeft.Hide();
+            lblClassesAvailable.Hide();
+            combMeetingLength.Hide();
+            lblHowLong.Hide();
+            cbxWeekly.Hide();
 
             //Show Class Options
             lblClasses.Show();
             combClassBoxRight.Show();
         }
 
-        private void combClassBox_SelectedIndexChanged(object sender, EventArgs e)
+        private void combClassBoxRight_SelectedIndexChanged(object sender, EventArgs e)
         {
             //1. Show and clear all the appropriate items
             label1.Show();
             combTutorNameRight.Show();
             combTutorNameRight.Items.Clear();
+            combMeetingLength.Show();
+            lblHowLong.Show();
+            cbxWeekly.Show();
 
             //This populates the available tutors for the selected class
             TutorMasterDBEntities4 db = new TutorMasterDBEntities4();
@@ -191,7 +214,7 @@ namespace TutorMaster
             }
         }
 
-        private void combTutorName2_SelectedIndexChanged(object sender, EventArgs e)
+        private void combTutorNameRight_SelectedIndexChanged(object sender, EventArgs e)
         {
             //call our tutor match function
         }
@@ -203,6 +226,11 @@ namespace TutorMaster
         }
 
         private void AdvancedRequest_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void combClassBoxLeft_SelectedIndexChanged(object sender, EventArgs e)
         {
 
         }
