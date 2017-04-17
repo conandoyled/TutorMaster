@@ -1062,13 +1062,5 @@ namespace TutorMaster
                 btnFinalize.Enabled = false;
             }
         }
-        //delete all beyond this:
-        private void btnAdvancedRequest_Click(object sender, EventArgs e)
-        {
-            AdvancedRequest g = new AdvancedRequest(id);
-            g.Show();
-            Close();
-        }
-
     }
 }

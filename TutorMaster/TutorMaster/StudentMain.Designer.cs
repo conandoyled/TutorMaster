@@ -91,7 +91,6 @@
             this.label6 = new System.Windows.Forms.Label();
             this.lvPendingTutee = new System.Windows.Forms.ListView();
             this.label10 = new System.Windows.Forms.Label();
-            this.btnAdvancedRequest = new System.Windows.Forms.Button();
             this.dayTabs.SuspendLayout();
             this.tabSunday.SuspendLayout();
             this.tabMonday.SuspendLayout();
@@ -785,22 +784,11 @@
             this.label10.TabIndex = 15;
             this.label10.Text = "Date to load schedule a week out from";
             // 
-            // btnAdvancedRequest
-            // 
-            this.btnAdvancedRequest.Location = new System.Drawing.Point(733, 143);
-            this.btnAdvancedRequest.Name = "btnAdvancedRequest";
-            this.btnAdvancedRequest.Size = new System.Drawing.Size(197, 23);
-            this.btnAdvancedRequest.TabIndex = 16;
-            this.btnAdvancedRequest.Text = "Advanced Request";
-            this.btnAdvancedRequest.UseVisualStyleBackColor = true;
-            this.btnAdvancedRequest.Click += new System.EventHandler(this.btnAdvancedRequest_Click);
-            // 
             // StudentMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(948, 441);
-            this.Controls.Add(this.btnAdvancedRequest);
             this.Controls.Add(this.label10);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.weekStartDateTime);
@@ -903,6 +891,5 @@
         private System.Windows.Forms.Button btnDeselect3;
         private System.Windows.Forms.Button btnRejectTutee;
         private System.Windows.Forms.Button btnFinalize;
-        private System.Windows.Forms.Button btnAdvancedRequest;
     }
 }

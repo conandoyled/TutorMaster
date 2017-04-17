@@ -26,7 +26,7 @@ namespace TutorMaster
             combTutorNameLeft.Hide();
             combTutorNameRight.Hide();
             lvTutorAvailability.Hide();
-            tvClasses.Hide();
+            //tvClasses.Hide();
             lblHowLong.Hide();
             combMeetingLength.Hide();
             cbxWeekly.Hide();
@@ -68,7 +68,7 @@ namespace TutorMaster
                 combTutorNameLeft.Items.Add(name);
             }
         }
-
+        /*
         private void setupTreeViewClasses(string TutorName)
         {
             tvClasses.CheckBoxes = true;
@@ -110,7 +110,7 @@ namespace TutorMaster
 
             tvClasses.Sort();
         }
-
+        */
         private void setupComboClasses()
         {
             TutorMasterDBEntities4 db = new TutorMasterDBEntities4();
@@ -124,8 +124,8 @@ namespace TutorMaster
 
         private void combTutorName_SelectedIndexChanged(object sender, EventArgs e)
         {
-            tvClasses.Show();
-            tvClasses.Nodes.Clear(); //clears the class box
+           // tvClasses.Show();
+            //tvClasses.Nodes.Clear(); //clears the class box
             setupTreeViewClasses(combTutorNameLeft.Text); //fills it with the appropriate classes
             //set up the tutor time matches
         }
@@ -158,7 +158,7 @@ namespace TutorMaster
             lblClassesAvailable.Hide();
             lblAvailableTimes.Hide();
             combTutorNameLeft.Hide();
-            tvClasses.Hide();
+            //tvClasses.Hide();
             lvTutorAvailability.Hide();
 
             //Show Class Options
@@ -200,6 +200,11 @@ namespace TutorMaster
         {
             //do the matching thing that myles and I talked about
             //try to meet with him tomorrow and talk to him about it all
+        }
+
+        private void AdvancedRequest_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }
