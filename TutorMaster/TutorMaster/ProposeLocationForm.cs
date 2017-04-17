@@ -13,15 +13,13 @@ namespace TutorMaster
     {
         private int id;                                                //id of tutor
         private List<string> info = new List<string>();                //list of times the user wants to propose a location for
-        private bool admin;
 
         //constructor
-        public ProposeLocationForm(int accID, List<string> infoString, bool isAdmin)
+        public ProposeLocationForm(int accID, List<string> infoString)
         {
             InitializeComponent();
             id = accID;
             info = infoString;
-            admin = isAdmin;
         }
 
         private void btnCancel_Click(object sender, EventArgs e)
@@ -53,14 +51,7 @@ namespace TutorMaster
                 {
                     if (inTheTimeSlot(startDate, endDate, tutorCmtList[c]))                                          //if a commitment is in the time slot
                     {
-                        if (!admin)
-                        {
-                            tutorCmtList[c].Location = loc + "?";                                                        //change the location to the string the user typed in + a question mark
-                        }
-                        else
-                        {
-                            tutorCmtList[c].Location = loc;                                                             //change the location to the string the user typed in
-                        }
+                        tutorCmtList[c].Location = loc + "?";                                                        //change the location to the string the user typed in + a question mark
                         db.SaveChanges();                                                                            //save to database
                     }
                 }
@@ -88,14 +79,7 @@ namespace TutorMaster
                     if (inTheTimeSlot(startDate, endDate, tuteeCmtList[m]))
                     {
                         tuteeCmtList[m].Class = tuteeCmtList[m].Class + "!";                                   //add an exclamation point to the tutee class so that the system knows this is a new commitment
-                        if (!admin)
-                        {
-                            tuteeCmtList[m].Location = loc + "?";                                                  //change the location to the string the user typed in + a question mark
-                        }
-                        else
-                        {
-                            tuteeCmtList[m].Location = loc;
-                        }
+                        tuteeCmtList[m].Location = loc + "?";                                                  //change the location to the string the user typed in + a question mark
                         db.SaveChanges();                                                                      //save to database
                     }
                 }

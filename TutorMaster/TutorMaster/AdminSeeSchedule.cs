@@ -393,7 +393,7 @@ namespace TutorMaster
                     commits.Add(lvPendingTutor.CheckedItems[i].SubItems[0].Text.ToString() + "," + lvPendingTutor.CheckedItems[i].SubItems[1].Text.ToString() + "," + Convert.ToString(lvPendingTutor.CheckedItems[i].SubItems[8].Text));
                 }
 
-                ProposeLocationForm g = new ProposeLocationForm(id, commits, true);
+                ProposeLocationForm g = new ProposeLocationForm(id, commits);
                 g.Show();
             }
             else
@@ -683,57 +683,44 @@ namespace TutorMaster
                                              join cmt in db.Commitments on stucmt.CmtID equals cmt.CmtID
                                              select cmt).ToList();
 
-            if (lvPendingTutee.CheckedItems.Count > 0)
+            /*for (int i = 0; i < lvPendingTutee.CheckedItems.Count; i++)
             {
-                for (int i = 0; i < lvPendingTutee.CheckedItems.Count; i++)
+                DateTime startDate = getListViewTime(lvPendingTutee.CheckedItems[i].SubItems[0].Text);
+                DateTime endDate = getListViewTime(lvPendingTutee.CheckedItems[i].SubItems[1].Text);
+
+                for (int c = 0; c < tuteeCmtList.Count(); c++)
                 {
-                    DateTime startDate = getListViewTime(lvPendingTutee.CheckedItems[i].SubItems[0].Text);
-                    DateTime endDate = getListViewTime(lvPendingTutee.CheckedItems[i].SubItems[1].Text);
-
-                    for (int c = 0; c < tuteeCmtList.Count(); c++)
+                    if (DateTime.Compare(startDate, Convert.ToDateTime(tuteeCmtList[c].StartTime)) <= 0 && DateTime.Compare(endDate, Convert.ToDateTime(tuteeCmtList[c].StartTime)) > 0)
                     {
-                        if (DateTime.Compare(startDate, Convert.ToDateTime(tuteeCmtList[c].StartTime)) <= 0 && DateTime.Compare(endDate, Convert.ToDateTime(tuteeCmtList[c].StartTime)) > 0)
-                        {
-                            tuteeCmtList[c].Location = tuteeCmtList[c].Location.Substring(0, tuteeCmtList[c].Location.Length - 1);
-                            db.SaveChanges();
-                        }
+                        tuteeCmtList[c].Location = tuteeCmtList[c].Location.Substring(0, tuteeCmtList[c].Location.Length - 1);
+                        db.SaveChanges();
                     }
+                }
 
-                    int partnerID = Convert.ToInt32(lvPendingTutee.CheckedItems[i].SubItems[8].Text);
+                int partnerID = Convert.ToInt32(lvPendingTutee.CheckedItems[i].SubItems[8].Text);
 
-                    List<Commitment> tutorCmtList = (from stucmt in db.StudentCommitments
-                                                     where stucmt.ID == partnerID
-                                                     join cmt in db.Commitments on stucmt.CmtID equals cmt.CmtID
-                                                     select cmt).ToList();
+                List<Commitment> tutorCmtList = (from stucmt in db.StudentCommitments
+                                                 where stucmt.ID == partnerID
+                                                 join cmt in db.Commitments on stucmt.CmtID equals cmt.CmtID
+                                                 select cmt).ToList();
 
-                    for (int m = 0; m < tutorCmtList.Count(); m++)
+                for (int m = 0; m < tutorCmtList.Count(); m++)
+                {
+                    if (DateTime.Compare(startDate, Convert.ToDateTime(tutorCmtList[m].StartTime)) <= 0 && DateTime.Compare(endDate, Convert.ToDateTime(tutorCmtList[m].StartTime)) > 0)
                     {
-                        if (DateTime.Compare(startDate, Convert.ToDateTime(tutorCmtList[m].StartTime)) <= 0 && DateTime.Compare(endDate, Convert.ToDateTime(tutorCmtList[m].StartTime)) > 0)
-                        {
-                            tutorCmtList[m].Location = tutorCmtList[m].Location.Substring(0, tutorCmtList[m].Location.Length - 1);
-                            db.SaveChanges();
-                        }
+                        tutorCmtList[m].Location = tutorCmtList[m].Location.Substring(0, tutorCmtList[m].Location.Length - 1);
+                        db.SaveChanges();
                     }
                 }
             }
-            else
-            {
-                List<string> commits = new List<string>();
-                for (int i = 0; i < lvTutee.CheckedItems.Count; i++)
-                {
-                    commits.Add(lvTutee.CheckedItems[i].SubItems[0].Text.ToString() + "," + lvTutee.CheckedItems[i].SubItems[1].Text.ToString() + "," + Convert.ToString(lvTutee.CheckedItems[i].SubItems[8].Text));
-                }
-
-                ProposeLocationForm g = new ProposeLocationForm(id, commits, true);
-                g.Show();
-            }
+            DateTime start = DateTime.Now;
 
             lvFinalized.Items.Clear();
             lvPendingTutee.Items.Clear();
             lvPendingTutor.Items.Clear();
             lvTutee.Items.Clear();
             lvTutor.Items.Clear();
-            lvOpen.Items.Clear();
+            lvOpen.Items.Clear();*/
 
             loadAppointments(false);
         }
