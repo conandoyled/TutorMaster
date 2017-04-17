@@ -152,13 +152,11 @@
     <EmbeddedResource Include="AdminMain.resx">
       <DependentUpon>AdminMain.cs</DependentUpon>
     </EmbeddedResource>
-
     <EmbeddedResource Include="AdvancedRequest.resx">
       <DependentUpon>AdvancedRequest.cs</DependentUpon>
-
+    </EmbeddedResource>
     <EmbeddedResource Include="AdminSeeSchedule.resx">
       <DependentUpon>AdminSeeSchedule.cs</DependentUpon>
-
     </EmbeddedResource>
     <EmbeddedResource Include="CreateStudent.resx">
       <DependentUpon>CreateStudent.cs</DependentUpon>
