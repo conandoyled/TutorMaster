@@ -29,30 +29,37 @@ namespace TutorMaster
 
             else if (isValidUser(username, password)) //checks to see if the account is valid
             {
-                string accType = getAccType(username);
-                int accID = getID(username);
-                lblErrMsg.Text = accType + accID.ToString();
-                switch (accType)
+                if (username.Contains('?'))
                 {
-                    case "Student":
-                        //send ID to student form
-                        StudentMain a = new StudentMain(accID);
-                        a.Show();
-                        this.Hide(); //Why are we hiding these instead of deleting them? Won't we end up with a ton of open forms because we keep opening login forms when we close other forms. 
-                        break;
-                    case "Faculty":
-                        //send ID to faculty form
-                        FacultyMain g = new FacultyMain(accID);
-                        
-                        g.Show();
-                        this.Hide();
-                        break;
-                    default:        //Admin account
-                    //open admin form (shouldn't need ID?)
-                        AdminMain f = new AdminMain();
-                        f.Show();
-                        this.Hide();
-                        break;
+                    MessageBox.Show("You have not yet been approved as a tutor or tutee yet. If you have any questions, feel free to contact the campus administrator");
+                }
+                else
+                {
+                    string accType = getAccType(username);
+                    int accID = getID(username);
+                    lblErrMsg.Text = accType + accID.ToString();
+                    switch (accType)
+                    {
+                        case "Student":
+                            //send ID to student form
+                            StudentMain a = new StudentMain(accID);
+                            a.Show();
+                            this.Hide(); //Why are we hiding these instead of deleting them? Won't we end up with a ton of open forms because we keep opening login forms when we close other forms. 
+                            break;
+                        case "Faculty":
+                            //send ID to faculty form
+                            FacultyMain g = new FacultyMain(accID);
+
+                            g.Show();
+                            this.Hide();
+                            break;
+                        default:        //Admin account
+                            //open admin form (shouldn't need ID?)
+                            AdminMain f = new AdminMain();
+                            f.Show();
+                            this.Hide();
+                            break;
+                    }
                 }
             }
             else
@@ -106,6 +113,21 @@ namespace TutorMaster
         private void Login_FormClosed(object sender, FormClosedEventArgs e)
         {
             System.Windows.Forms.Application.Exit();
+        }
+
+        private void btnRegister_Click(object sender, EventArgs e)
+        {
+            SignUpTutorTutee g = new SignUpTutorTutee();
+            g.Show();
+            this.Hide();
+        }
+
+        private void txtPassword_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyValue == '\r')
+            {
+                btnSignIn_Click(sender, null);
+            }
         }
 
 

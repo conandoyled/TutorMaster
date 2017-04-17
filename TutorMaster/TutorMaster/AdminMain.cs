@@ -50,6 +50,7 @@ namespace TutorMaster
             List<Student> stus = new List<Student>();
             stus = students.ToList();
 
+            int newUsers = 0;
             foreach(Student stu in stus)
             {
                 string tutee = "No";
@@ -63,7 +64,17 @@ namespace TutorMaster
                     tutor = "Yes";
                 else
                     tutor = "No";
+
+                if (user.Username.Contains('?'))
+                {
+                    newUsers++;
+                }
                 lvStudent.Items.Add(new ListViewItem(new string[] { user.Username, user.LastName, user.FirstName, tutor, tutee, user.Email, user.PhoneNumber }));
+            }
+
+            if (newUsers > 0)
+            {
+                MessageBox.Show("There are " + newUsers.ToString() + " students that want to sign up as a tutor or tutee");
             }
 
             
