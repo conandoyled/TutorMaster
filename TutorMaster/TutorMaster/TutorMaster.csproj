@@ -83,7 +83,7 @@
     </Compile>
     <Compile Include="AdvancedRequest.Designer.cs">
       <DependentUpon>AdvancedRequest.cs</DependentUpon>
-
+    </Compile>
     <Compile Include="AdminSeeSchedule.cs">
       <SubType>Form</SubType>
     </Compile>
