@@ -386,14 +386,80 @@ namespace TutorMaster
             TutorMasterDBEntities4 db = new TutorMasterDBEntities4();
             List<string> commits = new List<string>();
 
-            for (int i = 0; i < lvPendingTutor.CheckedItems.Count; i++)
+            if (lvPendingTutor.CheckedItems.Count > 0)
             {
-                commits.Add(lvPendingTutor.CheckedItems[i].SubItems[0].Text.ToString() + "," + lvPendingTutor.CheckedItems[i].SubItems[1].Text.ToString() + "," + Convert.ToString(lvPendingTutor.CheckedItems[i].SubItems[8].Text));
-            }
+                for (int i = 0; i < lvPendingTutor.CheckedItems.Count; i++)
+                {
+                    commits.Add(lvPendingTutor.CheckedItems[i].SubItems[0].Text.ToString() + "," + lvPendingTutor.CheckedItems[i].SubItems[1].Text.ToString() + "," + Convert.ToString(lvPendingTutor.CheckedItems[i].SubItems[8].Text));
+                }
 
-            ProposeLocationForm g = new ProposeLocationForm(id, commits);
-            g.Show();
-            this.Close();
+                ProposeLocationForm g = new ProposeLocationForm(id, commits);
+                g.Show();
+            }
+            else
+            {
+                List<Commitment> tuteeCmtList = (from stucmt in db.StudentCommitments
+                                                 where stucmt.ID == id
+                                                 join cmt in db.Commitments on stucmt.CmtID equals cmt.CmtID
+                                                 select cmt).ToList();
+
+                for (int i = 0; i < lvTutor.CheckedItems.Count; i++)
+                {
+                    DateTime startDate = getListViewTime(lvTutor.CheckedItems[i].SubItems[0].Text);
+                    DateTime endDate = getListViewTime(lvTutor.CheckedItems[i].SubItems[1].Text);
+
+                    for (int c = 0; c < tuteeCmtList.Count(); c++)
+                    {
+                        if (DateTime.Compare(startDate, Convert.ToDateTime(tuteeCmtList[c].StartTime)) <= 0 && DateTime.Compare(endDate, Convert.ToDateTime(tuteeCmtList[c].StartTime)) > 0)
+                        {
+                            tuteeCmtList[c].Location = tuteeCmtList[c].Location.Substring(0, tuteeCmtList[c].Location.Length - 1);
+                            db.SaveChanges();
+                        }
+                    }
+
+                    int partnerID = Convert.ToInt32(lvTutor.CheckedItems[i].SubItems[8].Text);
+
+                    List<Commitment> tutorCmtList = (from stucmt in db.StudentCommitments
+                                                     where stucmt.ID == partnerID
+                                                     join cmt in db.Commitments on stucmt.CmtID equals cmt.CmtID
+                                                     select cmt).ToList();
+
+                    for (int m = 0; m < tutorCmtList.Count(); m++)
+                    {
+                        if (DateTime.Compare(startDate, Convert.ToDateTime(tutorCmtList[m].StartTime)) <= 0 && DateTime.Compare(endDate, Convert.ToDateTime(tutorCmtList[m].StartTime)) > 0)
+                        {
+                            tutorCmtList[m].Location = tutorCmtList[m].Location.Substring(0, tutorCmtList[m].Location.Length - 1);
+                            db.SaveChanges();
+                        }
+                    }
+                }
+            }
+        }
+
+        private DateTime getListViewTime(string slot)                                    //take a string of datetime from listview's string
+        {
+            string dateString = slot.Split(' ')[0];                                      //get the entire start datetime string
+
+            int month = Convert.ToInt32(dateString.Split('/')[0]);                       //convert its month value into an integer
+            int day = Convert.ToInt32(dateString.Split('/')[1]);                         //convert its day value into an integer
+
+            string timeString = slot.Split(' ')[1];                                      //get the time part of the start datetime
+
+            int hour = Convert.ToInt32(timeString.Split(':')[0]);                        //convert its hour into an integer
+            int min = Convert.ToInt32(timeString.Split(':')[1]);                         //convert its minutes into an integer
+
+            string amPm = slot.Split(' ')[2];                                            //record whether this is in the morning or evening
+
+            if (hour < 12 && amPm == "PM")                                               //add 12 to hours if necessary
+            {
+                hour += 12;
+            }
+            else if (hour == 12 && amPm == "AM")                                         //if first hour of the day, set hour to 0
+            {
+                hour = 0;
+            }
+            DateTime date = new DateTime(2017, month, day, hour, min, 0);                //make a datetime instance with the collected data and return it
+            return date;
         }
 
         private void btnRejectTutor_Click(object sender, EventArgs e)
@@ -401,6 +467,7 @@ namespace TutorMaster
             TutorMasterDBEntities4 db = new TutorMasterDBEntities4();
             List<string> commits = new List<string>();
 
+           
             for (int i = 0; i < lvPendingTutor.CheckedItems.Count; i++)
             {
                 commits.Add(lvPendingTutor.CheckedItems[i].SubItems[0].Text.ToString() + "," + lvPendingTutor.CheckedItems[i].SubItems[1].Text.ToString() + "," + lvPendingTutor.CheckedItems[i].SubItems[8].Text.ToString());
@@ -530,7 +597,7 @@ namespace TutorMaster
             lvFinalized.Items.Clear();
             lvPendingTutee.Items.Clear();
             lvTutee.Items.Clear();
-            lvOpen.Clear();
+            lvOpen.Items.Clear();
 
             loadAppointments(true);
         }
