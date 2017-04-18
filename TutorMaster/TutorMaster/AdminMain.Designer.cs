@@ -68,10 +68,16 @@
             this.lvClass = new System.Windows.Forms.ListView();
             this.btnLogout = new System.Windows.Forms.Button();
             this.lblID = new System.Windows.Forms.Label();
+            this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.lvRequests = new System.Windows.Forms.ListView();
+            this.btnAcceptRequest = new System.Windows.Forms.Button();
+            this.btnEditRequests = new System.Windows.Forms.Button();
+            this.btnRejectRequests = new System.Windows.Forms.Button();
             this.tabAdmin.SuspendLayout();
             this.tabStudent.SuspendLayout();
             this.tabFaculty.SuspendLayout();
             this.tabClasses.SuspendLayout();
+            this.tabPage1.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabAdmin
@@ -79,6 +85,7 @@
             this.tabAdmin.Controls.Add(this.tabStudent);
             this.tabAdmin.Controls.Add(this.tabFaculty);
             this.tabAdmin.Controls.Add(this.tabClasses);
+            this.tabAdmin.Controls.Add(this.tabPage1);
             this.tabAdmin.Location = new System.Drawing.Point(12, 39);
             this.tabAdmin.Name = "tabAdmin";
             this.tabAdmin.SelectedIndex = 0;
@@ -463,6 +470,59 @@
             this.lblID.Text = "label9";
             this.lblID.Visible = false;
             // 
+            // tabPage1
+            // 
+            this.tabPage1.Controls.Add(this.btnRejectRequests);
+            this.tabPage1.Controls.Add(this.btnEditRequests);
+            this.tabPage1.Controls.Add(this.btnAcceptRequest);
+            this.tabPage1.Controls.Add(this.lvRequests);
+            this.tabPage1.Location = new System.Drawing.Point(4, 22);
+            this.tabPage1.Name = "tabPage1";
+            this.tabPage1.Size = new System.Drawing.Size(617, 372);
+            this.tabPage1.TabIndex = 4;
+            this.tabPage1.Text = "Tutor/Tutee Requests";
+            this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // lvRequests
+            // 
+            this.lvRequests.Location = new System.Drawing.Point(-4, 0);
+            this.lvRequests.Name = "lvRequests";
+            this.lvRequests.Size = new System.Drawing.Size(621, 337);
+            this.lvRequests.TabIndex = 1;
+            this.lvRequests.UseCompatibleStateImageBehavior = false;
+            this.lvRequests.View = System.Windows.Forms.View.Details;
+            this.lvRequests.ItemChecked += new System.Windows.Forms.ItemCheckedEventHandler(this.lvRequests_ItemChecked);
+            // 
+            // btnAcceptRequest
+            // 
+            this.btnAcceptRequest.Location = new System.Drawing.Point(14, 343);
+            this.btnAcceptRequest.Name = "btnAcceptRequest";
+            this.btnAcceptRequest.Size = new System.Drawing.Size(113, 23);
+            this.btnAcceptRequest.TabIndex = 2;
+            this.btnAcceptRequest.Text = "Accept Requests";
+            this.btnAcceptRequest.UseVisualStyleBackColor = true;
+            this.btnAcceptRequest.Click += new System.EventHandler(this.btnAcceptRequest_Click);
+            // 
+            // btnEditRequests
+            // 
+            this.btnEditRequests.Location = new System.Drawing.Point(147, 343);
+            this.btnEditRequests.Name = "btnEditRequests";
+            this.btnEditRequests.Size = new System.Drawing.Size(119, 23);
+            this.btnEditRequests.TabIndex = 3;
+            this.btnEditRequests.Text = "Edit Request";
+            this.btnEditRequests.UseVisualStyleBackColor = true;
+            this.btnEditRequests.Click += new System.EventHandler(this.btnEditRequests_Click);
+            // 
+            // btnRejectRequests
+            // 
+            this.btnRejectRequests.Location = new System.Drawing.Point(291, 343);
+            this.btnRejectRequests.Name = "btnRejectRequests";
+            this.btnRejectRequests.Size = new System.Drawing.Size(116, 23);
+            this.btnRejectRequests.TabIndex = 4;
+            this.btnRejectRequests.Text = "Reject Requests";
+            this.btnRejectRequests.UseVisualStyleBackColor = true;
+            this.btnRejectRequests.Click += new System.EventHandler(this.btnRejectRequests_Click);
+            // 
             // AdminMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -481,6 +541,7 @@
             this.tabFaculty.PerformLayout();
             this.tabClasses.ResumeLayout(false);
             this.tabClasses.PerformLayout();
+            this.tabPage1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -527,5 +588,10 @@
         private System.Windows.Forms.TextBox txtEmail;
         private System.Windows.Forms.Label lblID;
         private System.Windows.Forms.Button btnStudentSchedule;
+        private System.Windows.Forms.TabPage tabPage1;
+        private System.Windows.Forms.Button btnRejectRequests;
+        private System.Windows.Forms.Button btnEditRequests;
+        private System.Windows.Forms.Button btnAcceptRequest;
+        private System.Windows.Forms.ListView lvRequests;
     }
 }

@@ -36,6 +36,7 @@
             this.lblTitle = new System.Windows.Forms.Label();
             this.btnSignIn = new System.Windows.Forms.Button();
             this.lblErrMsg = new System.Windows.Forms.Label();
+            this.btnRegister = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // txtUsername
@@ -54,6 +55,7 @@
             this.txtPassword.Size = new System.Drawing.Size(100, 20);
             this.txtPassword.TabIndex = 3;
             this.txtPassword.TextChanged += new System.EventHandler(this.clearErrMsg);
+            this.txtPassword.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtPassword_KeyDown);
             // 
             // lblUsername
             // 
@@ -105,11 +107,22 @@
             this.lblErrMsg.TabIndex = 8;
             this.lblErrMsg.Text = " ";
             // 
+            // btnRegister
+            // 
+            this.btnRegister.Location = new System.Drawing.Point(16, 196);
+            this.btnRegister.Name = "btnRegister";
+            this.btnRegister.Size = new System.Drawing.Size(75, 23);
+            this.btnRegister.TabIndex = 9;
+            this.btnRegister.Text = "Register";
+            this.btnRegister.UseVisualStyleBackColor = true;
+            this.btnRegister.Click += new System.EventHandler(this.btnRegister_Click);
+            // 
             // Login
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(344, 232);
+            this.Controls.Add(this.btnRegister);
             this.Controls.Add(this.lblErrMsg);
             this.Controls.Add(this.btnSignIn);
             this.Controls.Add(this.lblTitle);
@@ -135,6 +148,7 @@
         private System.Windows.Forms.Label lblTitle;
         private System.Windows.Forms.Button btnSignIn;
         private System.Windows.Forms.Label lblErrMsg;
+        private System.Windows.Forms.Button btnRegister;
 
     }
 }

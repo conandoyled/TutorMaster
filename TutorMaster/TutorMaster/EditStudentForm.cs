@@ -54,6 +54,10 @@ namespace TutorMaster
             string fname = txtFirstname.Text;
             string lname = txtLastname.Text;
             string username = txtUsername.Text;
+            if (username.Contains('?'))
+            {
+                username = username.Substring(0, username.Length-1);
+            }
             string password = txtPassword.Text;
             string phone = txtPhoneNumber.Text;
             string email = txtEmail.Text;

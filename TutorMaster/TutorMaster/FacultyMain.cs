@@ -38,6 +38,15 @@ namespace TutorMaster
             var PendingRequests = (from row in db.TutorRequests select row);                                                //This pulls out the whole table of pending requests
             List<TutorRequest> PC = new List<TutorRequest>();                                                               //create a list to store the DB info that was just pulled
             PC = PendingRequests.ToList<TutorRequest>();                                                                    //Fill the list
+            for (int i = 0; i < PC.Count(); i++)
+            {
+                User user = (from row in db.Users.AsEnumerable() where PC[i].ID == row.ID select row).First();
+                if (user.Username.Contains('?'))
+                {
+                    PC.Remove(PC[i]);
+                    i--;
+                }
+            }
 
             //1.5 Create an empty list to fill with the right requests in step 2
             List<TutorRequest> FC = new List<TutorRequest>();                                                               //here is that beautiful empty list that will be filled with the tutor requests that should be displayed
