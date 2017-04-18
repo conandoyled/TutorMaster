@@ -140,6 +140,7 @@
             this.tvClasses.Name = "tvClasses";
             this.tvClasses.Size = new System.Drawing.Size(203, 305);
             this.tvClasses.TabIndex = 10;
+            this.tvClasses.AfterCheck += new System.Windows.Forms.TreeViewEventHandler(this.tvClasses_AfterCheck);
             // 
             // lblTClasses
             // 
@@ -217,7 +218,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(261, 408);
+            this.ClientSize = new System.Drawing.Size(253, 408);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.label5);

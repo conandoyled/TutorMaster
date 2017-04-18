@@ -264,5 +264,19 @@ namespace TutorMaster
                 lblUsername.Text = "Username";
             }
         }
+
+        private void tvClasses_AfterCheck(object sender, TreeViewEventArgs e)
+        {
+            if (e.Action != TreeViewAction.Unknown)
+            {
+                if (e.Node.Nodes.Count > 0)
+                {
+                    foreach (TreeNode node in e.Node.Nodes)
+                    {
+                        node.Checked = e.Node.Checked;
+                    }
+                }
+            }
+        }
     }
 }
