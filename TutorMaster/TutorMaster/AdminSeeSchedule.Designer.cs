@@ -267,7 +267,7 @@
             // 
             // btnRejectTutee
             // 
-            this.btnRejectTutee.Location = new System.Drawing.Point(324, 336);
+            this.btnRejectTutee.Location = new System.Drawing.Point(165, 336);
             this.btnRejectTutee.Name = "btnRejectTutee";
             this.btnRejectTutee.Size = new System.Drawing.Size(164, 23);
             this.btnRejectTutee.TabIndex = 25;
