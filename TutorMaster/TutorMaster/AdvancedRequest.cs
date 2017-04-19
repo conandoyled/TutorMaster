@@ -69,49 +69,6 @@ namespace TutorMaster
                 combTutorNameLeft.Items.Add(name);
             }
         }
-        /*
-        private void setupTreeViewClasses(string TutorName)
-        {
-            tvClasses.CheckBoxes = true;
-
-            TutorMasterDBEntities4 db = new TutorMasterDBEntities4();
-            string[] TName = TutorName.Split(' '); //split the name into 2 pieces
-            string firstname= TName[0]; //get the first name
-            string lastname=TName[1]; //get the last name
-            
-            //1. find the tutors ID
-            int id = (from row in db.Users where ((firstname == row.FirstName) && (lastname == row.LastName)) select row.ID).First();
-
-            //2. make a list of the classes they can tutor, turn those into class objects with join, then use them for the presentation set up
-            //2.5 turn the list of student classes into a list of Class objects so you can present them
-
-            List<Class> listofclasses =
-                (from row in db.StudentClasses
-                 where row.ID == id
-                 join cl in db.Classes 
-                 on row.ClassCode equals cl.ClassCode
-                 select cl).ToList<Class>();
-
-            //3. upload those classes to the display
-
-            foreach (Class cl in listofclasses)
-            {
-                if (tvClasses.Nodes.ContainsKey(cl.Department))
-                {
-                    tvClasses.Nodes[cl.Department].Nodes.Add(new TreeNode(cl.ClassName));
-                }
-                else
-                {
-                    TreeNode nNode = new TreeNode(cl.Department);
-                    nNode.Name = cl.Department;
-                    nNode.Nodes.Add(cl.ClassName);
-                    tvClasses.Nodes.Add(nNode);
-                }
-            }
-
-            tvClasses.Sort();
-        }
-        */
        
         private void setupComboClasses(ComboBox combClassBox)
         {
@@ -219,10 +176,158 @@ namespace TutorMaster
             //call our tutor match function
         }
 
-        private void MatchTimes()
+        private void MatchTimes(ComboBox TutBox, ComboBox ClsBox)
         {
             //do the matching thing that myles and I talked about
             //try to meet with him tomorrow and talk to him about it all
+
+            TutorMasterDBEntities4 db = new TutorMasterDBEntities4();
+            //0. Info needed to match
+
+            //a. Name of Tutor, use it to find their ID
+            string[] Tutorname = TutBox.Text.Split();
+            int TutID = (from row in db.Users where row.FirstName == Tutorname[0] && row.LastName == Tutorname[1] select row.ID).First();
+
+            //b. Length of tutoring session in minutes
+            int lenght = int.Parse(combMeetingLength.Text);
+
+            //c. whether it is weekly
+            bool weekly = cbxWeekly.Checked;
+
+            //d. tutee ID (ACCID), use to match the availiblity
+            int TuteeID = ACCID;
+
+            //1. Pull out the commitments, sort and clump them
+
+            //1.1 Pull out the Tutor commits
+
+            //a. sort
+            //b. clump
+            //1.2 Pull out the tutee stuff
+            //a. sort
+            //b. clump
+
+            //2. Match up the clumps ++ maybe do at the same time as 4?
+
+            //3. Display them in the list view
+
+
+            DateTime start = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 0, 0, 0);
+
+            string classCode = ClsBox.Text;
+
+            List<Commitment> tuteeCommits = (from stucmt in db.StudentCommitments.AsEnumerable()    // create a list of tutee's commitments
+                                                where stucmt.ID == TuteeID
+                                                join cmt in db.Commitments.AsEnumerable() on stucmt.CmtID equals cmt.CmtID
+                                                select cmt).ToList();
+
+
+            //int sessionLength = Convert.ToInt32(combHours.Text) * 4 + (Convert.ToInt32(combMins.Text) / 15);
+
+            QuickSort(ref tuteeCommits, tuteeCommits.Count()); //sort the tutee commits so that they are in chronological order
+
+            checkMax(ref tuteeCommits);
+
+            removeNotOpens(ref tuteeCommits, start, weekly); //remove all the things that are not 
+
+            if (tuteeCommits.Count == 0)
+            {
+                MessageBox.Show("You currently have no available slots, please add some availability before attempting to schedule a session of this length");
+            }
+            else
+            {
+                List<string> tuteeValidSlots = getValidSlots(ref tuteeCommits, sessionLength);
+
+                bool done = false;
+                for (int i = 0; i < approvedTutorIds.Count(); i++)
+                {
+
+                    if (approvedTutorIds[i] != id)
+                    {
+                        //var tutor = (from row in db.Users.AsEnumerable() where row.ID == approvedTutorIds[i] select row).First();
+                        var tutorFirstName = (from row in db.Users.AsEnumerable() where row.ID == approvedTutorIds[i] select row.FirstName).First();
+                        var tutorLastName = (from row in db.Users.AsEnumerable() where row.ID == approvedTutorIds[i] select row.LastName).First();
+
+                        List<TutorMaster.Commitment> tutorCommits = (from stucmt in db.StudentCommitments.AsEnumerable()
+                                                                        where stucmt.ID == approvedTutorIds[i]
+                                                                        join cmt in db.Commitments.AsEnumerable() on stucmt.CmtID equals cmt.CmtID
+                                                                        select cmt).ToList();
+
+                        QuickSort(ref tutorCommits, tutorCommits.Count());
+
+                        checkMax(ref tutorCommits);
+
+                        removeNotOpens(ref tutorCommits, start, weekly);
+
+
+                        //MessageBox.Show(tuteeCommits.Count().ToString());
+                        List<string> tutorValidSlots = getValidSlots(ref tutorCommits, sessionLength);
+
+                        for (int j = 0; j < tutorValidSlots.Count(); j++)
+                        {
+                            if (BinarySearch(tuteeValidSlots, tutorValidSlots[j]))
+                            {
+                                DialogResult choice = MessageBox.Show("You have been matched with " + tutorFirstName + " " + tutorLastName +
+                                    " for a time at: " + tutorValidSlots[j].Split(',')[0] + " - " + tutorValidSlots[j].Split(',')[1], "You've got a match!", MessageBoxButtons.YesNo);
+                                if (choice == DialogResult.Yes)
+                                {
+                                    int tutorId = Convert.ToInt32(approvedTutorIds[i]);
+                                    int tuteeId = Convert.ToInt32(id);
+                                    addCommits(tutorValidSlots[j], tutorId, tuteeId, tutorCommits, tuteeCommits, classCode, db, weekly, sessionLength);
+                                    done = true;
+                                    break;
+                                }
+                                else if (choice == DialogResult.No)
+                                {
+                                    break;
+                                }
+                            }
+                        }
+                        if (done)
+                        {
+                            break;
+                        }
+                    }
+                }
+                if (!done)
+                {
+                    MessageBox.Show("There are no more tutors that meet your request requirements.");
+                }
+            }
+            StudentMain g = new StudentMain(id);
+            g.Show();
+            this.Close();
+        }
+
+        private bool isOpen(TutorMaster.Commitment commit)
+        {
+            return (commit.Class == "-" && commit.Location == "-" && commit.Open == true && commit.Tutoring == false && commit.ID == -1);
+        }
+
+        private void removeNotOpens(ref List<TutorMaster.Commitment> cmtList, DateTime start, bool weekly)
+        {
+            if (weekly)
+            {
+                for (int i = 0; i < cmtList.Count() - 1; i++)
+                {
+                    if (!isOpen(cmtList[i]) || DateTime.Compare(start, Convert.ToDateTime(cmtList[i].StartTime)) > 0 || cmtList[i].Weekly != weekly)
+                    {
+                        cmtList.Remove(cmtList[i]);
+                        i--;
+                    }
+                }
+            }
+            else
+            {
+                for (int i = 0; i < cmtList.Count() - 1; i++)
+                {
+                    if (!isOpen(cmtList[i]) || DateTime.Compare(start, Convert.ToDateTime(cmtList[i].StartTime)) > 0)
+                    {
+                        cmtList.Remove(cmtList[i]);
+                        i--;
+                    }
+                }
+            }
         }
 
         private void AdvancedRequest_Load(object sender, EventArgs e)
@@ -234,5 +339,180 @@ namespace TutorMaster
         {
 
         }
+
+
+
+
+
+        private bool sameCategory(TutorMaster.Commitment commitFirst, TutorMaster.Commitment commitSecond)      //ask if the 15 minute time block of the first has the same values as the second
+        {
+            return (commitFirst.Class == commitSecond.Class && commitFirst.Location == commitSecond.Location
+                    && commitFirst.Open == commitSecond.Open && commitFirst.Weekly == commitSecond.Weekly
+                    && commitFirst.ID == commitSecond.ID);
+        }
+
+        private void checkMax(ref List<TutorMaster.Commitment> cmtList)
+        {
+            int consec = 1;
+
+            for (int i = 0; i < cmtList.Count() - 1; i++)
+            {
+                DateTime currentCommit = Convert.ToDateTime(cmtList[i].StartTime);
+                DateTime nextCommit = Convert.ToDateTime(cmtList[i + 1].StartTime);
+
+                if (consec > 11)
+                {
+                    MessageBox.Show(cmtList[i + 1].StartTime.ToString());
+                    cmtList.Remove(cmtList[i + 1]);
+                    i--;
+                    consec = 1;
+                }
+                if (DateTime.Compare(currentCommit.AddMinutes(15), nextCommit) == 0 && sameCategory(cmtList[i], cmtList[i + 1]) && !isOpen(cmtList[i]))
+                {
+                    consec++;
+                }
+                else
+                {
+                    consec = 1;
+                }
+            }
+        }
+
+        private bool BinarySearch(List<string> cmtList, string commit)
+        {
+            bool found = false;
+            int first = 0;
+            int last = cmtList.Count() - 1;
+            while (first <= last && !found)
+            {
+                int midpoint = (first + last) / 2;
+                if (DateTime.Compare(getStartTime(cmtList[midpoint]), getStartTime(commit)) == 0)
+                {
+                    found = true;
+                    return found;
+                }
+                else
+                {
+                    if (DateTime.Compare(getStartTime(commit), getStartTime(cmtList[midpoint])) < 0)
+                    {
+                        last = midpoint - 1;
+                    }
+                    else
+                    {
+                        first = midpoint + 1;
+                    }
+                }
+            }
+            return found;
+        }
+
+        //QuickSort functions
+        private void Split(ref List<TutorMaster.Commitment> values, int first, int last, ref int splitPoint)
+        {
+            int center = (first + last) / 2;
+            int median = 0;
+            DateTime valueF = Convert.ToDateTime(values[first].StartTime);
+            DateTime valueC = Convert.ToDateTime(values[center].StartTime);
+            DateTime valueL = Convert.ToDateTime(values[last].StartTime);
+
+            if ((DateTime.Compare(valueF, valueC) >= 0 && DateTime.Compare(valueF, valueL) <= 0) ||
+                (DateTime.Compare(valueF, valueL) >= 0 && DateTime.Compare(valueF, valueL) <= 0))
+            {
+                median = first;
+            }
+            else if (DateTime.Compare(valueC, valueF) >= 0 && (DateTime.Compare(valueC, valueL) <= 0) ||
+                   (DateTime.Compare(valueC, valueF)) >= 0 && (DateTime.Compare(valueC, valueL) <= 0))
+            {
+                median = center;
+            }
+            else
+            {
+                median = last;
+            }
+            //Swap the median and first committments in the list
+            TutorMaster.Commitment temp = values[first];
+            values[first] = values[median];
+            values[median] = temp;
+
+            valueF = Convert.ToDateTime(values[first].StartTime); //get current first datetime
+            valueC = Convert.ToDateTime(values[center].StartTime);//get current center datetime;
+            valueL = Convert.ToDateTime(values[last].StartTime);
+
+            TutorMaster.Commitment splitVal = values[first];
+            DateTime splitDate = Convert.ToDateTime(values[first].StartTime);
+
+            int saveFirst = first;
+            bool onCorrectSide = true;
+
+            first++;
+            valueF = Convert.ToDateTime(values[first].StartTime);
+            do
+            {
+                onCorrectSide = true;
+                while (onCorrectSide)
+                {
+                    if (DateTime.Compare(valueF, splitDate) > 0)
+                    {
+                        onCorrectSide = false;
+                    }
+                    else
+                    {
+                        first++;
+                        valueF = Convert.ToDateTime(values[first].StartTime);
+                        onCorrectSide = (first <= last);
+                    }
+                }
+
+                onCorrectSide = (first <= last);
+                while (onCorrectSide)
+                {
+                    if (DateTime.Compare(valueL, splitDate) <= 0)
+                    {
+                        onCorrectSide = false;
+                    }
+                    else
+                    {
+                        last--;
+                        valueL = Convert.ToDateTime(values[last].StartTime);
+                        onCorrectSide = (first <= last);
+                    }
+                }
+
+                if (first < last)
+                {
+                    TutorMaster.Commitment temp2 = values[first];
+                    values[first] = values[last];
+                    values[last] = temp2;
+                    first++;
+                    last--;
+
+                    valueF = Convert.ToDateTime(values[first].StartTime);
+                    valueL = Convert.ToDateTime(values[last].StartTime);
+                }
+            } while (first <= last);
+
+            splitPoint = last;
+            TutorMaster.Commitment temp3 = values[saveFirst];
+            values[saveFirst] = values[splitPoint];
+            values[splitPoint] = temp3;
+        }
+
+        private void QuickSort2(ref List<TutorMaster.Commitment> values, int first, int last)
+        {
+            if (first < last)
+            {
+                int splitPoint = -99;
+
+                Split(ref values, first, last, ref splitPoint);
+                QuickSort2(ref values, first, splitPoint - 1);
+                QuickSort2(ref values, splitPoint + 1, last);
+            }
+        }
+
+        private void QuickSort(ref List<TutorMaster.Commitment> values, int numValues)
+        {
+            QuickSort2(ref values, 0, numValues - 1);
+        }
+    
     }
 }

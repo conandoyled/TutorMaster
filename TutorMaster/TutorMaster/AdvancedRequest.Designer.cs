@@ -203,29 +203,29 @@
             // lblHowLong
             // 
             this.lblHowLong.AutoSize = true;
-            this.lblHowLong.Location = new System.Drawing.Point(234, 68);
+            this.lblHowLong.Location = new System.Drawing.Point(150, 51);
             this.lblHowLong.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblHowLong.Name = "lblHowLong";
-            this.lblHowLong.Size = new System.Drawing.Size(157, 13);
+            this.lblHowLong.Size = new System.Drawing.Size(251, 13);
             this.lblHowLong.TabIndex = 29;
-            this.lblHowLong.Text = "How long do you want to meet?";
+            this.lblHowLong.Text = "How many minutes do you want your session to be?";
             // 
             // combMeetingLength
             // 
             this.combMeetingLength.FormattingEnabled = true;
             this.combMeetingLength.Items.AddRange(new object[] {
-            "15 minutes",
-            "30 minutes",
-            "45 minutes",
-            "1 hour",
-            "1 hour and 15 minutes",
-            "1 hour and 30 minutes",
-            "1 hour and 45 minutes",
-            "2 hours",
-            "2 hours and 15 minutes",
-            "2 hours and 30 minutes",
-            "2 hours and 45 minutes",
-            "3 hours"});
+            "15",
+            "30",
+            "45",
+            "60",
+            "75",
+            "90",
+            "105",
+            "120",
+            "135",
+            "150",
+            "165",
+            "180"});
             this.combMeetingLength.Location = new System.Drawing.Point(279, 98);
             this.combMeetingLength.Margin = new System.Windows.Forms.Padding(2);
             this.combMeetingLength.Name = "combMeetingLength";
@@ -278,7 +278,7 @@
             this.Controls.Add(this.lvTutorAvailability);
             this.Controls.Add(this.combTutorNameLeft);
             this.Name = "AdvancedRequest";
-            this.Text = "AdvancedRequest";
+            this.Text = "How many minutes ";
             this.Load += new System.EventHandler(this.AdvancedRequest_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
