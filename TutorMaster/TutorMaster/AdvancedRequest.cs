@@ -12,10 +12,11 @@ namespace TutorMaster
     public partial class AdvancedRequest : Form
     {
         private int ACCID;
-        public AdvancedRequest(int accID)  //Get rid of all the references to tvClasses and set up the new comboboxjust like the other one
+        public AdvancedRequest(int accID)  
         {
             ACCID = accID;
             InitializeComponent();
+
             //hide everything so you can show it when appropriate
             lblAvailableTimes.Hide();
             lblClasses.Hide();
@@ -70,7 +71,7 @@ namespace TutorMaster
             }
         }
        
-        private void setupComboClasses(ComboBox combClassBox)
+        private void setupComboClasses(ComboBox combClassBox)//this works for the right class box, you'll need to write a seperate on for the left. ----- you can improve this by making them class names
         {
             TutorMasterDBEntities4 db = new TutorMasterDBEntities4();
             var Classes = (from row in db.StudentClasses select row); // pull out all the classes that are being tutored [including duplicates]
@@ -191,7 +192,7 @@ namespace TutorMaster
             int TutID = (from row in db.Users where row.FirstName == fname && row.LastName == lname select row.ID).First();
 
             //b. Length of tutoring session in minutes
-            int length = int.Parse(combMeetingLength.Text);
+            int length = (int.Parse(combMeetingLength.Text))/15;
 
             //c. whether it is weekly
             bool weekly = cbxWeekly.Checked;
@@ -223,14 +224,11 @@ namespace TutorMaster
                                                 join cmt in db.Commitments.AsEnumerable() on stucmt.CmtID equals cmt.CmtID
                                                 select cmt).ToList();
 
-
-            //int sessionLength = Convert.ToInt32(combHours.Text) * 4 + (Convert.ToInt32(combMins.Text) / 15);
-
             QuickSort(ref tuteeCommits, tuteeCommits.Count()); //sort the tutee commits so that they are in chronological order
 
             checkMax(ref tuteeCommits);
 
-            removeNotOpens(ref tuteeCommits, start, weekly); //remove all the things that are not 
+            removeNotOpens(ref tuteeCommits, start, weekly); //remove all the things that are not open
 
             if (tuteeCommits.Count == 0) //If the tuttee doesn't have any compatible availibility then give a pop up box to let them know
             {
@@ -238,7 +236,7 @@ namespace TutorMaster
             }
             else
             {
-                List<string> tuteeValidSlots = getValidSlots(ref tuteeCommits, length);
+                List<string> tuteeValidSlots = getValidSlots(ref tuteeCommits, length);//this is returning 0 for some reason
 
                 List<TutorMaster.Commitment> tutorCommits = (from stucmt in db.StudentCommitments.AsEnumerable() //This creates a list of all the tutor commitments. 
                                                                 where stucmt.ID == TutID
@@ -247,15 +245,10 @@ namespace TutorMaster
 
                 QuickSort(ref tutorCommits, tutorCommits.Count()); //sort it so we can use it
                 checkMax(ref tutorCommits); 
-                removeNotOpens(ref tutorCommits, start, weekly); //remove the ocupied commitments
+                removeNotOpens(ref tutorCommits, start, weekly); //remove the occupied commitments
 
                 List<string> tutorValidSlots = getValidSlots(ref tutorCommits, length); //create a list of all the valid tutor slots
-
-
-
-
-
-                
+  
                 for (int j = 0; j < tutorValidSlots.Count(); j++) //iterate through all the available tutor slots 
                 {
                     if (BinarySearch(tuteeValidSlots, tutorValidSlots[j]))
@@ -274,14 +267,9 @@ namespace TutorMaster
                             addCommits(tutorValidSlots[j], tutorId, tuteeId, tutorCommits, tuteeCommits, classCode, db, weekly, sessionLength);
                             done = true;
                             break;
-                        }
-                        else if (choice == DialogResult.No)
-                        {
-                            break;
                         }*/
                     }
                 }
-            //show a message box for success of failure
             }
         }
 
@@ -326,14 +314,12 @@ namespace TutorMaster
 
         }
 
-
-
         private List<string> getValidSlots(ref List<TutorMaster.Commitment> cmtList, int sessionLength)
         {
             int consecutiveCommits = 0;
 
-            List<string> validSlots = new List<string>();
-            TutorMaster.Commitment initialCommit = cmtList[0];
+            List<string> validSlots = new List<string>();   //creates a list to be filled with calid slots and returned
+            TutorMaster.Commitment initialCommit = cmtList[0];  //
             DateTime startDate = Convert.ToDateTime(cmtList[0].StartTime);
             DateTime endDate = Convert.ToDateTime(cmtList[0].StartTime).AddMinutes(15);
 
