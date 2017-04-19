@@ -25,7 +25,7 @@ namespace TutorMaster
             combClassBoxRight.Hide();
             combTutorNameLeft.Hide();
             combTutorNameRight.Hide();
-            lvTutorAvailability.Hide();
+            combTutorAvailability.Hide();
             lblHowLong.Hide();
             combMeetingLength.Hide();
             cbxWeekly.Hide();
@@ -40,7 +40,7 @@ namespace TutorMaster
 
         }
 
-        private void setupTutorList()
+        private void setupTutorList() //add extra validation to this to prevent a double slotted student from seeing themselves
         {
             //1. pull all of the students that are available as tutors into a list
             TutorMasterDBEntities4 db = new TutorMasterDBEntities4();
@@ -92,7 +92,7 @@ namespace TutorMaster
 
             combClassBoxLeft.Items.Clear();         //clears the class box
             setupComboClasses(combClassBoxLeft);    //fills it with the appropriate classes
-            MatchTimes(); //set up the tutor time matches
+            //MatchTimes(); //set up the tutor time matches
         }
 
         private void btnExit_Click(object sender, EventArgs e) 
@@ -128,7 +128,7 @@ namespace TutorMaster
             lblClassesAvailable.Hide();
             lblAvailableTimes.Hide();
             combTutorNameLeft.Hide();
-            lvTutorAvailability.Hide();
+            combTutorAvailability.Hide();
             label2.Hide();
             btnManualTime.Hide();
             btnSendRequest.Hide();
@@ -186,10 +186,12 @@ namespace TutorMaster
 
             //a. Name of Tutor, use it to find their ID
             string[] Tutorname = TutBox.Text.Split();
-            int TutID = (from row in db.Users where row.FirstName == Tutorname[0] && row.LastName == Tutorname[1] select row.ID).First();
+            string fname = Tutorname[0];
+            string lname = Tutorname[1];
+            int TutID = (from row in db.Users where row.FirstName == fname && row.LastName == lname select row.ID).First();
 
             //b. Length of tutoring session in minutes
-            int lenght = int.Parse(combMeetingLength.Text);
+            int length = int.Parse(combMeetingLength.Text);
 
             //c. whether it is weekly
             bool weekly = cbxWeekly.Checked;
@@ -230,73 +232,57 @@ namespace TutorMaster
 
             removeNotOpens(ref tuteeCommits, start, weekly); //remove all the things that are not 
 
-            if (tuteeCommits.Count == 0)
+            if (tuteeCommits.Count == 0) //If the tuttee doesn't have any compatible availibility then give a pop up box to let them know
             {
                 MessageBox.Show("You currently have no available slots, please add some availability before attempting to schedule a session of this length");
             }
             else
             {
-                List<string> tuteeValidSlots = getValidSlots(ref tuteeCommits, sessionLength);
+                List<string> tuteeValidSlots = getValidSlots(ref tuteeCommits, length);
 
-                bool done = false;
-                for (int i = 0; i < approvedTutorIds.Count(); i++)
+                List<TutorMaster.Commitment> tutorCommits = (from stucmt in db.StudentCommitments.AsEnumerable() //This creates a list of all the tutor commitments. 
+                                                                where stucmt.ID == TutID
+                                                                join cmt in db.Commitments.AsEnumerable() on stucmt.CmtID equals cmt.CmtID
+                                                                select cmt).ToList();
+
+                QuickSort(ref tutorCommits, tutorCommits.Count()); //sort it so we can use it
+                checkMax(ref tutorCommits); 
+                removeNotOpens(ref tutorCommits, start, weekly); //remove the ocupied commitments
+
+                List<string> tutorValidSlots = getValidSlots(ref tutorCommits, length); //create a list of all the valid tutor slots
+
+
+
+
+
+                
+                for (int j = 0; j < tutorValidSlots.Count(); j++) //iterate through all the available tutor slots 
                 {
-
-                    if (approvedTutorIds[i] != id)
+                    if (BinarySearch(tuteeValidSlots, tutorValidSlots[j]))
                     {
-                        //var tutor = (from row in db.Users.AsEnumerable() where row.ID == approvedTutorIds[i] select row).First();
-                        var tutorFirstName = (from row in db.Users.AsEnumerable() where row.ID == approvedTutorIds[i] select row.FirstName).First();
-                        var tutorLastName = (from row in db.Users.AsEnumerable() where row.ID == approvedTutorIds[i] select row.LastName).First();
-
-                        List<TutorMaster.Commitment> tutorCommits = (from stucmt in db.StudentCommitments.AsEnumerable()
-                                                                        where stucmt.ID == approvedTutorIds[i]
-                                                                        join cmt in db.Commitments.AsEnumerable() on stucmt.CmtID equals cmt.CmtID
-                                                                        select cmt).ToList();
-
-                        QuickSort(ref tutorCommits, tutorCommits.Count());
-
-                        checkMax(ref tutorCommits);
-
-                        removeNotOpens(ref tutorCommits, start, weekly);
+                        //instead of a dailog box add them to the combo box for TutAvail
+                        string MatchedTime = tutorValidSlots[j].Split(',')[0] + " - " + tutorValidSlots[j].Split(',')[1]; //this string is the matched time
+                        combTutorAvailability.Items.Add(MatchedTime);
 
 
-                        //MessageBox.Show(tuteeCommits.Count().ToString());
-                        List<string> tutorValidSlots = getValidSlots(ref tutorCommits, sessionLength);
-
-                        for (int j = 0; j < tutorValidSlots.Count(); j++)
+                        /*DialogResult choice = MessageBox.Show("You have been matched with " + tutorFirstName + " " + tutorLastName +
+                            " for a time at: " + tutorValidSlots[j].Split(',')[0] + " - " + tutorValidSlots[j].Split(',')[1], "You've got a match!", MessageBoxButtons.YesNo);
+                        if (choice == DialogResult.Yes)
                         {
-                            if (BinarySearch(tuteeValidSlots, tutorValidSlots[j]))
-                            {
-                                DialogResult choice = MessageBox.Show("You have been matched with " + tutorFirstName + " " + tutorLastName +
-                                    " for a time at: " + tutorValidSlots[j].Split(',')[0] + " - " + tutorValidSlots[j].Split(',')[1], "You've got a match!", MessageBoxButtons.YesNo);
-                                if (choice == DialogResult.Yes)
-                                {
-                                    int tutorId = Convert.ToInt32(approvedTutorIds[i]);
-                                    int tuteeId = Convert.ToInt32(id);
-                                    addCommits(tutorValidSlots[j], tutorId, tuteeId, tutorCommits, tuteeCommits, classCode, db, weekly, sessionLength);
-                                    done = true;
-                                    break;
-                                }
-                                else if (choice == DialogResult.No)
-                                {
-                                    break;
-                                }
-                            }
-                        }
-                        if (done)
-                        {
+                            int tutorId = Convert.ToInt32(approvedTutorIds[i]);
+                            int tuteeId = Convert.ToInt32(id);
+                            addCommits(tutorValidSlots[j], tutorId, tuteeId, tutorCommits, tuteeCommits, classCode, db, weekly, sessionLength);
+                            done = true;
                             break;
                         }
+                        else if (choice == DialogResult.No)
+                        {
+                            break;
+                        }*/
                     }
                 }
-                if (!done)
-                {
-                    MessageBox.Show("There are no more tutors that meet your request requirements.");
-                }
+            //show a message box for success of failure
             }
-            StudentMain g = new StudentMain(id);
-            g.Show();
-            this.Close();
         }
 
         private bool isOpen(TutorMaster.Commitment commit)
@@ -342,7 +328,79 @@ namespace TutorMaster
 
 
 
+        private List<string> getValidSlots(ref List<TutorMaster.Commitment> cmtList, int sessionLength)
+        {
+            int consecutiveCommits = 0;
 
+            List<string> validSlots = new List<string>();
+            TutorMaster.Commitment initialCommit = cmtList[0];
+            DateTime startDate = Convert.ToDateTime(cmtList[0].StartTime);
+            DateTime endDate = Convert.ToDateTime(cmtList[0].StartTime).AddMinutes(15);
+
+            consecutiveCommits++;
+
+            if (sessionLength == 1)
+            {
+                for (int i = 0; i < cmtList.Count() - 1; i++)
+                {
+                    DateTime start = Convert.ToDateTime(cmtList[i].StartTime);
+                    DateTime end = Convert.ToDateTime(cmtList[i].StartTime).AddMinutes(15);
+                    validSlots.Add(start.ToString() + "," + end.ToString());
+                }
+            }
+            else
+            {
+                for (int i = 0; i < cmtList.Count() - 1; i++)
+                {
+                    DateTime currentCommitDate = Convert.ToDateTime(cmtList[i].StartTime);                   //get datetime of commitment we are on in loop
+                    DateTime nextCommitDate = Convert.ToDateTime(cmtList[i + 1].StartTime);                  //get datetime of commitment ahead of it
+
+                    if (DateTime.Compare(nextCommitDate, currentCommitDate.AddMinutes(15)) == 0 && consecutiveCommits < sessionLength) //if our next commit is 15 minutes later of our current
+                    {
+                        consecutiveCommits++;
+                        endDate = Convert.ToDateTime(cmtList[i].StartTime).AddMinutes(15);
+                    }
+                    else if (DateTime.Compare(nextCommitDate, currentCommitDate.AddMinutes(15)) == 0 && consecutiveCommits >= sessionLength)
+                    {
+                        endDate = Convert.ToDateTime(cmtList[i].StartTime).AddMinutes(15);
+                        validSlots.Add(startDate.ToString() + "," + endDate.ToString());
+                        startDate = startDate.AddMinutes(15);
+                    }
+                    else if (DateTime.Compare(nextCommitDate, currentCommitDate.AddMinutes(15)) != 0 && consecutiveCommits >= sessionLength)
+                    {
+                        endDate = Convert.ToDateTime(cmtList[i].StartTime).AddMinutes(15);
+                        validSlots.Add(startDate.ToString() + "," + endDate.ToString());
+
+                        //update our carries
+                        consecutiveCommits = 1;
+                        startDate = Convert.ToDateTime(cmtList[i + 1].StartTime);
+                        endDate = Convert.ToDateTime(cmtList[i + 1].StartTime).AddMinutes(15);
+                        initialCommit = cmtList[i + 1];
+                    }
+                    else if (DateTime.Compare(nextCommitDate, currentCommitDate.AddMinutes(15)) != 0 && consecutiveCommits < sessionLength)
+                    {
+                        consecutiveCommits = 1;
+                        startDate = Convert.ToDateTime(cmtList[i + 1].StartTime);
+                        endDate = Convert.ToDateTime(cmtList[i + 1].StartTime).AddMinutes(15);
+                        initialCommit = cmtList[i + 1];
+                    }
+                }
+                //i believe i have the algorithm to catch the very last 15 minute time block in a person's schedule here. I've tested the first if statement and it seems to work. I don't know about the second one
+                //but the second one makes sense to me and I know I need a statement like it. the second statement is in case we are just one short in our block and the last commit is what's needed to get the valid slot
+                if (consecutiveCommits >= sessionLength && DateTime.Compare(Convert.ToDateTime(cmtList[cmtList.Count() - 2].StartTime).AddMinutes(15), Convert.ToDateTime(cmtList[cmtList.Count() - 1].StartTime)) == 0)
+                {
+                    startDate = startDate.AddMinutes(15);
+                    endDate = endDate.AddMinutes(15);
+                    validSlots.Add(startDate.ToString() + "," + endDate.ToString());
+                }
+                else if (consecutiveCommits == sessionLength - 1 && DateTime.Compare(Convert.ToDateTime(cmtList[cmtList.Count() - 2].StartTime).AddMinutes(15), Convert.ToDateTime(cmtList[cmtList.Count() - 1].StartTime)) == 0)
+                {
+                    endDate = endDate.AddMinutes(15);
+                    validSlots.Add(startDate.ToString() + "," + endDate.ToString());
+                }
+            }
+            return validSlots;
+        }
 
         private bool sameCategory(TutorMaster.Commitment commitFirst, TutorMaster.Commitment commitSecond)      //ask if the 15 minute time block of the first has the same values as the second
         {
@@ -376,6 +434,61 @@ namespace TutorMaster
                     consec = 1;
                 }
             }
+        }
+
+        private DateTime getStartTime(string slot)
+        {
+            string startDateTime = slot.Split(',')[0];
+            string startDate = startDateTime.Split(' ')[0];
+            string startTime = startDateTime.Split(' ')[1];
+            string amPm = startDateTime.Split(' ')[2];
+
+            int month = Convert.ToInt32(startDate.Split('/')[0]);
+            int day = Convert.ToInt32(startDate.Split('/')[1]);
+            int year = Convert.ToInt32(startDate.Split('/')[2]);
+
+            int hour = Convert.ToInt32(startTime.Split(':')[0]);
+            int min = Convert.ToInt32(startTime.Split(':')[1]);
+
+
+            if (hour < 12 && amPm == "PM")
+            {
+                hour += 12;
+            }
+            else if (hour == 12 && amPm == "AM")
+            {
+                hour = 0;
+            }
+            DateTime date = new DateTime(year, month, day, hour, min, 0);
+            return date;
+        }
+
+        private DateTime getEndTime(string slot)
+        {
+            string startDateTime = slot.Split(',')[1];
+            string startDate = startDateTime.Split(' ')[0];
+            string startTime = startDateTime.Split(' ')[1];
+            string amPm = startDateTime.Split(' ')[2];
+
+            int month = Convert.ToInt32(startDate.Split('/')[0]);
+            int day = Convert.ToInt32(startDate.Split('/')[1]);
+            int year = Convert.ToInt32(startDate.Split('/')[2]);
+
+            int hour = Convert.ToInt32(startTime.Split(':')[0]);
+            int min = Convert.ToInt32(startTime.Split(':')[1]);
+
+
+            if (hour < 12 && amPm == "PM")
+            {
+                hour += 12;
+            }
+            else if (hour == 12 && amPm == "AM")
+            {
+                hour = 0;
+            }
+
+            DateTime date = new DateTime(year, month, day, hour, min, 0);
+            return date;
         }
 
         private bool BinarySearch(List<string> cmtList, string commit)
@@ -512,6 +625,13 @@ namespace TutorMaster
         private void QuickSort(ref List<TutorMaster.Commitment> values, int numValues)
         {
             QuickSort2(ref values, 0, numValues - 1);
+        }
+
+        private void btnFindMatches_Click(object sender, EventArgs e)
+        {
+            lblAvailableTimes.Show();
+            combTutorAvailability.Show();
+            MatchTimes(combTutorNameLeft, combClassBoxLeft);
         }
     
     }

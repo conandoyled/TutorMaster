@@ -1225,7 +1225,7 @@ namespace TutorMaster
                 commits.Add(getlvPendingTutorCheckedInfo(i));
             }
             
-            ProposeLocationForm g = new ProposeLocationForm(id, commits/*, false*/);                           //pass the signed in student's id and this list to the propose location form
+            ProposeLocationForm g = new ProposeLocationForm(id, commits, false);                           //pass the signed in student's id and this list to the propose location form
             g.Show();
             this.Close();
         }

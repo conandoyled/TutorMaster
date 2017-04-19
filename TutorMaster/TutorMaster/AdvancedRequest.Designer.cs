@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             this.combTutorNameLeft = new System.Windows.Forms.ComboBox();
-            this.lvTutorAvailability = new System.Windows.Forms.ListView();
             this.btnExit = new System.Windows.Forms.Button();
             this.lblTutorName = new System.Windows.Forms.Label();
             this.lblClassesAvailable = new System.Windows.Forms.Label();
@@ -48,6 +47,8 @@
             this.combMeetingLength = new System.Windows.Forms.ComboBox();
             this.cbxWeekly = new System.Windows.Forms.CheckBox();
             this.combClassBoxLeft = new System.Windows.Forms.ComboBox();
+            this.combTutorAvailability = new System.Windows.Forms.ComboBox();
+            this.btnFindMatches = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // combTutorNameLeft
@@ -59,14 +60,6 @@
             this.combTutorNameLeft.Sorted = true;
             this.combTutorNameLeft.TabIndex = 3;
             this.combTutorNameLeft.SelectedIndexChanged += new System.EventHandler(this.combTutorNameLeft_SelectedIndexChanged);
-            // 
-            // lvTutorAvailability
-            // 
-            this.lvTutorAvailability.Location = new System.Drawing.Point(8, 212);
-            this.lvTutorAvailability.Name = "lvTutorAvailability";
-            this.lvTutorAvailability.Size = new System.Drawing.Size(203, 125);
-            this.lvTutorAvailability.TabIndex = 5;
-            this.lvTutorAvailability.UseCompatibleStateImageBehavior = false;
             // 
             // btnExit
             // 
@@ -99,7 +92,7 @@
             // lblAvailableTimes
             // 
             this.lblAvailableTimes.AutoSize = true;
-            this.lblAvailableTimes.Location = new System.Drawing.Point(17, 196);
+            this.lblAvailableTimes.Location = new System.Drawing.Point(17, 239);
             this.lblAvailableTimes.Name = "lblAvailableTimes";
             this.lblAvailableTimes.Size = new System.Drawing.Size(81, 13);
             this.lblAvailableTimes.TabIndex = 18;
@@ -252,11 +245,31 @@
             this.combClassBoxLeft.TabIndex = 32;
             this.combClassBoxLeft.SelectedIndexChanged += new System.EventHandler(this.combClassBoxLeft_SelectedIndexChanged);
             // 
+            // combTutorAvailability
+            // 
+            this.combTutorAvailability.FormattingEnabled = true;
+            this.combTutorAvailability.Location = new System.Drawing.Point(6, 264);
+            this.combTutorAvailability.Name = "combTutorAvailability";
+            this.combTutorAvailability.Size = new System.Drawing.Size(121, 21);
+            this.combTutorAvailability.TabIndex = 33;
+            // 
+            // btnFindMatches
+            // 
+            this.btnFindMatches.Location = new System.Drawing.Point(15, 207);
+            this.btnFindMatches.Name = "btnFindMatches";
+            this.btnFindMatches.Size = new System.Drawing.Size(84, 23);
+            this.btnFindMatches.TabIndex = 34;
+            this.btnFindMatches.Text = "Find Matches";
+            this.btnFindMatches.UseVisualStyleBackColor = true;
+            this.btnFindMatches.Click += new System.EventHandler(this.btnFindMatches_Click);
+            // 
             // AdvancedRequest
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(398, 542);
+            this.Controls.Add(this.btnFindMatches);
+            this.Controls.Add(this.combTutorAvailability);
             this.Controls.Add(this.combClassBoxLeft);
             this.Controls.Add(this.cbxWeekly);
             this.Controls.Add(this.combMeetingLength);
@@ -275,7 +288,6 @@
             this.Controls.Add(this.lblClassesAvailable);
             this.Controls.Add(this.lblTutorName);
             this.Controls.Add(this.btnExit);
-            this.Controls.Add(this.lvTutorAvailability);
             this.Controls.Add(this.combTutorNameLeft);
             this.Name = "AdvancedRequest";
             this.Text = "How many minutes ";
@@ -288,7 +300,6 @@
         #endregion
 
         private System.Windows.Forms.ComboBox combTutorNameLeft;
-        private System.Windows.Forms.ListView lvTutorAvailability;
         private System.Windows.Forms.Button btnExit;
         private System.Windows.Forms.Label lblTutorName;
         private System.Windows.Forms.Label lblClassesAvailable;
@@ -307,5 +318,7 @@
         private System.Windows.Forms.ComboBox combMeetingLength;
         private System.Windows.Forms.CheckBox cbxWeekly;
         private System.Windows.Forms.ComboBox combClassBoxLeft;
+        private System.Windows.Forms.ComboBox combTutorAvailability;
+        private System.Windows.Forms.Button btnFindMatches;
     }
 }
