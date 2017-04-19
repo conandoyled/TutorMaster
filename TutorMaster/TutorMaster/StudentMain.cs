@@ -29,8 +29,6 @@ namespace TutorMaster
             }
             populateColumns(tutor, tutee);                                                                        //initialize the columns of listviews approriately
             weekStartDateTime.Value = DateTime.Today;                                                             //initialize datetime pickers to be today
-            dayStartDateTime.Value = DateTime.Today;
-            dayEndDateTime.Value = DateTime.Today;
             DateTime start = DateTime.Now;
             loadAvail(start);                                                                                     //load availability starting from today
             setUpLabels(start);                                                                                   //set up the labels above each schedule list view a week from today
@@ -581,7 +579,7 @@ namespace TutorMaster
             //this function will check to see if all of the information at the time of the press of the button is valid and then start executing the process to add time slots
             
             //first, error check to make sure that the user put something for each dropdownbox
-            if ((string.IsNullOrWhiteSpace(combStartHour.Text))|| (string.IsNullOrWhiteSpace(combStartMinute.Text)
+            /*if ((string.IsNullOrWhiteSpace(combStartHour.Text))|| (string.IsNullOrWhiteSpace(combStartMinute.Text)
             || (string.IsNullOrWhiteSpace(combStartAmPm.Text)))|| (string.IsNullOrWhiteSpace(combEndHour.Text))
             || (string.IsNullOrWhiteSpace(combEndMinute.Text)) || (string.IsNullOrWhiteSpace(combEndAmPm.Text)))
             {
@@ -629,7 +627,7 @@ namespace TutorMaster
                 DateTime startTime = new DateTime(dayStartDateTime.Value.Year, dayStartDateTime.Value.Month, dayStartDateTime.Value.Day, startHour, startMinute, 0); //exact startDateTime of the commitment
                 DateTime endTime = new DateTime(dayEndDateTime.Value.Year, dayEndDateTime.Value.Month, dayEndDateTime.Value.Day, endHour, endMinute, 0);             //exact endDateTime of the commitment
                 addAvailability(startTime, endTime, weekly);                                                                                                         //begin adding the availability to the database
-            }
+            }*/
         }
 
         private void addAvailability(DateTime startTime, DateTime endTime, bool weekly)
