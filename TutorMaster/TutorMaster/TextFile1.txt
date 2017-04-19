@@ -1,3 +1,5 @@
 ﻿Main Background: #dae8ef
 Disabled Control: #c1c8cc
 Buttons: #d0dee5
+Tab Background: #edefef
+Tab Buttons: #e2e2e2

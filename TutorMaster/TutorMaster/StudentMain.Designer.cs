@@ -463,6 +463,7 @@
             // lvFinalized
             // 
             this.lvFinalized.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(237)))), ((int)(((byte)(239)))), ((int)(((byte)(239)))));
+            this.lvFinalized.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.lvFinalized.Location = new System.Drawing.Point(0, 0);
             this.lvFinalized.Name = "lvFinalized";
             this.lvFinalized.Size = new System.Drawing.Size(699, 330);
