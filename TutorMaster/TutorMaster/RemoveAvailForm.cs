@@ -113,6 +113,8 @@ namespace TutorMaster
                                         select cmt).ToList();
             
             List<DateTime> searchList = new List<DateTime>();                                                 //initialize search list
+
+            QuickSort(ref cmtList, cmtList.Count());
             
             searchList = getStartTimes();                                                                     //get the startTimes from the listview
 

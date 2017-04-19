@@ -31,6 +31,7 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AdminSeeSchedule));
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.btnRemoveAvailability = new System.Windows.Forms.Button();
             this.btnCreateAppointment = new System.Windows.Forms.Button();
             this.btnAddAvailability = new System.Windows.Forms.Button();
             this.lvOpen = new System.Windows.Forms.ListView();
@@ -56,8 +57,7 @@
             this.lvPendingTutee = new System.Windows.Forms.ListView();
             this.lblNameTitle = new System.Windows.Forms.Label();
             this.btnDone = new System.Windows.Forms.Button();
-            this.btnRemoveAvailability = new System.Windows.Forms.Button();
-            this.btnRemoveAvailSlot = new System.Windows.Forms.Button();
+            this.lblRemove = new System.Windows.Forms.Label();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabAccepted.SuspendLayout();
@@ -79,7 +79,6 @@
             // 
             // tabPage1
             // 
-            this.tabPage1.Controls.Add(this.btnRemoveAvailSlot);
             this.tabPage1.Controls.Add(this.btnRemoveAvailability);
             this.tabPage1.Controls.Add(this.btnCreateAppointment);
             this.tabPage1.Controls.Add(this.btnAddAvailability);
@@ -91,6 +90,18 @@
             this.tabPage1.TabIndex = 3;
             this.tabPage1.Text = "Open Availability";
             this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // btnRemoveAvailability
+            // 
+            this.btnRemoveAvailability.Location = new System.Drawing.Point(323, 335);
+            this.btnRemoveAvailability.Name = "btnRemoveAvailability";
+            this.btnRemoveAvailability.Size = new System.Drawing.Size(144, 23);
+            this.btnRemoveAvailability.TabIndex = 20;
+            this.btnRemoveAvailability.Text = "Remove Availability";
+            this.btnRemoveAvailability.UseVisualStyleBackColor = true;
+            this.btnRemoveAvailability.Click += new System.EventHandler(this.btnRemoveAvailability_Click);
+            this.btnRemoveAvailability.MouseLeave += new System.EventHandler(this.btnRemoveAvailability_MouseLeave);
+            this.btnRemoveAvailability.MouseHover += new System.EventHandler(this.btnRemoveAvailability_MouseHover);
             // 
             // btnCreateAppointment
             // 
@@ -352,30 +363,20 @@
             this.btnDone.UseVisualStyleBackColor = true;
             this.btnDone.Click += new System.EventHandler(this.btnDone_Click);
             // 
-            // btnRemoveAvailability
+            // lblRemove
             // 
-            this.btnRemoveAvailability.Location = new System.Drawing.Point(323, 335);
-            this.btnRemoveAvailability.Name = "btnRemoveAvailability";
-            this.btnRemoveAvailability.Size = new System.Drawing.Size(144, 23);
-            this.btnRemoveAvailability.TabIndex = 20;
-            this.btnRemoveAvailability.Text = "Remove Part Of Availability";
-            this.btnRemoveAvailability.UseVisualStyleBackColor = true;
-            this.btnRemoveAvailability.Click += new System.EventHandler(this.btnRemoveAvailability_Click);
-            // 
-            // btnRemoveAvailSlot
-            // 
-            this.btnRemoveAvailSlot.Location = new System.Drawing.Point(473, 335);
-            this.btnRemoveAvailSlot.Name = "btnRemoveAvailSlot";
-            this.btnRemoveAvailSlot.Size = new System.Drawing.Size(135, 23);
-            this.btnRemoveAvailSlot.TabIndex = 21;
-            this.btnRemoveAvailSlot.Text = "Remove Whole Open";
-            this.btnRemoveAvailSlot.UseVisualStyleBackColor = true;
+            this.lblRemove.AutoSize = true;
+            this.lblRemove.Location = new System.Drawing.Point(336, 437);
+            this.lblRemove.Name = "lblRemove";
+            this.lblRemove.Size = new System.Drawing.Size(0, 13);
+            this.lblRemove.TabIndex = 21;
             // 
             // AdminSeeSchedule
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(731, 468);
+            this.Controls.Add(this.lblRemove);
             this.Controls.Add(this.btnDone);
             this.Controls.Add(this.lblNameTitle);
             this.Controls.Add(this.tabControl1);
@@ -424,6 +425,6 @@
         private System.Windows.Forms.Button btnCreateAppointment;
         private System.Windows.Forms.Button btnAddAvailability;
         private System.Windows.Forms.Button btnRemoveAvailability;
-        private System.Windows.Forms.Button btnRemoveAvailSlot;
+        private System.Windows.Forms.Label lblRemove;
     }
 }
