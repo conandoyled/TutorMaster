@@ -175,5 +175,12 @@ namespace TutorMaster
         {
 
         }
+
+        private void btnChangePassword_Click(object sender, EventArgs e)
+        {
+            ChangePasswordForm g = new ChangePasswordForm(id);
+            g.Show();
+            this.Close();
+        }
     }
 }

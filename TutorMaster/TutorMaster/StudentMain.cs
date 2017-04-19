@@ -1225,7 +1225,7 @@ namespace TutorMaster
                 commits.Add(getlvPendingTutorCheckedInfo(i));
             }
             
-            ProposeLocationForm g = new ProposeLocationForm(id, commits/*, false*/);                           //pass the signed in student's id and this list to the propose location form
+            ProposeLocationForm g = new ProposeLocationForm(id, commits, false);                           //pass the signed in student's id and this list to the propose location form
             g.Show();
             this.Close();
         }
@@ -2228,6 +2228,13 @@ namespace TutorMaster
             AdvancedRequest g = new AdvancedRequest(id);
             g.Show();
             Close();
+        }
+
+        private void btnChangePassword_Click(object sender, EventArgs e)
+        {
+            ChangePasswordForm g = new ChangePasswordForm(id);
+            g.Show();
+            this.Close();
         }
     }
 }

@@ -93,6 +93,7 @@
             this.label10 = new System.Windows.Forms.Label();
             this.btnRemoveAvail = new System.Windows.Forms.Button();
             this.btnAdvanceRequest = new System.Windows.Forms.Button();
+            this.btnChangePassword = new System.Windows.Forms.Button();
             this.dayTabs.SuspendLayout();
             this.tabSunday.SuspendLayout();
             this.tabMonday.SuspendLayout();
@@ -825,11 +826,22 @@
             this.btnAdvanceRequest.UseVisualStyleBackColor = true;
             this.btnAdvanceRequest.Click += new System.EventHandler(this.btnAdvanceRequest_Click);
             // 
+            // btnChangePassword
+            // 
+            this.btnChangePassword.Location = new System.Drawing.Point(736, 218);
+            this.btnChangePassword.Name = "btnChangePassword";
+            this.btnChangePassword.Size = new System.Drawing.Size(200, 23);
+            this.btnChangePassword.TabIndex = 18;
+            this.btnChangePassword.Text = "Change Password";
+            this.btnChangePassword.UseVisualStyleBackColor = true;
+            this.btnChangePassword.Click += new System.EventHandler(this.btnChangePassword_Click);
+            // 
             // StudentMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(948, 441);
+            this.Controls.Add(this.btnChangePassword);
             this.Controls.Add(this.btnAdvanceRequest);
             this.Controls.Add(this.btnRemoveAvail);
             this.Controls.Add(this.label10);
@@ -937,5 +949,6 @@
         private System.Windows.Forms.Button btnFinalize;
         private System.Windows.Forms.Button btnRemoveAvail;
         private System.Windows.Forms.Button btnAdvanceRequest;
+        private System.Windows.Forms.Button btnChangePassword;
     }
 }

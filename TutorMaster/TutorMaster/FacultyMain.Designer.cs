@@ -34,13 +34,14 @@
             this.btnLogout = new System.Windows.Forms.Button();
             this.lvPendingRequests = new System.Windows.Forms.ListView();
             this.textBox1 = new System.Windows.Forms.TextBox();
+            this.btnChangePassword = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // btnAccept
             // 
-            this.btnAccept.Location = new System.Drawing.Point(73, 329);
+            this.btnAccept.Location = new System.Drawing.Point(45, 329);
             this.btnAccept.Name = "btnAccept";
-            this.btnAccept.Size = new System.Drawing.Size(75, 23);
+            this.btnAccept.Size = new System.Drawing.Size(103, 23);
             this.btnAccept.TabIndex = 1;
             this.btnAccept.Text = "Accept";
             this.btnAccept.UseVisualStyleBackColor = true;
@@ -50,7 +51,7 @@
             // 
             this.btnReject.Location = new System.Drawing.Point(168, 329);
             this.btnReject.Name = "btnReject";
-            this.btnReject.Size = new System.Drawing.Size(75, 23);
+            this.btnReject.Size = new System.Drawing.Size(107, 23);
             this.btnReject.TabIndex = 2;
             this.btnReject.Text = "Reject";
             this.btnReject.UseVisualStyleBackColor = true;
@@ -58,9 +59,9 @@
             // 
             // btnLogout
             // 
-            this.btnLogout.Location = new System.Drawing.Point(119, 358);
+            this.btnLogout.Location = new System.Drawing.Point(168, 358);
             this.btnLogout.Name = "btnLogout";
-            this.btnLogout.Size = new System.Drawing.Size(75, 23);
+            this.btnLogout.Size = new System.Drawing.Size(107, 23);
             this.btnLogout.TabIndex = 3;
             this.btnLogout.Text = "Logout";
             this.btnLogout.UseVisualStyleBackColor = true;
@@ -90,12 +91,23 @@
             this.textBox1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.textBox1.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
             // 
+            // btnChangePassword
+            // 
+            this.btnChangePassword.Location = new System.Drawing.Point(45, 358);
+            this.btnChangePassword.Name = "btnChangePassword";
+            this.btnChangePassword.Size = new System.Drawing.Size(103, 23);
+            this.btnChangePassword.TabIndex = 6;
+            this.btnChangePassword.Text = "Change Password";
+            this.btnChangePassword.UseVisualStyleBackColor = true;
+            this.btnChangePassword.Click += new System.EventHandler(this.btnChangePassword_Click);
+            // 
             // FacultyMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.SteelBlue;
             this.ClientSize = new System.Drawing.Size(327, 387);
+            this.Controls.Add(this.btnChangePassword);
             this.Controls.Add(this.textBox1);
             this.Controls.Add(this.lvPendingRequests);
             this.Controls.Add(this.btnLogout);
@@ -117,5 +129,6 @@
         private System.Windows.Forms.Button btnLogout;
         private System.Windows.Forms.ListView lvPendingRequests;
         private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.Button btnChangePassword;
     }
 }
