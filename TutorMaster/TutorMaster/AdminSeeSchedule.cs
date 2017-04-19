@@ -33,14 +33,14 @@ namespace TutorMaster
         private void populateColumns(bool tutor, bool tutee)
         {
             lvOpen.CheckBoxes = true;
-            lvOpen.Columns.Add("Start Time", 90);
-            lvOpen.Columns.Add("End Time", 90);
-            lvOpen.Columns.Add("Class", 70);
-            lvOpen.Columns.Add("Location", 105);
-            lvOpen.Columns.Add("Open", 50);
-            lvOpen.Columns.Add("Tutoring", 75);
+            lvOpen.Columns.Add("Start Time", 150);
+            lvOpen.Columns.Add("End Time", 150);
+            //lvOpen.Columns.Add("Class", 70);
+            //lvOpen.Columns.Add("Location", 105);
+            //lvOpen.Columns.Add("Open", 50);
+            //lvOpen.Columns.Add("Tutoring", 75);
             lvOpen.Columns.Add("Weekly", 75);
-            lvOpen.Columns.Add("Partner", 115);
+            //lvOpen.Columns.Add("Partner", 115);
 
             lvFinalized.CheckBoxes = true;
             lvFinalized.Columns.Add("Start Time", 90);
@@ -750,7 +750,8 @@ namespace TutorMaster
 
         private void btnAddAvailability_Click(object sender, EventArgs e)
         {
-
+            AddAvailability g = new AddAvailability(id);
+            g.Show();
         }
 
         private void btnCreateAppointment_Click(object sender, EventArgs e)
@@ -811,6 +812,151 @@ namespace TutorMaster
 
             DateTime date = new DateTime(year, month, day, hour, min, 0);             //make a datetime instance with the collected data and return it
             return date;
+        }
+
+        private void lvOpen_ItemChecked(object sender, ItemCheckedEventArgs e)
+        {
+            if (lvOpen.CheckedItems.Count > 0)
+            {
+                btnAddAvailability.Enabled = false;
+                btnCreateAppointment.Enabled = false;
+                btnRemoveAvailability.Enabled = true;
+            }
+            else
+            {
+                btnAddAvailability.Enabled = true;
+                btnCreateAppointment.Enabled = true;
+                btnRemoveAvailability.Enabled = false;
+            }
+        }
+
+        private void lvFinalized_ItemChecked(object sender, ItemCheckedEventArgs e)
+        {
+            if (lvFinalized.CheckedItems.Count > 0)
+            {
+                btnCancelFinalized.Enabled = true;
+            }
+            else
+            {
+                btnCancelFinalized.Enabled = false;
+            }
+        }
+
+        private void lvPendingTutor_ItemChecked(object sender, ItemCheckedEventArgs e)
+        {
+            int numPendingTutor = lvPendingTutor.CheckedItems.Count;
+            int numTutor = lvTutor.CheckedItems.Count;
+            if (numPendingTutor > 0 && numTutor > 0)                                   //if both lv PendingTutor and lvTutor have something checked, only reject should be on
+            {
+                btnAcceptAddLoc.Enabled = false;
+                btnRejectTutor.Enabled = true;
+            }
+            else if (numPendingTutor > 0 && numTutor == 0)                             //if PendingTutor has something checked by tutor doesn't then both buttons should be on
+            {
+                btnAcceptAddLoc.Enabled = true;
+                btnRejectTutor.Enabled = true;
+            }
+            else if (numTutor > 0 && numPendingTutor == 0)                             //if tutor has something checked but pendingTutor does not, only reject should be on
+            {
+                btnAcceptAddLoc.Enabled = true;
+                btnRejectTutor.Enabled = true;
+            }
+            else                                                                       //if neither of them have anything checked, then both buttons should be disabled
+            {
+                btnAcceptAddLoc.Enabled = false;
+                btnRejectTutor.Enabled = false;
+            }
+        }
+
+        private void lvTutor_ItemChecked(object sender, ItemCheckedEventArgs e)
+        {
+            int numPendingTutor = lvPendingTutor.CheckedItems.Count;
+            int numTutor = lvTutor.CheckedItems.Count;
+            if (numPendingTutor > 0 && numTutor > 0)                                   //if both lv PendingTutor and lvTutor have something checked, only reject should be on
+            {
+                btnAcceptAddLoc.Enabled = false;
+                btnRejectTutor.Enabled = true;
+            }
+            else if (numPendingTutor > 0 && numTutor == 0)                             //if PendingTutor has something checked by tutor doesn't then both buttons should be on
+            {
+                btnAcceptAddLoc.Enabled = true;
+                btnRejectTutor.Enabled = true;
+            }
+            else if (numTutor > 0 && numPendingTutor == 0)                             //if tutor has something checked but pendingTutor does not, only reject should be on
+            {
+                btnAcceptAddLoc.Enabled = true;
+                btnRejectTutor.Enabled = true;
+            }
+            else                                                                       //if neither of them have anything checked, then both buttons should be disabled
+            {
+                btnAcceptAddLoc.Enabled = false;
+                btnRejectTutor.Enabled = false;
+            }
+        }
+
+        private void lvTutee_ItemChecked(object sender, ItemCheckedEventArgs e)
+        {
+            int numPendingTutee = lvPendingTutee.CheckedItems.Count;
+            int numTutee = lvTutee.CheckedItems.Count;
+            if (numPendingTutee > 0 && numTutee > 0)                                   //if both lv PendingTutee and lvTutee have something checked, only reject should be on
+            {
+                btnFinalize.Enabled = false;
+                btnRejectTutee.Enabled = true;
+            }
+            else if (numPendingTutee > 0 && numTutee == 0)                             //if PendingTutee has something checked by tutee doesn't then both buttons should be on
+            {
+                btnFinalize.Enabled = true;
+                btnRejectTutee.Enabled = true;
+            }
+            else if (numTutee > 0 && numPendingTutee == 0)                             //if tutee has something checked but pendingTutee does not, only reject should be on
+            {
+                btnFinalize.Enabled = true;
+                btnRejectTutee.Enabled = true;
+            }
+            else                                                                       //if neither of them have anything checked, then both buttons should be disabled
+            {
+                btnFinalize.Enabled = false;
+                btnRejectTutee.Enabled = false;
+            }
+        }
+
+        private void lvPendingTutee_ItemChecked(object sender, ItemCheckedEventArgs e)
+        {
+            int numPendingTutee = lvPendingTutee.CheckedItems.Count;
+            int numTutee = lvTutee.CheckedItems.Count;
+            if (numPendingTutee > 0 && numTutee > 0)                                   //if both lv PendingTutee and lvTutee have something checked, only reject should be on
+            {
+                btnFinalize.Enabled = false;
+                btnRejectTutee.Enabled = true;
+            }
+            else if (numPendingTutee > 0 && numTutee == 0)                             //if PendingTutee has something checked by tutee doesn't then both buttons should be on
+            {
+                btnFinalize.Enabled = true;
+                btnRejectTutee.Enabled = true;
+            }
+            else if (numTutee > 0 && numPendingTutee == 0)                             //if tutee has something checked but pendingTutee does not, only reject should be on
+            {
+                btnFinalize.Enabled = true;
+                btnRejectTutee.Enabled = true;
+            }
+            else                                                                       //if neither of them have anything checked, then both buttons should be disabled
+            {
+                btnFinalize.Enabled = false;
+                btnRejectTutee.Enabled = false;
+            }
+        }
+
+        private void btnRemoveAvailability_Click(object sender, EventArgs e)
+        {
+            string startTime = lvOpen.CheckedItems[0].SubItems[0].Text.ToString();
+            string endTime = lvOpen.CheckedItems[0].SubItems[1].Text.ToString();
+            string weekly = lvOpen.CheckedItems[0].SubItems[2].Text.ToString();
+            
+            List<string> removeList = new List<string>();
+            removeList.Add(startTime + "," + endTime +","+weekly);
+            
+            RemoveAvailForm g = new RemoveAvailForm(id, removeList);
+            g.Show();
         }
 
        

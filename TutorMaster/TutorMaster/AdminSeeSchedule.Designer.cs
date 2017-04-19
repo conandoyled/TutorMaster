@@ -56,6 +56,8 @@
             this.lvPendingTutee = new System.Windows.Forms.ListView();
             this.lblNameTitle = new System.Windows.Forms.Label();
             this.btnDone = new System.Windows.Forms.Button();
+            this.btnRemoveAvailability = new System.Windows.Forms.Button();
+            this.btnRemoveAvailSlot = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabAccepted.SuspendLayout();
@@ -77,6 +79,8 @@
             // 
             // tabPage1
             // 
+            this.tabPage1.Controls.Add(this.btnRemoveAvailSlot);
+            this.tabPage1.Controls.Add(this.btnRemoveAvailability);
             this.tabPage1.Controls.Add(this.btnCreateAppointment);
             this.tabPage1.Controls.Add(this.btnAddAvailability);
             this.tabPage1.Controls.Add(this.lvOpen);
@@ -116,6 +120,7 @@
             this.lvOpen.TabIndex = 17;
             this.lvOpen.UseCompatibleStateImageBehavior = false;
             this.lvOpen.View = System.Windows.Forms.View.Details;
+            this.lvOpen.ItemChecked += new System.Windows.Forms.ItemCheckedEventHandler(this.lvOpen_ItemChecked);
             // 
             // tabAccepted
             // 
@@ -157,6 +162,7 @@
             this.lvFinalized.TabIndex = 16;
             this.lvFinalized.UseCompatibleStateImageBehavior = false;
             this.lvFinalized.View = System.Windows.Forms.View.Details;
+            this.lvFinalized.ItemChecked += new System.Windows.Forms.ItemCheckedEventHandler(this.lvFinalized_ItemChecked);
             // 
             // tabPendingTutor
             // 
@@ -230,6 +236,7 @@
             this.lvPendingTutor.TabIndex = 18;
             this.lvPendingTutor.UseCompatibleStateImageBehavior = false;
             this.lvPendingTutor.View = System.Windows.Forms.View.Details;
+            this.lvPendingTutor.ItemChecked += new System.Windows.Forms.ItemCheckedEventHandler(this.lvPendingTutor_ItemChecked);
             // 
             // lvTutor
             // 
@@ -239,6 +246,7 @@
             this.lvTutor.TabIndex = 17;
             this.lvTutor.UseCompatibleStateImageBehavior = false;
             this.lvTutor.View = System.Windows.Forms.View.Details;
+            this.lvTutor.ItemChecked += new System.Windows.Forms.ItemCheckedEventHandler(this.lvTutor_ItemChecked);
             // 
             // tabPendingTutee
             // 
@@ -302,6 +310,7 @@
             this.lvTutee.TabIndex = 22;
             this.lvTutee.UseCompatibleStateImageBehavior = false;
             this.lvTutee.View = System.Windows.Forms.View.Details;
+            this.lvTutee.ItemChecked += new System.Windows.Forms.ItemCheckedEventHandler(this.lvTutee_ItemChecked);
             // 
             // label6
             // 
@@ -320,6 +329,7 @@
             this.lvPendingTutee.TabIndex = 18;
             this.lvPendingTutee.UseCompatibleStateImageBehavior = false;
             this.lvPendingTutee.View = System.Windows.Forms.View.Details;
+            this.lvPendingTutee.ItemChecked += new System.Windows.Forms.ItemCheckedEventHandler(this.lvPendingTutee_ItemChecked);
             // 
             // lblNameTitle
             // 
@@ -341,6 +351,25 @@
             this.btnDone.Text = "Done";
             this.btnDone.UseVisualStyleBackColor = true;
             this.btnDone.Click += new System.EventHandler(this.btnDone_Click);
+            // 
+            // btnRemoveAvailability
+            // 
+            this.btnRemoveAvailability.Location = new System.Drawing.Point(323, 335);
+            this.btnRemoveAvailability.Name = "btnRemoveAvailability";
+            this.btnRemoveAvailability.Size = new System.Drawing.Size(144, 23);
+            this.btnRemoveAvailability.TabIndex = 20;
+            this.btnRemoveAvailability.Text = "Remove Part Of Availability";
+            this.btnRemoveAvailability.UseVisualStyleBackColor = true;
+            this.btnRemoveAvailability.Click += new System.EventHandler(this.btnRemoveAvailability_Click);
+            // 
+            // btnRemoveAvailSlot
+            // 
+            this.btnRemoveAvailSlot.Location = new System.Drawing.Point(473, 335);
+            this.btnRemoveAvailSlot.Name = "btnRemoveAvailSlot";
+            this.btnRemoveAvailSlot.Size = new System.Drawing.Size(135, 23);
+            this.btnRemoveAvailSlot.TabIndex = 21;
+            this.btnRemoveAvailSlot.Text = "Remove Whole Open";
+            this.btnRemoveAvailSlot.UseVisualStyleBackColor = true;
             // 
             // AdminSeeSchedule
             // 
@@ -394,5 +423,7 @@
         private System.Windows.Forms.Button btnDone;
         private System.Windows.Forms.Button btnCreateAppointment;
         private System.Windows.Forms.Button btnAddAvailability;
+        private System.Windows.Forms.Button btnRemoveAvailability;
+        private System.Windows.Forms.Button btnRemoveAvailSlot;
     }
 }

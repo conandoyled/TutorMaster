@@ -17,6 +17,8 @@ namespace TutorMaster
         {
             id = ID;
             InitializeComponent();
+            dayStartDateTime.Value = DateTime.Now;
+            dayEndDateTime.Value = DateTime.Now;
         }
 
         private void btnAddOpenBlock_Click(object sender, EventArgs e)
