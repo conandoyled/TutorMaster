@@ -1000,18 +1000,13 @@ namespace TutorMaster
 
             searchList = getStartTimes();                                                                     //get the startTimes from the listview
 
-            for(int j = 0; j < cmtList.Count(); j++)
-            {
-                MessageBox.Show(cmtList[j].StartTime.ToString());
-            }
-
-
             for (int i = 0; i < cmtList.Count(); i++)                                                         //for each commitment in the commit list
             {
                 if (weeklyAndFound(cmtList[i], searchList))                                                   //if the commitment is in the search list and weekly
                 {
                     DateTime startSemes = new DateTime(2017, 1, 1, 0, 0, 0);
                     DateTime weekBack = Convert.ToDateTime(cmtList[i].StartTime).AddDays(-7);                 //go a week back in time
+                    
                     while (DateTime.Compare(startSemes, weekBack) <= 0)                                       //perform a binary search here
                     {
                         bool found = false;
@@ -1024,7 +1019,6 @@ namespace TutorMaster
                             {
                                 if (cmtList[midpoint].Open == true)                                           //if the commitment is open
                                 {
-                                    MessageBox.Show(cmtList[midpoint].StartTime.ToString() + " Marked to be changed to not weekly");
                                     cmtList[midpoint].Weekly = false;                                         //set its weekly to false
                                     db.SaveChanges();                                                         //save the changes to the database
                                 }
@@ -1032,7 +1026,7 @@ namespace TutorMaster
                             }
                             else
                             {
-                                if (weekBackEarlier(weekBack, cmtList[i]))                                    //if weekback is earlier, search first half of list
+                                if (weekBackEarlier(weekBack, cmtList[midpoint]))                                    //if weekback is earlier, search first half of list
                                 {
                                     last = midpoint - 1;
                                 }

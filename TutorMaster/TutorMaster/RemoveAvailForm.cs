@@ -143,7 +143,7 @@ namespace TutorMaster
                             }
                             else
                             {
-                                if (weekBackEarlier(weekBack, cmtList[i]))                                    //if weekback is earlier, search first half of list
+                                if (weekBackEarlier(weekBack, cmtList[midpoint]))                                    //if weekback is earlier, search first half of list
                                 {
                                     last = midpoint - 1;
                                 }
