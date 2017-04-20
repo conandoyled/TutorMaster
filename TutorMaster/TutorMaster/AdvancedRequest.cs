@@ -37,7 +37,7 @@ namespace TutorMaster
 
             //initialize the tutor names and list of classes
             setupTutorList();           //populate combTutorName
-            setupComboClasses(combClassBoxRight); //populate the right combo box with all the available classes
+            setupComboClassesRight(); //populate the right combo box with all the available classes
 
         }
 
@@ -70,15 +70,33 @@ namespace TutorMaster
                 combTutorNameLeft.Items.Add(name);
             }
         }
-       
-        private void setupComboClasses(ComboBox combClassBox)//this works for the right class box, you'll need to write a seperate on for the left. ----- you can improve this by making them class names
+
+        private void setupComboClassesLeft()
         {
             TutorMasterDBEntities4 db = new TutorMasterDBEntities4();
-            var Classes = (from row in db.StudentClasses select row); // pull out all the classes that are being tutored [including duplicates]
-            List<StudentClass> ListOfClasses = Classes.ToList<StudentClass>(); //put all of those classes into a list to manipuate
-            foreach (StudentClass SC in ListOfClasses)
+
+            string[] Tutorname = combTutorNameLeft.Text.Split(); //Get the Tutor's ID
+            string fname = Tutorname[0];
+            string lname = Tutorname[1];
+            int TutID = (from row in db.Users where row.FirstName == fname && row.LastName == lname select row.ID).First();
+            
+            var Classes = (from row in db.StudentClasses where row.ID == TutID select row.Class); // pull out all the classes that are being tutored by the particular student [including duplicates]
+           
+            List<Class> ListOfClasses = Classes.ToList<Class>(); //put all of those classes into a list to manipuate
+            foreach (Class SC in ListOfClasses)
             {
-                combClassBox.Items.Add(SC.ClassCode);
+                combClassBoxLeft.Items.Add(SC.ClassName);
+            }
+        }
+
+        private void setupComboClassesRight()
+        {
+            TutorMasterDBEntities4 db = new TutorMasterDBEntities4();
+            var Classes = (from row in db.StudentClasses select row.Class); // pull out all the classes that are being tutored [including duplicates]
+            List<Class> ListOfClasses = Classes.ToList<Class>(); //put all of those classes into a list to manipuate
+            foreach (Class SC in ListOfClasses)
+            {
+                combClassBoxRight.Items.Add(SC.ClassName);
             }
         }
 
@@ -92,9 +110,21 @@ namespace TutorMaster
             cbxWeekly.Show(); 
 
             combClassBoxLeft.Items.Clear();         //clears the class box
-            setupComboClasses(combClassBoxLeft);    //fills it with the appropriate classes
+            setupComboClassesLeft();    //fills it with the appropriate classes
             //MatchTimes(); //set up the tutor time matches
         }
+
+
+        private void AdvancedRequest_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void combClassBoxLeft_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
 
         private void btnExit_Click(object sender, EventArgs e) 
         {
@@ -177,6 +207,13 @@ namespace TutorMaster
             //call our tutor match function
         }
 
+
+
+
+
+
+
+        //Match Function and it's helpers
         private void MatchTimes(ComboBox TutBox, ComboBox ClsBox)
         {
             //do the matching thing that myles and I talked about
@@ -200,24 +237,10 @@ namespace TutorMaster
             //d. tutee ID (ACCID), use to match the availiblity
             int TuteeID = ACCID;
 
-            //1. Pull out the commitments, sort and clump them
-
-            //1.1 Pull out the Tutor commits
-
-            //a. sort
-            //b. clump
-            //1.2 Pull out the tutee stuff
-            //a. sort
-            //b. clump
-
-            //2. Match up the clumps ++ maybe do at the same time as 4?
-
-            //3. Display them in the list view
-
 
             DateTime start = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 0, 0, 0);
 
-            string classCode = ClsBox.Text;
+            string NameOfClassToBeTutored = ClsBox.Text;
 
             List<Commitment> tuteeCommits = (from stucmt in db.StudentCommitments.AsEnumerable()    // create a list of tutee's commitments
                                                 where stucmt.ID == TuteeID
@@ -302,16 +325,6 @@ namespace TutorMaster
                     }
                 }
             }
-        }
-
-        private void AdvancedRequest_Load(object sender, EventArgs e)
-        {
-
-        }
-
-        private void combClassBoxLeft_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
         }
 
         private List<string> getValidSlots(ref List<TutorMaster.Commitment> cmtList, int sessionLength)
