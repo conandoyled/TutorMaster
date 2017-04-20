@@ -113,6 +113,8 @@ namespace TutorMaster
                                         select cmt).ToList();
             
             List<DateTime> searchList = new List<DateTime>();                                                 //initialize search list
+
+            QuickSort(ref cmtList, cmtList.Count());
             
             searchList = getStartTimes();                                                                     //get the startTimes from the listview
 
@@ -141,7 +143,7 @@ namespace TutorMaster
                             }
                             else
                             {
-                                if (weekBackEarlier(weekBack, cmtList[i]))                                    //if weekback is earlier, search first half of list
+                                if (weekBackEarlier(weekBack, cmtList[midpoint]))                                    //if weekback is earlier, search first half of list
                                 {
                                     last = midpoint - 1;
                                 }
