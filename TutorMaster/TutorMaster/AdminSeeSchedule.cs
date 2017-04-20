@@ -33,14 +33,9 @@ namespace TutorMaster
         private void populateColumns(bool tutor, bool tutee)
         {
             lvOpen.CheckBoxes = true;
-            lvOpen.Columns.Add("Start Time", 150);
-            lvOpen.Columns.Add("End Time", 150);
-            //lvOpen.Columns.Add("Class", 70);
-            //lvOpen.Columns.Add("Location", 105);
-            //lvOpen.Columns.Add("Open", 50);
-            //lvOpen.Columns.Add("Tutoring", 75);
+            lvOpen.Columns.Add("Start Time", 175);
+            lvOpen.Columns.Add("End Time", 175);
             lvOpen.Columns.Add("Weekly", 75);
-            //lvOpen.Columns.Add("Partner", 115);
 
             lvFinalized.CheckBoxes = true;
             lvFinalized.Columns.Add("Start Time", 90);
@@ -433,6 +428,7 @@ namespace TutorMaster
                     }
                 }
             }
+            resetListViews(false);
         }
 
         private DateTime getListViewTime(string slot)                                    //take a string of datetime from listview's string
@@ -523,14 +519,7 @@ namespace TutorMaster
                 }
             }
             DateTime start = DateTime.Now;
-            lvTutor.Items.Clear();
-            lvPendingTutor.Items.Clear();
-            lvFinalized.Items.Clear();
-            lvPendingTutee.Items.Clear();
-            lvTutee.Items.Clear();
-            lvOpen.Items.Clear();
-
-            loadAppointments(true);
+            resetListViews(false);
         }
 
         private void btnCancelFinalized_Click(object sender, EventArgs e)
@@ -663,14 +652,7 @@ namespace TutorMaster
                 }
             }
             DateTime start = DateTime.Now;
-            lvTutor.Items.Clear();
-            lvPendingTutor.Items.Clear();
-            lvFinalized.Items.Clear();
-            lvPendingTutee.Items.Clear();
-            lvTutee.Items.Clear();
-            lvOpen.Items.Clear();
-
-            loadAppointments(true);
+            resetListViews(false);
         }
 
         private void btnFinalize_Click(object sender, EventArgs e)
@@ -727,14 +709,7 @@ namespace TutorMaster
                 g.Show();
             }
 
-            lvFinalized.Items.Clear();
-            lvPendingTutee.Items.Clear();
-            lvPendingTutor.Items.Clear();
-            lvTutee.Items.Clear();
-            lvTutor.Items.Clear();
-            lvOpen.Items.Clear();
-
-            loadAppointments(false);
+            resetListViews(false);
         }
 
         private void btnDone_Click(object sender, EventArgs e)
@@ -756,7 +731,26 @@ namespace TutorMaster
 
         private void btnCreateAppointment_Click(object sender, EventArgs e)
         {
-
+            TutorMasterDBEntities4 db = new TutorMasterDBEntities4();                                             //open database
+            bool tutor = (bool)(from row in db.Students where row.ID == id select row.Tutor).First();             //get if they are a tutee and/or tutor
+            bool tutee = (bool)(from row in db.Students where row.ID == id select row.Tutee).First();
+            if (tutor && tutee)
+            {
+                TutorOrTuteeForm g = new TutorOrTuteeForm(id);
+                g.Show();
+            }
+            else if (tutor)
+            {
+                AdminCreateAppointmentForm g = new AdminCreateAppointmentForm(id, true);
+                g.Show();
+                this.Close();
+            }
+            else if(tutee)
+            {
+                AdminCreateAppointmentForm g = new AdminCreateAppointmentForm(id, false);
+                g.Show();
+                this.Close();
+            }
         }
 
         private DateTime getStartTime(string slot)                                    //take a string that has the start datetime seperated by a comma with the end datetime
@@ -1234,17 +1228,18 @@ namespace TutorMaster
             {
                 removeTimeBlocks();
             }
-            resetListViews();
+            resetListViews(false);
         }
 
-        private void resetListViews()
+        private void resetListViews(bool reject)
         {
             lvOpen.Items.Clear();
             lvTutor.Items.Clear();
             lvTutee.Items.Clear();
             lvPendingTutee.Items.Clear();
             lvPendingTutor.Items.Clear();
-            loadAppointments(false);
+            lvFinalized.Items.Clear();
+            loadAppointments(reject);
         }
     }
     
