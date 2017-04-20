@@ -1,4 +1,5 @@
 ﻿Main Background: #dae8ef
+Text Color: 61, 71, 76
 Disabled Control: #c1c8cc
 Buttons: #d0dee5
 Tab Background: #edefef
