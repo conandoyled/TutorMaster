@@ -240,7 +240,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(218)))), ((int)(((byte)(232)))), ((int)(((byte)(239)))));
-            this.ClientSize = new System.Drawing.Size(242, 407);
+            this.ClientSize = new System.Drawing.Size(243, 407);
             this.Controls.Add(this.lblTClasses);
             this.Controls.Add(this.tvClasses);
             this.Controls.Add(this.txtPhoneNumber);
