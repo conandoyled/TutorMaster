@@ -95,6 +95,12 @@
     <Compile Include="AdminSeeSchedule.Designer.cs">
       <DependentUpon>AdminSeeSchedule.cs</DependentUpon>
     </Compile>
+    <Compile Include="ChangePasswordForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ChangePasswordForm.Designer.cs">
+      <DependentUpon>ChangePasswordForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="CreateStudent.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -177,6 +183,9 @@
     <EmbeddedResource Include="AdminSeeSchedule.resx">
       <DependentUpon>AdminSeeSchedule.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="ChangePasswordForm.resx">
+      <DependentUpon>ChangePasswordForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="CreateStudent.resx">
       <DependentUpon>CreateStudent.cs</DependentUpon>
     </EmbeddedResource>
@@ -197,6 +206,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <EmbeddedResource Include="ProposeLocationForm.resx">
       <DependentUpon>ProposeLocationForm.cs</DependentUpon>
@@ -258,9 +268,11 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="CSJAM.ico" />
+    <Content Include="TextFile1.txt" />
     <Content Include="TutorMasterDB.sdf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <None Include="WatermarkR2.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

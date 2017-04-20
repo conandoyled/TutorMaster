@@ -226,12 +226,14 @@ namespace TutorMaster
             if (!cbxTutor.Checked)
             {
                 this.Width -= 250;
+                imgLogo.Location = new Point(imgLogo.Location.X - 250, imgLogo.Location.Y);
                 lblTClasses.Hide();
                 tvClasses.Hide();
             }
             else
             {
                 this.Width += 250;
+                imgLogo.Location = new Point(imgLogo.Location.X + 250, imgLogo.Location.Y);
                 tvClasses.Show();
                 lblTClasses.Show();
             }

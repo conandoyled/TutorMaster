@@ -46,6 +46,8 @@
             this.label6 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // dayEndDateTime
@@ -71,6 +73,7 @@
             // combStartMinute
             // 
             this.combStartMinute.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.combStartMinute.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.combStartMinute.FormattingEnabled = true;
             this.combStartMinute.Items.AddRange(new object[] {
             "00",
@@ -85,6 +88,7 @@
             // combStartAmPm
             // 
             this.combStartAmPm.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.combStartAmPm.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.combStartAmPm.FormattingEnabled = true;
             this.combStartAmPm.Items.AddRange(new object[] {
             "AM",
@@ -96,17 +100,21 @@
             // 
             // btnAddOpenBlock
             // 
+            this.btnAddOpenBlock.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(208)))), ((int)(((byte)(222)))), ((int)(((byte)(229)))));
+            this.btnAddOpenBlock.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btnAddOpenBlock.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(61)))), ((int)(((byte)(71)))), ((int)(((byte)(76)))));
             this.btnAddOpenBlock.Location = new System.Drawing.Point(262, 92);
             this.btnAddOpenBlock.Name = "btnAddOpenBlock";
             this.btnAddOpenBlock.Size = new System.Drawing.Size(105, 23);
             this.btnAddOpenBlock.TabIndex = 21;
             this.btnAddOpenBlock.Text = "Add Availability";
-            this.btnAddOpenBlock.UseVisualStyleBackColor = true;
+            this.btnAddOpenBlock.UseVisualStyleBackColor = false;
             this.btnAddOpenBlock.Click += new System.EventHandler(this.btnAddOpenBlock_Click);
             // 
             // combStartHour
             // 
             this.combStartHour.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.combStartHour.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.combStartHour.FormattingEnabled = true;
             this.combStartHour.Items.AddRange(new object[] {
             "01",
@@ -129,6 +137,7 @@
             // combEndAmPm
             // 
             this.combEndAmPm.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.combEndAmPm.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.combEndAmPm.FormattingEnabled = true;
             this.combEndAmPm.Items.AddRange(new object[] {
             "AM",
@@ -141,6 +150,7 @@
             // combEndMinute
             // 
             this.combEndMinute.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.combEndMinute.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.combEndMinute.FormattingEnabled = true;
             this.combEndMinute.Items.AddRange(new object[] {
             "00",
@@ -155,9 +165,11 @@
             // cbxWeekly
             // 
             this.cbxWeekly.AutoSize = true;
+            this.cbxWeekly.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.cbxWeekly.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(61)))), ((int)(((byte)(71)))), ((int)(((byte)(76)))));
             this.cbxWeekly.Location = new System.Drawing.Point(262, 69);
             this.cbxWeekly.Name = "cbxWeekly";
-            this.cbxWeekly.Size = new System.Drawing.Size(62, 17);
+            this.cbxWeekly.Size = new System.Drawing.Size(60, 17);
             this.cbxWeekly.TabIndex = 24;
             this.cbxWeekly.Text = "Weekly";
             this.cbxWeekly.UseVisualStyleBackColor = true;
@@ -165,6 +177,7 @@
             // combEndHour
             // 
             this.combEndHour.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.combEndHour.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.combEndHour.FormattingEnabled = true;
             this.combEndHour.Items.AddRange(new object[] {
             "01",
@@ -187,6 +200,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
+            this.label2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(61)))), ((int)(((byte)(71)))), ((int)(((byte)(76)))));
             this.label2.Location = new System.Drawing.Point(12, 102);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(107, 13);
@@ -196,6 +210,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
+            this.label1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(61)))), ((int)(((byte)(71)))), ((int)(((byte)(76)))));
             this.label1.Location = new System.Drawing.Point(12, 18);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(110, 13);
@@ -205,6 +220,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
+            this.label3.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(61)))), ((int)(((byte)(71)))), ((int)(((byte)(76)))));
             this.label3.Location = new System.Drawing.Point(12, 63);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(21, 13);
@@ -214,6 +230,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
+            this.label4.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(61)))), ((int)(((byte)(71)))), ((int)(((byte)(76)))));
             this.label4.Location = new System.Drawing.Point(79, 63);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(27, 13);
@@ -223,6 +240,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
+            this.label5.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(61)))), ((int)(((byte)(71)))), ((int)(((byte)(76)))));
             this.label5.Location = new System.Drawing.Point(151, 63);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(47, 13);
@@ -232,6 +250,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
+            this.label6.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(61)))), ((int)(((byte)(71)))), ((int)(((byte)(76)))));
             this.label6.Location = new System.Drawing.Point(151, 147);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(47, 13);
@@ -241,6 +260,7 @@
             // label7
             // 
             this.label7.AutoSize = true;
+            this.label7.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(61)))), ((int)(((byte)(71)))), ((int)(((byte)(76)))));
             this.label7.Location = new System.Drawing.Point(79, 147);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(27, 13);
@@ -250,16 +270,28 @@
             // label8
             // 
             this.label8.AutoSize = true;
+            this.label8.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(61)))), ((int)(((byte)(71)))), ((int)(((byte)(76)))));
             this.label8.Location = new System.Drawing.Point(12, 147);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(21, 13);
             this.label8.TabIndex = 30;
             this.label8.Text = "Hr:";
             // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Image = global::TutorMaster.Properties.Resources.WatermarkR2;
+            this.pictureBox1.Location = new System.Drawing.Point(320, 118);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(67, 69);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox1.TabIndex = 33;
+            this.pictureBox1.TabStop = false;
+            // 
             // AddAvailability
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(218)))), ((int)(((byte)(232)))), ((int)(((byte)(239)))));
             this.ClientSize = new System.Drawing.Size(383, 181);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.label7);
@@ -279,8 +311,11 @@
             this.Controls.Add(this.combEndHour);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
+            this.Controls.Add(this.pictureBox1);
+            this.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(61)))), ((int)(((byte)(71)))), ((int)(((byte)(76)))));
             this.Name = "AddAvailability";
             this.Text = "AddAvailability";
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -306,5 +341,6 @@
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.PictureBox pictureBox1;
     }
 }

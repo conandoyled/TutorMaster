@@ -18,6 +18,7 @@ namespace TutorMaster
             id = accID;
             InitializeComponent();
             SetupPendingRequests(id);                                                                                       //Populate box with requests, similar to Admin main
+            disableButtons();
         }
 
         public void SetupPendingRequests(int accID)                                                                         //This function will populate the checked list box with pending requests
@@ -93,6 +94,14 @@ namespace TutorMaster
             }
         }
 
+        private void disableButtons()
+        {
+            btnAccept.Enabled = false;
+            btnAccept.BackColor = System.Drawing.Color.FromArgb(193, 200, 204);
+            btnReject.Enabled = false;
+            btnReject.BackColor = System.Drawing.Color.FromArgb(193, 200, 204);
+        }
+
         private void FacultyMain_FormClosed(object sender, FormClosedEventArgs e)
         {
             //System.Windows.Forms.Application.Exit();
@@ -166,14 +175,26 @@ namespace TutorMaster
             SetupPendingRequests(id); //Set up the box again
         }
 
-        private void listView1_SelectedIndexChanged(object sender, EventArgs e)
+        private void btnChangePassword_Click(object sender, EventArgs e)
         {
-
+            ChangePasswordForm g = new ChangePasswordForm(id);
+            g.Show();
+            this.Close();
         }
 
-        private void textBox1_TextChanged(object sender, EventArgs e)
+        private void lvPendingRequests_ItemChecked(object sender, ItemCheckedEventArgs e)
         {
-
+            if (lvPendingRequests.CheckedItems.Count > 0)
+            {
+                btnAccept.Enabled = true;
+                btnAccept.BackColor = System.Drawing.Color.FromArgb(208, 222, 229);
+                btnReject.Enabled = true;
+                btnReject.BackColor = System.Drawing.Color.FromArgb(208, 222, 229);
+            }
+            else
+            {
+                disableButtons();
+            }
         }
     }
 }

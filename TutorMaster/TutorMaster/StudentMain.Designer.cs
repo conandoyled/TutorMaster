@@ -30,7 +30,6 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(StudentMain));
             this.weekStartDateTime = new System.Windows.Forms.DateTimePicker();
-            this.cbxWeekly = new System.Windows.Forms.CheckBox();
             this.dayTabs = new System.Windows.Forms.TabControl();
             this.tabSunday = new System.Windows.Forms.TabPage();
             this.lblSunday = new System.Windows.Forms.Label();
@@ -53,21 +52,11 @@
             this.tabSaturday = new System.Windows.Forms.TabPage();
             this.lblSaturday = new System.Windows.Forms.Label();
             this.lvSaturday = new System.Windows.Forms.ListView();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
             this.btnAddOpenBlock = new System.Windows.Forms.Button();
-            this.combEndAmPm = new System.Windows.Forms.ComboBox();
-            this.combEndMinute = new System.Windows.Forms.ComboBox();
-            this.combEndHour = new System.Windows.Forms.ComboBox();
-            this.combStartAmPm = new System.Windows.Forms.ComboBox();
-            this.combStartMinute = new System.Windows.Forms.ComboBox();
-            this.combStartHour = new System.Windows.Forms.ComboBox();
             this.btnLogout = new System.Windows.Forms.Button();
             this.btnMakeRequest = new System.Windows.Forms.Button();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabSchedule = new System.Windows.Forms.TabPage();
-            this.dayEndDateTime = new System.Windows.Forms.DateTimePicker();
-            this.dayStartDateTime = new System.Windows.Forms.DateTimePicker();
             this.tabAppointments = new System.Windows.Forms.TabPage();
             this.tabControl2 = new System.Windows.Forms.TabControl();
             this.tabAccepted = new System.Windows.Forms.TabPage();
@@ -93,6 +82,8 @@
             this.label10 = new System.Windows.Forms.Label();
             this.btnRemoveAvail = new System.Windows.Forms.Button();
             this.btnAdvanceRequest = new System.Windows.Forms.Button();
+            this.btnChangePassword = new System.Windows.Forms.Button();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.dayTabs.SuspendLayout();
             this.tabSunday.SuspendLayout();
             this.tabMonday.SuspendLayout();
@@ -108,10 +99,12 @@
             this.tabAccepted.SuspendLayout();
             this.tabPendingTutor.SuspendLayout();
             this.tabPendingTutee.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // weekStartDateTime
             // 
+            this.weekStartDateTime.CalendarMonthBackground = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
             this.weekStartDateTime.Location = new System.Drawing.Point(733, 59);
             this.weekStartDateTime.MaxDate = new System.DateTime(2017, 4, 30, 0, 0, 0, 0);
             this.weekStartDateTime.MinDate = new System.DateTime(2017, 1, 1, 0, 0, 0, 0);
@@ -120,16 +113,6 @@
             this.weekStartDateTime.TabIndex = 13;
             this.weekStartDateTime.Value = new System.DateTime(2017, 3, 23, 0, 0, 0, 0);
             this.weekStartDateTime.CloseUp += new System.EventHandler(this.weekStartDateTime_ValueChanged);
-            // 
-            // cbxWeekly
-            // 
-            this.cbxWeekly.AutoSize = true;
-            this.cbxWeekly.Location = new System.Drawing.Point(505, 330);
-            this.cbxWeekly.Name = "cbxWeekly";
-            this.cbxWeekly.Size = new System.Drawing.Size(62, 17);
-            this.cbxWeekly.TabIndex = 12;
-            this.cbxWeekly.Text = "Weekly";
-            this.cbxWeekly.UseVisualStyleBackColor = true;
             // 
             // dayTabs
             // 
@@ -143,21 +126,21 @@
             this.dayTabs.Location = new System.Drawing.Point(3, 6);
             this.dayTabs.Name = "dayTabs";
             this.dayTabs.SelectedIndex = 0;
-            this.dayTabs.Size = new System.Drawing.Size(685, 316);
+            this.dayTabs.Size = new System.Drawing.Size(685, 352);
             this.dayTabs.TabIndex = 9;
             this.dayTabs.Selected += new System.Windows.Forms.TabControlEventHandler(this.dayTabs_Selected);
             // 
             // tabSunday
             // 
+            this.tabSunday.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(237)))), ((int)(((byte)(239)))), ((int)(((byte)(239)))));
             this.tabSunday.Controls.Add(this.lblSunday);
             this.tabSunday.Controls.Add(this.lvSunday);
             this.tabSunday.Location = new System.Drawing.Point(4, 22);
             this.tabSunday.Name = "tabSunday";
             this.tabSunday.Padding = new System.Windows.Forms.Padding(3);
-            this.tabSunday.Size = new System.Drawing.Size(677, 290);
+            this.tabSunday.Size = new System.Drawing.Size(677, 326);
             this.tabSunday.TabIndex = 0;
             this.tabSunday.Text = "Sunday";
-            this.tabSunday.UseVisualStyleBackColor = true;
             // 
             // lblSunday
             // 
@@ -170,9 +153,10 @@
             // 
             // lvSunday
             // 
+            this.lvSunday.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(237)))), ((int)(((byte)(239)))), ((int)(((byte)(239)))));
             this.lvSunday.Location = new System.Drawing.Point(0, 19);
             this.lvSunday.Name = "lvSunday";
-            this.lvSunday.Size = new System.Drawing.Size(677, 271);
+            this.lvSunday.Size = new System.Drawing.Size(677, 307);
             this.lvSunday.TabIndex = 0;
             this.lvSunday.UseCompatibleStateImageBehavior = false;
             this.lvSunday.View = System.Windows.Forms.View.Details;
@@ -180,15 +164,15 @@
             // 
             // tabMonday
             // 
+            this.tabMonday.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(237)))), ((int)(((byte)(239)))), ((int)(((byte)(239)))));
             this.tabMonday.Controls.Add(this.lblMonday);
             this.tabMonday.Controls.Add(this.lvMonday);
             this.tabMonday.Location = new System.Drawing.Point(4, 22);
             this.tabMonday.Name = "tabMonday";
             this.tabMonday.Padding = new System.Windows.Forms.Padding(3);
-            this.tabMonday.Size = new System.Drawing.Size(677, 290);
+            this.tabMonday.Size = new System.Drawing.Size(677, 326);
             this.tabMonday.TabIndex = 1;
             this.tabMonday.Text = "Monday";
-            this.tabMonday.UseVisualStyleBackColor = true;
             // 
             // lblMonday
             // 
@@ -201,9 +185,10 @@
             // 
             // lvMonday
             // 
+            this.lvMonday.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(237)))), ((int)(((byte)(239)))), ((int)(((byte)(239)))));
             this.lvMonday.Location = new System.Drawing.Point(0, 19);
             this.lvMonday.Name = "lvMonday";
-            this.lvMonday.Size = new System.Drawing.Size(677, 271);
+            this.lvMonday.Size = new System.Drawing.Size(677, 307);
             this.lvMonday.TabIndex = 1;
             this.lvMonday.UseCompatibleStateImageBehavior = false;
             this.lvMonday.View = System.Windows.Forms.View.Details;
@@ -211,14 +196,14 @@
             // 
             // tabTuesday
             // 
+            this.tabTuesday.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(237)))), ((int)(((byte)(239)))), ((int)(((byte)(239)))));
             this.tabTuesday.Controls.Add(this.lblTuesday);
             this.tabTuesday.Controls.Add(this.lvTuesday);
             this.tabTuesday.Location = new System.Drawing.Point(4, 22);
             this.tabTuesday.Name = "tabTuesday";
-            this.tabTuesday.Size = new System.Drawing.Size(677, 290);
+            this.tabTuesday.Size = new System.Drawing.Size(677, 326);
             this.tabTuesday.TabIndex = 2;
             this.tabTuesday.Text = "Tuesday";
-            this.tabTuesday.UseVisualStyleBackColor = true;
             // 
             // lblTuesday
             // 
@@ -231,9 +216,10 @@
             // 
             // lvTuesday
             // 
+            this.lvTuesday.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(237)))), ((int)(((byte)(239)))), ((int)(((byte)(239)))));
             this.lvTuesday.Location = new System.Drawing.Point(0, 19);
             this.lvTuesday.Name = "lvTuesday";
-            this.lvTuesday.Size = new System.Drawing.Size(677, 271);
+            this.lvTuesday.Size = new System.Drawing.Size(677, 307);
             this.lvTuesday.TabIndex = 1;
             this.lvTuesday.UseCompatibleStateImageBehavior = false;
             this.lvTuesday.View = System.Windows.Forms.View.Details;
@@ -241,14 +227,14 @@
             // 
             // tabWednesday
             // 
+            this.tabWednesday.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(237)))), ((int)(((byte)(239)))), ((int)(((byte)(239)))));
             this.tabWednesday.Controls.Add(this.lblWednesday);
             this.tabWednesday.Controls.Add(this.lvWednesday);
             this.tabWednesday.Location = new System.Drawing.Point(4, 22);
             this.tabWednesday.Name = "tabWednesday";
-            this.tabWednesday.Size = new System.Drawing.Size(677, 290);
+            this.tabWednesday.Size = new System.Drawing.Size(677, 326);
             this.tabWednesday.TabIndex = 3;
             this.tabWednesday.Text = "Wednesday";
-            this.tabWednesday.UseVisualStyleBackColor = true;
             // 
             // lblWednesday
             // 
@@ -261,9 +247,10 @@
             // 
             // lvWednesday
             // 
+            this.lvWednesday.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(237)))), ((int)(((byte)(239)))), ((int)(((byte)(239)))));
             this.lvWednesday.Location = new System.Drawing.Point(0, 19);
             this.lvWednesday.Name = "lvWednesday";
-            this.lvWednesday.Size = new System.Drawing.Size(677, 271);
+            this.lvWednesday.Size = new System.Drawing.Size(677, 307);
             this.lvWednesday.TabIndex = 1;
             this.lvWednesday.UseCompatibleStateImageBehavior = false;
             this.lvWednesday.View = System.Windows.Forms.View.Details;
@@ -271,14 +258,14 @@
             // 
             // tabThursday
             // 
+            this.tabThursday.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(237)))), ((int)(((byte)(239)))), ((int)(((byte)(239)))));
             this.tabThursday.Controls.Add(this.lblThursday);
             this.tabThursday.Controls.Add(this.lvThursday);
             this.tabThursday.Location = new System.Drawing.Point(4, 22);
             this.tabThursday.Name = "tabThursday";
-            this.tabThursday.Size = new System.Drawing.Size(677, 290);
+            this.tabThursday.Size = new System.Drawing.Size(677, 326);
             this.tabThursday.TabIndex = 4;
             this.tabThursday.Text = "Thursday";
-            this.tabThursday.UseVisualStyleBackColor = true;
             // 
             // lblThursday
             // 
@@ -291,9 +278,10 @@
             // 
             // lvThursday
             // 
+            this.lvThursday.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(237)))), ((int)(((byte)(239)))), ((int)(((byte)(239)))));
             this.lvThursday.Location = new System.Drawing.Point(0, 19);
             this.lvThursday.Name = "lvThursday";
-            this.lvThursday.Size = new System.Drawing.Size(677, 271);
+            this.lvThursday.Size = new System.Drawing.Size(677, 307);
             this.lvThursday.TabIndex = 1;
             this.lvThursday.UseCompatibleStateImageBehavior = false;
             this.lvThursday.View = System.Windows.Forms.View.Details;
@@ -301,14 +289,14 @@
             // 
             // tabFriday
             // 
+            this.tabFriday.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(237)))), ((int)(((byte)(239)))), ((int)(((byte)(239)))));
             this.tabFriday.Controls.Add(this.lblFriday);
             this.tabFriday.Controls.Add(this.lvFriday);
             this.tabFriday.Location = new System.Drawing.Point(4, 22);
             this.tabFriday.Name = "tabFriday";
-            this.tabFriday.Size = new System.Drawing.Size(677, 290);
+            this.tabFriday.Size = new System.Drawing.Size(677, 326);
             this.tabFriday.TabIndex = 5;
             this.tabFriday.Text = "Friday";
-            this.tabFriday.UseVisualStyleBackColor = true;
             // 
             // lblFriday
             // 
@@ -321,9 +309,10 @@
             // 
             // lvFriday
             // 
+            this.lvFriday.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(237)))), ((int)(((byte)(239)))), ((int)(((byte)(239)))));
             this.lvFriday.Location = new System.Drawing.Point(0, 19);
             this.lvFriday.Name = "lvFriday";
-            this.lvFriday.Size = new System.Drawing.Size(677, 271);
+            this.lvFriday.Size = new System.Drawing.Size(677, 307);
             this.lvFriday.TabIndex = 1;
             this.lvFriday.UseCompatibleStateImageBehavior = false;
             this.lvFriday.View = System.Windows.Forms.View.Details;
@@ -331,14 +320,14 @@
             // 
             // tabSaturday
             // 
+            this.tabSaturday.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(237)))), ((int)(((byte)(239)))), ((int)(((byte)(239)))));
             this.tabSaturday.Controls.Add(this.lblSaturday);
             this.tabSaturday.Controls.Add(this.lvSaturday);
             this.tabSaturday.Location = new System.Drawing.Point(4, 22);
             this.tabSaturday.Name = "tabSaturday";
-            this.tabSaturday.Size = new System.Drawing.Size(677, 290);
+            this.tabSaturday.Size = new System.Drawing.Size(677, 326);
             this.tabSaturday.TabIndex = 6;
             this.tabSaturday.Text = "Saturday";
-            this.tabSaturday.UseVisualStyleBackColor = true;
             // 
             // lblSaturday
             // 
@@ -351,156 +340,52 @@
             // 
             // lvSaturday
             // 
+            this.lvSaturday.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(237)))), ((int)(((byte)(239)))), ((int)(((byte)(239)))));
             this.lvSaturday.Location = new System.Drawing.Point(0, 19);
             this.lvSaturday.Name = "lvSaturday";
-            this.lvSaturday.Size = new System.Drawing.Size(677, 271);
+            this.lvSaturday.Size = new System.Drawing.Size(677, 307);
             this.lvSaturday.TabIndex = 1;
             this.lvSaturday.UseCompatibleStateImageBehavior = false;
             this.lvSaturday.View = System.Windows.Forms.View.Details;
             this.lvSaturday.ItemChecked += new System.Windows.Forms.ItemCheckedEventHandler(this.lvSaturday_ItemChecked);
             // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(13, 359);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(107, 13);
-            this.label2.TabIndex = 8;
-            this.label2.Text = "Availability End Time:";
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(13, 333);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(110, 13);
-            this.label1.TabIndex = 7;
-            this.label1.Text = "Availability Start Time:";
-            // 
             // btnAddOpenBlock
             // 
-            this.btnAddOpenBlock.Location = new System.Drawing.Point(505, 351);
+            this.btnAddOpenBlock.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
+            this.btnAddOpenBlock.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btnAddOpenBlock.Location = new System.Drawing.Point(7, 364);
             this.btnAddOpenBlock.Name = "btnAddOpenBlock";
-            this.btnAddOpenBlock.Size = new System.Drawing.Size(105, 23);
+            this.btnAddOpenBlock.Size = new System.Drawing.Size(132, 23);
             this.btnAddOpenBlock.TabIndex = 6;
             this.btnAddOpenBlock.Text = "Add Availability";
-            this.btnAddOpenBlock.UseVisualStyleBackColor = true;
+            this.btnAddOpenBlock.UseVisualStyleBackColor = false;
             this.btnAddOpenBlock.Click += new System.EventHandler(this.btnAddOpenBlock_Click);
-            // 
-            // combEndAmPm
-            // 
-            this.combEndAmPm.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.combEndAmPm.FormattingEnabled = true;
-            this.combEndAmPm.Items.AddRange(new object[] {
-            "AM",
-            "PM"});
-            this.combEndAmPm.Location = new System.Drawing.Point(435, 355);
-            this.combEndAmPm.Name = "combEndAmPm";
-            this.combEndAmPm.Size = new System.Drawing.Size(50, 21);
-            this.combEndAmPm.TabIndex = 5;
-            // 
-            // combEndMinute
-            // 
-            this.combEndMinute.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.combEndMinute.FormattingEnabled = true;
-            this.combEndMinute.Items.AddRange(new object[] {
-            "00",
-            "15",
-            "30",
-            "45"});
-            this.combEndMinute.Location = new System.Drawing.Point(380, 355);
-            this.combEndMinute.Name = "combEndMinute";
-            this.combEndMinute.Size = new System.Drawing.Size(49, 21);
-            this.combEndMinute.TabIndex = 4;
-            // 
-            // combEndHour
-            // 
-            this.combEndHour.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.combEndHour.FormattingEnabled = true;
-            this.combEndHour.Items.AddRange(new object[] {
-            "01",
-            "02",
-            "03",
-            "04",
-            "05",
-            "06",
-            "07",
-            "08",
-            "09",
-            "10",
-            "11",
-            "12"});
-            this.combEndHour.Location = new System.Drawing.Point(330, 355);
-            this.combEndHour.Name = "combEndHour";
-            this.combEndHour.Size = new System.Drawing.Size(44, 21);
-            this.combEndHour.TabIndex = 3;
-            // 
-            // combStartAmPm
-            // 
-            this.combStartAmPm.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.combStartAmPm.FormattingEnabled = true;
-            this.combStartAmPm.Items.AddRange(new object[] {
-            "AM",
-            "PM"});
-            this.combStartAmPm.Location = new System.Drawing.Point(435, 328);
-            this.combStartAmPm.Name = "combStartAmPm";
-            this.combStartAmPm.Size = new System.Drawing.Size(50, 21);
-            this.combStartAmPm.TabIndex = 2;
-            // 
-            // combStartMinute
-            // 
-            this.combStartMinute.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.combStartMinute.FormattingEnabled = true;
-            this.combStartMinute.Items.AddRange(new object[] {
-            "00",
-            "15",
-            "30",
-            "45"});
-            this.combStartMinute.Location = new System.Drawing.Point(380, 328);
-            this.combStartMinute.Name = "combStartMinute";
-            this.combStartMinute.Size = new System.Drawing.Size(49, 21);
-            this.combStartMinute.TabIndex = 1;
-            // 
-            // combStartHour
-            // 
-            this.combStartHour.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.combStartHour.FormattingEnabled = true;
-            this.combStartHour.Items.AddRange(new object[] {
-            "01",
-            "02",
-            "03",
-            "04",
-            "05",
-            "06",
-            "07",
-            "08",
-            "09",
-            "10",
-            "11",
-            "12"});
-            this.combStartHour.Location = new System.Drawing.Point(330, 328);
-            this.combStartHour.Name = "combStartHour";
-            this.combStartHour.Size = new System.Drawing.Size(44, 21);
-            this.combStartHour.TabIndex = 0;
             // 
             // btnLogout
             // 
+            this.btnLogout.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(208)))), ((int)(((byte)(222)))), ((int)(((byte)(229)))));
+            this.btnLogout.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(151)))), ((int)(((byte)(167)))), ((int)(((byte)(175)))));
+            this.btnLogout.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(151)))), ((int)(((byte)(167)))), ((int)(((byte)(175)))));
+            this.btnLogout.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnLogout.Location = new System.Drawing.Point(736, 85);
             this.btnLogout.Name = "btnLogout";
             this.btnLogout.Size = new System.Drawing.Size(197, 23);
             this.btnLogout.TabIndex = 1;
             this.btnLogout.Text = "Logout";
-            this.btnLogout.UseVisualStyleBackColor = true;
+            this.btnLogout.UseVisualStyleBackColor = false;
             this.btnLogout.Click += new System.EventHandler(this.btnLogout_Click);
             // 
             // btnMakeRequest
             // 
+            this.btnMakeRequest.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(208)))), ((int)(((byte)(222)))), ((int)(((byte)(229)))));
+            this.btnMakeRequest.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(61)))), ((int)(((byte)(71)))), ((int)(((byte)(76)))));
+            this.btnMakeRequest.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnMakeRequest.Location = new System.Drawing.Point(736, 114);
             this.btnMakeRequest.Name = "btnMakeRequest";
             this.btnMakeRequest.Size = new System.Drawing.Size(197, 23);
             this.btnMakeRequest.TabIndex = 2;
             this.btnMakeRequest.Text = "Make Request";
-            this.btnMakeRequest.UseVisualStyleBackColor = true;
+            this.btnMakeRequest.UseVisualStyleBackColor = false;
             this.btnMakeRequest.Click += new System.EventHandler(this.btnMakeRequest_Click);
             // 
             // tabControl1
@@ -515,56 +400,27 @@
             // 
             // tabSchedule
             // 
-            this.tabSchedule.Controls.Add(this.dayEndDateTime);
-            this.tabSchedule.Controls.Add(this.dayStartDateTime);
+            this.tabSchedule.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(237)))), ((int)(((byte)(239)))), ((int)(((byte)(239)))));
             this.tabSchedule.Controls.Add(this.dayTabs);
-            this.tabSchedule.Controls.Add(this.combStartMinute);
-            this.tabSchedule.Controls.Add(this.combStartAmPm);
             this.tabSchedule.Controls.Add(this.btnAddOpenBlock);
-            this.tabSchedule.Controls.Add(this.combStartHour);
-            this.tabSchedule.Controls.Add(this.combEndAmPm);
-            this.tabSchedule.Controls.Add(this.combEndMinute);
-            this.tabSchedule.Controls.Add(this.cbxWeekly);
-            this.tabSchedule.Controls.Add(this.combEndHour);
-            this.tabSchedule.Controls.Add(this.label2);
-            this.tabSchedule.Controls.Add(this.label1);
+            this.tabSchedule.Controls.Add(this.btnRemoveAvail);
             this.tabSchedule.Location = new System.Drawing.Point(4, 22);
             this.tabSchedule.Name = "tabSchedule";
             this.tabSchedule.Padding = new System.Windows.Forms.Padding(3);
+            this.tabSchedule.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.tabSchedule.Size = new System.Drawing.Size(707, 393);
             this.tabSchedule.TabIndex = 1;
             this.tabSchedule.Text = "Schedule";
-            this.tabSchedule.UseVisualStyleBackColor = true;
-            // 
-            // dayEndDateTime
-            // 
-            this.dayEndDateTime.Location = new System.Drawing.Point(124, 356);
-            this.dayEndDateTime.MaxDate = new System.DateTime(2017, 4, 30, 0, 0, 0, 0);
-            this.dayEndDateTime.MinDate = new System.DateTime(2017, 1, 1, 0, 0, 0, 0);
-            this.dayEndDateTime.Name = "dayEndDateTime";
-            this.dayEndDateTime.Size = new System.Drawing.Size(200, 20);
-            this.dayEndDateTime.TabIndex = 14;
-            this.dayEndDateTime.Value = new System.DateTime(2017, 3, 23, 0, 0, 0, 0);
-            // 
-            // dayStartDateTime
-            // 
-            this.dayStartDateTime.Location = new System.Drawing.Point(124, 329);
-            this.dayStartDateTime.MaxDate = new System.DateTime(2017, 4, 30, 0, 0, 0, 0);
-            this.dayStartDateTime.MinDate = new System.DateTime(2017, 1, 1, 0, 0, 0, 0);
-            this.dayStartDateTime.Name = "dayStartDateTime";
-            this.dayStartDateTime.Size = new System.Drawing.Size(200, 20);
-            this.dayStartDateTime.TabIndex = 13;
-            this.dayStartDateTime.Value = new System.DateTime(2017, 3, 23, 0, 0, 0, 0);
             // 
             // tabAppointments
             // 
+            this.tabAppointments.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(237)))), ((int)(((byte)(239)))), ((int)(((byte)(239)))));
             this.tabAppointments.Controls.Add(this.tabControl2);
             this.tabAppointments.Location = new System.Drawing.Point(4, 22);
             this.tabAppointments.Name = "tabAppointments";
             this.tabAppointments.Size = new System.Drawing.Size(707, 393);
             this.tabAppointments.TabIndex = 2;
             this.tabAppointments.Text = "Appointments";
-            this.tabAppointments.UseVisualStyleBackColor = true;
             // 
             // tabControl2
             // 
@@ -581,6 +437,7 @@
             // 
             // tabAccepted
             // 
+            this.tabAccepted.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(237)))), ((int)(((byte)(239)))), ((int)(((byte)(239)))));
             this.tabAccepted.Controls.Add(this.btnDeselect1);
             this.tabAccepted.Controls.Add(this.btnCancelFinalized);
             this.tabAccepted.Controls.Add(this.lvFinalized);
@@ -590,30 +447,35 @@
             this.tabAccepted.Size = new System.Drawing.Size(699, 367);
             this.tabAccepted.TabIndex = 0;
             this.tabAccepted.Text = "Finalized Appointments";
-            this.tabAccepted.UseVisualStyleBackColor = true;
             // 
             // btnDeselect1
             // 
+            this.btnDeselect1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
+            this.btnDeselect1.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnDeselect1.Location = new System.Drawing.Point(592, 336);
             this.btnDeselect1.Name = "btnDeselect1";
             this.btnDeselect1.Size = new System.Drawing.Size(101, 23);
             this.btnDeselect1.TabIndex = 18;
             this.btnDeselect1.Text = "Deselect All";
-            this.btnDeselect1.UseVisualStyleBackColor = true;
+            this.btnDeselect1.UseVisualStyleBackColor = false;
             this.btnDeselect1.Click += new System.EventHandler(this.btnDeselect1_Click);
             // 
             // btnCancelFinalized
             // 
+            this.btnCancelFinalized.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
+            this.btnCancelFinalized.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnCancelFinalized.Location = new System.Drawing.Point(6, 336);
             this.btnCancelFinalized.Name = "btnCancelFinalized";
             this.btnCancelFinalized.Size = new System.Drawing.Size(177, 23);
             this.btnCancelFinalized.TabIndex = 17;
             this.btnCancelFinalized.Text = "Cancel Appointment(s)";
-            this.btnCancelFinalized.UseVisualStyleBackColor = true;
+            this.btnCancelFinalized.UseVisualStyleBackColor = false;
             this.btnCancelFinalized.Click += new System.EventHandler(this.btnCancelFinalized_Click);
             // 
             // lvFinalized
             // 
+            this.lvFinalized.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(237)))), ((int)(((byte)(239)))), ((int)(((byte)(239)))));
+            this.lvFinalized.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.lvFinalized.Location = new System.Drawing.Point(0, 0);
             this.lvFinalized.Name = "lvFinalized";
             this.lvFinalized.Size = new System.Drawing.Size(699, 330);
@@ -625,6 +487,7 @@
             // 
             // tabPendingTutor
             // 
+            this.tabPendingTutor.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(237)))), ((int)(((byte)(239)))), ((int)(((byte)(239)))));
             this.tabPendingTutor.Controls.Add(this.btnDeselect2);
             this.tabPendingTutor.Controls.Add(this.btnRejectTutor);
             this.tabPendingTutor.Controls.Add(this.btnAcceptAddLoc);
@@ -638,58 +501,66 @@
             this.tabPendingTutor.Size = new System.Drawing.Size(699, 367);
             this.tabPendingTutor.TabIndex = 1;
             this.tabPendingTutor.Text = "Pending Tutoring Appointments";
-            this.tabPendingTutor.UseVisualStyleBackColor = true;
             // 
             // btnDeselect2
             // 
+            this.btnDeselect2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
+            this.btnDeselect2.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnDeselect2.Location = new System.Drawing.Point(592, 336);
             this.btnDeselect2.Name = "btnDeselect2";
             this.btnDeselect2.Size = new System.Drawing.Size(101, 23);
             this.btnDeselect2.TabIndex = 23;
             this.btnDeselect2.Text = "Deselect All";
-            this.btnDeselect2.UseVisualStyleBackColor = true;
+            this.btnDeselect2.UseVisualStyleBackColor = false;
             this.btnDeselect2.Click += new System.EventHandler(this.btnDeselect1_Click);
             // 
             // btnRejectTutor
             // 
+            this.btnRejectTutor.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
+            this.btnRejectTutor.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnRejectTutor.Location = new System.Drawing.Point(189, 336);
             this.btnRejectTutor.Name = "btnRejectTutor";
             this.btnRejectTutor.Size = new System.Drawing.Size(177, 23);
             this.btnRejectTutor.TabIndex = 22;
             this.btnRejectTutor.Text = "Reject/Delete Appointment(s)";
-            this.btnRejectTutor.UseVisualStyleBackColor = true;
+            this.btnRejectTutor.UseVisualStyleBackColor = false;
             this.btnRejectTutor.Click += new System.EventHandler(this.btnRejectTutor_Click);
             // 
             // btnAcceptAddLoc
             // 
+            this.btnAcceptAddLoc.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
+            this.btnAcceptAddLoc.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnAcceptAddLoc.Location = new System.Drawing.Point(6, 336);
             this.btnAcceptAddLoc.Name = "btnAcceptAddLoc";
             this.btnAcceptAddLoc.Size = new System.Drawing.Size(177, 23);
             this.btnAcceptAddLoc.TabIndex = 21;
             this.btnAcceptAddLoc.Text = "Accept/Add Location";
-            this.btnAcceptAddLoc.UseVisualStyleBackColor = true;
+            this.btnAcceptAddLoc.UseVisualStyleBackColor = false;
             this.btnAcceptAddLoc.Click += new System.EventHandler(this.btnAcceptAddLoc_Click);
             // 
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(6, 172);
+            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label4.Location = new System.Drawing.Point(6, 170);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(223, 13);
+            this.label4.Size = new System.Drawing.Size(254, 15);
             this.label4.TabIndex = 20;
             this.label4.Text = "Appointments waiting on the Tutee\'s Approval";
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(6, 8);
+            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.Location = new System.Drawing.Point(6, 6);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(293, 13);
+            this.label3.Size = new System.Drawing.Size(338, 15);
             this.label3.TabIndex = 19;
             this.label3.Text = "Appointments waiting for your approval and location proposal";
             // 
             // lvPendingTutor
             // 
+            this.lvPendingTutor.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(237)))), ((int)(((byte)(239)))), ((int)(((byte)(239)))));
             this.lvPendingTutor.Location = new System.Drawing.Point(0, 24);
             this.lvPendingTutor.Name = "lvPendingTutor";
             this.lvPendingTutor.Size = new System.Drawing.Size(699, 140);
@@ -701,6 +572,7 @@
             // 
             // lvTutor
             // 
+            this.lvTutor.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(237)))), ((int)(((byte)(239)))), ((int)(((byte)(239)))));
             this.lvTutor.Location = new System.Drawing.Point(0, 190);
             this.lvTutor.Name = "lvTutor";
             this.lvTutor.Size = new System.Drawing.Size(699, 140);
@@ -712,6 +584,7 @@
             // 
             // tabPendingTutee
             // 
+            this.tabPendingTutee.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(237)))), ((int)(((byte)(239)))), ((int)(((byte)(239)))));
             this.tabPendingTutee.Controls.Add(this.btnDeselect3);
             this.tabPendingTutee.Controls.Add(this.btnRejectTutee);
             this.tabPendingTutee.Controls.Add(this.btnFinalize);
@@ -724,49 +597,56 @@
             this.tabPendingTutee.Size = new System.Drawing.Size(699, 367);
             this.tabPendingTutee.TabIndex = 2;
             this.tabPendingTutee.Text = "Pending Tutee Appointments";
-            this.tabPendingTutee.UseVisualStyleBackColor = true;
             // 
             // btnDeselect3
             // 
+            this.btnDeselect3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
+            this.btnDeselect3.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnDeselect3.Location = new System.Drawing.Point(592, 336);
             this.btnDeselect3.Name = "btnDeselect3";
             this.btnDeselect3.Size = new System.Drawing.Size(101, 23);
             this.btnDeselect3.TabIndex = 26;
             this.btnDeselect3.Text = "Deselect All";
-            this.btnDeselect3.UseVisualStyleBackColor = true;
+            this.btnDeselect3.UseVisualStyleBackColor = false;
             this.btnDeselect3.Click += new System.EventHandler(this.btnDeselect1_Click);
             // 
             // btnRejectTutee
             // 
+            this.btnRejectTutee.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
+            this.btnRejectTutee.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnRejectTutee.Location = new System.Drawing.Point(189, 336);
             this.btnRejectTutee.Name = "btnRejectTutee";
             this.btnRejectTutee.Size = new System.Drawing.Size(177, 23);
             this.btnRejectTutee.TabIndex = 25;
             this.btnRejectTutee.Text = "Reject/Delete Appointment(s)";
-            this.btnRejectTutee.UseVisualStyleBackColor = true;
+            this.btnRejectTutee.UseVisualStyleBackColor = false;
             this.btnRejectTutee.Click += new System.EventHandler(this.btnRejectTutee_Click);
             // 
             // btnFinalize
             // 
+            this.btnFinalize.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
+            this.btnFinalize.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnFinalize.Location = new System.Drawing.Point(6, 336);
             this.btnFinalize.Name = "btnFinalize";
             this.btnFinalize.Size = new System.Drawing.Size(177, 23);
             this.btnFinalize.TabIndex = 24;
             this.btnFinalize.Text = "Accept Appointment(s)";
-            this.btnFinalize.UseVisualStyleBackColor = true;
+            this.btnFinalize.UseVisualStyleBackColor = false;
             this.btnFinalize.Click += new System.EventHandler(this.btnFinalize_Click);
             // 
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(6, 8);
+            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label5.Location = new System.Drawing.Point(6, 6);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(190, 13);
+            this.label5.Size = new System.Drawing.Size(218, 15);
             this.label5.TabIndex = 23;
             this.label5.Text = "Appointments waiting on tutor approval";
             // 
             // lvTutee
             // 
+            this.lvTutee.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(237)))), ((int)(((byte)(239)))), ((int)(((byte)(239)))));
             this.lvTutee.Location = new System.Drawing.Point(0, 24);
             this.lvTutee.Name = "lvTutee";
             this.lvTutee.Size = new System.Drawing.Size(699, 140);
@@ -779,15 +659,17 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(6, 172);
+            this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label6.Location = new System.Drawing.Point(6, 170);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(189, 13);
+            this.label6.Size = new System.Drawing.Size(217, 15);
             this.label6.TabIndex = 21;
             this.label6.Text = "Appointments waiting for your approval";
             // 
             // lvPendingTutee
             // 
-            this.lvPendingTutee.Location = new System.Drawing.Point(-8, 188);
+            this.lvPendingTutee.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(237)))), ((int)(((byte)(239)))), ((int)(((byte)(239)))));
+            this.lvPendingTutee.Location = new System.Drawing.Point(0, 188);
             this.lvPendingTutee.Name = "lvPendingTutee";
             this.lvPendingTutee.Size = new System.Drawing.Size(699, 140);
             this.lvPendingTutee.TabIndex = 18;
@@ -807,36 +689,66 @@
             // 
             // btnRemoveAvail
             // 
-            this.btnRemoveAvail.Location = new System.Drawing.Point(736, 144);
+            this.btnRemoveAvail.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(193)))), ((int)(((byte)(200)))), ((int)(((byte)(204)))));
+            this.btnRemoveAvail.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btnRemoveAvail.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(47)))), ((int)(((byte)(66)))), ((int)(((byte)(76)))));
+            this.btnRemoveAvail.Location = new System.Drawing.Point(145, 364);
             this.btnRemoveAvail.Name = "btnRemoveAvail";
-            this.btnRemoveAvail.Size = new System.Drawing.Size(197, 23);
+            this.btnRemoveAvail.Size = new System.Drawing.Size(132, 23);
             this.btnRemoveAvail.TabIndex = 16;
             this.btnRemoveAvail.Text = "Remove Availability";
-            this.btnRemoveAvail.UseVisualStyleBackColor = true;
+            this.btnRemoveAvail.UseVisualStyleBackColor = false;
             this.btnRemoveAvail.Click += new System.EventHandler(this.btnRemoveAvail_Click);
             // 
             // btnAdvanceRequest
             // 
-            this.btnAdvanceRequest.Location = new System.Drawing.Point(736, 173);
+            this.btnAdvanceRequest.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(208)))), ((int)(((byte)(222)))), ((int)(((byte)(229)))));
+            this.btnAdvanceRequest.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btnAdvanceRequest.Location = new System.Drawing.Point(736, 143);
             this.btnAdvanceRequest.Name = "btnAdvanceRequest";
             this.btnAdvanceRequest.Size = new System.Drawing.Size(200, 23);
             this.btnAdvanceRequest.TabIndex = 17;
             this.btnAdvanceRequest.Text = "Advanced Request";
-            this.btnAdvanceRequest.UseVisualStyleBackColor = true;
+            this.btnAdvanceRequest.UseVisualStyleBackColor = false;
             this.btnAdvanceRequest.Click += new System.EventHandler(this.btnAdvanceRequest_Click);
+            // 
+            // btnChangePassword
+            // 
+            this.btnChangePassword.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(208)))), ((int)(((byte)(222)))), ((int)(((byte)(229)))));
+            this.btnChangePassword.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btnChangePassword.Location = new System.Drawing.Point(736, 197);
+            this.btnChangePassword.Name = "btnChangePassword";
+            this.btnChangePassword.Size = new System.Drawing.Size(200, 23);
+            this.btnChangePassword.TabIndex = 18;
+            this.btnChangePassword.Text = "Change Password";
+            this.btnChangePassword.UseVisualStyleBackColor = false;
+            this.btnChangePassword.Click += new System.EventHandler(this.btnChangePassword_Click);
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Image = global::TutorMaster.Properties.Resources.WatermarkR2;
+            this.pictureBox1.Location = new System.Drawing.Point(834, 326);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(119, 119);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox1.TabIndex = 19;
+            this.pictureBox1.TabStop = false;
             // 
             // StudentMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(218)))), ((int)(((byte)(232)))), ((int)(((byte)(239)))));
             this.ClientSize = new System.Drawing.Size(948, 441);
+            this.Controls.Add(this.pictureBox1);
+            this.Controls.Add(this.btnChangePassword);
             this.Controls.Add(this.btnAdvanceRequest);
-            this.Controls.Add(this.btnRemoveAvail);
             this.Controls.Add(this.label10);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.weekStartDateTime);
             this.Controls.Add(this.btnMakeRequest);
             this.Controls.Add(this.btnLogout);
+            this.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(61)))), ((int)(((byte)(71)))), ((int)(((byte)(76)))));
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "StudentMain";
             this.Text = "StudentMain";
@@ -858,7 +770,6 @@
             this.tabSaturday.PerformLayout();
             this.tabControl1.ResumeLayout(false);
             this.tabSchedule.ResumeLayout(false);
-            this.tabSchedule.PerformLayout();
             this.tabAppointments.ResumeLayout(false);
             this.tabControl2.ResumeLayout(false);
             this.tabAccepted.ResumeLayout(false);
@@ -866,6 +777,7 @@
             this.tabPendingTutor.PerformLayout();
             this.tabPendingTutee.ResumeLayout(false);
             this.tabPendingTutee.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -876,14 +788,6 @@
         private System.Windows.Forms.Button btnLogout;
         private System.Windows.Forms.Button btnMakeRequest;
         private System.Windows.Forms.Button btnAddOpenBlock;
-        private System.Windows.Forms.ComboBox combEndAmPm;
-        private System.Windows.Forms.ComboBox combEndMinute;
-        private System.Windows.Forms.ComboBox combEndHour;
-        private System.Windows.Forms.ComboBox combStartAmPm;
-        private System.Windows.Forms.ComboBox combStartMinute;
-        private System.Windows.Forms.ComboBox combStartHour;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TabControl dayTabs;
         private System.Windows.Forms.TabPage tabSunday;
         private System.Windows.Forms.TabPage tabMonday;
@@ -893,13 +797,11 @@
         private System.Windows.Forms.TabPage tabFriday;
         private System.Windows.Forms.TabPage tabSaturday;
         private System.Windows.Forms.ListView lvSunday;
-        private System.Windows.Forms.ListView lvMonday;
         private System.Windows.Forms.ListView lvTuesday;
         private System.Windows.Forms.ListView lvWednesday;
         private System.Windows.Forms.ListView lvThursday;
         private System.Windows.Forms.ListView lvFriday;
         private System.Windows.Forms.ListView lvSaturday;
-        private System.Windows.Forms.CheckBox cbxWeekly;
         private System.Windows.Forms.DateTimePicker weekStartDateTime;
         private System.Windows.Forms.Label lblSunday;
         private System.Windows.Forms.TabControl tabControl1;
@@ -915,8 +817,6 @@
         private System.Windows.Forms.Label lblThursday;
         private System.Windows.Forms.Label lblFriday;
         private System.Windows.Forms.Label lblSaturday;
-        private System.Windows.Forms.DateTimePicker dayEndDateTime;
-        private System.Windows.Forms.DateTimePicker dayStartDateTime;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.ListView lvFinalized;
         private System.Windows.Forms.Label label4;
@@ -937,5 +837,8 @@
         private System.Windows.Forms.Button btnFinalize;
         private System.Windows.Forms.Button btnRemoveAvail;
         private System.Windows.Forms.Button btnAdvanceRequest;
+        private System.Windows.Forms.Button btnChangePassword;
+        private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.ListView lvMonday;
     }
 }

@@ -29,8 +29,6 @@ namespace TutorMaster
             }
             populateColumns(tutor, tutee);                                                                        //initialize the columns of listviews approriately
             weekStartDateTime.Value = DateTime.Today;                                                             //initialize datetime pickers to be today
-            dayStartDateTime.Value = DateTime.Today;
-            dayEndDateTime.Value = DateTime.Today;
             DateTime start = DateTime.Now;
             loadAvail(start);                                                                                     //load availability starting from today
             setUpLabels(start);                                                                                   //set up the labels above each schedule list view a week from today
@@ -581,7 +579,7 @@ namespace TutorMaster
             //this function will check to see if all of the information at the time of the press of the button is valid and then start executing the process to add time slots
             
             //first, error check to make sure that the user put something for each dropdownbox
-            if ((string.IsNullOrWhiteSpace(combStartHour.Text))|| (string.IsNullOrWhiteSpace(combStartMinute.Text)
+            /*if ((string.IsNullOrWhiteSpace(combStartHour.Text))|| (string.IsNullOrWhiteSpace(combStartMinute.Text)
             || (string.IsNullOrWhiteSpace(combStartAmPm.Text)))|| (string.IsNullOrWhiteSpace(combEndHour.Text))
             || (string.IsNullOrWhiteSpace(combEndMinute.Text)) || (string.IsNullOrWhiteSpace(combEndAmPm.Text)))
             {
@@ -629,7 +627,7 @@ namespace TutorMaster
                 DateTime startTime = new DateTime(dayStartDateTime.Value.Year, dayStartDateTime.Value.Month, dayStartDateTime.Value.Day, startHour, startMinute, 0); //exact startDateTime of the commitment
                 DateTime endTime = new DateTime(dayEndDateTime.Value.Year, dayEndDateTime.Value.Month, dayEndDateTime.Value.Day, endHour, endMinute, 0);             //exact endDateTime of the commitment
                 addAvailability(startTime, endTime, weekly);                                                                                                         //begin adding the availability to the database
-            }
+            }*/
         }
 
         private void addAvailability(DateTime startTime, DateTime endTime, bool weekly)
@@ -1091,15 +1089,21 @@ namespace TutorMaster
             }
         }
 
-        //disable buttons that should not be enabled at the start of the program
+        //disable buttons that should not be enabled at the start of the program and adjust their style to reflect such
         private void disableButtons()
         {
             btnCancelFinalized.Enabled = false;
+            btnCancelFinalized.BackColor = System.Drawing.Color.FromArgb(193, 200, 204);
             btnAcceptAddLoc.Enabled = false;
+            btnAcceptAddLoc.BackColor = System.Drawing.Color.FromArgb(193, 200, 204);
             btnRejectTutor.Enabled = false;
+            btnRejectTutor.BackColor = System.Drawing.Color.FromArgb(193, 200, 204);
             btnFinalize.Enabled = false;
+            btnFinalize.BackColor = System.Drawing.Color.FromArgb(193, 200, 204);
             btnRejectTutee.Enabled = false;
+            btnRejectTutee.BackColor = System.Drawing.Color.FromArgb(193, 200, 204);
             btnRemoveAvail.Enabled = false;
+            btnRemoveAvail.BackColor = System.Drawing.Color.FromArgb(193, 200, 204);
         }
 
         //display the request form
@@ -1197,10 +1201,12 @@ namespace TutorMaster
             if (itemsChecked > 0)
             {
                 btnCancelFinalized.Enabled = true;
+                btnCancelFinalized.BackColor = System.Drawing.Color.FromArgb(226, 226, 226);
             }
             else
             {
                 btnCancelFinalized.Enabled = false;
+                btnCancelFinalized.BackColor = System.Drawing.Color.FromArgb(193, 200, 204);
             }
         }
 
@@ -1834,22 +1840,30 @@ namespace TutorMaster
             if (numPendingTutor > 0 && numTutor > 0)                                   //if both lv PendingTutor and lvTutor have something checked, only reject should be on
             {
                 btnAcceptAddLoc.Enabled = false;
+                btnAcceptAddLoc.BackColor = System.Drawing.Color.FromArgb(193, 200, 204);
                 btnRejectTutor.Enabled = true;
+                btnRejectTutor.BackColor = System.Drawing.Color.FromArgb(226, 226, 226);
             }
             else if (numPendingTutor > 0 && numTutor == 0)                             //if PendingTutor has something checked by tutor doesn't then both buttons should be on
             {
                 btnAcceptAddLoc.Enabled = true;
+                btnAcceptAddLoc.BackColor = System.Drawing.Color.FromArgb(226, 226, 226);
                 btnRejectTutor.Enabled = true;
+                btnRejectTutor.BackColor = System.Drawing.Color.FromArgb(226, 226, 226);
             }
             else if (numTutor > 0 && numPendingTutor == 0)                             //if tutor has something checked but pendingTutor does not, only reject should be on
             {
                 btnAcceptAddLoc.Enabled = false;
+                btnAcceptAddLoc.BackColor = System.Drawing.Color.FromArgb(193, 200, 204);
                 btnRejectTutor.Enabled = true;
+                btnRejectTutor.BackColor = System.Drawing.Color.FromArgb(226, 226, 226);
             }
             else                                                                       //if neither of them have anything checked, then both buttons should be disabled
             {
                 btnAcceptAddLoc.Enabled = false;
+                btnAcceptAddLoc.BackColor = System.Drawing.Color.FromArgb(193, 200, 204);
                 btnRejectTutor.Enabled = false;
+                btnRejectTutor.BackColor = System.Drawing.Color.FromArgb(193, 200, 204);
             }
         }
 
@@ -1860,22 +1874,30 @@ namespace TutorMaster
             if (numPendingTutor > 0 && numTutor > 0)                                   //if both lv PendingTutor and lvTutor have something checked, only reject should be on
             {
                 btnAcceptAddLoc.Enabled = false;
+                btnAcceptAddLoc.BackColor = System.Drawing.Color.FromArgb(193, 200, 204);
                 btnRejectTutor.Enabled = true;
+                btnRejectTutor.BackColor = System.Drawing.Color.FromArgb(226, 226, 226);
             }
             else if (numPendingTutor > 0 && numTutor == 0)                             //if PendingTutor has something checked by tutor doesn't then both buttons should be on
             {
                 btnAcceptAddLoc.Enabled = true;
+                btnAcceptAddLoc.BackColor = System.Drawing.Color.FromArgb(226, 226, 226);
                 btnRejectTutor.Enabled = true;
+                btnRejectTutor.BackColor = System.Drawing.Color.FromArgb(226, 226, 226);
             }
             else if (numTutor > 0 && numPendingTutor == 0)                             //if tutor has something checked but pendingTutor does not, only reject should be on
             {
                 btnAcceptAddLoc.Enabled = false;
+                btnAcceptAddLoc.BackColor = System.Drawing.Color.FromArgb(193, 200, 204);
                 btnRejectTutor.Enabled = true;
+                btnRejectTutor.BackColor = System.Drawing.Color.FromArgb(226, 226, 226);
             }
             else                                                                       //if neither of them have anything checked, then both buttons should be disabled
             {
                 btnAcceptAddLoc.Enabled = false;
+                btnAcceptAddLoc.BackColor = System.Drawing.Color.FromArgb(193, 200, 204);
                 btnRejectTutor.Enabled = false;
+                btnRejectTutor.BackColor = System.Drawing.Color.FromArgb(193, 200, 204);
             }
         }
 
@@ -1886,22 +1908,30 @@ namespace TutorMaster
             if (numPendingTutee > 0 && numTutee > 0)                                   //if both lv PendingTutee and lvTutee have something checked, only reject should be on
             {
                 btnFinalize.Enabled = false;
+                btnFinalize.BackColor = System.Drawing.Color.FromArgb(193, 200, 204);
                 btnRejectTutee.Enabled = true;
+                btnRejectTutee.BackColor = System.Drawing.Color.FromArgb(226, 226, 226);
             }
             else if (numPendingTutee > 0 && numTutee == 0)                             //if PendingTutee has something checked by tutee doesn't then both buttons should be on
             {
                 btnFinalize.Enabled = true;
+                btnFinalize.BackColor = System.Drawing.Color.FromArgb(226, 226, 226);
                 btnRejectTutee.Enabled = true;
+                btnRejectTutee.BackColor = System.Drawing.Color.FromArgb(226, 226, 226);
             }
             else if (numTutee > 0 && numPendingTutee == 0)                             //if tutee has something checked but pendingTutee does not, only reject should be on
             {
                 btnFinalize.Enabled = false;
+                btnFinalize.BackColor = System.Drawing.Color.FromArgb(193, 200, 204);
                 btnRejectTutee.Enabled = true;
+                btnRejectTutee.BackColor = System.Drawing.Color.FromArgb(226, 226, 226);
             }
             else                                                                       //if neither of them have anything checked, then both buttons should be disabled
             {
                 btnFinalize.Enabled = false;
+                btnFinalize.BackColor = System.Drawing.Color.FromArgb(193, 200, 204);
                 btnRejectTutee.Enabled = false;
+                btnRejectTutee.BackColor = System.Drawing.Color.FromArgb(193, 200, 204);
             }
         }
 
@@ -1912,22 +1942,30 @@ namespace TutorMaster
             if (numPendingTutee > 0 && numTutee > 0)                                   //if both lv PendingTutee and lvTutee have something checked, only reject should be on
             {
                 btnFinalize.Enabled = false;
+                btnFinalize.BackColor = System.Drawing.Color.FromArgb(193, 200, 204);
                 btnRejectTutee.Enabled = true;
+                btnRejectTutee.BackColor = System.Drawing.Color.FromArgb(226, 226, 226);
             }
             else if (numPendingTutee > 0 && numTutee == 0)                             //if PendingTutee has something checked by tutee doesn't then both buttons should be on
             {
                 btnFinalize.Enabled = true;
+                btnFinalize.BackColor = System.Drawing.Color.FromArgb(226, 226, 226);
                 btnRejectTutee.Enabled = true;
+                btnRejectTutee.BackColor = System.Drawing.Color.FromArgb(226, 226, 226);
             }
             else if (numTutee > 0 && numPendingTutee == 0)                             //if tutee has something checked but pendingTutee does not, only reject should be on
             {
                 btnFinalize.Enabled = false;
+                btnFinalize.BackColor = System.Drawing.Color.FromArgb(193, 200, 204);
                 btnRejectTutee.Enabled = true;
+                btnRejectTutee.BackColor = System.Drawing.Color.FromArgb(226, 226, 226);
             }
             else                                                                       //if neither of them have anything checked, then both buttons should be disabled
             {
                 btnFinalize.Enabled = false;
+                btnFinalize.BackColor = System.Drawing.Color.FromArgb(193, 200, 204);
                 btnRejectTutee.Enabled = false;
+                btnRejectTutee.BackColor = System.Drawing.Color.FromArgb(193, 200, 204);
             }
         }
 
@@ -1938,6 +1976,7 @@ namespace TutorMaster
             if (itemsChecked == 0)
             {
                 btnRemoveAvail.Enabled = false;
+                btnRemoveAvail.BackColor = System.Drawing.Color.FromArgb(193, 200, 204);
             }
             else
             {
@@ -1954,10 +1993,12 @@ namespace TutorMaster
                 if (allOpen)
                 {
                     btnRemoveAvail.Enabled = true;
+                    btnRemoveAvail.BackColor = System.Drawing.Color.FromArgb(226, 226, 226);
                 }
                 else
                 {
                     btnRemoveAvail.Enabled = false;
+                    btnRemoveAvail.BackColor = System.Drawing.Color.FromArgb(193, 200, 204);
                 }
             }
         }
@@ -1969,6 +2010,7 @@ namespace TutorMaster
             if (itemsChecked == 0)
             {
                 btnRemoveAvail.Enabled = false;
+                btnRemoveAvail.BackColor = System.Drawing.Color.FromArgb(193, 200, 204);
             }
             else
             {
@@ -1984,6 +2026,7 @@ namespace TutorMaster
                 if (allOpen)
                 {
                     btnRemoveAvail.Enabled = true;
+                    btnRemoveAvail.BackColor = System.Drawing.Color.FromArgb(226, 226, 226);
                 }
                 else
                 {
@@ -1998,6 +2041,7 @@ namespace TutorMaster
             if (itemsChecked == 0)
             {
                 btnRemoveAvail.Enabled = false;
+                btnRemoveAvail.BackColor = System.Drawing.Color.FromArgb(193, 200, 204);
             }
             else
             {
@@ -2014,10 +2058,12 @@ namespace TutorMaster
                 if (allOpen)
                 {
                     btnRemoveAvail.Enabled = true;
+                    btnRemoveAvail.BackColor = System.Drawing.Color.FromArgb(226, 226, 226);
                 }
                 else
                 {
                     btnRemoveAvail.Enabled = false;
+                    btnRemoveAvail.BackColor = System.Drawing.Color.FromArgb(193, 200, 204);
                 }
             }
         }
@@ -2028,6 +2074,7 @@ namespace TutorMaster
             if (itemsChecked == 0)
             {
                 btnRemoveAvail.Enabled = false;
+                btnRemoveAvail.BackColor = System.Drawing.Color.FromArgb(193, 200, 204);
             }
             else
             {
@@ -2044,10 +2091,12 @@ namespace TutorMaster
                 if (allOpen)
                 {
                     btnRemoveAvail.Enabled = true;
+                    btnRemoveAvail.BackColor = System.Drawing.Color.FromArgb(226, 226, 226);
                 }
                 else
                 {
                     btnRemoveAvail.Enabled = false;
+                    btnRemoveAvail.BackColor = System.Drawing.Color.FromArgb(193, 200, 204);
                 }
             }
         }
@@ -2058,6 +2107,7 @@ namespace TutorMaster
             if (itemsChecked == 0)
             {
                 btnRemoveAvail.Enabled = false;
+                btnRemoveAvail.BackColor = System.Drawing.Color.FromArgb(193, 200, 204);
             }
             else
             {
@@ -2074,10 +2124,12 @@ namespace TutorMaster
                 if (allOpen)
                 {
                     btnRemoveAvail.Enabled = true;
+                    btnRemoveAvail.BackColor = System.Drawing.Color.FromArgb(226, 226, 226);
                 }
                 else
                 {
                     btnRemoveAvail.Enabled = false;
+                    btnRemoveAvail.BackColor = System.Drawing.Color.FromArgb(193, 200, 204);
                 }
             }
         }
@@ -2088,6 +2140,7 @@ namespace TutorMaster
             if (itemsChecked == 0)
             {
                 btnRemoveAvail.Enabled = false;
+                btnRemoveAvail.BackColor = System.Drawing.Color.FromArgb(193, 200, 204);
             }
             else
             {
@@ -2104,10 +2157,12 @@ namespace TutorMaster
                 if (allOpen)
                 {
                     btnRemoveAvail.Enabled = true;
+                    btnRemoveAvail.BackColor = System.Drawing.Color.FromArgb(226, 226, 226);
                 }
                 else
                 {
                     btnRemoveAvail.Enabled = false;
+                    btnRemoveAvail.BackColor = System.Drawing.Color.FromArgb(193, 200, 204);
                 }
             }
         }
@@ -2118,6 +2173,7 @@ namespace TutorMaster
             if (itemsChecked == 0)
             {
                 btnRemoveAvail.Enabled = false;
+                btnRemoveAvail.BackColor = System.Drawing.Color.FromArgb(193, 200, 204);
             }
             else
             {
@@ -2134,10 +2190,12 @@ namespace TutorMaster
                 if (allOpen)
                 {
                     btnRemoveAvail.Enabled = true;
+                    btnRemoveAvail.BackColor = System.Drawing.Color.FromArgb(226, 226, 226);
                 }
                 else
                 {
                     btnRemoveAvail.Enabled = false;
+                    btnRemoveAvail.BackColor = System.Drawing.Color.FromArgb(193, 200, 204);
                 }
             }
         }
@@ -2180,6 +2238,7 @@ namespace TutorMaster
                 lvSaturday.CheckedItems[a].Checked = false;
             }
             btnRemoveAvail.Enabled = false;
+            btnRemoveAvail.BackColor = System.Drawing.Color.FromArgb(193, 200, 204);
         }
 
         private void tabControl2_Selected(object sender, TabControlEventArgs e)
@@ -2228,6 +2287,13 @@ namespace TutorMaster
             AdvancedRequest g = new AdvancedRequest(id);
             g.Show();
             Close();
+        }
+
+        private void btnChangePassword_Click(object sender, EventArgs e)
+        {
+            ChangePasswordForm g = new ChangePasswordForm(id);
+            g.Show();
+            this.Close();
         }
     }
 }
