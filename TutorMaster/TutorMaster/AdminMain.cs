@@ -151,54 +151,67 @@ namespace TutorMaster
                 }
             }
 
-            int index1 = 0;
-            int index2 = 0;
-            List<int> courseNumList = new List<int>();
-            string initials = cs[0].ClassCode.Split('-')[0];
+            Class init = cs[0];
+            List<Class> classList = new List<Class>();
+            classList.Add(init);
 
-            for (int m = 1; m < cs.Count(); m++)
+            for (int i = 1; i < cs.Count(); i++)
             {
-                string check = cs[m].ClassCode.Split('-')[0];
-                if (check == initials)
+                if (init.ClassCode.ToString().Split('-')[0] == cs[i].ClassCode.ToString().Split('-')[0])
                 {
-                    index2++;
-                    courseNumList.Add(Convert.ToInt16(cs[m].ClassCode.Split('-')[1]));
+                    classList.Add(cs[i]);
                 }
                 else
                 {
-                    MessageBox.Show(index1.ToString() + " " + index2.ToString());
-                    sortNumList(courseNumList, ref cs, index1, index2);
+                    sortByNumber(ref classList);
+                    foreach (Class c in classList)
+                    {
+                        lvClass.Items.Add(new ListViewItem(new string[] { c.ClassCode, c.ClassName, c.Department }));
+                    }
                     
-                    index1 = index2;
-                    initials = check;
+                    classList.Clear();
+                    init = cs[i];
+                    classList.Add(cs[i]);
                 }
             }
-
-            foreach (Class c in cs)
+            
+            sortByNumber(ref classList);
+            foreach (Class c in classList)
             {
                 lvClass.Items.Add(new ListViewItem(new string[] { c.ClassCode, c.ClassName, c.Department }));
             }
+
+            
         }
 
-        private void sortNumList(List<int> courseNumList, ref List<Class> cs, int index1, int index2)
+        private void sortByNumber(ref List<Class> classList)
         {
-            for (int i = index2; i >= index1; i--)
+            List<int> tempList = new List<int>();
+
+            for (int i = 0; i < classList.Count(); i++)
             {
-                for (int j = index1; j < index2 - 1; j++)
+                int temp = Convert.ToInt16(classList[i].ClassCode.ToString().Split('-')[1]);
+                tempList.Add(temp);
+            }
+
+            for (int i = tempList.Count(); i >= 0; i--)
+            {
+                for (int j = 0; j < tempList.Count() - 1; j++)
                 {
                     int k = j + 1;
-                    if(courseNumList[j] > courseNumList[k])
+                    if (tempList[j] > tempList[k])
                     {
-                        int temp = courseNumList[j];
-                        courseNumList[j] = courseNumList[k];
-                        courseNumList[k] = temp;
+                        int temp = tempList[j];
+                        tempList[j] = tempList[k];
+                        tempList[k] = temp;
 
-                        Class tempClass = cs[j];
-                        cs[j] = cs[k];
-                        cs[k] = tempClass;
+                        Class tempClass = classList[j];
+                        classList[j] = classList[k];
+                        classList[k] = tempClass;
                     }
                 }
             }
+
         }
 
         private void setupDepartmentBoxes()
