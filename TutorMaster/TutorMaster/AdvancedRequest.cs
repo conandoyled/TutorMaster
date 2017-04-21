@@ -11,7 +11,10 @@ namespace TutorMaster
 {
     public partial class AdvancedRequest : Form
     {
+        //Initial Set up
         private int ACCID;
+        private bool leftside;
+        private bool Auto = false;
         public AdvancedRequest(int accID)  
         {
             ACCID = accID;
@@ -34,13 +37,15 @@ namespace TutorMaster
             btnManualTime.Hide();
             btnSendRequest.Hide();
             combClassBoxLeft.Hide();
+            btnFindMatches.Hide();
+            label3.Hide();
 
             //initialize the tutor names and list of classes
             setupTutorList();           //populate combTutorName
             setupComboClassesRight(); //populate the right combo box with all the available classes
+            dayStartDateTime.Value = DateTime.Today;
 
         }
-
         private void setupTutorList() //add extra validation to this to prevent a double slotted student from seeing themselves
         {
             //1. pull all of the students that are available as tutors into a list
@@ -70,6 +75,33 @@ namespace TutorMaster
                 combTutorNameLeft.Items.Add(name);
             }
         }
+        private void AdvancedRequest_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        //Left Side
+        private void btnByTutor_Click(object sender, EventArgs e)
+        {
+            //hide the right side of the form
+            combClassBoxRight.Hide();
+            combTutorNameRight.Hide();
+            lblClasses.Hide();
+            label1.Hide();
+            label2.Hide();
+            btnManualTime.Hide();
+            btnSendRequest.Hide();
+            combMeetingLength.Hide();
+            lblHowLong.Hide();
+            cbxWeekly.Hide();
+
+            //show lblTutorName and combTutorName
+            lblTutorName.Show();
+            combTutorNameLeft.Show();
+
+            //Set the bool for later
+            leftside = true;
+        }
 
         private void setupComboClassesLeft()
         {
@@ -89,35 +121,19 @@ namespace TutorMaster
             }
         }
 
-        private void setupComboClassesRight()
-        {
-            TutorMasterDBEntities4 db = new TutorMasterDBEntities4();
-            var Classes = (from row in db.StudentClasses select row.Class); // pull out all the classes that are being tutored [including duplicates]
-            List<Class> ListOfClasses = Classes.ToList<Class>(); //put all of those classes into a list to manipuate
-            foreach (Class SC in ListOfClasses)
-            {
-                combClassBoxRight.Items.Add(SC.ClassName);
-            }
-        }
-
         private void combTutorNameLeft_SelectedIndexChanged(object sender, EventArgs e)
         {
-            //show the appropriate objercts 
+            //show the appropriate objects 
             combClassBoxLeft.Show();
             lblClassesAvailable.Show();
             combMeetingLength.Show();
             lblHowLong.Show();
-            cbxWeekly.Show(); 
-
+            cbxWeekly.Show();
+            btnFindMatches.Show();
+            label3.Show();
             combClassBoxLeft.Items.Clear();         //clears the class box
             setupComboClassesLeft();    //fills it with the appropriate classes
-            //MatchTimes(); //set up the tutor time matches
-        }
-
-
-        private void AdvancedRequest_Load(object sender, EventArgs e)
-        {
-
+            
         }
 
         private void combClassBoxLeft_SelectedIndexChanged(object sender, EventArgs e)
@@ -125,33 +141,7 @@ namespace TutorMaster
 
         }
 
-
-        private void btnExit_Click(object sender, EventArgs e) 
-        {
-            StudentMain g = new StudentMain(ACCID);
-            g.Show();
-            this.Close();
-        }
-
-        private void btnByTutor_Click(object sender, EventArgs e)
-        {
-            //hide the right side of the form
-            combClassBoxRight.Hide();
-            combTutorNameRight.Hide();
-            lblClasses.Hide();
-            label1.Hide();
-            label2.Hide();
-            btnManualTime.Hide();
-            btnSendRequest.Hide();
-            combMeetingLength.Hide();
-            lblHowLong.Hide();
-            cbxWeekly.Hide();
-
-            //show lblTutorName and combTutorName
-            lblTutorName.Show();
-            combTutorNameLeft.Show();
-        }
-
+        //Right Side 
         private void btnByClass_Click(object sender, EventArgs e)
         {
             //Hide left side of form
@@ -172,17 +162,40 @@ namespace TutorMaster
             //Show Class Options
             lblClasses.Show();
             combClassBoxRight.Show();
+
+            //Set Left for use in matching
+            leftside = false;
+        }
+
+        private void setupComboClassesRight()
+        {
+            TutorMasterDBEntities4 db = new TutorMasterDBEntities4();
+            var Classes = (from row in db.StudentClasses select row.Class); // pull out all the classes that are being tutored [including duplicates]
+            List<Class> ListOfClasses = Classes.ToList<Class>(); //put all of those classes into a list to manipuate
+            foreach (Class SC in ListOfClasses)
+            {
+                combClassBoxRight.Items.Add(SC.ClassName);
+            }
+        }
+
+        private void btnExit_Click(object sender, EventArgs e) 
+        {
+            StudentMain g = new StudentMain(ACCID);
+            g.Show();
+            this.Close();
         }
 
         private void combClassBoxRight_SelectedIndexChanged(object sender, EventArgs e)
         {
             //1. Show and clear all the appropriate items
             label1.Show();
+            label3.Show();
             combTutorNameRight.Show();
             combTutorNameRight.Items.Clear();
             combMeetingLength.Show();
             lblHowLong.Show();
             cbxWeekly.Show();
+            btnFindMatches.Show();
 
             //This populates the available tutors for the selected class
             TutorMasterDBEntities4 db = new TutorMasterDBEntities4();
@@ -190,7 +203,7 @@ namespace TutorMaster
             //Create a list of all the Users that tutor the class that was selected
             List<User> ListOfTutors =
                 (from row in db.StudentClasses
-                 where row.ClassCode == combClassBoxRight.Text
+                 where row.Class.ClassName == combClassBoxRight.Text
                  join usr in db.Users 
                  on row.ID equals usr.ID
                  select usr).ToList<User>();
@@ -207,19 +220,53 @@ namespace TutorMaster
             //call our tutor match function
         }
 
+        //Middle
+        private void btnFindMatches_Click(object sender, EventArgs e)
+        {
+            bool g2 = false;
+
+            //Validate
+            if (leftside && combClassBoxLeft.SelectedItem != null && combTutorNameLeft.SelectedItem != null && combMeetingLength.SelectedItem != null) //If we're looking at the left side and everything is filled in
+            {
+                g2 = true;
+            }
+
+            if (!leftside && combClassBoxRight.SelectedItem != null && combTutorNameRight.SelectedItem != null && combMeetingLength.SelectedItem != null) //If we're looking at the right side and everything is filled in
+            {
+                g2 = true;
+            }
 
 
+            if (g2) //If we're good to go then we move onto the matching process
+            {
+                //show the appropriate boxes
+                lblAvailableTimes.Show();
+                combTutorAvailability.Show();
+                btnSendRequest.Show();
+                label2.Show();
+                btnManualTime.Show();
 
+                if (leftside)
+                    MatchTimes(combTutorNameLeft, combClassBoxLeft); //match the left
+                if (!leftside)
+                    MatchTimes(combTutorNameRight, combClassBoxRight); //call the match for the right side
+            }
+            else
+            {
+                DialogResult choice = MessageBox.Show("Please select a tutor, class, and a session length."); 
+            }
+        }
 
-
+        private void combMeetingLength_SelectedIndexChanged(object sender, EventArgs e)
+        {
+        }
 
         //Match Function and it's helpers
         private void MatchTimes(ComboBox TutBox, ComboBox ClsBox)
         {
-            //do the matching thing that myles and I talked about
-            //try to meet with him tomorrow and talk to him about it all
 
             TutorMasterDBEntities4 db = new TutorMasterDBEntities4();
+            combTutorAvailability.Items.Clear(); //clear the box so that it is 
             //0. Info needed to match
 
             //a. Name of Tutor, use it to find their ID
@@ -626,12 +673,16 @@ namespace TutorMaster
             QuickSort2(ref values, 0, numValues - 1);
         }
 
-        private void btnFindMatches_Click(object sender, EventArgs e)
+        private void btnManualTime_Click(object sender, EventArgs e)
         {
-            lblAvailableTimes.Show();
-            combTutorAvailability.Show();
-            MatchTimes(combTutorNameLeft, combClassBoxLeft);
+            //Show everything
+            Auto = false;
+            dayStartDateTime.Show();
+            combStartAmPm.Show();
+            combStartHour.Show();
+            combStartMinute.Show();
+
         }
-    
     }
 }
+
