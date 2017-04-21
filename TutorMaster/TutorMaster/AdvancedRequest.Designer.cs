@@ -180,6 +180,7 @@
             this.btnSendRequest.TabIndex = 26;
             this.btnSendRequest.Text = "Send Request";
             this.btnSendRequest.UseVisualStyleBackColor = true;
+            this.btnSendRequest.Click += new System.EventHandler(this.btnSendRequest_Click);
             // 
             // label2
             // 
