@@ -15,6 +15,7 @@ namespace TutorMaster
         private bool tutoring;
         private List<int> rememberStudIDs = new List<int>();
         private ListViewItem lastItemChecked;
+        private int chosenStudentIndex;
 
         //constructor
         public AdminCreateAppointmentForm(int accID, bool tutoringP)
@@ -534,6 +535,8 @@ namespace TutorMaster
                 List<Commitment> tuteeCommits = new List<Commitment>();
                 List<Commitment> tutorCommits = new List<Commitment>();
 
+                MessageBox.Show(lvTimeMatches.CheckedIndices[0].ToString());
+
                 if (!tutoring)
                 {
                     tuteeCommits = (from stucmt in db.StudentCommitments.AsEnumerable()
@@ -543,7 +546,7 @@ namespace TutorMaster
                     QuickSort(ref tuteeCommits, tuteeCommits.Count);
 
                     tutorCommits = (from stucmt in db.StudentCommitments.AsEnumerable()
-                                    where stucmt.ID == rememberStudIDs[lvTimeMatches.CheckedIndices[0]]
+                                    where stucmt.ID == rememberStudIDs[chosenStudentIndex]
                                     join cmt in db.Commitments.AsEnumerable() on stucmt.CmtID equals cmt.CmtID
                                     select cmt).ToList();
 
@@ -564,7 +567,7 @@ namespace TutorMaster
                     QuickSort(ref tutorCommits, tutorCommits.Count);
 
                     tuteeCommits = (from stucmt in db.StudentCommitments.AsEnumerable()
-                                    where stucmt.ID == rememberStudIDs[lvTimeMatches.CheckedIndices[0]]
+                                    where stucmt.ID == rememberStudIDs[chosenStudentIndex]
                                     join cmt in db.Commitments.AsEnumerable() on stucmt.CmtID equals cmt.CmtID
                                     select cmt).ToList();
 
@@ -574,7 +577,7 @@ namespace TutorMaster
                     string timeSlot = lvTimeMatches.CheckedItems[0].SubItems[0].Text.ToString() + "," + lvTimeMatches.CheckedItems[0].SubItems[1].Text.ToString();
                     int sessionLength = Convert.ToInt32(cbxHour.Text) * 4 + (Convert.ToInt32(cbxMinutes.Text) / 15);
 
-                    addCommits(timeSlot, id, rememberStudIDs[lvTimeMatches.CheckedIndices[0]], tutorCommits, tuteeCommits, classCode, db, cbWeekly.Checked, sessionLength);
+                    addCommits(timeSlot, id, rememberStudIDs[chosenStudentIndex], tutorCommits, tuteeCommits, classCode, db, cbWeekly.Checked, sessionLength);
                 }
                 this.Close();
             }
@@ -751,6 +754,7 @@ namespace TutorMaster
                 lvTimeMatches.Show();
                 btnSubmit.Show();
                 btnSubmit.Enabled = false;
+                chosenStudentIndex = cbxStudents.SelectedIndex;
             }
             else
             {
