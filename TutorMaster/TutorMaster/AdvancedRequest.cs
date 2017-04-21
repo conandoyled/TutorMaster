@@ -15,6 +15,7 @@ namespace TutorMaster
         private int ACCID;
         private bool leftside;
         private bool Auto = false;
+        private TutorMaster.Commitment Appointment = new TutorMaster.Commitment();
         public AdvancedRequest(int accID)  
         {
             ACCID = accID;
@@ -39,6 +40,10 @@ namespace TutorMaster
             combClassBoxLeft.Hide();
             btnFindMatches.Hide();
             label3.Hide();
+            dayStartDateTime.Hide();
+            combStartAmPm.Hide();
+            combStartHour.Hide();
+            combStartMinute.Hide();
 
             //initialize the tutor names and list of classes
             setupTutorList();           //populate combTutorName
@@ -224,7 +229,7 @@ namespace TutorMaster
         private void btnFindMatches_Click(object sender, EventArgs e)
         {
             bool g2 = false;
-
+            Auto = true;
             //Validate
             if (leftside && combClassBoxLeft.SelectedItem != null && combTutorNameLeft.SelectedItem != null && combMeetingLength.SelectedItem != null) //If we're looking at the left side and everything is filled in
             {
@@ -245,6 +250,10 @@ namespace TutorMaster
                 btnSendRequest.Show();
                 label2.Show();
                 btnManualTime.Show();
+                dayStartDateTime.Hide();
+                combStartAmPm.Hide();
+                combStartHour.Hide();
+                combStartMinute.Hide();
 
                 if (leftside)
                     MatchTimes(combTutorNameLeft, combClassBoxLeft); //match the left
@@ -287,7 +296,7 @@ namespace TutorMaster
 
             DateTime start = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 0, 0, 0);
 
-            string NameOfClassToBeTutored = ClsBox.Text;
+            string classCode = (from row in db.Classes where row.ClassName == ClsBox.Text select row.ClassCode).First();
 
             List<Commitment> tuteeCommits = (from stucmt in db.StudentCommitments.AsEnumerable()    // create a list of tutee's commitments
                                                 where stucmt.ID == TuteeID
@@ -326,23 +335,96 @@ namespace TutorMaster
                         //instead of a dailog box add them to the combo box for TutAvail
                         string MatchedTime = tutorValidSlots[j].Split(',')[0] + " - " + tutorValidSlots[j].Split(',')[1]; //this string is the matched time
                         combTutorAvailability.Items.Add(MatchedTime);
-
-
-                        /*DialogResult choice = MessageBox.Show("You have been matched with " + tutorFirstName + " " + tutorLastName +
-                            " for a time at: " + tutorValidSlots[j].Split(',')[0] + " - " + tutorValidSlots[j].Split(',')[1], "You've got a match!", MessageBoxButtons.YesNo);
-                        if (choice == DialogResult.Yes)
-                        {
-                            int tutorId = Convert.ToInt32(approvedTutorIds[i]);
-                            int tuteeId = Convert.ToInt32(id);
-                            addCommits(tutorValidSlots[j], tutorId, tuteeId, tutorCommits, tuteeCommits, classCode, db, weekly, sessionLength);
-                            done = true;
-                            break;
-                        }*/
+                        addCommits(tutorValidSlots[j], TutID, TuteeID, tutorCommits, tuteeCommits, classCode, db, weekly, length);
                     }
                 }
             }
         }
 
+        private void addCommits(string timeSlot, int tutorId, int tuteeId, List<TutorMaster.Commitment> tutorCommits, List<TutorMaster.Commitment> tuteeCommits, string classCode, TutorMasterDBEntities4 db, bool weekly, int numSessions)
+        {
+            //TutorMasterDBEntities4 db = new TutorMasterDBEntities4();
+            DateTime startTime = getStartTime(timeSlot);
+            DateTime endTime = getEndTime(timeSlot);
+            DateTime saveFirst = startTime;
+            DateTime saveEnd = endTime;
+
+
+            if (!weekly)
+            {
+                for (int j = 0; j < tuteeCommits.Count(); j++)
+                {
+                    if (DateTime.Compare(startTime, Convert.ToDateTime(tuteeCommits[j].StartTime)) <= 0 && DateTime.Compare(endTime, Convert.ToDateTime(tuteeCommits[j].StartTime)) > 0)
+                    {
+                        tuteeCommits[j].Open = false;
+                        tuteeCommits[j].Tutoring = false;
+                        tuteeCommits[j].ID = tutorId;
+                        tuteeCommits[j].Class = classCode + "!";
+                        tuteeCommits[j].Weekly = false;
+                        db.SaveChanges();
+                    }
+                    else if (DateTime.Compare(endTime, Convert.ToDateTime(tuteeCommits[j].StartTime)) <= 0)
+                    {
+                        break;
+                    }
+                }
+
+                for (int i = 0; i < tutorCommits.Count(); i++)
+                {
+                    if (DateTime.Compare(startTime, Convert.ToDateTime(tutorCommits[i].StartTime)) <= 0 && DateTime.Compare(endTime, Convert.ToDateTime(tutorCommits[i].StartTime)) > 0)
+                    {
+                        tutorCommits[i].Open = false;
+                        tutorCommits[i].Tutoring = true;
+                        tutorCommits[i].ID = tuteeId;
+                        tutorCommits[i].Class = classCode + "!";
+                        tutorCommits[i].Weekly = false;
+                        db.SaveChanges();
+                    }
+                    else if (DateTime.Compare(endTime, Convert.ToDateTime(tutorCommits[i].StartTime)) <= 0)
+                    {
+                        break;
+                    }
+                }
+            }
+            else
+            {
+                for (int j = 0; j < tuteeCommits.Count(); j++)
+                {
+                    if (DateTime.Compare(startTime, Convert.ToDateTime(tuteeCommits[j].StartTime)) <= 0 && DateTime.Compare(endTime, Convert.ToDateTime(tuteeCommits[j].StartTime)) > 0)
+                    {
+                        tuteeCommits[j].Open = false;
+                        tuteeCommits[j].Tutoring = false;
+                        tuteeCommits[j].ID = tutorId;
+                        tuteeCommits[j].Class = classCode + "!";
+                        db.SaveChanges();
+                    }
+                    else if (DateTime.Compare(endTime, Convert.ToDateTime(tuteeCommits[j].StartTime)) <= 0)
+                    {
+                        startTime = startTime.AddDays(7);
+                        endTime = endTime.AddDays(7);
+                    }
+                }
+                startTime = saveFirst;
+                endTime = saveEnd;
+                for (int i = 0; i < tutorCommits.Count(); i++)
+                {
+                    if (DateTime.Compare(startTime, Convert.ToDateTime(tutorCommits[i].StartTime)) <= 0 && DateTime.Compare(endTime, Convert.ToDateTime(tutorCommits[i].StartTime)) > 0)
+                    {
+                        tutorCommits[i].Open = false;
+                        tutorCommits[i].Tutoring = true;
+                        tutorCommits[i].ID = tuteeId;
+                        tutorCommits[i].Class = classCode + "!";
+                        db.SaveChanges();
+                    }
+                    else if (DateTime.Compare(endTime, Convert.ToDateTime(tutorCommits[i].StartTime)) <= 0)
+                    {
+                        startTime = startTime.AddDays(7);
+                        endTime = endTime.AddDays(7);
+                    }
+                }
+            }
+        }
+        
         private bool isOpen(TutorMaster.Commitment commit)
         {
             return (commit.Class == "-" && commit.Location == "-" && commit.Open == true && commit.Tutoring == false && commit.ID == -1);
@@ -677,10 +759,12 @@ namespace TutorMaster
         {
             //Show everything
             Auto = false;
+            combTutorAvailability.Items.Clear(); // do this to prevent some potential errors
             dayStartDateTime.Show();
             combStartAmPm.Show();
             combStartHour.Show();
             combStartMinute.Show();
+            combTutorAvailability.Hide();
 
         }
     }
