@@ -14,7 +14,7 @@ namespace TutorMaster
         //Initial Set up
         private int ACCID;
         private bool leftside;
-        private bool Auto = false;//This bool lets me know which info to send to the db
+        private bool Auto = false;
         public AdvancedRequest(int accID)  
         {
             ACCID = accID;
@@ -39,10 +39,6 @@ namespace TutorMaster
             combClassBoxLeft.Hide();
             btnFindMatches.Hide();
             label3.Hide();
-            dayStartDateTime.Hide();
-            combStartAmPm.Hide();
-            combStartHour.Hide();
-            combStartMinute.Hide();
 
             //initialize the tutor names and list of classes
             setupTutorList();           //populate combTutorName
@@ -228,11 +224,6 @@ namespace TutorMaster
         private void btnFindMatches_Click(object sender, EventArgs e)
         {
             bool g2 = false;
-            Auto = true;
-            dayStartDateTime.Hide();
-            combStartAmPm.Hide();
-            combStartHour.Hide();
-            combStartMinute.Hide();
 
             //Validate
             if (leftside && combClassBoxLeft.SelectedItem != null && combTutorNameLeft.SelectedItem != null && combMeetingLength.SelectedItem != null) //If we're looking at the left side and everything is filled in
@@ -268,33 +259,6 @@ namespace TutorMaster
 
         private void combMeetingLength_SelectedIndexChanged(object sender, EventArgs e)
         {
-        }
-
-        private void btnManualTime_Click(object sender, EventArgs e)
-        {
-            Auto = false; //This bool lets me know which info to send to the db
-            //Show everything
-            dayStartDateTime.Show();
-            combStartAmPm.Show();
-            combStartHour.Show();
-            combStartMinute.Show();
-
-            combTutorAvailability.Items.Clear();//Clear this box when they select this so that the user can't send in bad info by shenanigans that I don't want to type out
-
-            //Hide the other combo box
-            combTutorAvailability.Hide();
-            lblAvailableTimes.Hide();
-
-        }
-
-        private void btnSendRequest_Click(object sender, EventArgs e)
-        {
-            if (Auto) //If it's on the automatic setting send that info
-            {
-            }
-            else //If it's on the manual setting then send that info and give a warning popup 
-            {
-            }
         }
 
         //Match Function and it's helpers
@@ -709,9 +673,16 @@ namespace TutorMaster
             QuickSort2(ref values, 0, numValues - 1);
         }
 
+        private void btnManualTime_Click(object sender, EventArgs e)
+        {
+            //Show everything
+            Auto = false;
+            dayStartDateTime.Show();
+            combStartAmPm.Show();
+            combStartHour.Show();
+            combStartMinute.Show();
 
-
-        
+        }
     }
 }
 
