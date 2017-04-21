@@ -12,6 +12,8 @@ namespace TutorMaster
     public partial class SignUpTutorTutee : Form
     {
         private List<string> usernameList;
+        
+        //constructor
         public SignUpTutorTutee()
         {
             InitializeComponent();
@@ -19,47 +21,49 @@ namespace TutorMaster
             setupClasses();
         }
 
+        //this function gets all of the usernames in the database and puts them into a list
         private void getUsernames()
         {
             TutorMasterDBEntities4 db = new TutorMasterDBEntities4();
             usernameList = db.Users.Select(u => u.Username).ToList();
         }
 
+        //this function gets all of the classes in the database and the department names and loads them into a tree view
         private void setupClasses()
         {
-            tvClasses.CheckBoxes = true;
+            tvClasses.CheckBoxes = true;                                                         //have the treeview have checkboxes
 
-            TutorMasterDBEntities4 db = new TutorMasterDBEntities4();
-            var classes = from c in db.Classes select c;
+            TutorMasterDBEntities4 db = new TutorMasterDBEntities4();                            //connect to database
+            var classes = from c in db.Classes select c;                                         //get the classes from the class table
             List<Class> cls = new List<Class>();
-            cls = classes.ToList();
+            cls = classes.ToList();                                                              //convert them into a list of classes
 
-            foreach (Class cl in cls)
+            foreach (Class cl in cls)                                                            //for each class in the list of classes
             {
-                if (tvClasses.Nodes.ContainsKey(cl.Department))
+                if (tvClasses.Nodes.ContainsKey(cl.Department))                                  //if it is contained in a department
                 {
-                    tvClasses.Nodes[cl.Department].Nodes.Add(new TreeNode(cl.ClassName));
+                    tvClasses.Nodes[cl.Department].Nodes.Add(new TreeNode(cl.ClassName));        //put it in its department as a node
                 }
                 else
                 {
-                    TreeNode nNode = new TreeNode(cl.Department);
+                    TreeNode nNode = new TreeNode(cl.Department);                                //add the department nodes
                     nNode.Name = cl.Department;
                     nNode.Nodes.Add(cl.ClassName);
                     tvClasses.Nodes.Add(nNode);
                 }
             }
-            tvClasses.Sort();
+            tvClasses.Sort();                                                                    //sort the treeview
         }
 
 
         private void btnCancel_Click(object sender, EventArgs e)
-        {
+        {                                                                                        //if they pick cancel, take them back to the login screen
             Login g = new Login();
             g.Show();
             this.Close();
         }
 
-        private int getNextID()                                                                     //go into database and get the last commitment ID
+        private int getNextID()                                                                  //go into database and get the last commitment ID
         {
             TutorMasterDBEntities4 db = new TutorMasterDBEntities4();
             int rowNum = db.Users.Count();
@@ -73,12 +77,12 @@ namespace TutorMaster
             {
                 lastRow = 0;
             }
-            return lastRow + 1;
+            return lastRow + 1;                                                                  //get index of last row and add 1. (This is our autoincrementer)
         }
 
         private bool validateInfo(string email, string phone)
         {
-            string address = email.Substring(email.Length - 4);
+            string address = email.Substring(email.Length - 4);                                  //make sure the email is a .edu or .com email addess and has @
             if ((email.Contains('@')) && (phone.Length == 14) && (address == ".edu" || address == ".com"))
             {
                 return true;
@@ -88,8 +92,8 @@ namespace TutorMaster
 
         private void saveNewUser(string fname, string lname, string username, string password, string email, string phone, string accounttype, int id)
         {
-            TutorMasterDBEntities4 db = new TutorMasterDBEntities4();
-            User newUser = new User();
+            TutorMasterDBEntities4 db = new TutorMasterDBEntities4();                          //connection to new database
+            User newUser = new User();                                                         //create a new user and load him up with the information
             newUser.ID = id;
             newUser.FirstName = fname;
             newUser.LastName = lname;
@@ -98,24 +102,24 @@ namespace TutorMaster
             newUser.Email = email;
             newUser.AccountType = accounttype;
             newUser.PhoneNumber = phone;
-            db.Users.AddObject(newUser);
-            db.SaveChanges();
+            db.Users.AddObject(newUser);                                                       //add them to the users table in the database
+            db.SaveChanges();                                                                  //save the changes to the database
         }
 
         private void saveNewTutorTutee(bool tutor, bool tutee, int id)
         {
-            TutorMasterDBEntities4 db = new TutorMasterDBEntities4();
-            Student newStudent = new Student();
-            newStudent.Tutee = tutee;
+            TutorMasterDBEntities4 db = new TutorMasterDBEntities4();                          //connect to database
+            Student newStudent = new Student();                                                //make new student object
+            newStudent.Tutee = tutee;                                                          //load up the information
             newStudent.Tutor = tutor;
             newStudent.ID = id;
-            db.Students.AddObject(newStudent);
-            db.SaveChanges();
+            db.Students.AddObject(newStudent);                                                 //add the tutor/tutee to the database
+            db.SaveChanges();                                                                  //save the changes
         }
 
         private int getNextRequestKey()
         {
-            TutorMasterDBEntities4 db = new TutorMasterDBEntities4();
+            TutorMasterDBEntities4 db = new TutorMasterDBEntities4();                          //connect to the database
             int rowNum = db.TutorRequests.Count();
             int lastRow;
 

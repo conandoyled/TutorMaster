@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AdminCreateAppointmentForm));
             this.cbxClasses = new System.Windows.Forms.ComboBox();
             this.cbxStudents = new System.Windows.Forms.ComboBox();
             this.lvTimeMatches = new System.Windows.Forms.ListView();
@@ -207,8 +208,9 @@
             this.Controls.Add(this.lvTimeMatches);
             this.Controls.Add(this.cbxStudents);
             this.Controls.Add(this.cbxClasses);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "AdminCreateAppointmentForm";
-            this.Text = "AdminCreateAppointmentForm";
+            this.Text = "TutorMaster";
             this.ResumeLayout(false);
             this.PerformLayout();
 

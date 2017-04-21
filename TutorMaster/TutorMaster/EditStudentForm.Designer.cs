@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(EditStudentForm));
             this.txtPhoneNumber = new System.Windows.Forms.MaskedTextBox();
             this.cbxTutee = new System.Windows.Forms.CheckBox();
             this.cbxTutor = new System.Windows.Forms.CheckBox();
@@ -261,8 +262,9 @@
             this.Controls.Add(this.txtFirstname);
             this.Controls.Add(this.imgLogo);
             this.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(61)))), ((int)(((byte)(71)))), ((int)(((byte)(76)))));
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "EditStudentForm";
-            this.Text = "EditStudentForm";
+            this.Text = "TutorMaster";
             ((System.ComponentModel.ISupportInitialize)(this.imgLogo)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

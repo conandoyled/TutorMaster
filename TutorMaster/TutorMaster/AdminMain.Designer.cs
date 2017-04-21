@@ -66,13 +66,13 @@
             this.txtClassName = new System.Windows.Forms.TextBox();
             this.txtClassCode = new System.Windows.Forms.TextBox();
             this.lvClass = new System.Windows.Forms.ListView();
+            this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.btnRejectRequests = new System.Windows.Forms.Button();
+            this.btnEditRequests = new System.Windows.Forms.Button();
+            this.btnAcceptRequest = new System.Windows.Forms.Button();
+            this.lvRequests = new System.Windows.Forms.ListView();
             this.btnLogout = new System.Windows.Forms.Button();
             this.lblID = new System.Windows.Forms.Label();
-            this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.lvRequests = new System.Windows.Forms.ListView();
-            this.btnAcceptRequest = new System.Windows.Forms.Button();
-            this.btnEditRequests = new System.Windows.Forms.Button();
-            this.btnRejectRequests = new System.Windows.Forms.Button();
             this.tabAdmin.SuspendLayout();
             this.tabStudent.SuspendLayout();
             this.tabFaculty.SuspendLayout();
@@ -450,6 +450,59 @@
             this.lvClass.View = System.Windows.Forms.View.Details;
             this.lvClass.ItemChecked += new System.Windows.Forms.ItemCheckedEventHandler(this.lvClass_ItemChecked);
             // 
+            // tabPage1
+            // 
+            this.tabPage1.Controls.Add(this.btnRejectRequests);
+            this.tabPage1.Controls.Add(this.btnEditRequests);
+            this.tabPage1.Controls.Add(this.btnAcceptRequest);
+            this.tabPage1.Controls.Add(this.lvRequests);
+            this.tabPage1.Location = new System.Drawing.Point(4, 22);
+            this.tabPage1.Name = "tabPage1";
+            this.tabPage1.Size = new System.Drawing.Size(617, 372);
+            this.tabPage1.TabIndex = 4;
+            this.tabPage1.Text = "Tutor/Tutee Requests";
+            this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // btnRejectRequests
+            // 
+            this.btnRejectRequests.Location = new System.Drawing.Point(291, 343);
+            this.btnRejectRequests.Name = "btnRejectRequests";
+            this.btnRejectRequests.Size = new System.Drawing.Size(116, 23);
+            this.btnRejectRequests.TabIndex = 4;
+            this.btnRejectRequests.Text = "Reject Requests";
+            this.btnRejectRequests.UseVisualStyleBackColor = true;
+            this.btnRejectRequests.Click += new System.EventHandler(this.btnRejectRequests_Click);
+            // 
+            // btnEditRequests
+            // 
+            this.btnEditRequests.Location = new System.Drawing.Point(147, 343);
+            this.btnEditRequests.Name = "btnEditRequests";
+            this.btnEditRequests.Size = new System.Drawing.Size(119, 23);
+            this.btnEditRequests.TabIndex = 3;
+            this.btnEditRequests.Text = "Edit Request";
+            this.btnEditRequests.UseVisualStyleBackColor = true;
+            this.btnEditRequests.Click += new System.EventHandler(this.btnEditRequests_Click);
+            // 
+            // btnAcceptRequest
+            // 
+            this.btnAcceptRequest.Location = new System.Drawing.Point(14, 343);
+            this.btnAcceptRequest.Name = "btnAcceptRequest";
+            this.btnAcceptRequest.Size = new System.Drawing.Size(113, 23);
+            this.btnAcceptRequest.TabIndex = 2;
+            this.btnAcceptRequest.Text = "Accept Requests";
+            this.btnAcceptRequest.UseVisualStyleBackColor = true;
+            this.btnAcceptRequest.Click += new System.EventHandler(this.btnAcceptRequest_Click);
+            // 
+            // lvRequests
+            // 
+            this.lvRequests.Location = new System.Drawing.Point(-4, 0);
+            this.lvRequests.Name = "lvRequests";
+            this.lvRequests.Size = new System.Drawing.Size(621, 337);
+            this.lvRequests.TabIndex = 1;
+            this.lvRequests.UseCompatibleStateImageBehavior = false;
+            this.lvRequests.View = System.Windows.Forms.View.Details;
+            this.lvRequests.ItemChecked += new System.Windows.Forms.ItemCheckedEventHandler(this.lvRequests_ItemChecked);
+            // 
             // btnLogout
             // 
             this.btnLogout.Location = new System.Drawing.Point(479, 10);
@@ -470,59 +523,6 @@
             this.lblID.Text = "label9";
             this.lblID.Visible = false;
             // 
-            // tabPage1
-            // 
-            this.tabPage1.Controls.Add(this.btnRejectRequests);
-            this.tabPage1.Controls.Add(this.btnEditRequests);
-            this.tabPage1.Controls.Add(this.btnAcceptRequest);
-            this.tabPage1.Controls.Add(this.lvRequests);
-            this.tabPage1.Location = new System.Drawing.Point(4, 22);
-            this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Size = new System.Drawing.Size(617, 372);
-            this.tabPage1.TabIndex = 4;
-            this.tabPage1.Text = "Tutor/Tutee Requests";
-            this.tabPage1.UseVisualStyleBackColor = true;
-            // 
-            // lvRequests
-            // 
-            this.lvRequests.Location = new System.Drawing.Point(-4, 0);
-            this.lvRequests.Name = "lvRequests";
-            this.lvRequests.Size = new System.Drawing.Size(621, 337);
-            this.lvRequests.TabIndex = 1;
-            this.lvRequests.UseCompatibleStateImageBehavior = false;
-            this.lvRequests.View = System.Windows.Forms.View.Details;
-            this.lvRequests.ItemChecked += new System.Windows.Forms.ItemCheckedEventHandler(this.lvRequests_ItemChecked);
-            // 
-            // btnAcceptRequest
-            // 
-            this.btnAcceptRequest.Location = new System.Drawing.Point(14, 343);
-            this.btnAcceptRequest.Name = "btnAcceptRequest";
-            this.btnAcceptRequest.Size = new System.Drawing.Size(113, 23);
-            this.btnAcceptRequest.TabIndex = 2;
-            this.btnAcceptRequest.Text = "Accept Requests";
-            this.btnAcceptRequest.UseVisualStyleBackColor = true;
-            this.btnAcceptRequest.Click += new System.EventHandler(this.btnAcceptRequest_Click);
-            // 
-            // btnEditRequests
-            // 
-            this.btnEditRequests.Location = new System.Drawing.Point(147, 343);
-            this.btnEditRequests.Name = "btnEditRequests";
-            this.btnEditRequests.Size = new System.Drawing.Size(119, 23);
-            this.btnEditRequests.TabIndex = 3;
-            this.btnEditRequests.Text = "Edit Request";
-            this.btnEditRequests.UseVisualStyleBackColor = true;
-            this.btnEditRequests.Click += new System.EventHandler(this.btnEditRequests_Click);
-            // 
-            // btnRejectRequests
-            // 
-            this.btnRejectRequests.Location = new System.Drawing.Point(291, 343);
-            this.btnRejectRequests.Name = "btnRejectRequests";
-            this.btnRejectRequests.Size = new System.Drawing.Size(116, 23);
-            this.btnRejectRequests.TabIndex = 4;
-            this.btnRejectRequests.Text = "Reject Requests";
-            this.btnRejectRequests.UseVisualStyleBackColor = true;
-            this.btnRejectRequests.Click += new System.EventHandler(this.btnRejectRequests_Click);
-            // 
             // AdminMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -533,7 +533,7 @@
             this.Controls.Add(this.tabAdmin);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "AdminMain";
-            this.Text = ".";
+            this.Text = "TutorMaster";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.AdminMain_FormClosed);
             this.tabAdmin.ResumeLayout(false);
             this.tabStudent.ResumeLayout(false);
