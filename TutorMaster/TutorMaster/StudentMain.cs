@@ -26,6 +26,7 @@ namespace TutorMaster
             if (!tutee)
             {
                 btnMakeRequest.Visible = false;                                                                   //if they are not a tutee, they can't make requests
+                btnAdvanceRequest.Visible = false;
             }
             populateColumns(tutor, tutee);                                                                        //initialize the columns of listviews approriately
             weekStartDateTime.Value = DateTime.Today;                                                             //initialize datetime pickers to be today
@@ -169,6 +170,47 @@ namespace TutorMaster
             addToListView(commit, getDay(Convert.ToDateTime(commit.StartTime)), getCommitTime(commit), getCommitTime15(commit));
         }
 
+        private System.Drawing.Color getColor(Commitment commit)
+        {
+            if(isOpen(commit))
+            {
+                return System.Drawing.Color.FromArgb(7, 104, 10);
+            }
+            else if (isAccepted(commit))
+            {
+                if ((bool) commit.Tutoring)
+                {
+                    return System.Drawing.Color.FromArgb(6, 120, 122);
+                }
+                else
+                {
+                    return System.Drawing.Color.FromArgb(4, 76, 114);
+                }
+            }
+            else if ((bool) commit.Tutoring)
+            {
+                if (waitingForTutor(commit) || waitingForLocation(commit))
+                {
+                    return System.Drawing.Color.FromArgb(137, 6, 6);
+                }
+                else
+                {
+                    return System.Drawing.Color.FromArgb(4, 13, 137);
+                }
+            }
+            else
+            {
+                if (waitingForTutee(commit) || waitingForLocationApproval(commit))
+                {
+                    return System.Drawing.Color.FromArgb(137, 6, 6);
+                }
+                else
+                {
+                    return System.Drawing.Color.FromArgb(4, 13, 137);
+                }
+            }
+        }
+
         //end of helper functions
         
         //load student's entire schedule into days listview functions
@@ -287,29 +329,32 @@ namespace TutorMaster
             {
                 commit.Class = "-";
             }
-            
+
+            System.Drawing.Color color = getColor(commit);
+            ListViewItem itemCommit = new ListViewItem(new string[] { startTime, endTime, commit.Class, commit.Location, open, tutoring, weekly, partner });
+            itemCommit.ForeColor = color;
             switch (day)                                                                                   //depending on the day of the week, add the block to the right listview
             {
                 case "Sunday":
-                    lvSunday.Items.Add(new ListViewItem(new string[] { startTime, endTime, commit.Class, commit.Location, open, tutoring, weekly, partner }));
+                    lvSunday.Items.Add(itemCommit);
                     break;
                 case "Monday":
-                    lvMonday.Items.Add(new ListViewItem(new string[] { startTime, endTime, commit.Class, commit.Location, open, tutoring, weekly, partner }));
+                    lvMonday.Items.Add(itemCommit);
                     break;
                 case "Tuesday":
-                    lvTuesday.Items.Add(new ListViewItem(new string[] { startTime, endTime, commit.Class, commit.Location, open, tutoring, weekly, partner }));
+                    lvTuesday.Items.Add(itemCommit);
                     break;
                 case "Wednesday":
-                    lvWednesday.Items.Add(new ListViewItem(new string[] { startTime, endTime, commit.Class, commit.Location, open, tutoring, weekly, partner }));
+                    lvWednesday.Items.Add(itemCommit);
                     break;
                 case "Thursday":
-                    lvThursday.Items.Add(new ListViewItem(new string[] { startTime, endTime, commit.Class, commit.Location, open, tutoring, weekly, partner }));
+                    lvThursday.Items.Add(itemCommit);
                     break;
                 case "Friday":
-                    lvFriday.Items.Add(new ListViewItem(new string[] { startTime, endTime, commit.Class, commit.Location, open, tutoring, weekly, partner }));
+                    lvFriday.Items.Add(itemCommit);
                     break;
                 case "Saturday":
-                    lvSaturday.Items.Add(new ListViewItem(new string[] { startTime, endTime, commit.Class, commit.Location, open, tutoring, weekly, partner }));
+                    lvSaturday.Items.Add(itemCommit);
                     break;
             }
         }
@@ -419,7 +464,7 @@ namespace TutorMaster
             return (commit.Class != "-" && commit.Location.Contains('?') && commit.Open == false && commit.Tutoring == true && commit.ID != -1);
         }
 
-        private bool accepted(TutorMaster.Commitment commit)                   //criteria for a commitment to be in the accepted state
+        private bool isAccepted(TutorMaster.Commitment commit)                   //criteria for a commitment to be in the accepted state
         {
             return (commit.Class != "-" && !commit.Location.Contains('?') && commit.Location != "-" && commit.Open == false && commit.ID != -1);
         }
@@ -541,7 +586,7 @@ namespace TutorMaster
                 partner = partnerData.FirstName + " " + partnerData.LastName;
             }
 
-            if (accepted(commit))                                                                                                                //if commit accepted, add to accepted listview
+            if (isAccepted(commit))                                                                                                                //if commit accepted, add to accepted listview
             {
                 lvFinalized.Items.Add(new ListViewItem(new string[] { startTime, endTime, commit.Class, commit.Location, 
                     commit.Open.ToString(), commit.Tutoring.ToString(), commit.Weekly.ToString(), partner, commit.ID.ToString() }));
