@@ -122,7 +122,7 @@ namespace TutorMaster
 
             if (rememberStudIDs.Count == 0)
             {
-
+                MessageBox.Show("There are currently no students who meet the previous requirements in order to be a partner.");
             }
             else
             {
@@ -535,7 +535,6 @@ namespace TutorMaster
                 List<Commitment> tuteeCommits = new List<Commitment>();
                 List<Commitment> tutorCommits = new List<Commitment>();
 
-                MessageBox.Show(lvTimeMatches.CheckedIndices[0].ToString());
 
                 if (!tutoring)
                 {
