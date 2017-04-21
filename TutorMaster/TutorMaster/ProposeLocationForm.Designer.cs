@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ProposeLocationForm));
             this.txtLoc = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.btnSumbit = new System.Windows.Forms.Button();
@@ -98,8 +99,9 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this.txtLoc);
             this.Controls.Add(this.imgLogo);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "ProposeLocationForm";
-            this.Text = "ProposeLocationForm";
+            this.Text = "TutorMaster";
             ((System.ComponentModel.ISupportInitialize)(this.imgLogo)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

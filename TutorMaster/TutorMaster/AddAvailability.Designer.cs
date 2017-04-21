@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AddAvailability));
             this.dayEndDateTime = new System.Windows.Forms.DateTimePicker();
             this.dayStartDateTime = new System.Windows.Forms.DateTimePicker();
             this.combStartMinute = new System.Windows.Forms.ComboBox();
@@ -315,8 +316,9 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this.pictureBox1);
             this.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(61)))), ((int)(((byte)(71)))), ((int)(((byte)(76)))));
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "AddAvailability";
-            this.Text = "AddAvailability";
+            this.Text = "TutorMaster";
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

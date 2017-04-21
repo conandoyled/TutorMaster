@@ -382,7 +382,7 @@
             this.Controls.Add(this.tabControl1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "AdminSeeSchedule";
-            this.Text = "Student Schedule";
+            this.Text = "TutorMaster";
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.tabAccepted.ResumeLayout(false);

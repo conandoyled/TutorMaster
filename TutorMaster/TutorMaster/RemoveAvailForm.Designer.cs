@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(RemoveAvailForm));
             this.lvTimeSlots = new System.Windows.Forms.ListView();
             this.btnCancel = new System.Windows.Forms.Button();
             this.btnRemove = new System.Windows.Forms.Button();
@@ -94,8 +95,9 @@
             this.Controls.Add(this.btnRemove);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.lvTimeSlots);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "RemoveAvailForm";
-            this.Text = "RemoveAvailForm";
+            this.Text = "TutorMaster";
             this.ResumeLayout(false);
 
         }

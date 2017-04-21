@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(TutorOrTuteeForm));
             this.btnTutoring = new System.Windows.Forms.Button();
             this.btnBeingTutored = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
@@ -56,7 +57,6 @@
             // label1
             // 
             this.label1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.label1.Enabled = false;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.label1.Location = new System.Drawing.Point(0, 0);
@@ -75,8 +75,9 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this.btnBeingTutored);
             this.Controls.Add(this.btnTutoring);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "TutorOrTuteeForm";
-            this.Text = "TutorOrTuteeForm";
+            this.Text = "TutorMaster";
             this.ResumeLayout(false);
 
         }

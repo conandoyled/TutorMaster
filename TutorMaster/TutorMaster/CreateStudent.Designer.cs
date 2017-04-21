@@ -264,7 +264,7 @@
             this.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(61)))), ((int)(((byte)(71)))), ((int)(((byte)(76)))));
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "CreateStudent";
-            this.Text = "CreateStudent";
+            this.Text = "TutorMaster";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.CreateStudent_FormClosed);
             ((System.ComponentModel.ISupportInitialize)(this.imgLogo)).EndInit();
             this.ResumeLayout(false);
