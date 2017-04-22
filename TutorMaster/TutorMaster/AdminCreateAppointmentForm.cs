@@ -122,7 +122,7 @@ namespace TutorMaster
 
             if (rememberStudIDs.Count == 0)
             {
-                MessageBox.Show("There are currently no students who meet the previous requirements in order to be a partner.");
+                MessageBox.Show("There are currently no students available for this course");
             }
             else
             {
@@ -702,6 +702,15 @@ namespace TutorMaster
                     }
                     else
                     {
+                        tbxLocation.Hide();
+                        lblLocation.Hide();
+                        lblHours.Hide();
+                        lblMinutes.Hide();
+                        cbWeekly.Hide();
+                        cbxHour.Hide();
+                        cbxMinutes.Hide();
+                        lvTimeMatches.Hide();
+                        btnSubmit.Hide();
                         lblPartner.Hide();
                         cbxStudents.Hide();
                     }
@@ -724,7 +733,7 @@ namespace TutorMaster
 
             if (approvedTutors.Count == 0)
             {
-                MessageBox.Show("There are no approved tutors for this course.");
+                MessageBox.Show("There are currently no tutors approved for this course."); 
             }
             else
             {
