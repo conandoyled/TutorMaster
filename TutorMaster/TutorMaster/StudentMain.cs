@@ -23,10 +23,21 @@ namespace TutorMaster
             bool tutor = (bool)(from row in db.Students where row.ID == id select row.Tutor).First();             //get if they are a tutee and/or tutor
             bool tutee = (bool)(from row in db.Students where row.ID == id select row.Tutee).First();
             InitializeComponent();
+            
             if (!tutee)
             {
                 btnMakeRequest.Visible = false;                                                                   //if they are not a tutee, they can't make requests
                 btnAdvanceRequest.Visible = false;
+                lblTutee.Visible = false;
+                lblAttention.Location = new Point(lblAttention.Location.X, lblAttention.Location.Y - 29);
+                lblWaiting.Location = new Point(lblWaiting.Location.X, lblWaiting.Location.Y - 29);
+            }
+            if (!tutor)
+            {
+                lblTutor.Visible = false;
+                lblTutee.Location = new Point(lblTutee.Location.X, lblTutee.Location.Y - 29);
+                lblAttention.Location = new Point(lblAttention.Location.X, lblAttention.Location.Y - 29);
+                lblWaiting.Location = new Point(lblWaiting.Location.X, lblWaiting.Location.Y - 29);
             }
             populateColumns(tutor, tutee);                                                                        //initialize the columns of listviews approriately
             weekStartDateTime.Value = DateTime.Today;                                                             //initialize datetime pickers to be today
@@ -621,6 +632,8 @@ namespace TutorMaster
         //button to add open slots and its helper functions
         private void btnAddOpenBlock_Click(object sender, EventArgs e)
         {
+            AddAvailability g = new AddAvailability(id);
+            g.Show();
             //this function will check to see if all of the information at the time of the press of the button is valid and then start executing the process to add time slots
             
             //first, error check to make sure that the user put something for each dropdownbox
