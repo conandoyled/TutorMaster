@@ -57,6 +57,7 @@
             this.btnMakeRequest = new System.Windows.Forms.Button();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabSchedule = new System.Windows.Forms.TabPage();
+            this.btnRemoveAvail = new System.Windows.Forms.Button();
             this.tabAppointments = new System.Windows.Forms.TabPage();
             this.tabControl2 = new System.Windows.Forms.TabControl();
             this.tabAccepted = new System.Windows.Forms.TabPage();
@@ -80,10 +81,15 @@
             this.label6 = new System.Windows.Forms.Label();
             this.lvPendingTutee = new System.Windows.Forms.ListView();
             this.label10 = new System.Windows.Forms.Label();
-            this.btnRemoveAvail = new System.Windows.Forms.Button();
             this.btnAdvanceRequest = new System.Windows.Forms.Button();
             this.btnChangePassword = new System.Windows.Forms.Button();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.lblOpen = new System.Windows.Forms.Label();
+            this.lblTutor = new System.Windows.Forms.Label();
+            this.lblTutee = new System.Windows.Forms.Label();
+            this.lblAttention = new System.Windows.Forms.Label();
+            this.lblWaiting = new System.Windows.Forms.Label();
             this.dayTabs.SuspendLayout();
             this.tabSunday.SuspendLayout();
             this.tabMonday.SuspendLayout();
@@ -384,7 +390,7 @@
             this.btnMakeRequest.Name = "btnMakeRequest";
             this.btnMakeRequest.Size = new System.Drawing.Size(197, 23);
             this.btnMakeRequest.TabIndex = 2;
-            this.btnMakeRequest.Text = "Make Request";
+            this.btnMakeRequest.Text = "Make Tutor Request";
             this.btnMakeRequest.UseVisualStyleBackColor = false;
             this.btnMakeRequest.Click += new System.EventHandler(this.btnMakeRequest_Click);
             // 
@@ -411,6 +417,19 @@
             this.tabSchedule.Size = new System.Drawing.Size(707, 393);
             this.tabSchedule.TabIndex = 1;
             this.tabSchedule.Text = "Schedule";
+            // 
+            // btnRemoveAvail
+            // 
+            this.btnRemoveAvail.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(193)))), ((int)(((byte)(200)))), ((int)(((byte)(204)))));
+            this.btnRemoveAvail.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btnRemoveAvail.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(47)))), ((int)(((byte)(66)))), ((int)(((byte)(76)))));
+            this.btnRemoveAvail.Location = new System.Drawing.Point(145, 364);
+            this.btnRemoveAvail.Name = "btnRemoveAvail";
+            this.btnRemoveAvail.Size = new System.Drawing.Size(132, 23);
+            this.btnRemoveAvail.TabIndex = 16;
+            this.btnRemoveAvail.Text = "Remove Availability";
+            this.btnRemoveAvail.UseVisualStyleBackColor = false;
+            this.btnRemoveAvail.Click += new System.EventHandler(this.btnRemoveAvail_Click);
             // 
             // tabAppointments
             // 
@@ -687,19 +706,6 @@
             this.label10.TabIndex = 15;
             this.label10.Text = "Date to load schedule a week out from";
             // 
-            // btnRemoveAvail
-            // 
-            this.btnRemoveAvail.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(193)))), ((int)(((byte)(200)))), ((int)(((byte)(204)))));
-            this.btnRemoveAvail.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.btnRemoveAvail.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(47)))), ((int)(((byte)(66)))), ((int)(((byte)(76)))));
-            this.btnRemoveAvail.Location = new System.Drawing.Point(145, 364);
-            this.btnRemoveAvail.Name = "btnRemoveAvail";
-            this.btnRemoveAvail.Size = new System.Drawing.Size(132, 23);
-            this.btnRemoveAvail.TabIndex = 16;
-            this.btnRemoveAvail.Text = "Remove Availability";
-            this.btnRemoveAvail.UseVisualStyleBackColor = false;
-            this.btnRemoveAvail.Click += new System.EventHandler(this.btnRemoveAvail_Click);
-            // 
             // btnAdvanceRequest
             // 
             this.btnAdvanceRequest.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(208)))), ((int)(((byte)(222)))), ((int)(((byte)(229)))));
@@ -708,7 +714,7 @@
             this.btnAdvanceRequest.Name = "btnAdvanceRequest";
             this.btnAdvanceRequest.Size = new System.Drawing.Size(200, 23);
             this.btnAdvanceRequest.TabIndex = 17;
-            this.btnAdvanceRequest.Text = "Advanced Request";
+            this.btnAdvanceRequest.Text = "Make Advanced Tutor Request";
             this.btnAdvanceRequest.UseVisualStyleBackColor = false;
             this.btnAdvanceRequest.Click += new System.EventHandler(this.btnAdvanceRequest_Click);
             // 
@@ -734,12 +740,88 @@
             this.pictureBox1.TabIndex = 19;
             this.pictureBox1.TabStop = false;
             // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Location = new System.Drawing.Point(733, 224);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(115, 15);
+            this.label1.TabIndex = 25;
+            this.label1.Text = "Appointment colors:";
+            // 
+            // lblOpen
+            // 
+            this.lblOpen.AutoSize = true;
+            this.lblOpen.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(7)))), ((int)(((byte)(104)))), ((int)(((byte)(10)))));
+            this.lblOpen.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(237)))), ((int)(((byte)(239)))), ((int)(((byte)(239)))));
+            this.lblOpen.Location = new System.Drawing.Point(733, 246);
+            this.lblOpen.Name = "lblOpen";
+            this.lblOpen.Padding = new System.Windows.Forms.Padding(40, 4, 40, 4);
+            this.lblOpen.Size = new System.Drawing.Size(113, 21);
+            this.lblOpen.TabIndex = 26;
+            this.lblOpen.Text = "Open";
+            // 
+            // lblTutor
+            // 
+            this.lblTutor.AutoSize = true;
+            this.lblTutor.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(6)))), ((int)(((byte)(120)))), ((int)(((byte)(122)))));
+            this.lblTutor.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(237)))), ((int)(((byte)(239)))), ((int)(((byte)(239)))));
+            this.lblTutor.Location = new System.Drawing.Point(733, 273);
+            this.lblTutor.Name = "lblTutor";
+            this.lblTutor.Padding = new System.Windows.Forms.Padding(34, 4, 33, 4);
+            this.lblTutor.Size = new System.Drawing.Size(113, 21);
+            this.lblTutor.TabIndex = 27;
+            this.lblTutor.Text = "Tutoring";
+            // 
+            // lblTutee
+            // 
+            this.lblTutee.AutoSize = true;
+            this.lblTutee.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(4)))), ((int)(((byte)(76)))), ((int)(((byte)(114)))));
+            this.lblTutee.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(237)))), ((int)(((byte)(239)))), ((int)(((byte)(239)))));
+            this.lblTutee.Location = new System.Drawing.Point(733, 301);
+            this.lblTutee.Name = "lblTutee";
+            this.lblTutee.Padding = new System.Windows.Forms.Padding(19, 4, 20, 4);
+            this.lblTutee.Size = new System.Drawing.Size(113, 21);
+            this.lblTutee.TabIndex = 28;
+            this.lblTutee.Text = "Being Tutored";
+            // 
+            // lblAttention
+            // 
+            this.lblAttention.AutoSize = true;
+            this.lblAttention.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(137)))), ((int)(((byte)(6)))), ((int)(((byte)(6)))));
+            this.lblAttention.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(237)))), ((int)(((byte)(239)))), ((int)(((byte)(239)))));
+            this.lblAttention.Location = new System.Drawing.Point(733, 329);
+            this.lblAttention.Name = "lblAttention";
+            this.lblAttention.Padding = new System.Windows.Forms.Padding(15, 4, 15, 4);
+            this.lblAttention.Size = new System.Drawing.Size(113, 21);
+            this.lblAttention.TabIndex = 29;
+            this.lblAttention.Text = "Needs Attention";
+            // 
+            // lblWaiting
+            // 
+            this.lblWaiting.AutoSize = true;
+            this.lblWaiting.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(4)))), ((int)(((byte)(13)))), ((int)(((byte)(137)))));
+            this.lblWaiting.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(237)))), ((int)(((byte)(239)))), ((int)(((byte)(239)))));
+            this.lblWaiting.Location = new System.Drawing.Point(733, 357);
+            this.lblWaiting.Name = "lblWaiting";
+            this.lblWaiting.Padding = new System.Windows.Forms.Padding(8, 4, 8, 4);
+            this.lblWaiting.Size = new System.Drawing.Size(114, 21);
+            this.lblWaiting.TabIndex = 30;
+            this.lblWaiting.Text = "Waiting For Partner";
+            // 
             // StudentMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(218)))), ((int)(((byte)(232)))), ((int)(((byte)(239)))));
             this.ClientSize = new System.Drawing.Size(948, 441);
+            this.Controls.Add(this.lblWaiting);
+            this.Controls.Add(this.lblAttention);
+            this.Controls.Add(this.lblTutee);
+            this.Controls.Add(this.lblTutor);
+            this.Controls.Add(this.lblOpen);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.btnChangePassword);
             this.Controls.Add(this.btnAdvanceRequest);
@@ -840,5 +922,11 @@
         private System.Windows.Forms.Button btnChangePassword;
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.ListView lvMonday;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label lblOpen;
+        private System.Windows.Forms.Label lblTutor;
+        private System.Windows.Forms.Label lblTutee;
+        private System.Windows.Forms.Label lblAttention;
+        private System.Windows.Forms.Label lblWaiting;
     }
 }
