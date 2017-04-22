@@ -51,7 +51,7 @@ namespace TutorMaster
         {
             AdminMain g = new AdminMain();
             g.Show();
-            this.Close();
+            this.Dispose();
         }
 
         private void CreateStudent_FormClosed(object sender, FormClosedEventArgs e)

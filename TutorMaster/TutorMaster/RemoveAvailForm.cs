@@ -245,7 +245,7 @@ namespace TutorMaster
 
             StudentMain g = new StudentMain(id);                         //send the user back to the student main
             g.Show();
-            this.Close();
+            this.Dispose();
         }
 
 
@@ -399,7 +399,7 @@ namespace TutorMaster
         {
             StudentMain g = new StudentMain(id);
             g.Show();
-            this.Close();
+            this.Dispose();
         }
 
         private void btnDeselectAll_Click(object sender, EventArgs e)

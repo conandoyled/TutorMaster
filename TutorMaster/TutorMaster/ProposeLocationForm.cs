@@ -28,7 +28,7 @@ namespace TutorMaster
         {
             StudentMain g = new StudentMain(id);
             g.Show();
-            this.Close();
+            this.Dispose();
         }
 
         private bool inTheTimeSlot(DateTime startDate, DateTime endDate, Commitment commit)
@@ -118,7 +118,7 @@ namespace TutorMaster
                 setTuteeLocations();                                                                                    //set the tutee commitment locations where necessary
                 StudentMain g = new StudentMain(id);                                                                    //send the student back to student main
                 g.Show();
-                this.Close();
+                this.Dispose();
             }
         }
 

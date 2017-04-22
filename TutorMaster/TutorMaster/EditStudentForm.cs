@@ -100,7 +100,7 @@ namespace TutorMaster
 
                 AdminMain g = new AdminMain();
                 g.Show();
-                this.Close();
+                this.Dispose();
             }
 
         }
@@ -126,7 +126,7 @@ namespace TutorMaster
         {
             AdminMain g = new AdminMain();
             g.Show();
-            this.Close();
+            this.Dispose();
         }
         
         

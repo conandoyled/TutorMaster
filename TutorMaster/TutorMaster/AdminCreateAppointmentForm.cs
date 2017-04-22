@@ -578,7 +578,7 @@ namespace TutorMaster
 
                     addCommits(timeSlot, id, rememberStudIDs[chosenStudentIndex], tutorCommits, tuteeCommits, classCode, db, cbWeekly.Checked, sessionLength);
                 }
-                this.Close();
+                this.Dispose();
             }
         }
 
@@ -672,7 +672,7 @@ namespace TutorMaster
 
         private void btnCancel_Click(object sender, EventArgs e)
         {
-            this.Close();
+            this.Dispose();
         }
 
         private void cbxClasses_SelectedIndexChanged(object sender, EventArgs e)

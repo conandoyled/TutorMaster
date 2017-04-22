@@ -714,7 +714,7 @@ namespace TutorMaster
 
         private void btnDone_Click(object sender, EventArgs e)
         {
-            this.Close();
+            this.Dispose();
         }
 
         private void btnAcceptAppointment_Click(object sender, EventArgs e)

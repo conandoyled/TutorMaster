@@ -30,7 +30,7 @@ namespace TutorMaster
 
         private void AdminMain_FormClosed(object sender, FormClosedEventArgs e)
         {
-            //System.Windows.Forms.Application.Exit();
+            System.Windows.Forms.Application.Exit();
         }
 
         private void setupStudentLV() //This is what populates the box of students
@@ -125,8 +125,15 @@ namespace TutorMaster
             var classes = from c in db.Classes select c; // c is arbitay thing to pull. from var in tabletopullfrom select  
             List<Class> cs = new List<Class>();
             cs = classes.ToList();
+
+            sortByCoursePrefix(ref cs);
+            sortByNumAndAdd(cs);
+        }
+
+        private void sortByCoursePrefix(ref List<Class> cs)
+        {
             List<string[]> tempList = new List<string[]>();
-            
+
             for (int i = 0; i < cs.Count(); i++)
             {
                 string[] temp = cs[i].ClassCode.ToString().Split('-');
@@ -135,10 +142,10 @@ namespace TutorMaster
 
             for (int i = tempList.Count(); i >= 0; i--)
             {
-                for (int j = 0; j < tempList.Count()-1; j++)
+                for (int j = 0; j < tempList.Count() - 1; j++)
                 {
                     int k = j + 1;
-                    if (string.Compare(tempList[j][0], tempList[k][0]) > 0) 
+                    if (string.Compare(tempList[j][0], tempList[k][0]) > 0)
                     {
                         string[] temp = tempList[j];
                         tempList[j] = tempList[k];
@@ -150,39 +157,8 @@ namespace TutorMaster
                     }
                 }
             }
-
-            Class init = cs[0];
-            List<Class> classList = new List<Class>();
-            classList.Add(init);
-
-            for (int i = 1; i < cs.Count(); i++)
-            {
-                if (init.ClassCode.ToString().Split('-')[0] == cs[i].ClassCode.ToString().Split('-')[0])
-                {
-                    classList.Add(cs[i]);
-                }
-                else
-                {
-                    sortByNumber(ref classList);
-                    foreach (Class c in classList)
-                    {
-                        lvClass.Items.Add(new ListViewItem(new string[] { c.ClassCode, c.ClassName, c.Department }));
-                    }
-                    
-                    classList.Clear();
-                    init = cs[i];
-                    classList.Add(cs[i]);
-                }
-            }
-            
-            sortByNumber(ref classList);
-            foreach (Class c in classList)
-            {
-                lvClass.Items.Add(new ListViewItem(new string[] { c.ClassCode, c.ClassName, c.Department }));
-            }
-
-            
         }
+
 
         private void sortByNumber(ref List<Class> classList)
         {
@@ -211,7 +187,39 @@ namespace TutorMaster
                     }
                 }
             }
+        }
 
+        private void sortByNumAndAdd(List<Class> cs)
+        {
+            Class init = cs[0];
+            List<Class> classList = new List<Class>();
+            classList.Add(init);
+
+            for (int i = 1; i < cs.Count(); i++)
+            {
+                if (init.ClassCode.ToString().Split('-')[0] == cs[i].ClassCode.ToString().Split('-')[0])
+                {
+                    classList.Add(cs[i]);
+                }
+                else
+                {
+                    sortByNumber(ref classList);
+                    foreach (Class c in classList)
+                    {
+                        lvClass.Items.Add(new ListViewItem(new string[] { c.ClassCode, c.ClassName, c.Department }));
+                    }
+
+                    classList.Clear();
+                    init = cs[i];
+                    classList.Add(cs[i]);
+                }
+            }
+
+            sortByNumber(ref classList);
+            foreach (Class c in classList)
+            {
+                lvClass.Items.Add(new ListViewItem(new string[] { c.ClassCode, c.ClassName, c.Department }));
+            }
         }
 
         private void setupDepartmentBoxes()
@@ -301,14 +309,14 @@ namespace TutorMaster
         {
             CreateStudent g = new CreateStudent();
             g.Show();
-            this.Close();
+            this.Dispose();
         }
 
         private void btnLogout_Click(object sender, EventArgs e)
         {
             Login g = new Login(); //Are we going to create problems by create new loginb boxes on top of the hidden ones we already have?
             g.Show();
-            this.Close();
+            this.Dispose();
         }
 
         private void btnFacSave_Click(object sender, EventArgs e)
@@ -555,7 +563,7 @@ namespace TutorMaster
             int studentID = (from row in db.Users where row.Username == username select row.ID).First();
             EditStudentForm g = new EditStudentForm(studentID);
             g.Show();
-            this.Close();
+            this.Dispose();
         }
 
         private void btnDelete_Click(object sender, EventArgs e)

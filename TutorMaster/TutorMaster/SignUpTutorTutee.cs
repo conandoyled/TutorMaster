@@ -60,7 +60,7 @@ namespace TutorMaster
         {                                                                                        //if they pick cancel, take them back to the login screen
             Login g = new Login();
             g.Show();
-            this.Close();
+            this.Dispose();
         }
 
         private int getNextID()                                                                  //go into database and get the last commitment ID
@@ -221,7 +221,7 @@ namespace TutorMaster
                 }
                 Login g = new Login();
                 g.Show();
-                this.Close();
+                this.Dispose();
             }
         }
 

@@ -56,19 +56,19 @@ namespace TutorMaster
             {
                 StudentMain g = new StudentMain(id);
                 g.Show();
-                this.Close();
+                this.Dispose();
             }
             else if (accountType == "Faculty")
             {
                 FacultyMain g = new FacultyMain(id);
                 g.Show();
-                this.Close();
+                this.Dispose();
             }
             else if (accountType == "Administrator")
             {
                 AdminMain g = new AdminMain();
                 g.Show();
-                this.Close();
+                this.Dispose();
             }
         }
 

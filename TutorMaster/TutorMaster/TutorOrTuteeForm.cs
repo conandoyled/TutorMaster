@@ -24,7 +24,7 @@ namespace TutorMaster
         {
             AdminCreateAppointmentForm g = new AdminCreateAppointmentForm(id, true);
             g.Show();
-            this.Close();
+            this.Dispose();
         }
 
         //if they choose the being tutored option, say they are a tutee
@@ -32,7 +32,7 @@ namespace TutorMaster
         {
             AdminCreateAppointmentForm g = new AdminCreateAppointmentForm(id, false);
             g.Show();
-            this.Close();
+            this.Dispose();
         }
     }
 }
