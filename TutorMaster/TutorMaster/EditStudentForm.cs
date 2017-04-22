@@ -100,7 +100,7 @@ namespace TutorMaster
 
                 AdminMain g = new AdminMain();
                 g.Show();
-                this.Close();
+                this.Dispose();
             }
 
         }
@@ -126,7 +126,7 @@ namespace TutorMaster
         {
             AdminMain g = new AdminMain();
             g.Show();
-            this.Close();
+            this.Dispose();
         }
         
         
@@ -204,6 +204,13 @@ namespace TutorMaster
                     tvClasses.Nodes[i].Checked = true;
                 }
             }
+        }
+
+        private void EditStudentForm_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            Login g = new Login();
+            g.Show();
+            this.Dispose();
         }
     }
 }

@@ -159,10 +159,10 @@ namespace TutorMaster
             }
         }
 
-        private void deleteAvail()
+        private void deleteAvail(bool week)
         {
             TutorMasterDBEntities4 db = new TutorMasterDBEntities4();                                        //connect to the database
-            
+
             List<Commitment> cmtList = (from stucmt in db.StudentCommitments                                 //get the student's commitments
                                         where stucmt.ID == id
                                         join cmt in db.Commitments on stucmt.CmtID equals cmt.CmtID
@@ -171,18 +171,17 @@ namespace TutorMaster
             QuickSort(ref cmtList, cmtList.Count());                                                         //sort the list by DateTime
 
             List<DateTime> searchList = new List<DateTime>();
-            
+
             searchList = getStartTimes();                                                                    //get the starttimes from the listview                                  
-            
-            for (int i = 0; i < cmtList.Count(); i++)
+
+            if (week)
             {
-                if (BinarySearch(searchList, Convert.ToDateTime(cmtList[i].StartTime)))
+                for (int i = 0; i < cmtList.Count(); i++)
                 {
-                    if (cmtList[i].Weekly == true)
-                    {//ask the user if they want to delete the weekly commitment through the end of the semester
-                        DialogResult choice = MessageBox.Show("Would you like to delete " + cmtList[i].StartTime.ToString()  + " slot until the end of the semester?", "Delete weekly timeslot?", MessageBoxButtons.YesNo);
-                        if (choice == DialogResult.Yes)                                                       //if the user says yes
-                        {
+                    if (BinarySearch(searchList, Convert.ToDateTime(cmtList[i].StartTime)))
+                    {
+                        if (cmtList[i].Weekly == true)
+                        {//ask the user if they want to delete the weekly commitment through the end of the semester
                             DateTime endSemes = new DateTime(2017, 5, 1, 0, 0, 0);                            //get end of semester
                             DateTime weekForward = Convert.ToDateTime(cmtList[i].StartTime).AddDays(7);       //go a week forward
                             while (endOfSemesIsLater(endSemes, weekForward))                                  //if the end of the semester is later than our commitment start Time
@@ -219,23 +218,51 @@ namespace TutorMaster
                                 weekForward = weekForward.AddDays(7);
                             }
                         }
-                        else if (choice == DialogResult.No)
-                        {
 
-                        }
+                        searchList.Remove(Convert.ToDateTime(cmtList[i].StartTime));
+                        db.Commitments.DeleteObject(cmtList[i]);
+                        i--;
+                        db.SaveChanges();
                     }
-                    searchList.Remove(Convert.ToDateTime(cmtList[i].StartTime));
-                    db.Commitments.DeleteObject(cmtList[i]);
-                    i--;
-                    db.SaveChanges();
                 }
+                MessageBox.Show("The checked 15 minute time blocks have been removed from your availability until the end of the semster.");
+            }
+            else
+            {
+                for (int i = 0; i < cmtList.Count(); i++)
+                {
+                    if (BinarySearch(searchList, Convert.ToDateTime(cmtList[i].StartTime)))
+                    {
+                        searchList.Remove(Convert.ToDateTime(cmtList[i].StartTime));
+                        db.Commitments.DeleteObject(cmtList[i]);
+                        i--;
+                        db.SaveChanges();
+                    }
+                }
+                MessageBox.Show("Only the checked 15 minute time blocks have been removed from your availability.");
             }
         }
 
         private void btnRemove_Click(object sender, EventArgs e)
         {
+            bool weeklyChoice = checkChecked();
             setPreviousWeekliesToFalse();                                //set the previous weeklies to false
-            deleteAvail();                                               //delete the future weeklies
+            if (weeklyChoice)
+            {
+                DialogResult choice = MessageBox.Show("Would you like to delete the weekly time slots until the end of the semester?", "Delete weekly timeslots?", MessageBoxButtons.YesNo);
+                if (choice == DialogResult.Yes)                                                       //if the user says yes
+                {
+                    deleteAvail(true);
+                }
+                else if (choice == DialogResult.No)
+                {
+                    deleteAvail(false);
+                }
+            }
+            else
+            {
+                deleteAvail(false);
+            }
             
             for (int c = 0; c < lvTimeSlots.CheckedItems.Count; c++)     //remove all of the selected time slots from the listview
             {
@@ -245,7 +272,19 @@ namespace TutorMaster
 
             StudentMain g = new StudentMain(id);                         //send the user back to the student main
             g.Show();
-            this.Close();
+            this.Dispose();
+        }
+
+        private bool checkChecked()
+        {
+            for (int i = 0; i < lvTimeSlots.CheckedItems.Count; i++)
+            {
+                if (lvTimeSlots.CheckedItems[i].SubItems[2].Text.ToString() == "Yes")
+                {
+                    return true;
+                }
+            }
+            return false;
         }
 
 
@@ -399,7 +438,7 @@ namespace TutorMaster
         {
             StudentMain g = new StudentMain(id);
             g.Show();
-            this.Close();
+            this.Dispose();
         }
 
         private void btnDeselectAll_Click(object sender, EventArgs e)
@@ -416,6 +455,13 @@ namespace TutorMaster
             {
                 lvTimeSlots.Items[i].Checked = true;
             }
+        }
+
+        private void RemoveAvailForm_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            Login g = new Login();
+            g.Show();
+            this.Dispose();
         }
 
     }

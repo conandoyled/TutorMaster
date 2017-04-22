@@ -116,7 +116,7 @@
             "1",
             "2",
             "3"});
-            this.cbxHour.Location = new System.Drawing.Point(11, 110);
+            this.cbxHour.Location = new System.Drawing.Point(10, 110);
             this.cbxHour.Name = "cbxHour";
             this.cbxHour.Size = new System.Drawing.Size(170, 21);
             this.cbxHour.TabIndex = 6;
@@ -211,6 +211,7 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "AdminCreateAppointmentForm";
             this.Text = "TutorMaster";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.AdminCreateAppointmentForm_FormClosed);
             this.ResumeLayout(false);
             this.PerformLayout();
 

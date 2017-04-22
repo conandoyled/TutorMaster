@@ -28,7 +28,7 @@ namespace TutorMaster
         {
             StudentMain g = new StudentMain(id);
             g.Show();
-            this.Close();
+            this.Dispose();
         }
 
         private bool inTheTimeSlot(DateTime startDate, DateTime endDate, Commitment commit)
@@ -118,7 +118,7 @@ namespace TutorMaster
                 setTuteeLocations();                                                                                    //set the tutee commitment locations where necessary
                 StudentMain g = new StudentMain(id);                                                                    //send the student back to student main
                 g.Show();
-                this.Close();
+                this.Dispose();
             }
         }
 
@@ -175,6 +175,13 @@ namespace TutorMaster
 
             DateTime date = new DateTime(year, month, day, hour, min, 0);             //make a datetime instance with the collected data and return it
             return date;
+        }
+
+        private void ProposeLocationForm_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            Login g = new Login();
+            g.Show();
+            this.Dispose();
         }
     }
 }

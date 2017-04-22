@@ -98,6 +98,7 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "RemoveAvailForm";
             this.Text = "TutorMaster";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.RemoveAvailForm_FormClosed);
             this.ResumeLayout(false);
 
         }

@@ -56,19 +56,19 @@ namespace TutorMaster
             {
                 StudentMain g = new StudentMain(id);
                 g.Show();
-                this.Close();
+                this.Dispose();
             }
             else if (accountType == "Faculty")
             {
                 FacultyMain g = new FacultyMain(id);
                 g.Show();
-                this.Close();
+                this.Dispose();
             }
             else if (accountType == "Administrator")
             {
                 AdminMain g = new AdminMain();
                 g.Show();
-                this.Close();
+                this.Dispose();
             }
         }
 
@@ -78,6 +78,13 @@ namespace TutorMaster
             User user = (from row in db.Users.AsEnumerable() where row.ID == id select row).First();                                         //get the user account
             string accountType = user.AccountType;                                                                                           //get the accountType of the user
             backToMain(accountType);                                                                                                         //send the user back to main without having changed anything
+        }
+
+        private void ChangePasswordForm_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            Login g = new Login();
+            g.Show();
+            this.Dispose();
         }
     }
 }

@@ -264,6 +264,7 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "SignUpTutorTutee";
             this.Text = "TutorMaster";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.SignUpTutorTutee_FormClosed);
             this.Load += new System.EventHandler(this.SignUpTutorTutee_Load);
             ((System.ComponentModel.ISupportInitialize)(this.imgLogo)).EndInit();
             this.ResumeLayout(false);

@@ -37,14 +37,14 @@ namespace TutorMaster
                 {
                     string accType = getAccType(username);
                     int accID = getID(username);
-                    lblErrMsg.Text = accType + accID.ToString();
+                    //lblErrMsg.Text = accType + accID.ToString();
                     switch (accType)
                     {
                         case "Student":
                             //send ID to student form
                             StudentMain a = new StudentMain(accID);
                             a.Show();
-                            this.Hide(); //Why are we hiding these instead of deleting them? Won't we end up with a ton of open forms because we keep opening login forms when we close other forms. 
+                            this.Hide();
                             break;
                         case "Faculty":
                             //send ID to faculty form

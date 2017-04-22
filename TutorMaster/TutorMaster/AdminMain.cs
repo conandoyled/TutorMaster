@@ -30,7 +30,9 @@ namespace TutorMaster
 
         private void AdminMain_FormClosed(object sender, FormClosedEventArgs e)
         {
-            //System.Windows.Forms.Application.Exit();
+            Login g = new Login();
+            g.Show();
+            this.Dispose();
         }
 
         private void setupStudentLV() //This is what populates the box of students
@@ -125,8 +127,15 @@ namespace TutorMaster
             var classes = from c in db.Classes select c; // c is arbitay thing to pull. from var in tabletopullfrom select  
             List<Class> cs = new List<Class>();
             cs = classes.ToList();
+
+            sortByCoursePrefix(ref cs);
+            sortByNumAndAdd(cs);
+        }
+
+        private void sortByCoursePrefix(ref List<Class> cs)
+        {
             List<string[]> tempList = new List<string[]>();
-            
+
             for (int i = 0; i < cs.Count(); i++)
             {
                 string[] temp = cs[i].ClassCode.ToString().Split('-');
@@ -135,10 +144,10 @@ namespace TutorMaster
 
             for (int i = tempList.Count(); i >= 0; i--)
             {
-                for (int j = 0; j < tempList.Count()-1; j++)
+                for (int j = 0; j < tempList.Count() - 1; j++)
                 {
                     int k = j + 1;
-                    if (string.Compare(tempList[j][0], tempList[k][0]) > 0) 
+                    if (string.Compare(tempList[j][0], tempList[k][0]) > 0)
                     {
                         string[] temp = tempList[j];
                         tempList[j] = tempList[k];
@@ -150,54 +159,68 @@ namespace TutorMaster
                     }
                 }
             }
+        }
 
-            int index1 = 0;
-            int index2 = 0;
-            List<int> courseNumList = new List<int>();
-            string initials = cs[0].ClassCode.Split('-')[0];
 
-            for (int m = 1; m < cs.Count(); m++)
+        private void sortByNumber(ref List<Class> classList)
+        {
+            List<int> tempList = new List<int>();
+
+            for (int i = 0; i < classList.Count(); i++)
             {
-                string check = cs[m].ClassCode.Split('-')[0];
-                if (check == initials)
-                {
-                    index2++;
-                    courseNumList.Add(Convert.ToInt16(cs[m].ClassCode.Split('-')[1]));
-                }
-                else
-                {
-                    MessageBox.Show(index1.ToString() + " " + index2.ToString());
-                    sortNumList(courseNumList, ref cs, index1, index2);
-                    
-                    index1 = index2;
-                    initials = check;
-                }
+                int temp = Convert.ToInt16(classList[i].ClassCode.ToString().Split('-')[1]);
+                tempList.Add(temp);
             }
 
-            foreach (Class c in cs)
+            for (int i = tempList.Count(); i >= 0; i--)
             {
-                lvClass.Items.Add(new ListViewItem(new string[] { c.ClassCode, c.ClassName, c.Department }));
+                for (int j = 0; j < tempList.Count() - 1; j++)
+                {
+                    int k = j + 1;
+                    if (tempList[j] > tempList[k])
+                    {
+                        int temp = tempList[j];
+                        tempList[j] = tempList[k];
+                        tempList[k] = temp;
+
+                        Class tempClass = classList[j];
+                        classList[j] = classList[k];
+                        classList[k] = tempClass;
+                    }
+                }
             }
         }
 
-        private void sortNumList(List<int> courseNumList, ref List<Class> cs, int index1, int index2)
+        private void sortByNumAndAdd(List<Class> cs)
         {
-            for (int i = index2; i >= index1; i--)
-            {
-                for (int j = index1; j < index2 - 1; j++)
-                {
-                    int k = j + 1;
-                    if(courseNumList[j] > courseNumList[k])
-                    {
-                        int temp = courseNumList[j];
-                        courseNumList[j] = courseNumList[k];
-                        courseNumList[k] = temp;
+            Class init = cs[0];
+            List<Class> classList = new List<Class>();
+            classList.Add(init);
 
-                        Class tempClass = cs[j];
-                        cs[j] = cs[k];
-                        cs[k] = tempClass;
-                    }
+            for (int i = 1; i < cs.Count(); i++)
+            {
+                if (init.ClassCode.ToString().Split('-')[0] == cs[i].ClassCode.ToString().Split('-')[0])
+                {
+                    classList.Add(cs[i]);
                 }
+                else
+                {
+                    sortByNumber(ref classList);
+                    foreach (Class c in classList)
+                    {
+                        lvClass.Items.Add(new ListViewItem(new string[] { c.ClassCode, c.ClassName, c.Department }));
+                    }
+
+                    classList.Clear();
+                    init = cs[i];
+                    classList.Add(cs[i]);
+                }
+            }
+
+            sortByNumber(ref classList);
+            foreach (Class c in classList)
+            {
+                lvClass.Items.Add(new ListViewItem(new string[] { c.ClassCode, c.ClassName, c.Department }));
             }
         }
 
@@ -288,14 +311,14 @@ namespace TutorMaster
         {
             CreateStudent g = new CreateStudent();
             g.Show();
-            this.Close();
+            this.Dispose();
         }
 
         private void btnLogout_Click(object sender, EventArgs e)
         {
             Login g = new Login(); //Are we going to create problems by create new loginb boxes on top of the hidden ones we already have?
             g.Show();
-            this.Close();
+            this.Dispose();
         }
 
         private void btnFacSave_Click(object sender, EventArgs e)
@@ -542,7 +565,7 @@ namespace TutorMaster
             int studentID = (from row in db.Users where row.Username == username select row.ID).First();
             EditStudentForm g = new EditStudentForm(studentID);
             g.Show();
-            this.Close();
+            this.Dispose();
         }
 
         private void btnDelete_Click(object sender, EventArgs e)

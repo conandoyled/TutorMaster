@@ -104,14 +104,16 @@ namespace TutorMaster
 
         private void FacultyMain_FormClosed(object sender, FormClosedEventArgs e)
         {
-            //System.Windows.Forms.Application.Exit();
+            Login g = new Login();
+            g.Show();
+            this.Dispose();
         }
 
         private void btnLogout_Click(object sender, EventArgs e)
         {
             Login g = new Login();
             g.Show();
-            this.Close();
+            this.Dispose();
         }
 
         private void btnAccept_Click(object sender, EventArgs e)
@@ -179,7 +181,7 @@ namespace TutorMaster
         {
             ChangePasswordForm g = new ChangePasswordForm(id);
             g.Show();
-            this.Close();
+            this.Dispose();
         }
 
         private void lvPendingRequests_ItemChecked(object sender, ItemCheckedEventArgs e)
