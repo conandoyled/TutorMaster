@@ -457,5 +457,12 @@ namespace TutorMaster
             }
         }
 
+        private void RemoveAvailForm_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            Login g = new Login();
+            g.Show();
+            this.Dispose();
+        }
+
     }
 }

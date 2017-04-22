@@ -11,6 +11,7 @@ namespace TutorMaster
 {
     public partial class AdminSeeSchedule : Form
     {
+        private bool open;
         private int id;
 
         public AdminSeeSchedule(int accID)
@@ -25,6 +26,7 @@ namespace TutorMaster
             //loadAvail(start);                                                                                     //load availability starting from today
             loadAppointments(false);                                                                              //load the appointments
             disableButtons();                                                                                     //disable necessary buttons
+            open = true;
 
             lblNameTitle.Text = (from row in db.Users where row.ID == id select row.FirstName + " " + row.LastName).First() + "'s Schedule";
         }
@@ -1288,6 +1290,16 @@ namespace TutorMaster
             lvPendingTutor.Items.Clear();
             lvFinalized.Items.Clear();
             loadAppointments(reject);
+        }
+
+        private void AdminSeeSchedule_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            this.Dispose();
+        }
+
+        private void AdminSeeSchedule_Load(object sender, EventArgs e)
+        {
+
         }
     }
     

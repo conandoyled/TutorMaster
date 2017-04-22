@@ -231,5 +231,10 @@ namespace TutorMaster
             }
             return lastRow + 1;
         }
+
+        private void AddAvailability_FormClosed(object sender, FormClosedEventArgs e)
+        {
+
+        }
     }
 }

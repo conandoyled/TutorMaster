@@ -34,5 +34,10 @@ namespace TutorMaster
             g.Show();
             this.Dispose();
         }
+
+        private void TutorOrTuteeForm_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            this.Dispose();
+        }
     }
 }

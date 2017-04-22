@@ -79,5 +79,12 @@ namespace TutorMaster
             string accountType = user.AccountType;                                                                                           //get the accountType of the user
             backToMain(accountType);                                                                                                         //send the user back to main without having changed anything
         }
+
+        private void ChangePasswordForm_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            Login g = new Login();
+            g.Show();
+            this.Dispose();
+        }
     }
 }

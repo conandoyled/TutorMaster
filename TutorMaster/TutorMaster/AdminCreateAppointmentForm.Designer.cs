@@ -211,6 +211,7 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "AdminCreateAppointmentForm";
             this.Text = "TutorMaster";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.AdminCreateAppointmentForm_FormClosed);
             this.ResumeLayout(false);
             this.PerformLayout();
 

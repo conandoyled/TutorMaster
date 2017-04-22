@@ -593,6 +593,13 @@ namespace TutorMaster
         {
             QuickSort2(ref values, 0, numValues - 1);
         }
+
+        private void RequestForm_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            Login g = new Login();
+            g.Show();
+            this.Dispose();
+        }
     }
 }
 

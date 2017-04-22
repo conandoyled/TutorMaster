@@ -56,7 +56,9 @@ namespace TutorMaster
 
         private void CreateStudent_FormClosed(object sender, FormClosedEventArgs e)
         {
-            //System.Windows.Forms.Application.Exit();
+            Login g = new Login();
+            g.Show();
+            this.Dispose();
         }
 
         private void btnAdd_Click(object sender, EventArgs e)

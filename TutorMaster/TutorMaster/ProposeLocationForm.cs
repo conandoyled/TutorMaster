@@ -176,5 +176,12 @@ namespace TutorMaster
             DateTime date = new DateTime(year, month, day, hour, min, 0);             //make a datetime instance with the collected data and return it
             return date;
         }
+
+        private void ProposeLocationForm_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            Login g = new Login();
+            g.Show();
+            this.Dispose();
+        }
     }
 }

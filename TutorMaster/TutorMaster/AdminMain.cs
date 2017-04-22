@@ -30,7 +30,9 @@ namespace TutorMaster
 
         private void AdminMain_FormClosed(object sender, FormClosedEventArgs e)
         {
-            System.Windows.Forms.Application.Exit();
+            Login g = new Login();
+            g.Show();
+            this.Dispose();
         }
 
         private void setupStudentLV() //This is what populates the box of students

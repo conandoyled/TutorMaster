@@ -383,6 +383,8 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "AdminSeeSchedule";
             this.Text = "TutorMaster";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.AdminSeeSchedule_FormClosed);
+            this.Load += new System.EventHandler(this.AdminSeeSchedule_Load);
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.tabAccepted.ResumeLayout(false);

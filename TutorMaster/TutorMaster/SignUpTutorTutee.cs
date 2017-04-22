@@ -284,5 +284,12 @@ namespace TutorMaster
                 }
             }
         }
+
+        private void SignUpTutorTutee_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            Login g = new Login();
+            g.Show();
+            this.Dispose();
+        }
     }
 }

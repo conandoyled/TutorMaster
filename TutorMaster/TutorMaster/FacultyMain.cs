@@ -104,7 +104,9 @@ namespace TutorMaster
 
         private void FacultyMain_FormClosed(object sender, FormClosedEventArgs e)
         {
-            //System.Windows.Forms.Application.Exit();
+            Login g = new Login();
+            g.Show();
+            this.Dispose();
         }
 
         private void btnLogout_Click(object sender, EventArgs e)

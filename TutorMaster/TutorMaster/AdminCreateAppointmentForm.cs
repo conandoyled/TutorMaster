@@ -821,5 +821,10 @@ namespace TutorMaster
                 btnSubmit.Enabled = false;
             }
         }
+
+        private void AdminCreateAppointmentForm_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            this.Dispose();
+        }
     }
 }
