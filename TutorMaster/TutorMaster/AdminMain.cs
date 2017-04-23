@@ -578,7 +578,7 @@ namespace TutorMaster
             TutorMasterDBEntities4 db = new TutorMasterDBEntities4();
             string username = lvStudent.CheckedItems[0].Text.ToString();
             int studentID = (from row in db.Users where row.Username == username select row.ID).First();
-            EditStudentForm g = new EditStudentForm(studentID);
+            CreateStudent g = new CreateStudent(2, studentID);
             g.Show();
             this.Dispose();
         }
@@ -959,8 +959,8 @@ namespace TutorMaster
             TutorMasterDBEntities4 db = new TutorMasterDBEntities4();
             string lvUsername = lvRequests.CheckedItems[0].SubItems[0].Text.ToString();
             int studentID = (from row in db.Users where row.Username == lvUsername select row.ID).First();
-            
-            EditStudentForm g = new EditStudentForm(studentID);
+
+            CreateStudent g = new CreateStudent(2, studentID);
             g.Show();
             this.Close();
         }
