@@ -118,8 +118,6 @@ namespace TutorMaster
             cbxTutee.Checked = Convert.ToBoolean((from row in db.Students where row.ID == accID select row.Tutee).First());
 
             getClassRequests(accID);
-
-
         }
 
         private void btnExit_Click(object sender, EventArgs e)

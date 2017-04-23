@@ -310,7 +310,7 @@ namespace TutorMaster
 
         private void btnCreateStudent_Click(object sender, EventArgs e)
         {
-            CreateStudent g = new CreateStudent();
+            CreateStudent g = new CreateStudent(1);
             g.Show();
             this.Dispose();
         }
