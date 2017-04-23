@@ -43,33 +43,38 @@
             this.lblHours = new System.Windows.Forms.Label();
             this.lblMinutes = new System.Windows.Forms.Label();
             this.lblLocation = new System.Windows.Forms.Label();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // cbxClasses
             // 
             this.cbxClasses.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbxClasses.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.cbxClasses.FormattingEnabled = true;
-            this.cbxClasses.Location = new System.Drawing.Point(12, 45);
+            this.cbxClasses.Location = new System.Drawing.Point(56, 61);
             this.cbxClasses.Name = "cbxClasses";
-            this.cbxClasses.Size = new System.Drawing.Size(170, 21);
+            this.cbxClasses.Size = new System.Drawing.Size(167, 21);
             this.cbxClasses.TabIndex = 0;
             this.cbxClasses.SelectedIndexChanged += new System.EventHandler(this.cbxClasses_SelectedIndexChanged);
             // 
             // cbxStudents
             // 
             this.cbxStudents.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbxStudents.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.cbxStudents.FormattingEnabled = true;
-            this.cbxStudents.Location = new System.Drawing.Point(211, 45);
+            this.cbxStudents.Location = new System.Drawing.Point(241, 61);
             this.cbxStudents.Name = "cbxStudents";
-            this.cbxStudents.Size = new System.Drawing.Size(153, 21);
+            this.cbxStudents.Size = new System.Drawing.Size(167, 21);
             this.cbxStudents.TabIndex = 1;
             this.cbxStudents.SelectedIndexChanged += new System.EventHandler(this.cbxStudents_SelectedIndexChanged);
             // 
             // lvTimeMatches
             // 
-            this.lvTimeMatches.Location = new System.Drawing.Point(12, 214);
+            this.lvTimeMatches.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(237)))), ((int)(((byte)(239)))), ((int)(((byte)(239)))));
+            this.lvTimeMatches.Location = new System.Drawing.Point(56, 210);
             this.lvTimeMatches.Name = "lvTimeMatches";
-            this.lvTimeMatches.Size = new System.Drawing.Size(352, 186);
+            this.lvTimeMatches.Size = new System.Drawing.Size(352, 194);
             this.lvTimeMatches.TabIndex = 2;
             this.lvTimeMatches.UseCompatibleStateImageBehavior = false;
             this.lvTimeMatches.View = System.Windows.Forms.View.Details;
@@ -79,9 +84,10 @@
             // cbWeekly
             // 
             this.cbWeekly.AutoSize = true;
-            this.cbWeekly.Location = new System.Drawing.Point(214, 175);
+            this.cbWeekly.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.cbWeekly.Location = new System.Drawing.Point(241, 171);
             this.cbWeekly.Name = "cbWeekly";
-            this.cbWeekly.Size = new System.Drawing.Size(62, 17);
+            this.cbWeekly.Size = new System.Drawing.Size(60, 17);
             this.cbWeekly.TabIndex = 3;
             this.cbWeekly.Text = "Weekly";
             this.cbWeekly.UseVisualStyleBackColor = true;
@@ -89,65 +95,71 @@
             // 
             // btnSubmit
             // 
-            this.btnSubmit.Location = new System.Drawing.Point(11, 406);
+            this.btnSubmit.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(208)))), ((int)(((byte)(222)))), ((int)(((byte)(229)))));
+            this.btnSubmit.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btnSubmit.Location = new System.Drawing.Point(76, 410);
             this.btnSubmit.Name = "btnSubmit";
-            this.btnSubmit.Size = new System.Drawing.Size(102, 23);
+            this.btnSubmit.Size = new System.Drawing.Size(151, 23);
             this.btnSubmit.TabIndex = 4;
             this.btnSubmit.Text = "Set Appointment";
-            this.btnSubmit.UseVisualStyleBackColor = true;
+            this.btnSubmit.UseVisualStyleBackColor = false;
             this.btnSubmit.Click += new System.EventHandler(this.btnSubmit_Click);
             // 
             // btnCancel
             // 
-            this.btnCancel.Location = new System.Drawing.Point(289, 406);
+            this.btnCancel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(208)))), ((int)(((byte)(222)))), ((int)(((byte)(229)))));
+            this.btnCancel.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btnCancel.Location = new System.Drawing.Point(233, 410);
             this.btnCancel.Name = "btnCancel";
-            this.btnCancel.Size = new System.Drawing.Size(75, 23);
+            this.btnCancel.Size = new System.Drawing.Size(151, 23);
             this.btnCancel.TabIndex = 5;
             this.btnCancel.Text = "Cancel";
-            this.btnCancel.UseVisualStyleBackColor = true;
+            this.btnCancel.UseVisualStyleBackColor = false;
             this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
             // 
             // cbxHour
             // 
             this.cbxHour.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbxHour.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.cbxHour.FormattingEnabled = true;
             this.cbxHour.Items.AddRange(new object[] {
             "0",
             "1",
             "2",
             "3"});
-            this.cbxHour.Location = new System.Drawing.Point(10, 110);
+            this.cbxHour.Location = new System.Drawing.Point(56, 116);
             this.cbxHour.Name = "cbxHour";
-            this.cbxHour.Size = new System.Drawing.Size(170, 21);
+            this.cbxHour.Size = new System.Drawing.Size(167, 21);
             this.cbxHour.TabIndex = 6;
             this.cbxHour.SelectedIndexChanged += new System.EventHandler(this.cbxHour_SelectedIndexChanged);
             // 
             // cbxMinutes
             // 
             this.cbxMinutes.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbxMinutes.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.cbxMinutes.FormattingEnabled = true;
             this.cbxMinutes.Items.AddRange(new object[] {
             "00",
             "15",
             "30",
             "45"});
-            this.cbxMinutes.Location = new System.Drawing.Point(214, 110);
+            this.cbxMinutes.Location = new System.Drawing.Point(241, 116);
             this.cbxMinutes.Name = "cbxMinutes";
-            this.cbxMinutes.Size = new System.Drawing.Size(153, 21);
+            this.cbxMinutes.Size = new System.Drawing.Size(167, 21);
             this.cbxMinutes.TabIndex = 7;
             this.cbxMinutes.SelectedIndexChanged += new System.EventHandler(this.cbxMinutes_SelectedIndexChanged);
             // 
             // tbxLocation
             // 
-            this.tbxLocation.Location = new System.Drawing.Point(10, 173);
+            this.tbxLocation.Location = new System.Drawing.Point(56, 170);
             this.tbxLocation.Name = "tbxLocation";
-            this.tbxLocation.Size = new System.Drawing.Size(171, 20);
+            this.tbxLocation.Size = new System.Drawing.Size(167, 20);
             this.tbxLocation.TabIndex = 8;
             // 
             // lblClasses
             // 
             this.lblClasses.AutoSize = true;
-            this.lblClasses.Location = new System.Drawing.Point(13, 26);
+            this.lblClasses.Location = new System.Drawing.Point(53, 45);
             this.lblClasses.Name = "lblClasses";
             this.lblClasses.Size = new System.Drawing.Size(32, 13);
             this.lblClasses.TabIndex = 9;
@@ -156,7 +168,7 @@
             // lblPartner
             // 
             this.lblPartner.AutoSize = true;
-            this.lblPartner.Location = new System.Drawing.Point(211, 26);
+            this.lblPartner.Location = new System.Drawing.Point(238, 45);
             this.lblPartner.Name = "lblPartner";
             this.lblPartner.Size = new System.Drawing.Size(41, 13);
             this.lblPartner.TabIndex = 10;
@@ -165,7 +177,7 @@
             // lblHours
             // 
             this.lblHours.AutoSize = true;
-            this.lblHours.Location = new System.Drawing.Point(12, 91);
+            this.lblHours.Location = new System.Drawing.Point(53, 100);
             this.lblHours.Name = "lblHours";
             this.lblHours.Size = new System.Drawing.Size(85, 13);
             this.lblHours.TabIndex = 11;
@@ -174,7 +186,7 @@
             // lblMinutes
             // 
             this.lblMinutes.AutoSize = true;
-            this.lblMinutes.Location = new System.Drawing.Point(214, 91);
+            this.lblMinutes.Location = new System.Drawing.Point(238, 100);
             this.lblMinutes.Name = "lblMinutes";
             this.lblMinutes.Size = new System.Drawing.Size(94, 13);
             this.lblMinutes.TabIndex = 12;
@@ -183,17 +195,28 @@
             // lblLocation
             // 
             this.lblLocation.AutoSize = true;
-            this.lblLocation.Location = new System.Drawing.Point(11, 154);
+            this.lblLocation.Location = new System.Drawing.Point(53, 154);
             this.lblLocation.Name = "lblLocation";
             this.lblLocation.Size = new System.Drawing.Size(98, 13);
             this.lblLocation.TabIndex = 13;
             this.lblLocation.Text = "Location of session";
             // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Image = global::TutorMaster.Properties.Resources.WatermarkR2;
+            this.pictureBox1.Location = new System.Drawing.Point(375, 395);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(92, 98);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox1.TabIndex = 20;
+            this.pictureBox1.TabStop = false;
+            // 
             // AdminCreateAppointmentForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(400, 441);
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(218)))), ((int)(((byte)(232)))), ((int)(((byte)(239)))));
+            this.ClientSize = new System.Drawing.Size(466, 492);
             this.Controls.Add(this.lblLocation);
             this.Controls.Add(this.lblMinutes);
             this.Controls.Add(this.lblHours);
@@ -208,10 +231,13 @@
             this.Controls.Add(this.lvTimeMatches);
             this.Controls.Add(this.cbxStudents);
             this.Controls.Add(this.cbxClasses);
+            this.Controls.Add(this.pictureBox1);
+            this.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(61)))), ((int)(((byte)(71)))), ((int)(((byte)(76)))));
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "AdminCreateAppointmentForm";
             this.Text = "TutorMaster";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.AdminCreateAppointmentForm_FormClosed);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -233,6 +259,7 @@
         private System.Windows.Forms.Label lblHours;
         private System.Windows.Forms.Label lblMinutes;
         private System.Windows.Forms.Label lblLocation;
+        private System.Windows.Forms.PictureBox pictureBox1;
 
     }
 }

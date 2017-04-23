@@ -113,10 +113,15 @@ namespace TutorMaster
         private void disableButtons()
         {
             btnCancelFinalized.Enabled = false;
+            btnCancelFinalized.BackColor = System.Drawing.Color.FromArgb(193, 200, 204);
             btnAcceptAddLoc.Enabled = false;
+            btnAcceptAddLoc.BackColor = System.Drawing.Color.FromArgb(193, 200, 204);
             btnRejectTutor.Enabled = false;
+            btnRejectTutor.BackColor = System.Drawing.Color.FromArgb(193, 200, 204);
             btnFinalize.Enabled = false;
+            btnFinalize.BackColor = System.Drawing.Color.FromArgb(193, 200, 204);
             btnRejectTutee.Enabled = false;
+            btnRejectTutee.BackColor = System.Drawing.Color.FromArgb(193, 200, 204);
         }
 
         private void loadAppointments(bool reject)
@@ -815,8 +820,11 @@ namespace TutorMaster
             if (lvOpen.CheckedItems.Count > 0)
             {
                 btnAddAvailability.Enabled = false;
+                btnAddAvailability.BackColor = System.Drawing.Color.FromArgb(193, 200, 204);
                 btnCreateAppointment.Enabled = false;
+                btnCreateAppointment.BackColor = System.Drawing.Color.FromArgb(193, 200, 204);
                 btnRemoveAvailability.Enabled = true;
+                btnRemoveAvailability.BackColor = System.Drawing.Color.FromArgb(226, 226, 226);
             }
             else
             {
@@ -826,15 +834,19 @@ namespace TutorMaster
             }
         }
 
+        //when an item is checked in the listview finalized, enable or disable the cancel button depending on the checked item count
         private void lvFinalized_ItemChecked(object sender, ItemCheckedEventArgs e)
         {
-            if (lvFinalized.CheckedItems.Count > 0)
+            int itemsChecked = lvFinalized.CheckedItems.Count; //CheckedItems.Count tells how many things in the list box are clicked
+            if (itemsChecked > 0)
             {
                 btnCancelFinalized.Enabled = true;
+                btnCancelFinalized.BackColor = System.Drawing.Color.FromArgb(226, 226, 226);
             }
             else
             {
                 btnCancelFinalized.Enabled = false;
+                btnCancelFinalized.BackColor = System.Drawing.Color.FromArgb(193, 200, 204);
             }
         }
 
@@ -845,22 +857,30 @@ namespace TutorMaster
             if (numPendingTutor > 0 && numTutor > 0)                                   //if both lv PendingTutor and lvTutor have something checked, only reject should be on
             {
                 btnAcceptAddLoc.Enabled = false;
+                btnAcceptAddLoc.BackColor = System.Drawing.Color.FromArgb(193, 200, 204);
                 btnRejectTutor.Enabled = true;
+                btnRejectTutor.BackColor = System.Drawing.Color.FromArgb(226, 226, 226);
             }
             else if (numPendingTutor > 0 && numTutor == 0)                             //if PendingTutor has something checked by tutor doesn't then both buttons should be on
             {
                 btnAcceptAddLoc.Enabled = true;
+                btnAcceptAddLoc.BackColor = System.Drawing.Color.FromArgb(226, 226, 226);
                 btnRejectTutor.Enabled = true;
+                btnRejectTutor.BackColor = System.Drawing.Color.FromArgb(226, 226, 226);
             }
             else if (numTutor > 0 && numPendingTutor == 0)                             //if tutor has something checked but pendingTutor does not, only reject should be on
             {
-                btnAcceptAddLoc.Enabled = true;
+                btnAcceptAddLoc.Enabled = false;
+                btnAcceptAddLoc.BackColor = System.Drawing.Color.FromArgb(193, 200, 204);
                 btnRejectTutor.Enabled = true;
+                btnRejectTutor.BackColor = System.Drawing.Color.FromArgb(226, 226, 226);
             }
             else                                                                       //if neither of them have anything checked, then both buttons should be disabled
             {
                 btnAcceptAddLoc.Enabled = false;
+                btnAcceptAddLoc.BackColor = System.Drawing.Color.FromArgb(193, 200, 204);
                 btnRejectTutor.Enabled = false;
+                btnRejectTutor.BackColor = System.Drawing.Color.FromArgb(193, 200, 204);
             }
         }
 
@@ -871,22 +891,30 @@ namespace TutorMaster
             if (numPendingTutor > 0 && numTutor > 0)                                   //if both lv PendingTutor and lvTutor have something checked, only reject should be on
             {
                 btnAcceptAddLoc.Enabled = false;
+                btnAcceptAddLoc.BackColor = System.Drawing.Color.FromArgb(193, 200, 204);
                 btnRejectTutor.Enabled = true;
+                btnRejectTutor.BackColor = System.Drawing.Color.FromArgb(226, 226, 226);
             }
             else if (numPendingTutor > 0 && numTutor == 0)                             //if PendingTutor has something checked by tutor doesn't then both buttons should be on
             {
                 btnAcceptAddLoc.Enabled = true;
+                btnAcceptAddLoc.BackColor = System.Drawing.Color.FromArgb(226, 226, 226);
                 btnRejectTutor.Enabled = true;
+                btnRejectTutor.BackColor = System.Drawing.Color.FromArgb(226, 226, 226);
             }
             else if (numTutor > 0 && numPendingTutor == 0)                             //if tutor has something checked but pendingTutor does not, only reject should be on
             {
-                btnAcceptAddLoc.Enabled = true;
+                btnAcceptAddLoc.Enabled = false;
+                btnAcceptAddLoc.BackColor = System.Drawing.Color.FromArgb(193, 200, 204);
                 btnRejectTutor.Enabled = true;
+                btnRejectTutor.BackColor = System.Drawing.Color.FromArgb(226, 226, 226);
             }
             else                                                                       //if neither of them have anything checked, then both buttons should be disabled
             {
                 btnAcceptAddLoc.Enabled = false;
+                btnAcceptAddLoc.BackColor = System.Drawing.Color.FromArgb(193, 200, 204);
                 btnRejectTutor.Enabled = false;
+                btnRejectTutor.BackColor = System.Drawing.Color.FromArgb(193, 200, 204);
             }
         }
 
@@ -897,22 +925,30 @@ namespace TutorMaster
             if (numPendingTutee > 0 && numTutee > 0)                                   //if both lv PendingTutee and lvTutee have something checked, only reject should be on
             {
                 btnFinalize.Enabled = false;
+                btnFinalize.BackColor = System.Drawing.Color.FromArgb(193, 200, 204);
                 btnRejectTutee.Enabled = true;
+                btnRejectTutee.BackColor = System.Drawing.Color.FromArgb(226, 226, 226);
             }
             else if (numPendingTutee > 0 && numTutee == 0)                             //if PendingTutee has something checked by tutee doesn't then both buttons should be on
             {
                 btnFinalize.Enabled = true;
+                btnFinalize.BackColor = System.Drawing.Color.FromArgb(226, 226, 226);
                 btnRejectTutee.Enabled = true;
+                btnRejectTutee.BackColor = System.Drawing.Color.FromArgb(226, 226, 226);
             }
             else if (numTutee > 0 && numPendingTutee == 0)                             //if tutee has something checked but pendingTutee does not, only reject should be on
             {
-                btnFinalize.Enabled = true;
+                btnFinalize.Enabled = false;
+                btnFinalize.BackColor = System.Drawing.Color.FromArgb(193, 200, 204);
                 btnRejectTutee.Enabled = true;
+                btnRejectTutee.BackColor = System.Drawing.Color.FromArgb(226, 226, 226);
             }
             else                                                                       //if neither of them have anything checked, then both buttons should be disabled
             {
                 btnFinalize.Enabled = false;
+                btnFinalize.BackColor = System.Drawing.Color.FromArgb(193, 200, 204);
                 btnRejectTutee.Enabled = false;
+                btnRejectTutee.BackColor = System.Drawing.Color.FromArgb(193, 200, 204);
             }
         }
 
@@ -923,22 +959,30 @@ namespace TutorMaster
             if (numPendingTutee > 0 && numTutee > 0)                                   //if both lv PendingTutee and lvTutee have something checked, only reject should be on
             {
                 btnFinalize.Enabled = false;
+                btnFinalize.BackColor = System.Drawing.Color.FromArgb(193, 200, 204);
                 btnRejectTutee.Enabled = true;
+                btnRejectTutee.BackColor = System.Drawing.Color.FromArgb(226, 226, 226);
             }
             else if (numPendingTutee > 0 && numTutee == 0)                             //if PendingTutee has something checked by tutee doesn't then both buttons should be on
             {
                 btnFinalize.Enabled = true;
+                btnFinalize.BackColor = System.Drawing.Color.FromArgb(226, 226, 226);
                 btnRejectTutee.Enabled = true;
+                btnRejectTutee.BackColor = System.Drawing.Color.FromArgb(226, 226, 226);
             }
             else if (numTutee > 0 && numPendingTutee == 0)                             //if tutee has something checked but pendingTutee does not, only reject should be on
             {
-                btnFinalize.Enabled = true;
+                btnFinalize.Enabled = false;
+                btnFinalize.BackColor = System.Drawing.Color.FromArgb(193, 200, 204);
                 btnRejectTutee.Enabled = true;
+                btnRejectTutee.BackColor = System.Drawing.Color.FromArgb(226, 226, 226);
             }
             else                                                                       //if neither of them have anything checked, then both buttons should be disabled
             {
                 btnFinalize.Enabled = false;
+                btnFinalize.BackColor = System.Drawing.Color.FromArgb(193, 200, 204);
                 btnRejectTutee.Enabled = false;
+                btnRejectTutee.BackColor = System.Drawing.Color.FromArgb(193, 200, 204);
             }
         }
 

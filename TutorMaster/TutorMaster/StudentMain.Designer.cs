@@ -90,6 +90,7 @@
             this.lblTutee = new System.Windows.Forms.Label();
             this.lblAttention = new System.Windows.Forms.Label();
             this.lblWaiting = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
             this.dayTabs.SuspendLayout();
             this.tabSunday.SuspendLayout();
             this.tabMonday.SuspendLayout();
@@ -111,7 +112,7 @@
             // weekStartDateTime
             // 
             this.weekStartDateTime.CalendarMonthBackground = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
-            this.weekStartDateTime.Location = new System.Drawing.Point(733, 59);
+            this.weekStartDateTime.Location = new System.Drawing.Point(733, 84);
             this.weekStartDateTime.MaxDate = new System.DateTime(2017, 4, 30, 0, 0, 0, 0);
             this.weekStartDateTime.MinDate = new System.DateTime(2017, 1, 1, 0, 0, 0, 0);
             this.weekStartDateTime.Name = "weekStartDateTime";
@@ -373,7 +374,7 @@
             this.btnLogout.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(151)))), ((int)(((byte)(167)))), ((int)(((byte)(175)))));
             this.btnLogout.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(151)))), ((int)(((byte)(167)))), ((int)(((byte)(175)))));
             this.btnLogout.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.btnLogout.Location = new System.Drawing.Point(736, 85);
+            this.btnLogout.Location = new System.Drawing.Point(736, 110);
             this.btnLogout.Name = "btnLogout";
             this.btnLogout.Size = new System.Drawing.Size(197, 23);
             this.btnLogout.TabIndex = 1;
@@ -386,7 +387,7 @@
             this.btnMakeRequest.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(208)))), ((int)(((byte)(222)))), ((int)(((byte)(229)))));
             this.btnMakeRequest.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(61)))), ((int)(((byte)(71)))), ((int)(((byte)(76)))));
             this.btnMakeRequest.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.btnMakeRequest.Location = new System.Drawing.Point(736, 114);
+            this.btnMakeRequest.Location = new System.Drawing.Point(736, 139);
             this.btnMakeRequest.Name = "btnMakeRequest";
             this.btnMakeRequest.Size = new System.Drawing.Size(197, 23);
             this.btnMakeRequest.TabIndex = 2;
@@ -401,7 +402,7 @@
             this.tabControl1.Location = new System.Drawing.Point(12, 12);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(715, 419);
+            this.tabControl1.Size = new System.Drawing.Size(715, 423);
             this.tabControl1.TabIndex = 14;
             // 
             // tabSchedule
@@ -414,7 +415,7 @@
             this.tabSchedule.Name = "tabSchedule";
             this.tabSchedule.Padding = new System.Windows.Forms.Padding(3);
             this.tabSchedule.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.tabSchedule.Size = new System.Drawing.Size(707, 393);
+            this.tabSchedule.Size = new System.Drawing.Size(707, 397);
             this.tabSchedule.TabIndex = 1;
             this.tabSchedule.Text = "Schedule";
             // 
@@ -700,7 +701,7 @@
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(733, 40);
+            this.label10.Location = new System.Drawing.Point(733, 65);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(190, 13);
             this.label10.TabIndex = 15;
@@ -710,7 +711,7 @@
             // 
             this.btnAdvanceRequest.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(208)))), ((int)(((byte)(222)))), ((int)(((byte)(229)))));
             this.btnAdvanceRequest.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.btnAdvanceRequest.Location = new System.Drawing.Point(736, 143);
+            this.btnAdvanceRequest.Location = new System.Drawing.Point(736, 168);
             this.btnAdvanceRequest.Name = "btnAdvanceRequest";
             this.btnAdvanceRequest.Size = new System.Drawing.Size(200, 23);
             this.btnAdvanceRequest.TabIndex = 17;
@@ -722,7 +723,7 @@
             // 
             this.btnChangePassword.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(208)))), ((int)(((byte)(222)))), ((int)(((byte)(229)))));
             this.btnChangePassword.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.btnChangePassword.Location = new System.Drawing.Point(736, 197);
+            this.btnChangePassword.Location = new System.Drawing.Point(736, 204);
             this.btnChangePassword.Name = "btnChangePassword";
             this.btnChangePassword.Size = new System.Drawing.Size(200, 23);
             this.btnChangePassword.TabIndex = 18;
@@ -733,7 +734,7 @@
             // pictureBox1
             // 
             this.pictureBox1.Image = global::TutorMaster.Properties.Resources.WatermarkR2;
-            this.pictureBox1.Location = new System.Drawing.Point(834, 326);
+            this.pictureBox1.Location = new System.Drawing.Point(834, 332);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(119, 119);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -744,7 +745,7 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(733, 224);
+            this.label1.Location = new System.Drawing.Point(733, 231);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(115, 15);
             this.label1.TabIndex = 25;
@@ -755,7 +756,7 @@
             this.lblOpen.AutoSize = true;
             this.lblOpen.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(7)))), ((int)(((byte)(104)))), ((int)(((byte)(10)))));
             this.lblOpen.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(237)))), ((int)(((byte)(239)))), ((int)(((byte)(239)))));
-            this.lblOpen.Location = new System.Drawing.Point(733, 246);
+            this.lblOpen.Location = new System.Drawing.Point(733, 249);
             this.lblOpen.Name = "lblOpen";
             this.lblOpen.Padding = new System.Windows.Forms.Padding(40, 4, 40, 4);
             this.lblOpen.Size = new System.Drawing.Size(113, 21);
@@ -767,7 +768,7 @@
             this.lblTutor.AutoSize = true;
             this.lblTutor.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(6)))), ((int)(((byte)(120)))), ((int)(((byte)(122)))));
             this.lblTutor.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(237)))), ((int)(((byte)(239)))), ((int)(((byte)(239)))));
-            this.lblTutor.Location = new System.Drawing.Point(733, 273);
+            this.lblTutor.Location = new System.Drawing.Point(733, 276);
             this.lblTutor.Name = "lblTutor";
             this.lblTutor.Padding = new System.Windows.Forms.Padding(34, 4, 33, 4);
             this.lblTutor.Size = new System.Drawing.Size(113, 21);
@@ -779,7 +780,7 @@
             this.lblTutee.AutoSize = true;
             this.lblTutee.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(4)))), ((int)(((byte)(76)))), ((int)(((byte)(114)))));
             this.lblTutee.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(237)))), ((int)(((byte)(239)))), ((int)(((byte)(239)))));
-            this.lblTutee.Location = new System.Drawing.Point(733, 301);
+            this.lblTutee.Location = new System.Drawing.Point(733, 304);
             this.lblTutee.Name = "lblTutee";
             this.lblTutee.Padding = new System.Windows.Forms.Padding(19, 4, 20, 4);
             this.lblTutee.Size = new System.Drawing.Size(113, 21);
@@ -791,7 +792,7 @@
             this.lblAttention.AutoSize = true;
             this.lblAttention.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(137)))), ((int)(((byte)(6)))), ((int)(((byte)(6)))));
             this.lblAttention.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(237)))), ((int)(((byte)(239)))), ((int)(((byte)(239)))));
-            this.lblAttention.Location = new System.Drawing.Point(733, 329);
+            this.lblAttention.Location = new System.Drawing.Point(733, 332);
             this.lblAttention.Name = "lblAttention";
             this.lblAttention.Padding = new System.Windows.Forms.Padding(15, 4, 15, 4);
             this.lblAttention.Size = new System.Drawing.Size(113, 21);
@@ -803,19 +804,30 @@
             this.lblWaiting.AutoSize = true;
             this.lblWaiting.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(4)))), ((int)(((byte)(13)))), ((int)(((byte)(137)))));
             this.lblWaiting.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(237)))), ((int)(((byte)(239)))), ((int)(((byte)(239)))));
-            this.lblWaiting.Location = new System.Drawing.Point(733, 357);
+            this.lblWaiting.Location = new System.Drawing.Point(733, 360);
             this.lblWaiting.Name = "lblWaiting";
             this.lblWaiting.Padding = new System.Windows.Forms.Padding(8, 4, 8, 4);
             this.lblWaiting.Size = new System.Drawing.Size(114, 21);
             this.lblWaiting.TabIndex = 30;
             this.lblWaiting.Text = "Waiting For Partner";
             // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.Location = new System.Drawing.Point(733, 39);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(184, 18);
+            this.label2.TabIndex = 31;
+            this.label2.Text = "Welcome Student\'s Name!";
+            // 
             // StudentMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(218)))), ((int)(((byte)(232)))), ((int)(((byte)(239)))));
-            this.ClientSize = new System.Drawing.Size(948, 441);
+            this.ClientSize = new System.Drawing.Size(948, 450);
+            this.Controls.Add(this.label2);
             this.Controls.Add(this.lblWaiting);
             this.Controls.Add(this.lblAttention);
             this.Controls.Add(this.lblTutee);
@@ -928,5 +940,6 @@
         private System.Windows.Forms.Label lblTutee;
         private System.Windows.Forms.Label lblAttention;
         private System.Windows.Forms.Label lblWaiting;
+        private System.Windows.Forms.Label label2;
     }
 }

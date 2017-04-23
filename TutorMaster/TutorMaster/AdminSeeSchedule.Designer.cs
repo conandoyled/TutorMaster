@@ -58,11 +58,13 @@
             this.lblNameTitle = new System.Windows.Forms.Label();
             this.btnDone = new System.Windows.Forms.Button();
             this.lblRemove = new System.Windows.Forms.Label();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabAccepted.SuspendLayout();
             this.tabPendingTutor.SuspendLayout();
             this.tabPendingTutee.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -71,7 +73,7 @@
             this.tabControl1.Controls.Add(this.tabAccepted);
             this.tabControl1.Controls.Add(this.tabPendingTutor);
             this.tabControl1.Controls.Add(this.tabPendingTutee);
-            this.tabControl1.Location = new System.Drawing.Point(12, 38);
+            this.tabControl1.Location = new System.Drawing.Point(44, 49);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
             this.tabControl1.Size = new System.Drawing.Size(707, 393);
@@ -79,6 +81,7 @@
             // 
             // tabPage1
             // 
+            this.tabPage1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(237)))), ((int)(((byte)(239)))), ((int)(((byte)(239)))));
             this.tabPage1.Controls.Add(this.btnRemoveAvailability);
             this.tabPage1.Controls.Add(this.btnCreateAppointment);
             this.tabPage1.Controls.Add(this.btnAddAvailability);
@@ -89,42 +92,48 @@
             this.tabPage1.Size = new System.Drawing.Size(699, 367);
             this.tabPage1.TabIndex = 3;
             this.tabPage1.Text = "Open Availability";
-            this.tabPage1.UseVisualStyleBackColor = true;
             // 
             // btnRemoveAvailability
             // 
+            this.btnRemoveAvailability.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
+            this.btnRemoveAvailability.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnRemoveAvailability.Location = new System.Drawing.Point(323, 335);
             this.btnRemoveAvailability.Name = "btnRemoveAvailability";
             this.btnRemoveAvailability.Size = new System.Drawing.Size(144, 23);
             this.btnRemoveAvailability.TabIndex = 20;
             this.btnRemoveAvailability.Text = "Remove Availability";
-            this.btnRemoveAvailability.UseVisualStyleBackColor = true;
+            this.btnRemoveAvailability.UseVisualStyleBackColor = false;
             this.btnRemoveAvailability.Click += new System.EventHandler(this.btnRemoveAvailability_Click);
             this.btnRemoveAvailability.MouseLeave += new System.EventHandler(this.btnRemoveAvailability_MouseLeave);
             this.btnRemoveAvailability.MouseHover += new System.EventHandler(this.btnRemoveAvailability_MouseHover);
             // 
             // btnCreateAppointment
             // 
+            this.btnCreateAppointment.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
+            this.btnCreateAppointment.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnCreateAppointment.Location = new System.Drawing.Point(164, 336);
             this.btnCreateAppointment.Name = "btnCreateAppointment";
             this.btnCreateAppointment.Size = new System.Drawing.Size(152, 23);
             this.btnCreateAppointment.TabIndex = 19;
             this.btnCreateAppointment.Text = "Create Appointment";
-            this.btnCreateAppointment.UseVisualStyleBackColor = true;
+            this.btnCreateAppointment.UseVisualStyleBackColor = false;
             this.btnCreateAppointment.Click += new System.EventHandler(this.btnCreateAppointment_Click);
             // 
             // btnAddAvailability
             // 
+            this.btnAddAvailability.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
+            this.btnAddAvailability.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnAddAvailability.Location = new System.Drawing.Point(6, 336);
             this.btnAddAvailability.Name = "btnAddAvailability";
             this.btnAddAvailability.Size = new System.Drawing.Size(152, 23);
             this.btnAddAvailability.TabIndex = 18;
             this.btnAddAvailability.Text = "Add Availability";
-            this.btnAddAvailability.UseVisualStyleBackColor = true;
+            this.btnAddAvailability.UseVisualStyleBackColor = false;
             this.btnAddAvailability.Click += new System.EventHandler(this.btnAddAvailability_Click);
             // 
             // lvOpen
             // 
+            this.lvOpen.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(237)))), ((int)(((byte)(239)))), ((int)(((byte)(239)))));
             this.lvOpen.Location = new System.Drawing.Point(0, 0);
             this.lvOpen.Name = "lvOpen";
             this.lvOpen.Size = new System.Drawing.Size(699, 330);
@@ -135,6 +144,7 @@
             // 
             // tabAccepted
             // 
+            this.tabAccepted.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(237)))), ((int)(((byte)(239)))), ((int)(((byte)(239)))));
             this.tabAccepted.Controls.Add(this.btnDeselect1);
             this.tabAccepted.Controls.Add(this.btnCancelFinalized);
             this.tabAccepted.Controls.Add(this.lvFinalized);
@@ -144,29 +154,33 @@
             this.tabAccepted.Size = new System.Drawing.Size(699, 367);
             this.tabAccepted.TabIndex = 0;
             this.tabAccepted.Text = "Finalized Appointments";
-            this.tabAccepted.UseVisualStyleBackColor = true;
             // 
             // btnDeselect1
             // 
+            this.btnDeselect1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
+            this.btnDeselect1.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnDeselect1.Location = new System.Drawing.Point(592, 336);
             this.btnDeselect1.Name = "btnDeselect1";
             this.btnDeselect1.Size = new System.Drawing.Size(101, 23);
             this.btnDeselect1.TabIndex = 18;
             this.btnDeselect1.Text = "Deselect All";
-            this.btnDeselect1.UseVisualStyleBackColor = true;
+            this.btnDeselect1.UseVisualStyleBackColor = false;
             // 
             // btnCancelFinalized
             // 
+            this.btnCancelFinalized.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
+            this.btnCancelFinalized.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnCancelFinalized.Location = new System.Drawing.Point(6, 336);
             this.btnCancelFinalized.Name = "btnCancelFinalized";
             this.btnCancelFinalized.Size = new System.Drawing.Size(177, 23);
             this.btnCancelFinalized.TabIndex = 17;
             this.btnCancelFinalized.Text = "Cancel Appointment(s)";
-            this.btnCancelFinalized.UseVisualStyleBackColor = true;
+            this.btnCancelFinalized.UseVisualStyleBackColor = false;
             this.btnCancelFinalized.Click += new System.EventHandler(this.btnCancelFinalized_Click);
             // 
             // lvFinalized
             // 
+            this.lvFinalized.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(237)))), ((int)(((byte)(239)))), ((int)(((byte)(239)))));
             this.lvFinalized.Location = new System.Drawing.Point(0, 0);
             this.lvFinalized.Name = "lvFinalized";
             this.lvFinalized.Size = new System.Drawing.Size(699, 330);
@@ -177,6 +191,7 @@
             // 
             // tabPendingTutor
             // 
+            this.tabPendingTutor.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(237)))), ((int)(((byte)(239)))), ((int)(((byte)(239)))));
             this.tabPendingTutor.Controls.Add(this.btnDeselect2);
             this.tabPendingTutor.Controls.Add(this.btnRejectTutor);
             this.tabPendingTutor.Controls.Add(this.btnAcceptAddLoc);
@@ -190,35 +205,40 @@
             this.tabPendingTutor.Size = new System.Drawing.Size(699, 367);
             this.tabPendingTutor.TabIndex = 1;
             this.tabPendingTutor.Text = "Pending Tutoring Appointments";
-            this.tabPendingTutor.UseVisualStyleBackColor = true;
             // 
             // btnDeselect2
             // 
+            this.btnDeselect2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
+            this.btnDeselect2.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnDeselect2.Location = new System.Drawing.Point(592, 336);
             this.btnDeselect2.Name = "btnDeselect2";
             this.btnDeselect2.Size = new System.Drawing.Size(101, 23);
             this.btnDeselect2.TabIndex = 23;
             this.btnDeselect2.Text = "Deselect All";
-            this.btnDeselect2.UseVisualStyleBackColor = true;
+            this.btnDeselect2.UseVisualStyleBackColor = false;
             // 
             // btnRejectTutor
             // 
+            this.btnRejectTutor.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
+            this.btnRejectTutor.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnRejectTutor.Location = new System.Drawing.Point(189, 336);
             this.btnRejectTutor.Name = "btnRejectTutor";
             this.btnRejectTutor.Size = new System.Drawing.Size(177, 23);
             this.btnRejectTutor.TabIndex = 22;
             this.btnRejectTutor.Text = "Reject/Delete Appointment(s)";
-            this.btnRejectTutor.UseVisualStyleBackColor = true;
+            this.btnRejectTutor.UseVisualStyleBackColor = false;
             this.btnRejectTutor.Click += new System.EventHandler(this.btnRejectTutor_Click);
             // 
             // btnAcceptAddLoc
             // 
+            this.btnAcceptAddLoc.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
+            this.btnAcceptAddLoc.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnAcceptAddLoc.Location = new System.Drawing.Point(6, 336);
             this.btnAcceptAddLoc.Name = "btnAcceptAddLoc";
             this.btnAcceptAddLoc.Size = new System.Drawing.Size(177, 23);
             this.btnAcceptAddLoc.TabIndex = 21;
             this.btnAcceptAddLoc.Text = "Finalize Appointment";
-            this.btnAcceptAddLoc.UseVisualStyleBackColor = true;
+            this.btnAcceptAddLoc.UseVisualStyleBackColor = false;
             this.btnAcceptAddLoc.Click += new System.EventHandler(this.btnAcceptAddLoc_Click);
             // 
             // label4
@@ -241,6 +261,7 @@
             // 
             // lvPendingTutor
             // 
+            this.lvPendingTutor.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(237)))), ((int)(((byte)(239)))), ((int)(((byte)(239)))));
             this.lvPendingTutor.Location = new System.Drawing.Point(0, 24);
             this.lvPendingTutor.Name = "lvPendingTutor";
             this.lvPendingTutor.Size = new System.Drawing.Size(699, 140);
@@ -251,6 +272,7 @@
             // 
             // lvTutor
             // 
+            this.lvTutor.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(237)))), ((int)(((byte)(239)))), ((int)(((byte)(239)))));
             this.lvTutor.Location = new System.Drawing.Point(0, 190);
             this.lvTutor.Name = "lvTutor";
             this.lvTutor.Size = new System.Drawing.Size(699, 140);
@@ -261,6 +283,7 @@
             // 
             // tabPendingTutee
             // 
+            this.tabPendingTutee.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(237)))), ((int)(((byte)(239)))), ((int)(((byte)(239)))));
             this.tabPendingTutee.Controls.Add(this.btnDeselect3);
             this.tabPendingTutee.Controls.Add(this.btnRejectTutee);
             this.tabPendingTutee.Controls.Add(this.btnFinalize);
@@ -273,35 +296,40 @@
             this.tabPendingTutee.Size = new System.Drawing.Size(699, 367);
             this.tabPendingTutee.TabIndex = 2;
             this.tabPendingTutee.Text = "Pending Tutee Appointments";
-            this.tabPendingTutee.UseVisualStyleBackColor = true;
             // 
             // btnDeselect3
             // 
+            this.btnDeselect3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
+            this.btnDeselect3.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnDeselect3.Location = new System.Drawing.Point(592, 336);
             this.btnDeselect3.Name = "btnDeselect3";
             this.btnDeselect3.Size = new System.Drawing.Size(101, 23);
             this.btnDeselect3.TabIndex = 26;
             this.btnDeselect3.Text = "Deselect All";
-            this.btnDeselect3.UseVisualStyleBackColor = true;
+            this.btnDeselect3.UseVisualStyleBackColor = false;
             // 
             // btnRejectTutee
             // 
+            this.btnRejectTutee.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
+            this.btnRejectTutee.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnRejectTutee.Location = new System.Drawing.Point(165, 336);
             this.btnRejectTutee.Name = "btnRejectTutee";
             this.btnRejectTutee.Size = new System.Drawing.Size(164, 23);
             this.btnRejectTutee.TabIndex = 25;
             this.btnRejectTutee.Text = "Reject/Delete Appointment(s)";
-            this.btnRejectTutee.UseVisualStyleBackColor = true;
+            this.btnRejectTutee.UseVisualStyleBackColor = false;
             this.btnRejectTutee.Click += new System.EventHandler(this.btnRejectTutee_Click);
             // 
             // btnFinalize
             // 
+            this.btnFinalize.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
+            this.btnFinalize.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnFinalize.Location = new System.Drawing.Point(6, 336);
             this.btnFinalize.Name = "btnFinalize";
             this.btnFinalize.Size = new System.Drawing.Size(153, 23);
             this.btnFinalize.TabIndex = 24;
             this.btnFinalize.Text = "Finalize Appointment(s)";
-            this.btnFinalize.UseVisualStyleBackColor = true;
+            this.btnFinalize.UseVisualStyleBackColor = false;
             this.btnFinalize.Click += new System.EventHandler(this.btnFinalize_Click);
             // 
             // label5
@@ -315,6 +343,7 @@
             // 
             // lvTutee
             // 
+            this.lvTutee.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(237)))), ((int)(((byte)(239)))), ((int)(((byte)(239)))));
             this.lvTutee.Location = new System.Drawing.Point(0, 24);
             this.lvTutee.Name = "lvTutee";
             this.lvTutee.Size = new System.Drawing.Size(699, 140);
@@ -334,6 +363,7 @@
             // 
             // lvPendingTutee
             // 
+            this.lvPendingTutee.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(237)))), ((int)(((byte)(239)))), ((int)(((byte)(239)))));
             this.lvPendingTutee.Location = new System.Drawing.Point(0, 188);
             this.lvPendingTutee.Name = "lvPendingTutee";
             this.lvPendingTutee.Size = new System.Drawing.Size(699, 140);
@@ -346,7 +376,7 @@
             // 
             this.lblNameTitle.AutoSize = true;
             this.lblNameTitle.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblNameTitle.Location = new System.Drawing.Point(13, 9);
+            this.lblNameTitle.Location = new System.Drawing.Point(45, 21);
             this.lblNameTitle.Name = "lblNameTitle";
             this.lblNameTitle.Size = new System.Drawing.Size(229, 24);
             this.lblNameTitle.TabIndex = 2;
@@ -354,13 +384,15 @@
             // 
             // btnDone
             // 
+            this.btnDone.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(208)))), ((int)(((byte)(222)))), ((int)(((byte)(229)))));
+            this.btnDone.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnDone.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
-            this.btnDone.Location = new System.Drawing.Point(627, 437);
+            this.btnDone.Location = new System.Drawing.Point(49, 450);
             this.btnDone.Name = "btnDone";
-            this.btnDone.Size = new System.Drawing.Size(88, 23);
+            this.btnDone.Size = new System.Drawing.Size(131, 23);
             this.btnDone.TabIndex = 3;
             this.btnDone.Text = "Done";
-            this.btnDone.UseVisualStyleBackColor = true;
+            this.btnDone.UseVisualStyleBackColor = false;
             this.btnDone.Click += new System.EventHandler(this.btnDone_Click);
             // 
             // lblRemove
@@ -371,15 +403,28 @@
             this.lblRemove.Size = new System.Drawing.Size(0, 13);
             this.lblRemove.TabIndex = 21;
             // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Image = global::TutorMaster.Properties.Resources.WatermarkR2;
+            this.pictureBox1.Location = new System.Drawing.Point(720, 436);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(75, 70);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox1.TabIndex = 22;
+            this.pictureBox1.TabStop = false;
+            // 
             // AdminSeeSchedule
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(731, 468);
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(218)))), ((int)(((byte)(232)))), ((int)(((byte)(239)))));
+            this.ClientSize = new System.Drawing.Size(793, 505);
             this.Controls.Add(this.lblRemove);
             this.Controls.Add(this.btnDone);
             this.Controls.Add(this.lblNameTitle);
             this.Controls.Add(this.tabControl1);
+            this.Controls.Add(this.pictureBox1);
+            this.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(61)))), ((int)(((byte)(71)))), ((int)(((byte)(76)))));
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "AdminSeeSchedule";
             this.Text = "TutorMaster";
@@ -392,6 +437,7 @@
             this.tabPendingTutor.PerformLayout();
             this.tabPendingTutee.ResumeLayout(false);
             this.tabPendingTutee.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -428,5 +474,6 @@
         private System.Windows.Forms.Button btnAddAvailability;
         private System.Windows.Forms.Button btnRemoveAvailability;
         private System.Windows.Forms.Label lblRemove;
+        private System.Windows.Forms.PictureBox pictureBox1;
     }
 }

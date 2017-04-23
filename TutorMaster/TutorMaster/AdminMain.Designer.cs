@@ -73,11 +73,14 @@
             this.lvRequests = new System.Windows.Forms.ListView();
             this.btnLogout = new System.Windows.Forms.Button();
             this.lblID = new System.Windows.Forms.Label();
+            this.label9 = new System.Windows.Forms.Label();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.tabAdmin.SuspendLayout();
             this.tabStudent.SuspendLayout();
             this.tabFaculty.SuspendLayout();
             this.tabClasses.SuspendLayout();
             this.tabPage1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // tabAdmin
@@ -86,7 +89,7 @@
             this.tabAdmin.Controls.Add(this.tabFaculty);
             this.tabAdmin.Controls.Add(this.tabClasses);
             this.tabAdmin.Controls.Add(this.tabPage1);
-            this.tabAdmin.Location = new System.Drawing.Point(12, 39);
+            this.tabAdmin.Location = new System.Drawing.Point(15, 12);
             this.tabAdmin.Name = "tabAdmin";
             this.tabAdmin.SelectedIndex = 0;
             this.tabAdmin.Size = new System.Drawing.Size(625, 398);
@@ -95,6 +98,7 @@
             // 
             // tabStudent
             // 
+            this.tabStudent.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(237)))), ((int)(((byte)(239)))), ((int)(((byte)(239)))));
             this.tabStudent.Controls.Add(this.btnStudentSchedule);
             this.tabStudent.Controls.Add(this.lvStudent);
             this.tabStudent.Controls.Add(this.btnDelete);
@@ -106,20 +110,21 @@
             this.tabStudent.Size = new System.Drawing.Size(617, 372);
             this.tabStudent.TabIndex = 0;
             this.tabStudent.Text = "Students";
-            this.tabStudent.UseVisualStyleBackColor = true;
             // 
             // btnStudentSchedule
             // 
+            this.btnStudentSchedule.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
             this.btnStudentSchedule.Location = new System.Drawing.Point(415, 343);
             this.btnStudentSchedule.Name = "btnStudentSchedule";
             this.btnStudentSchedule.Size = new System.Drawing.Size(140, 23);
             this.btnStudentSchedule.TabIndex = 5;
             this.btnStudentSchedule.Text = "See and Edit Student Schedule";
-            this.btnStudentSchedule.UseVisualStyleBackColor = true;
+            this.btnStudentSchedule.UseVisualStyleBackColor = false;
             this.btnStudentSchedule.Click += new System.EventHandler(this.btnStudentSchedule_Click);
             // 
             // lvStudent
             // 
+            this.lvStudent.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(237)))), ((int)(((byte)(239)))), ((int)(((byte)(239)))));
             this.lvStudent.Location = new System.Drawing.Point(0, 0);
             this.lvStudent.Name = "lvStudent";
             this.lvStudent.Size = new System.Drawing.Size(617, 337);
@@ -130,36 +135,40 @@
             // 
             // btnDelete
             // 
+            this.btnDelete.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
             this.btnDelete.Location = new System.Drawing.Point(278, 343);
             this.btnDelete.Name = "btnDelete";
             this.btnDelete.Size = new System.Drawing.Size(130, 23);
             this.btnDelete.TabIndex = 4;
             this.btnDelete.Text = "Delete Student";
-            this.btnDelete.UseVisualStyleBackColor = true;
+            this.btnDelete.UseVisualStyleBackColor = false;
             this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
             // 
             // btnCreateStudent
             // 
+            this.btnCreateStudent.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
             this.btnCreateStudent.Location = new System.Drawing.Point(6, 343);
             this.btnCreateStudent.Name = "btnCreateStudent";
             this.btnCreateStudent.Size = new System.Drawing.Size(130, 23);
             this.btnCreateStudent.TabIndex = 2;
             this.btnCreateStudent.Text = "Create New Student";
-            this.btnCreateStudent.UseVisualStyleBackColor = true;
+            this.btnCreateStudent.UseVisualStyleBackColor = false;
             this.btnCreateStudent.Click += new System.EventHandler(this.btnCreateStudent_Click);
             // 
             // btnEdit
             // 
+            this.btnEdit.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
             this.btnEdit.Location = new System.Drawing.Point(142, 343);
             this.btnEdit.Name = "btnEdit";
             this.btnEdit.Size = new System.Drawing.Size(130, 23);
             this.btnEdit.TabIndex = 3;
             this.btnEdit.Text = "Edit Student Account";
-            this.btnEdit.UseVisualStyleBackColor = true;
+            this.btnEdit.UseVisualStyleBackColor = false;
             this.btnEdit.Click += new System.EventHandler(this.btnEdit_Click);
             // 
             // tabFaculty
             // 
+            this.tabFaculty.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(237)))), ((int)(((byte)(239)))), ((int)(((byte)(239)))));
             this.tabFaculty.Controls.Add(this.txtPhoneNumber);
             this.tabFaculty.Controls.Add(this.label6);
             this.tabFaculty.Controls.Add(this.label5);
@@ -183,7 +192,6 @@
             this.tabFaculty.Size = new System.Drawing.Size(617, 372);
             this.tabFaculty.TabIndex = 2;
             this.tabFaculty.Text = "Faculty";
-            this.tabFaculty.UseVisualStyleBackColor = true;
             // 
             // txtPhoneNumber
             // 
@@ -220,32 +228,35 @@
             // 
             // btnFacultyDelete
             // 
+            this.btnFacultyDelete.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
             this.btnFacultyDelete.Location = new System.Drawing.Point(446, 333);
             this.btnFacultyDelete.Name = "btnFacultyDelete";
             this.btnFacultyDelete.Size = new System.Drawing.Size(130, 23);
             this.btnFacultyDelete.TabIndex = 21;
             this.btnFacultyDelete.Text = "Delete Faculty Account";
-            this.btnFacultyDelete.UseVisualStyleBackColor = true;
+            this.btnFacultyDelete.UseVisualStyleBackColor = false;
             this.btnFacultyDelete.Click += new System.EventHandler(this.btnFacultyDelete_Click);
             // 
             // btnFacultyAdd
             // 
+            this.btnFacultyAdd.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
             this.btnFacultyAdd.Location = new System.Drawing.Point(446, 256);
             this.btnFacultyAdd.Name = "btnFacultyAdd";
             this.btnFacultyAdd.Size = new System.Drawing.Size(130, 38);
             this.btnFacultyAdd.TabIndex = 19;
             this.btnFacultyAdd.Text = "Create New Faculty Account";
-            this.btnFacultyAdd.UseVisualStyleBackColor = true;
+            this.btnFacultyAdd.UseVisualStyleBackColor = false;
             this.btnFacultyAdd.Click += new System.EventHandler(this.btnFacultyAdd_Click);
             // 
             // btnFacultyEdit
             // 
+            this.btnFacultyEdit.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
             this.btnFacultyEdit.Location = new System.Drawing.Point(446, 302);
             this.btnFacultyEdit.Name = "btnFacultyEdit";
             this.btnFacultyEdit.Size = new System.Drawing.Size(130, 23);
             this.btnFacultyEdit.TabIndex = 20;
             this.btnFacultyEdit.Text = "Edit Faculty Account";
-            this.btnFacultyEdit.UseVisualStyleBackColor = true;
+            this.btnFacultyEdit.UseVisualStyleBackColor = false;
             this.btnFacultyEdit.Click += new System.EventHandler(this.btnFacultyEdit_Click);
             // 
             // combDepartments
@@ -322,6 +333,7 @@
             // 
             // lvFaculty
             // 
+            this.lvFaculty.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(237)))), ((int)(((byte)(239)))), ((int)(((byte)(239)))));
             this.lvFaculty.Location = new System.Drawing.Point(0, 0);
             this.lvFaculty.Name = "lvFaculty";
             this.lvFaculty.Size = new System.Drawing.Size(410, 372);
@@ -332,6 +344,7 @@
             // 
             // tabClasses
             // 
+            this.tabClasses.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(237)))), ((int)(((byte)(239)))), ((int)(((byte)(239)))));
             this.tabClasses.Controls.Add(this.btnClassDelete);
             this.tabClasses.Controls.Add(this.btnClassAdd);
             this.tabClasses.Controls.Add(this.btnClassEdit);
@@ -349,36 +362,38 @@
             this.tabClasses.Size = new System.Drawing.Size(617, 372);
             this.tabClasses.TabIndex = 3;
             this.tabClasses.Text = "Classes";
-            this.tabClasses.UseVisualStyleBackColor = true;
             // 
             // btnClassDelete
             // 
+            this.btnClassDelete.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
             this.btnClassDelete.Location = new System.Drawing.Point(434, 297);
             this.btnClassDelete.Name = "btnClassDelete";
             this.btnClassDelete.Size = new System.Drawing.Size(130, 23);
             this.btnClassDelete.TabIndex = 29;
             this.btnClassDelete.Text = "Delete Class(es)";
-            this.btnClassDelete.UseVisualStyleBackColor = true;
+            this.btnClassDelete.UseVisualStyleBackColor = false;
             this.btnClassDelete.Click += new System.EventHandler(this.btnClassDelete_Click);
             // 
             // btnClassAdd
             // 
+            this.btnClassAdd.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
             this.btnClassAdd.Location = new System.Drawing.Point(434, 237);
             this.btnClassAdd.Name = "btnClassAdd";
             this.btnClassAdd.Size = new System.Drawing.Size(130, 23);
             this.btnClassAdd.TabIndex = 27;
             this.btnClassAdd.Text = "Create New Class";
-            this.btnClassAdd.UseVisualStyleBackColor = true;
+            this.btnClassAdd.UseVisualStyleBackColor = false;
             this.btnClassAdd.Click += new System.EventHandler(this.btnClassAdd_Click);
             // 
             // btnClassEdit
             // 
+            this.btnClassEdit.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
             this.btnClassEdit.Location = new System.Drawing.Point(434, 266);
             this.btnClassEdit.Name = "btnClassEdit";
             this.btnClassEdit.Size = new System.Drawing.Size(130, 23);
             this.btnClassEdit.TabIndex = 28;
             this.btnClassEdit.Text = "Edit Class";
-            this.btnClassEdit.UseVisualStyleBackColor = true;
+            this.btnClassEdit.UseVisualStyleBackColor = false;
             this.btnClassEdit.Click += new System.EventHandler(this.btnClassEdit_Click);
             // 
             // combDepartmentsAdd
@@ -442,6 +457,7 @@
             // 
             // lvClass
             // 
+            this.lvClass.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(237)))), ((int)(((byte)(239)))), ((int)(((byte)(239)))));
             this.lvClass.Location = new System.Drawing.Point(0, 0);
             this.lvClass.Name = "lvClass";
             this.lvClass.Size = new System.Drawing.Size(372, 372);
@@ -452,6 +468,7 @@
             // 
             // tabPage1
             // 
+            this.tabPage1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(237)))), ((int)(((byte)(239)))), ((int)(((byte)(239)))));
             this.tabPage1.Controls.Add(this.btnRejectRequests);
             this.tabPage1.Controls.Add(this.btnEditRequests);
             this.tabPage1.Controls.Add(this.btnAcceptRequest);
@@ -461,40 +478,43 @@
             this.tabPage1.Size = new System.Drawing.Size(617, 372);
             this.tabPage1.TabIndex = 4;
             this.tabPage1.Text = "Tutor/Tutee Requests";
-            this.tabPage1.UseVisualStyleBackColor = true;
             // 
             // btnRejectRequests
             // 
+            this.btnRejectRequests.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
             this.btnRejectRequests.Location = new System.Drawing.Point(291, 343);
             this.btnRejectRequests.Name = "btnRejectRequests";
             this.btnRejectRequests.Size = new System.Drawing.Size(116, 23);
             this.btnRejectRequests.TabIndex = 4;
             this.btnRejectRequests.Text = "Reject Requests";
-            this.btnRejectRequests.UseVisualStyleBackColor = true;
+            this.btnRejectRequests.UseVisualStyleBackColor = false;
             this.btnRejectRequests.Click += new System.EventHandler(this.btnRejectRequests_Click);
             // 
             // btnEditRequests
             // 
+            this.btnEditRequests.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
             this.btnEditRequests.Location = new System.Drawing.Point(147, 343);
             this.btnEditRequests.Name = "btnEditRequests";
             this.btnEditRequests.Size = new System.Drawing.Size(119, 23);
             this.btnEditRequests.TabIndex = 3;
             this.btnEditRequests.Text = "Edit Request";
-            this.btnEditRequests.UseVisualStyleBackColor = true;
+            this.btnEditRequests.UseVisualStyleBackColor = false;
             this.btnEditRequests.Click += new System.EventHandler(this.btnEditRequests_Click);
             // 
             // btnAcceptRequest
             // 
+            this.btnAcceptRequest.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
             this.btnAcceptRequest.Location = new System.Drawing.Point(14, 343);
             this.btnAcceptRequest.Name = "btnAcceptRequest";
             this.btnAcceptRequest.Size = new System.Drawing.Size(113, 23);
             this.btnAcceptRequest.TabIndex = 2;
             this.btnAcceptRequest.Text = "Accept Requests";
-            this.btnAcceptRequest.UseVisualStyleBackColor = true;
+            this.btnAcceptRequest.UseVisualStyleBackColor = false;
             this.btnAcceptRequest.Click += new System.EventHandler(this.btnAcceptRequest_Click);
             // 
             // lvRequests
             // 
+            this.lvRequests.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(237)))), ((int)(((byte)(239)))), ((int)(((byte)(239)))));
             this.lvRequests.Location = new System.Drawing.Point(-4, 0);
             this.lvRequests.Name = "lvRequests";
             this.lvRequests.Size = new System.Drawing.Size(621, 337);
@@ -505,32 +525,58 @@
             // 
             // btnLogout
             // 
-            this.btnLogout.Location = new System.Drawing.Point(479, 10);
+            this.btnLogout.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(208)))), ((int)(((byte)(222)))), ((int)(((byte)(229)))));
+            this.btnLogout.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btnLogout.Location = new System.Drawing.Point(655, 66);
             this.btnLogout.Name = "btnLogout";
-            this.btnLogout.Size = new System.Drawing.Size(144, 23);
+            this.btnLogout.Size = new System.Drawing.Size(180, 23);
             this.btnLogout.TabIndex = 5;
             this.btnLogout.Text = "Logout";
-            this.btnLogout.UseVisualStyleBackColor = true;
+            this.btnLogout.UseVisualStyleBackColor = false;
             this.btnLogout.Click += new System.EventHandler(this.btnLogout_Click);
             // 
             // lblID
             // 
             this.lblID.AutoSize = true;
-            this.lblID.Location = new System.Drawing.Point(12, 10);
+            this.lblID.Location = new System.Drawing.Point(769, 6);
             this.lblID.Name = "lblID";
             this.lblID.Size = new System.Drawing.Size(35, 13);
             this.lblID.TabIndex = 6;
             this.lblID.Text = "label9";
             this.lblID.Visible = false;
             // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label9.Location = new System.Drawing.Point(652, 39);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(184, 18);
+            this.label9.TabIndex = 32;
+            this.label9.Text = "Welcome Student\'s Name!";
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Image = global::TutorMaster.Properties.Resources.WatermarkR2;
+            this.pictureBox1.Location = new System.Drawing.Point(729, 305);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(119, 119);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox1.TabIndex = 33;
+            this.pictureBox1.TabStop = false;
+            // 
             // AdminMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(648, 449);
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(218)))), ((int)(((byte)(232)))), ((int)(((byte)(239)))));
+            this.ClientSize = new System.Drawing.Size(847, 423);
+            this.Controls.Add(this.pictureBox1);
+            this.Controls.Add(this.label9);
             this.Controls.Add(this.lblID);
             this.Controls.Add(this.btnLogout);
             this.Controls.Add(this.tabAdmin);
+            this.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(61)))), ((int)(((byte)(71)))), ((int)(((byte)(76)))));
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "AdminMain";
             this.Text = "TutorMaster";
@@ -542,6 +588,7 @@
             this.tabClasses.ResumeLayout(false);
             this.tabClasses.PerformLayout();
             this.tabPage1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -593,5 +640,7 @@
         private System.Windows.Forms.Button btnEditRequests;
         private System.Windows.Forms.Button btnAcceptRequest;
         private System.Windows.Forms.ListView lvRequests;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.PictureBox pictureBox1;
     }
 }

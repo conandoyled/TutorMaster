@@ -304,7 +304,9 @@ namespace TutorMaster
         private void disableButtons()
         {
             btnDelete.Enabled = false;
+            btnDelete.BackColor = System.Drawing.Color.FromArgb(193, 200, 204);
             btnEdit.Enabled = false;
+            btnEdit.BackColor = System.Drawing.Color.FromArgb(193, 200, 204);
         }
 
         private void btnCreateStudent_Click(object sender, EventArgs e)
@@ -499,20 +501,26 @@ namespace TutorMaster
             if (itemsChecked == 1)
             {
                 btnEdit.Enabled = true;
+                btnEdit.BackColor = System.Drawing.Color.FromArgb(226, 226, 226);
                 btnStudentSchedule.Enabled = true;
+                btnStudentSchedule.BackColor = System.Drawing.Color.FromArgb(226, 226, 226);
             }
             else
             {
                 btnEdit.Enabled = false;
+                btnEdit.BackColor = System.Drawing.Color.FromArgb(193, 200, 204);
                 btnStudentSchedule.Enabled = false;
+                btnStudentSchedule.BackColor = System.Drawing.Color.FromArgb(193, 200, 204);
             }
             if (itemsChecked > 0)
             {
                 btnDelete.Enabled = true;
+                btnDelete.BackColor = System.Drawing.Color.FromArgb(226, 226, 226);
             }
             else
             {
                 btnDelete.Enabled = false;
+                btnDelete.BackColor = System.Drawing.Color.FromArgb(193, 200, 204);
             }
         }
 
@@ -522,18 +530,22 @@ namespace TutorMaster
             if (itemsChecked == 1)
             {
                 btnFacultyEdit.Enabled = true;
+                btnFacultyEdit.BackColor = System.Drawing.Color.FromArgb(226, 226, 226);
             }
             else
             {
                 btnFacultyEdit.Enabled = false;
+                btnFacultyEdit.BackColor = System.Drawing.Color.FromArgb(193, 200, 204);
             }
             if (itemsChecked > 0)
             {
                 btnFacultyDelete.Enabled = true;
+                btnFacultyDelete.BackColor = System.Drawing.Color.FromArgb(226, 226, 226);
             }
             else
             {
                 btnFacultyDelete.Enabled = false;
+                btnFacultyDelete.BackColor = System.Drawing.Color.FromArgb(193, 200, 204);
             }
         }
 
@@ -543,18 +555,22 @@ namespace TutorMaster
             if (itemsChecked == 1)
             {
                 btnClassEdit.Enabled = true;
+                btnClassEdit.BackColor = System.Drawing.Color.FromArgb(226, 226, 226);
             }
             else
             {
                 btnClassEdit.Enabled = false;
+                btnClassEdit.BackColor = System.Drawing.Color.FromArgb(193, 200, 204);
             }
             if (itemsChecked > 0)
             {
                 btnClassDelete.Enabled = true;
+                btnClassDelete.BackColor = System.Drawing.Color.FromArgb(226, 226, 226);
             }
             else
             {
                 btnClassDelete.Enabled = false;
+                btnClassDelete.BackColor = System.Drawing.Color.FromArgb(193, 200, 204);
             }
         }
 
@@ -955,20 +971,29 @@ namespace TutorMaster
             if (lvRequests.CheckedItems.Count == 0)
             {
                 btnAcceptRequest.Enabled = false;
+                btnAcceptRequest.BackColor = System.Drawing.Color.FromArgb(193, 200, 204);
                 btnEditRequests.Enabled = false;
+                btnEditRequests.BackColor = System.Drawing.Color.FromArgb(193, 200, 204);
                 btnRejectRequests.Enabled = false;
+                btnRejectRequests.BackColor = System.Drawing.Color.FromArgb(193, 200, 204);
             }
             else if (lvRequests.CheckedItems.Count == 1)
             {
                 btnAcceptRequest.Enabled = true;
+                btnAcceptRequest.BackColor = System.Drawing.Color.FromArgb(226, 226, 226);
                 btnEditRequests.Enabled = true;
+                btnEditRequests.BackColor = System.Drawing.Color.FromArgb(226, 226, 226);
                 btnRejectRequests.Enabled = true;
+                btnRejectRequests.BackColor = System.Drawing.Color.FromArgb(226, 226, 226);
             }
             else if (lvRequests.CheckedItems.Count > 1)
             {
                 btnAcceptRequest.Enabled = true;
+                btnAcceptRequest.BackColor = System.Drawing.Color.FromArgb(226, 226, 226);
                 btnEditRequests.Enabled = false;
+                btnEditRequests.BackColor = System.Drawing.Color.FromArgb(193, 200, 204);
                 btnRejectRequests.Enabled = true;
+                btnRejectRequests.BackColor = System.Drawing.Color.FromArgb(226, 226, 226);
             }
 
         }
