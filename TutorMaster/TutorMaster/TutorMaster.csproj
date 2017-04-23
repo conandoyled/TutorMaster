@@ -101,6 +101,7 @@
     <Compile Include="ChangePasswordForm.Designer.cs">
       <DependentUpon>ChangePasswordForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Commits.cs" />
     <Compile Include="CreateStudent.cs">
       <SubType>Form</SubType>
     </Compile>

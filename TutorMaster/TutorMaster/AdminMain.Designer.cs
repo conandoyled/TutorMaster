@@ -366,6 +366,7 @@
             // btnClassDelete
             // 
             this.btnClassDelete.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
+            this.btnClassDelete.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnClassDelete.Location = new System.Drawing.Point(434, 297);
             this.btnClassDelete.Name = "btnClassDelete";
             this.btnClassDelete.Size = new System.Drawing.Size(130, 23);
@@ -377,6 +378,7 @@
             // btnClassAdd
             // 
             this.btnClassAdd.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
+            this.btnClassAdd.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnClassAdd.Location = new System.Drawing.Point(434, 237);
             this.btnClassAdd.Name = "btnClassAdd";
             this.btnClassAdd.Size = new System.Drawing.Size(130, 23);
@@ -388,6 +390,7 @@
             // btnClassEdit
             // 
             this.btnClassEdit.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
+            this.btnClassEdit.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnClassEdit.Location = new System.Drawing.Point(434, 266);
             this.btnClassEdit.Name = "btnClassEdit";
             this.btnClassEdit.Size = new System.Drawing.Size(130, 23);

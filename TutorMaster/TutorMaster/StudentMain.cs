@@ -79,30 +79,6 @@ namespace TutorMaster
             lvSaturday.Invalidate();
         }
 
-        private bool withinTheWeek(DateTime currentCommitDate, DateTime startDate)
-        {
-            //this function sees if a commitment's DateTime is within a week a given start date
-            return (DateTime.Compare(currentCommitDate, startDate.AddDays(7)) < 0 && DateTime.Compare(currentCommitDate, startDate) >= 0);
-        }
-
-        private void updateInformation(ref string start, ref string end, ref string today, ref Commitment oldCommit, Commitment newCommit)
-        {
-            //this function takes the information of our block's old start time, end time, day of the week, and old commitment and
-            //updates each piece of information to the new commitments start time, end time, day of the week, and copies the new
-            //commitment information into the old commitment data object. This signifies the program starting a new block to add to the listview
-            start = getCommitTime(newCommit);
-            end = getCommitTime15(newCommit);
-            today = Convert.ToDateTime(newCommit.StartTime).DayOfWeek.ToString();
-            oldCommit = newCommit;
-        }
-
-        private bool nextCommitAdjacent(DateTime currentCommitDate, DateTime nextCommitDate)
-        {
-            //this sees if the commitment the for loop is currently on and the commitment in front of it has
-            //a datetime that is exactly 15 minutes ahead of its dateTime
-            return (DateTime.Compare(nextCommitDate, currentCommitDate.AddMinutes(15)) == 0);
-        }
-
         private void getRidOfOutOfBounds(DateTime start, ref List<TutorMaster.Commitment> cmtList)              //trim the list of commitments to only be the ones that are a week from today
         {
             //this function takes a commitment list and removes all of the commitments that are not on the same day or within a week ahead of a given startTime
@@ -116,16 +92,6 @@ namespace TutorMaster
                     length--;
                 }
             }
-        }
-
-        private string getCommitTime(TutorMaster.Commitment commit)                                             //get the c# datetime object of the commit's start time and cast it to a string
-        {
-            return Convert.ToDateTime(commit.StartTime).ToString().Split(' ')[1] + " " + Convert.ToDateTime(commit.StartTime).ToString().Split(' ')[2];
-        }
-
-        private string getCommitTime15(TutorMaster.Commitment commit15)                                         //get the c# datetime object of the commit's start time 15 minutes in the future and cast it to a string
-        {
-            return Convert.ToDateTime(commit15.StartTime).AddMinutes(15).ToString().Split(' ')[1] + " " + Convert.ToDateTime(commit15.StartTime).ToString().Split(' ')[2];
         }
 
         private string getYesNo(bool b)                                                                         //pass in a boolean value and return yes if it is true and no if the value is false
@@ -145,7 +111,7 @@ namespace TutorMaster
 
         private void addOnlyCommit(Commitment commit)
         {
-            addToListView(commit, Convert.ToDateTime(commit.StartTime).DayOfWeek.ToString(), getCommitTime(commit), getCommitTime15(commit));
+            addToListView(commit, Convert.ToDateTime(commit.StartTime).DayOfWeek.ToString(), Commits.getCommitTime(commit), Commits.getCommitTime15(commit));
         }
 
         private System.Drawing.Color getColor(Commitment commit)
@@ -256,7 +222,7 @@ namespace TutorMaster
                         string startTime = "";                                                                       //start time of commitment
                         string endTime = "";                                                                         //end time of commitment
 
-                        updateInformation(ref startTime, ref endTime, ref today, ref initialCommit, cmtList[0]);     //get the information from the first commitment
+                        Commits.updateInformation(ref startTime, ref endTime, ref today, ref initialCommit, cmtList[0]);     //get the information from the first commitment
 
                         for (int i = 0; i < cmtList.Count() - 1; i++)                                                //for each commitment except for the last one
                         {
@@ -265,10 +231,10 @@ namespace TutorMaster
                                                                                                                      //if the two commitments are distinct besides time and current commit is within week of start time
                             if (!Commits.sameCategory(cmtList[i], cmtList[i + 1]))
                             {
-                                endTime = getCommitTime15(cmtList[i]);                                               //update endtime and add what we have so far to the listview
+                                endTime = Commits.getCommitTime15(cmtList[i]);                                               //update endtime and add what we have so far to the listview
                                 addToListView(initialCommit, Convert.ToDateTime(initialCommit.StartTime).DayOfWeek.ToString(), startTime, endTime);
 
-                                updateInformation(ref startTime, ref endTime, ref today, ref initialCommit, cmtList[i + 1]);
+                                Commits.updateInformation(ref startTime, ref endTime, ref today, ref initialCommit, cmtList[i + 1]);
                                                                                                                      //update our startTime, endTime, day of the week, and commitment information to the next commitment
                                                                                                                      //and begin scanning for the next block of time to add to the listview
                             }
@@ -277,31 +243,31 @@ namespace TutorMaster
                                 string day = currentCommitDate.DayOfWeek.ToString();                                              //if it is, get the day of the week of the current commit in for loop
                                 if (today == day)                                                                    //compare it to the day of the initial commit we are going to add
                                 {
-                                    if (nextCommitAdjacent(currentCommitDate, nextCommitDate))                       //if our next commit is 15 minutes later of our current
+                                    if (Commits.nextCommitAdjacent(currentCommitDate, nextCommitDate))                       //if our next commit is 15 minutes later of our current
                                     {
-                                        endTime = getCommitTime15(cmtList[i]);                                       //only update endTime
+                                        endTime = Commits.getCommitTime15(cmtList[i]);                                       //only update endTime
                                     }
                                     else
                                     {
-                                        endTime = getCommitTime15(cmtList[i]);                                       //if next commit is not, update endTime
+                                        endTime = Commits.getCommitTime15(cmtList[i]);                                       //if next commit is not, update endTime
                                         addToListView(initialCommit, day, startTime, endTime);                       //add what we have so far
 
-                                        updateInformation(ref startTime, ref endTime, ref today, ref initialCommit, cmtList[i + 1]);
+                                        Commits.updateInformation(ref startTime, ref endTime, ref today, ref initialCommit, cmtList[i + 1]);
                                                                                                                      //update our block information values to the next commitment
                                                                                                                      //and begin scanning for the next block of time to add to the listview
                                     }
                                 }
                                 else                                                                                 //if its not the same, update endTime and add it to the appropriate listview
                                 {
-                                    endTime = getCommitTime(cmtList[i]);
+                                    endTime = Commits.getCommitTime(cmtList[i]);
                                     addToListView(initialCommit, today, startTime, endTime);
                                                                                                                      //update carries including today so the program knows to move onto looking for next day
-                                    updateInformation(ref startTime, ref endTime, ref today, ref initialCommit, cmtList[i]);
+                                    Commits.updateInformation(ref startTime, ref endTime, ref today, ref initialCommit, cmtList[i]);
                                     today = day;
                                 }
                             }
                         }
-                        endTime = getCommitTime15(cmtList[cmtList.Count() - 1]);                                              //get the last endTime
+                        endTime = Commits.getCommitTime15(cmtList[cmtList.Count() - 1]);                                              //get the last endTime
                         addToListView(initialCommit, Convert.ToDateTime(initialCommit.StartTime).DayOfWeek.ToString(), startTime, endTime);//update last clump commitment into Listview
                     }
                 }
@@ -427,7 +393,6 @@ namespace TutorMaster
             }
             cancelList.Clear();                                                                  //clear the newAppointments list to make room for the next chunk
         }
-
         //end of helper functions dealing with loading appointments into listviews
         //begin functions to break up schedule of a student, extract appointments and add to listviews
 
@@ -545,30 +510,27 @@ namespace TutorMaster
                 partner = partnerData.FirstName + " " + partnerData.LastName;
             }
 
+            ListViewItem item = new ListViewItem(new string[] { startTime, endTime, commit.Class, commit.Location, 
+                    commit.Open.ToString(), commit.Tutoring.ToString(), commit.Weekly.ToString(), partner, commit.ID.ToString() });
             if (Commits.isAccepted(commit))                                                                                                                //if commit accepted, add to accepted listview
             {
-                lvFinalized.Items.Add(new ListViewItem(new string[] { startTime, endTime, commit.Class, commit.Location, 
-                    commit.Open.ToString(), commit.Tutoring.ToString(), commit.Weekly.ToString(), partner, commit.ID.ToString() }));
+                lvFinalized.Items.Add(item);
             }
             else if (Commits.waitingForLocation(commit))                                                                                                 //if waiting for location to be proposed
             {                                                                                                                                    //add to pending tutor listview
-                lvPendingTutor.Items.Add(new ListViewItem(new string[] { startTime, endTime, commit.Class, commit.Location, 
-                    commit.Open.ToString(), commit.Tutoring.ToString(), commit.Weekly.ToString(), partner, commit.ID.ToString() }));
+                lvPendingTutor.Items.Add(item);
             }
             else if (Commits.waitingForTutee(commit))                                                                                                    //if tutor waiting for tutee to respond to location
             {                                                                                                                                    //add to pending tutee listview
-                lvTutor.Items.Add(new ListViewItem(new string[] { startTime, endTime, commit.Class, commit.Location, 
-                    commit.Open.ToString(), commit.Tutoring.ToString(), commit.Weekly.ToString(), partner, commit.ID.ToString() }));
+                lvTutor.Items.Add(item);
             }
             else if (Commits.waitingForLocationApproval(commit))                                                                                         //if waiting for location approval
             {                                                                                                                                    //add to pending tutee listview
-                lvPendingTutee.Items.Add(new ListViewItem(new string[] { startTime, endTime, commit.Class, commit.Location, 
-                    commit.Open.ToString(), commit.Tutoring.ToString(), commit.Weekly.ToString(), partner, commit.ID.ToString() }));
+                lvPendingTutee.Items.Add(item);
             }
             else if (Commits.waitingForTutor(commit))                                                                                                    //if waiting for tutor to respond to appointment
             {                                                                                                                                    //add to tutee listview
-                lvTutee.Items.Add(new ListViewItem(new string[] { startTime, endTime, commit.Class, commit.Location, 
-                    commit.Open.ToString(), commit.Tutoring.ToString(), commit.Weekly.ToString(), partner, commit.ID.ToString() }));
+                lvTutee.Items.Add(item);
             }
 
         }
@@ -576,26 +538,6 @@ namespace TutorMaster
         //end of functions to add appointments to appointments listviews
         //--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
         //--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-        private void loadOpenCommit(ref Commitment newCommit, int lastCR, DateTime begin, bool weekly)
-        {
-            //load the new commitment with the necessary information to be considered open
-            newCommit.CmtID = lastCR;
-            newCommit.Class = "-";
-            newCommit.Location = "-";
-            newCommit.Tutoring = false;
-            newCommit.StartTime = begin;
-            newCommit.Open = true;
-            newCommit.Weekly = weekly;
-            newCommit.ID = -1;
-        }
-
-        private void loadStudentCommit(ref StudentCommitment newStudentCommit, int lastCR, int lastSCR)
-        {
-            //load the student commitment with the signed in student's id number and the next commitment and student commitment id
-            newStudentCommit.CmtID = lastCR;
-            newStudentCommit.ID = id;
-            newStudentCommit.Key = lastSCR;
-        }    
 
         //in case someone changes the startofweek datetime picker
         //change the listviews to show the appropriate data based on the user's selection
@@ -951,9 +893,9 @@ namespace TutorMaster
             return lvPendingTutee.CheckedItems[x].SubItems[0].Text.ToString() + "," + lvPendingTutee.CheckedItems[x].SubItems[1].Text.ToString() + "," + lvPendingTutee.CheckedItems[x].SubItems[8].Text.ToString();
         }
 
-        private bool inTheTimeSlot(DateTime startDate, DateTime endDate ,Commitment commit)
+        private bool inTheTimeSlot(DateTime startDate, DateTime endDate, Commitment commit)
         {
-            return (DateTime.Compare(startDate, commitDateTime(commit)) <= 0 && DateTime.Compare(endDate, commitDateTime(commit)) > 0);
+            return (DateTime.Compare(startDate, Convert.ToDateTime(commit.StartTime)) <= 0 && DateTime.Compare(endDate, Convert.ToDateTime(commit.StartTime)) > 0);
         }
 
         private void clearAppointmentListviews()
@@ -1057,11 +999,6 @@ namespace TutorMaster
             return DateTime.Compare(Convert.ToDateTime(commit.StartTime), weekBack) == 0;
         }
 
-        private bool openOrSameType(Commitment listCommit, Commitment midCommit)
-        {
-            return midCommit.Open == true || Commits.sameCategory(listCommit, midCommit);
-        }
-
         private bool weekBackEarlier(DateTime weekBack, Commitment commit)
         {
             return DateTime.Compare(weekBack, Convert.ToDateTime(commit.StartTime)) < 0;
@@ -1101,7 +1038,7 @@ namespace TutorMaster
                                     int midpoint = (first + last) / 2;                                                  //get the midpoint between the two
                                     if (sameTime(stdCmtList[midpoint], weekBack))                                       //if the mid commit and the weekback time at the same
                                     {
-                                        if (openOrSameType(stdCmtList[c], stdCmtList[midpoint]))                        //ask if it is open or the same type of commitment as our cancel commit
+                                        if (Commits.openOrSameType(stdCmtList[c], stdCmtList[midpoint]))                        //ask if it is open or the same type of commitment as our cancel commit
                                         {
                                             stdCmtList[midpoint].Weekly = false;                                        //if it is, turn its weekly to false
                                             db.SaveChanges();                                                           //save the changes to the database
@@ -1141,11 +1078,6 @@ namespace TutorMaster
                     }
                 }
             }
-        }
-
-        private DateTime commitDateTime(Commitment commit)
-        {
-            return Convert.ToDateTime(commit.StartTime);
         }
 
         private string takeOffLocationQuestionMark(Commitment commit)

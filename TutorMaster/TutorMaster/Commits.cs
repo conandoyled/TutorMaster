@@ -91,10 +91,43 @@ namespace TutorMaster
                     && commitFirst.ID == commitSecond.ID);
         }
 
+        public static bool openOrSameType(Commitment listCommit, Commitment midCommit)
+        {
+            return midCommit.Open == true || Commits.sameCategory(listCommit, midCommit);
+        }
+
         public static string getNextEndTime(Commitment commit)
         {
             //this function gets the string version of the dateTime that is 15 minutes in the future of a given commitment
             return Convert.ToDateTime(commit.StartTime).AddMinutes(15).ToString();
+        }
+
+        public static void updateInformation(ref string start, ref string end, ref string today, ref Commitment oldCommit, Commitment newCommit)
+        {
+            //this function takes the information of our block's old start time, end time, day of the week, and old commitment and
+            //updates each piece of information to the new commitments start time, end time, day of the week, and copies the new
+            //commitment information into the old commitment data object. This signifies the program starting a new block to add to the listview
+            start = getCommitTime(newCommit);
+            end = getCommitTime15(newCommit);
+            today = Convert.ToDateTime(newCommit.StartTime).DayOfWeek.ToString();
+            oldCommit = newCommit;
+        }
+
+        public static string getCommitTime(TutorMaster.Commitment commit)                                             //get the c# datetime object of the commit's start time and cast it to a string
+        {
+            return Convert.ToDateTime(commit.StartTime).ToString().Split(' ')[1] + " " + Convert.ToDateTime(commit.StartTime).ToString().Split(' ')[2];
+        }
+
+        public static string getCommitTime15(TutorMaster.Commitment commit15)                                         //get the c# datetime object of the commit's start time 15 minutes in the future and cast it to a string
+        {
+            return Convert.ToDateTime(commit15.StartTime).AddMinutes(15).ToString().Split(' ')[1] + " " + Convert.ToDateTime(commit15.StartTime).ToString().Split(' ')[2];
+        }
+
+        public static bool nextCommitAdjacent(DateTime currentCommitDate, DateTime nextCommitDate)
+        {
+            //this sees if the commitment the for loop is currently on and the commitment in front of it has
+            //a datetime that is exactly 15 minutes ahead of its dateTime
+            return (DateTime.Compare(nextCommitDate, currentCommitDate.AddMinutes(15)) == 0);
         }
 
         public static void removeOpens(ref List<TutorMaster.Commitment> cmtList)

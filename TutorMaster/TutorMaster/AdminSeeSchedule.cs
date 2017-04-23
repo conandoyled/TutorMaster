@@ -11,7 +11,7 @@ namespace TutorMaster
 {
     public partial class AdminSeeSchedule : Form
     {
-        private bool open;
+        //private bool open;
         private int id;
 
         public AdminSeeSchedule(int accID)
@@ -26,7 +26,7 @@ namespace TutorMaster
             //loadAvail(start);                                                                                     //load availability starting from today
             loadAppointments(false);                                                                              //load the appointments
             disableButtons();                                                                                     //disable necessary buttons
-            open = true;
+            //open = true;
 
             lblNameTitle.Text = (from row in db.Users where row.ID == id select row.FirstName + " " + row.LastName).First() + "'s Schedule";
         }
@@ -190,34 +190,31 @@ namespace TutorMaster
                 partner = partnerData.FirstName + " " + partnerData.LastName;
             }
 
+            ListViewItem item = new ListViewItem(new string[] { startTime, endTime, commit.Class, commit.Location, 
+                    commit.Open.ToString(), commit.Tutoring.ToString(), commit.Weekly.ToString(), partner, commit.ID.ToString() });
             if (Commits.isAccepted(commit))                                                                                                                //if commit accepted, add to accepted listview
             {
-                lvFinalized.Items.Add(new ListViewItem(new string[] { startTime, endTime, commit.Class, commit.Location, 
-                    commit.Open.ToString(), commit.Tutoring.ToString(), commit.Weekly.ToString(), partner, commit.ID.ToString() }));
+                lvFinalized.Items.Add(item);
             }
             else if (Commits.waitingForLocation(commit))                                                                                                 //if waiting for location to be proposed
             {                                                                                                                                    //add to pending tutor listview
-                lvPendingTutor.Items.Add(new ListViewItem(new string[] { startTime, endTime, commit.Class, commit.Location, 
-                    commit.Open.ToString(), commit.Tutoring.ToString(), commit.Weekly.ToString(), partner, commit.ID.ToString() }));
+                lvPendingTutor.Items.Add(item);
             }
             else if (Commits.waitingForTutee(commit))                                                                                                    //if tutor waiting for tutee to respond to location
             {                                                                                                                                    //add to pending tutee listview
-                lvTutor.Items.Add(new ListViewItem(new string[] { startTime, endTime, commit.Class, commit.Location, 
-                    commit.Open.ToString(), commit.Tutoring.ToString(), commit.Weekly.ToString(), partner, commit.ID.ToString() }));
+                lvTutor.Items.Add(item);
             }
             else if (Commits.waitingForLocationApproval(commit))                                                                                         //if waiting for location approval
             {                                                                                                                                    //add to pending tutee listview
-                lvPendingTutee.Items.Add(new ListViewItem(new string[] { startTime, endTime, commit.Class, commit.Location, 
-                    commit.Open.ToString(), commit.Tutoring.ToString(), commit.Weekly.ToString(), partner, commit.ID.ToString() }));
+                lvPendingTutee.Items.Add(item);
             }
             else if (Commits.waitingForTutor(commit))                                                                                                    //if waiting for tutor to respond to appointment
             {                                                                                                                                    //add to tutee listview
-                lvTutee.Items.Add(new ListViewItem(new string[] { startTime, endTime, commit.Class, commit.Location, 
-                    commit.Open.ToString(), commit.Tutoring.ToString(), commit.Weekly.ToString(), partner, commit.ID.ToString() }));
+                lvTutee.Items.Add(item);
             }
             else
             {
-                lvOpen.Items.Add(new ListViewItem(new string[] { startTime, endTime, commit.Weekly.ToString() }));
+                lvOpen.Items.Add(item);
             }
 
         }
