@@ -80,7 +80,7 @@ namespace TutorMaster
 
         private bool weeklyAndFound(Commitment commit, List<DateTime> searchList)
         {//this function checks if a commitment is weekly and found in the commitment list
-            return commit.Weekly == true && BinarySearch(searchList, Convert.ToDateTime(commit.StartTime));
+            return commit.Weekly == true && SortsAndSearches.BinarySearch(searchList, Convert.ToDateTime(commit.StartTime));
         }
 
         private bool weekBackEarlier(DateTime weekBack, Commitment commit)
@@ -114,7 +114,7 @@ namespace TutorMaster
             
             List<DateTime> searchList = new List<DateTime>();                                                 //initialize search list
 
-            QuickSort(ref cmtList, cmtList.Count());
+            SortsAndSearches.QuickSort(ref cmtList, cmtList.Count());
             
             searchList = getStartTimes();                                                                     //get the startTimes from the listview
 
@@ -168,7 +168,7 @@ namespace TutorMaster
                                         join cmt in db.Commitments on stucmt.CmtID equals cmt.CmtID
                                         select cmt).ToList();
 
-            QuickSort(ref cmtList, cmtList.Count());                                                         //sort the list by DateTime
+            SortsAndSearches.QuickSort(ref cmtList, cmtList.Count());                                                         //sort the list by DateTime
 
             List<DateTime> searchList = new List<DateTime>();
 
@@ -178,7 +178,7 @@ namespace TutorMaster
             {
                 for (int i = 0; i < cmtList.Count(); i++)
                 {
-                    if (BinarySearch(searchList, Convert.ToDateTime(cmtList[i].StartTime)))
+                    if (SortsAndSearches.BinarySearch(searchList, Convert.ToDateTime(cmtList[i].StartTime)))
                     {
                         if (cmtList[i].Weekly == true)
                         {//ask the user if they want to delete the weekly commitment through the end of the semester
@@ -231,7 +231,7 @@ namespace TutorMaster
             {
                 for (int i = 0; i < cmtList.Count(); i++)
                 {
-                    if (BinarySearch(searchList, Convert.ToDateTime(cmtList[i].StartTime)))
+                    if (SortsAndSearches.BinarySearch(searchList, Convert.ToDateTime(cmtList[i].StartTime)))
                     {
                         searchList.Remove(Convert.ToDateTime(cmtList[i].StartTime));
                         db.Commitments.DeleteObject(cmtList[i]);
@@ -285,145 +285,6 @@ namespace TutorMaster
                 }
             }
             return false;
-        }
-
-
-        //binary search to search by dateTime in a commitment list
-        private bool BinarySearch(List<DateTime> cmtList, DateTime commit)
-        {
-            bool found = false;
-            int first = 0;
-            int last = cmtList.Count() - 1;
-            while (first <= last && !found)
-            {
-                int midpoint = (first + last) / 2;
-                if (DateTime.Compare(cmtList[midpoint], commit) == 0)
-                {
-                    found = true;
-                    return found;
-                }
-                else
-                {
-                    if (DateTime.Compare(commit, cmtList[midpoint]) < 0)
-                    {
-                        last = midpoint - 1;
-                    }
-                    else
-                    {
-                        first = midpoint + 1;
-                    }
-                }
-            }
-            return found;
-        }
-
-
-        //QuickSort functions
-        private void Split(ref List<TutorMaster.Commitment> values, int first, int last, ref int splitPoint)
-        {
-            int center = (first + last) / 2;
-            int median = 0;
-            DateTime valueF = Convert.ToDateTime(values[first].StartTime);
-            DateTime valueC = Convert.ToDateTime(values[center].StartTime);
-            DateTime valueL = Convert.ToDateTime(values[last].StartTime);
-
-            if ((DateTime.Compare(valueF, valueC) >= 0 && DateTime.Compare(valueF, valueL) <= 0) ||
-                (DateTime.Compare(valueF, valueL) >= 0 && DateTime.Compare(valueF, valueL) <= 0))
-            {
-                median = first;
-            }
-            else if (DateTime.Compare(valueC, valueF) >= 0 && (DateTime.Compare(valueC, valueL) <= 0) ||
-                   (DateTime.Compare(valueC, valueF)) >= 0 && (DateTime.Compare(valueC, valueL) <= 0))
-            {
-                median = center;
-            }
-            else
-            {
-                median = last;
-            }
-            //Swap the median and first committments in the list
-            TutorMaster.Commitment temp = values[first];
-            values[first] = values[median];
-            values[median] = temp;
-
-            valueF = Convert.ToDateTime(values[first].StartTime); //get current first datetime
-            valueC = Convert.ToDateTime(values[center].StartTime);//get current center datetime;
-            valueL = Convert.ToDateTime(values[last].StartTime);
-
-            TutorMaster.Commitment splitVal = values[first];
-            DateTime splitDate = Convert.ToDateTime(values[first].StartTime);
-
-            int saveFirst = first;
-            bool onCorrectSide = true;
-
-            first++;
-            valueF = Convert.ToDateTime(values[first].StartTime);
-            do
-            {
-                onCorrectSide = true;
-                while (onCorrectSide)
-                {
-                    if (DateTime.Compare(valueF, splitDate) > 0)
-                    {
-                        onCorrectSide = false;
-                    }
-                    else
-                    {
-                        first++;
-                        valueF = Convert.ToDateTime(values[first].StartTime);
-                        onCorrectSide = (first <= last);
-                    }
-                }
-
-                onCorrectSide = (first <= last);
-                while (onCorrectSide)
-                {
-                    if (DateTime.Compare(valueL, splitDate) <= 0)
-                    {
-                        onCorrectSide = false;
-                    }
-                    else
-                    {
-                        last--;
-                        valueL = Convert.ToDateTime(values[last].StartTime);
-                        onCorrectSide = (first <= last);
-                    }
-                }
-
-                if (first < last)
-                {
-                    TutorMaster.Commitment temp2 = values[first];
-                    values[first] = values[last];
-                    values[last] = temp2;
-                    first++;
-                    last--;
-
-                    valueF = Convert.ToDateTime(values[first].StartTime);
-                    valueL = Convert.ToDateTime(values[last].StartTime);
-                }
-            } while (first <= last);
-
-            splitPoint = last;
-            TutorMaster.Commitment temp3 = values[saveFirst];
-            values[saveFirst] = values[splitPoint];
-            values[splitPoint] = temp3;
-        }
-
-        private void QuickSort2(ref List<TutorMaster.Commitment> values, int first, int last)
-        {
-            if (first < last)
-            {
-                int splitPoint = -99;
-
-                Split(ref values, first, last, ref splitPoint);
-                QuickSort2(ref values, first, splitPoint - 1);
-                QuickSort2(ref values, splitPoint + 1, last);
-            }
-        }
-
-        private void QuickSort(ref List<TutorMaster.Commitment> values, int numValues)
-        {
-            QuickSort2(ref values, 0, numValues - 1);
         }
 
         private void populateColumns()

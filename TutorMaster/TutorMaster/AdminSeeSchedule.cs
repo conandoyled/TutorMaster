@@ -137,7 +137,7 @@ namespace TutorMaster
                                             join cmt in db.Commitments on stucmt.CmtID equals cmt.CmtID
                                             select cmt).ToList();                                                   //get all of the student commitments for this student that is signed in
 
-                QuickSort(ref cmtList, cmtList.Count());                                                            //sort their list using QuickSort
+                SortsAndSearches.QuickSort(ref cmtList, cmtList.Count());                                                            //sort their list using QuickSort
 
                 if (cmtList.Count > 0)
                 {                                                                                                   //initialize carries to the first commitment
@@ -152,7 +152,7 @@ namespace TutorMaster
                         DateTime nextCommitDate = Convert.ToDateTime(cmtList[i + 1].StartTime);                     //get datetime of commitment ahead of it
 
                         //if the two commits are distinct besides time and current commit is within week of start time
-                        if (!sameCategory(cmtList[i], cmtList[i + 1]) || currentCommitDate.AddMinutes(15) != nextCommitDate)
+                        if (!Commits.sameCategory(cmtList[i], cmtList[i + 1]) || currentCommitDate.AddMinutes(15) != nextCommitDate)
                         {
                             endTime = endTime = Convert.ToDateTime(cmtList[i].StartTime).AddMinutes(15).ToString();                                               //update endtime and add what we have so far
                             addToAppointments(initialCommit, startTime, endTime);                                   //add the chunk of time to our listviews
@@ -190,27 +190,27 @@ namespace TutorMaster
                 partner = partnerData.FirstName + " " + partnerData.LastName;
             }
 
-            if (accepted(commit))                                                                                                                //if commit accepted, add to accepted listview
+            if (Commits.isAccepted(commit))                                                                                                                //if commit accepted, add to accepted listview
             {
                 lvFinalized.Items.Add(new ListViewItem(new string[] { startTime, endTime, commit.Class, commit.Location, 
                     commit.Open.ToString(), commit.Tutoring.ToString(), commit.Weekly.ToString(), partner, commit.ID.ToString() }));
             }
-            else if (waitingForLocation(commit))                                                                                                 //if waiting for location to be proposed
+            else if (Commits.waitingForLocation(commit))                                                                                                 //if waiting for location to be proposed
             {                                                                                                                                    //add to pending tutor listview
                 lvPendingTutor.Items.Add(new ListViewItem(new string[] { startTime, endTime, commit.Class, commit.Location, 
                     commit.Open.ToString(), commit.Tutoring.ToString(), commit.Weekly.ToString(), partner, commit.ID.ToString() }));
             }
-            else if (waitingForTutee(commit))                                                                                                    //if tutor waiting for tutee to respond to location
+            else if (Commits.waitingForTutee(commit))                                                                                                    //if tutor waiting for tutee to respond to location
             {                                                                                                                                    //add to pending tutee listview
                 lvTutor.Items.Add(new ListViewItem(new string[] { startTime, endTime, commit.Class, commit.Location, 
                     commit.Open.ToString(), commit.Tutoring.ToString(), commit.Weekly.ToString(), partner, commit.ID.ToString() }));
             }
-            else if (waitingForLocationApproval(commit))                                                                                         //if waiting for location approval
+            else if (Commits.waitingForLocationApproval(commit))                                                                                         //if waiting for location approval
             {                                                                                                                                    //add to pending tutee listview
                 lvPendingTutee.Items.Add(new ListViewItem(new string[] { startTime, endTime, commit.Class, commit.Location, 
                     commit.Open.ToString(), commit.Tutoring.ToString(), commit.Weekly.ToString(), partner, commit.ID.ToString() }));
             }
-            else if (waitingForTutor(commit))                                                                                                    //if waiting for tutor to respond to appointment
+            else if (Commits.waitingForTutor(commit))                                                                                                    //if waiting for tutor to respond to appointment
             {                                                                                                                                    //add to tutee listview
                 lvTutee.Items.Add(new ListViewItem(new string[] { startTime, endTime, commit.Class, commit.Location, 
                     commit.Open.ToString(), commit.Tutoring.ToString(), commit.Weekly.ToString(), partner, commit.ID.ToString() }));
@@ -235,151 +235,6 @@ namespace TutorMaster
             }
 
             return yesno;
-        }
-
-        private bool isOpen(TutorMaster.Commitment commit)                     //criteria for a commitment to be open
-        {
-            return (commit.Class == "-" && commit.Location == "-" && commit.Open == true && commit.Tutoring == false && commit.ID == -1);
-        }
-
-        private bool waitingForTutor(TutorMaster.Commitment commit)            //criteria for a commitment to be waiting for a tutor
-        {
-            return (commit.Class != "-" && commit.Location == "-" && commit.Open == false && commit.Tutoring == false && commit.ID != -1);
-        }
-
-        private bool waitingForLocation(TutorMaster.Commitment commit)         //criteria for a commitment to be waiting for a location
-        {
-            return (commit.Class != "-" && commit.Location == "-" && commit.Open == false && commit.Tutoring == true && commit.ID != -1);
-        }
-
-        private bool waitingForLocationApproval(TutorMaster.Commitment commit) //criteria for a commitment to be waiting for a location approval
-        {
-            return (commit.Class != "-" && commit.Location.Contains('?') && commit.Open == false && commit.Tutoring == false && commit.ID != -1);
-        }
-
-        private bool waitingForTutee(TutorMaster.Commitment commit)            //criteria for a commitment to be waiting for a tutee
-        {
-            return (commit.Class != "-" && commit.Location.Contains('?') && commit.Open == false && commit.Tutoring == true && commit.ID != -1);
-        }
-
-        private bool accepted(TutorMaster.Commitment commit)                   //criteria for a commitment to be in the accepted state
-        {
-            return (commit.Class != "-" && !commit.Location.Contains('?') && commit.Location != "-" && commit.Open == false && commit.ID != -1);
-        }
-
-        private bool sameCategory(TutorMaster.Commitment commitFirst, TutorMaster.Commitment commitSecond)      //ask if the 15 minute time block of the first has the same values as the second
-        {
-            return (commitFirst.Class == commitSecond.Class && commitFirst.Location == commitSecond.Location
-                    && commitFirst.Open == commitSecond.Open && commitFirst.Weekly == commitSecond.Weekly
-                    && commitFirst.ID == commitSecond.ID);
-        }
-
-        //QuickSort functions
-        private void Split(ref List<TutorMaster.Commitment> values, int first, int last, ref int splitPoint)
-        {
-            int center = (first + last) / 2;
-            int median = 0;
-            DateTime valueF = Convert.ToDateTime(values[first].StartTime);
-            DateTime valueC = Convert.ToDateTime(values[center].StartTime);
-            DateTime valueL = Convert.ToDateTime(values[last].StartTime);
-
-            if ((DateTime.Compare(valueF, valueC) >= 0 && DateTime.Compare(valueF, valueL) <= 0) ||
-                (DateTime.Compare(valueF, valueL) >= 0 && DateTime.Compare(valueF, valueL) <= 0))
-            {
-                median = first;
-            }
-            else if (DateTime.Compare(valueC, valueF) >= 0 && (DateTime.Compare(valueC, valueL) <= 0) ||
-                   (DateTime.Compare(valueC, valueF)) >= 0 && (DateTime.Compare(valueC, valueL) <= 0))
-            {
-                median = center;
-            }
-            else
-            {
-                median = last;
-            }
-            //Swap the median and first committments in the list
-            TutorMaster.Commitment temp = values[first];
-            values[first] = values[median];
-            values[median] = temp;
-
-            valueF = Convert.ToDateTime(values[first].StartTime); //get current first datetime
-            valueC = Convert.ToDateTime(values[center].StartTime);//get current center datetime;
-            valueL = Convert.ToDateTime(values[last].StartTime);
-
-            TutorMaster.Commitment splitVal = values[first];
-            DateTime splitDate = Convert.ToDateTime(values[first].StartTime);
-
-            int saveFirst = first;
-            bool onCorrectSide = true;
-
-            first++;
-            valueF = Convert.ToDateTime(values[first].StartTime);
-            do
-            {
-                onCorrectSide = true;
-                while (onCorrectSide)
-                {
-                    if (DateTime.Compare(valueF, splitDate) > 0)
-                    {
-                        onCorrectSide = false;
-                    }
-                    else
-                    {
-                        first++;
-                        valueF = Convert.ToDateTime(values[first].StartTime);
-                        onCorrectSide = (first <= last);
-                    }
-                }
-
-                onCorrectSide = (first <= last);
-                while (onCorrectSide)
-                {
-                    if (DateTime.Compare(valueL, splitDate) <= 0)
-                    {
-                        onCorrectSide = false;
-                    }
-                    else
-                    {
-                        last--;
-                        valueL = Convert.ToDateTime(values[last].StartTime);
-                        onCorrectSide = (first <= last);
-                    }
-                }
-
-                if (first < last)
-                {
-                    TutorMaster.Commitment temp2 = values[first];
-                    values[first] = values[last];
-                    values[last] = temp2;
-                    first++;
-                    last--;
-
-                    valueF = Convert.ToDateTime(values[first].StartTime);
-                    valueL = Convert.ToDateTime(values[last].StartTime);
-                }
-            } while (first <= last);
-
-            splitPoint = last;
-            TutorMaster.Commitment temp3 = values[saveFirst];
-            values[saveFirst] = values[splitPoint];
-            values[splitPoint] = temp3;
-        }
-
-        private void QuickSort2(ref List<TutorMaster.Commitment> values, int first, int last)
-        {
-            if (first < last)
-            {
-                int splitPoint = -99;
-
-                Split(ref values, first, last, ref splitPoint);
-                QuickSort2(ref values, first, splitPoint - 1);
-                QuickSort2(ref values, splitPoint + 1, last);
-            }
-        }
-
-        private void QuickSort(ref List<TutorMaster.Commitment> values, int numValues)
-        {
-            QuickSort2(ref values, 0, numValues - 1);
         }
 
         private void btnAcceptAddLoc_Click(object sender, EventArgs e)
@@ -1017,7 +872,7 @@ namespace TutorMaster
 
         private bool weeklyAndFound(Commitment commit, List<DateTime> searchList)
         {//this function checks if a commitment is weekly and found in the commitment list
-            return commit.Weekly == true && BinarySearch(searchList, Convert.ToDateTime(commit.StartTime));
+            return commit.Weekly == true && SortsAndSearches.BinarySearch(searchList, Convert.ToDateTime(commit.StartTime));
         }
 
         private bool weekBackEarlier(DateTime weekBack, Commitment commit)
@@ -1051,7 +906,7 @@ namespace TutorMaster
 
             List<DateTime> searchList = new List<DateTime>();                                                 //initialize search list
 
-            QuickSort(ref cmtList, cmtList.Count());
+            SortsAndSearches.QuickSort(ref cmtList, cmtList.Count());
 
             searchList = getStartTimes();                                                                     //get the startTimes from the listview
 
@@ -1106,7 +961,7 @@ namespace TutorMaster
                                         join cmt in db.Commitments on stucmt.CmtID equals cmt.CmtID
                                         select cmt).ToList();
 
-            QuickSort(ref cmtList, cmtList.Count());                                                         //sort the list by DateTime
+            SortsAndSearches.QuickSort(ref cmtList, cmtList.Count());                                                         //sort the list by DateTime
 
             List<DateTime> searchList = new List<DateTime>();
 
@@ -1116,7 +971,7 @@ namespace TutorMaster
             {
                 for (int i = 0; i < cmtList.Count(); i++)
                 {
-                    if (BinarySearch(searchList, Convert.ToDateTime(cmtList[i].StartTime)))
+                    if (SortsAndSearches.BinarySearch(searchList, Convert.ToDateTime(cmtList[i].StartTime)))
                     {
                         if (cmtList[i].Weekly == true)
                         {//ask the user if they want to delete the weekly commitment through the end of the semester
@@ -1169,7 +1024,7 @@ namespace TutorMaster
             {
                 for (int i = 0; i < cmtList.Count(); i++)
                 {
-                    if (BinarySearch(searchList, Convert.ToDateTime(cmtList[i].StartTime)))
+                    if (SortsAndSearches.BinarySearch(searchList, Convert.ToDateTime(cmtList[i].StartTime)))
                     {
                         searchList.Remove(Convert.ToDateTime(cmtList[i].StartTime));
                         db.Commitments.DeleteObject(cmtList[i]);
@@ -1233,35 +1088,6 @@ namespace TutorMaster
 
             DateTime result = new DateTime(year, month, date, hour, min, 0);               //return the datetime
             return result;
-        }
-
-        //binary search to search by dateTime in a commitment list
-        private bool BinarySearch(List<DateTime> cmtList, DateTime commit)
-        {
-            bool found = false;
-            int first = 0;
-            int last = cmtList.Count() - 1;
-            while (first <= last && !found)
-            {
-                int midpoint = (first + last) / 2;
-                if (DateTime.Compare(cmtList[midpoint], commit) == 0)
-                {
-                    found = true;
-                    return found;
-                }
-                else
-                {
-                    if (DateTime.Compare(commit, cmtList[midpoint]) < 0)
-                    {
-                        last = midpoint - 1;
-                    }
-                    else
-                    {
-                        first = midpoint + 1;
-                    }
-                }
-            }
-            return found;
         }
 
         private void btnRemoveAvailability_MouseHover(object sender, EventArgs e)

@@ -366,7 +366,6 @@
             this.btnAddOpenBlock.TabIndex = 6;
             this.btnAddOpenBlock.Text = "Add Availability";
             this.btnAddOpenBlock.UseVisualStyleBackColor = false;
-            this.btnAddOpenBlock.Click += new System.EventHandler(this.btnAddOpenBlock_Click);
             // 
             // btnLogout
             // 
@@ -447,7 +446,7 @@
             this.tabControl2.Controls.Add(this.tabAccepted);
             this.tabControl2.Controls.Add(this.tabPendingTutor);
             this.tabControl2.Controls.Add(this.tabPendingTutee);
-            this.tabControl2.Location = new System.Drawing.Point(0, 0);
+            this.tabControl2.Location = new System.Drawing.Point(0, 2);
             this.tabControl2.Name = "tabControl2";
             this.tabControl2.SelectedIndex = 0;
             this.tabControl2.Size = new System.Drawing.Size(707, 393);
@@ -846,7 +845,6 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "StudentMain";
             this.Text = "StudentMain";
-            this.Load += new System.EventHandler(this.StudentMain_Load);
             this.dayTabs.ResumeLayout(false);
             this.tabSunday.ResumeLayout(false);
             this.tabSunday.PerformLayout();

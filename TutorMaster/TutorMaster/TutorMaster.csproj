@@ -156,6 +156,7 @@
     <Compile Include="SignUpTutorTutee.Designer.cs">
       <DependentUpon>SignUpTutorTutee.cs</DependentUpon>
     </Compile>
+    <Compile Include="SortsAndSearches.cs" />
     <Compile Include="StudentMain.cs">
       <SubType>Form</SubType>
     </Compile>
