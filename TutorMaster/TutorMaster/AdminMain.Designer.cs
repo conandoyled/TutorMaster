@@ -527,7 +527,7 @@
             // 
             this.btnLogout.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(208)))), ((int)(((byte)(222)))), ((int)(((byte)(229)))));
             this.btnLogout.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.btnLogout.Location = new System.Drawing.Point(655, 66);
+            this.btnLogout.Location = new System.Drawing.Point(655, 74);
             this.btnLogout.Name = "btnLogout";
             this.btnLogout.Size = new System.Drawing.Size(180, 23);
             this.btnLogout.TabIndex = 5;
@@ -538,7 +538,7 @@
             // lblID
             // 
             this.lblID.AutoSize = true;
-            this.lblID.Location = new System.Drawing.Point(769, 6);
+            this.lblID.Location = new System.Drawing.Point(800, 9);
             this.lblID.Name = "lblID";
             this.lblID.Size = new System.Drawing.Size(35, 13);
             this.lblID.TabIndex = 6;
@@ -549,11 +549,11 @@
             // 
             this.label9.AutoSize = true;
             this.label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label9.Location = new System.Drawing.Point(652, 39);
+            this.label9.Location = new System.Drawing.Point(705, 45);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(184, 18);
+            this.label9.Size = new System.Drawing.Size(75, 18);
             this.label9.TabIndex = 32;
-            this.label9.Text = "Welcome Student\'s Name!";
+            this.label9.Text = "Welcome!";
             // 
             // pictureBox1
             // 

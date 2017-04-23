@@ -119,7 +119,7 @@
             this.weekStartDateTime.Size = new System.Drawing.Size(200, 20);
             this.weekStartDateTime.TabIndex = 13;
             this.weekStartDateTime.Value = new System.DateTime(2017, 3, 23, 0, 0, 0, 0);
-            this.weekStartDateTime.CloseUp += new System.EventHandler(this.weekStartDateTime_ValueChanged);
+            this.weekStartDateTime.ValueChanged += new System.EventHandler(this.weekStartDateTime_ValueChanged);
             // 
             // dayTabs
             // 
@@ -438,7 +438,7 @@
             this.tabAppointments.Controls.Add(this.tabControl2);
             this.tabAppointments.Location = new System.Drawing.Point(4, 22);
             this.tabAppointments.Name = "tabAppointments";
-            this.tabAppointments.Size = new System.Drawing.Size(707, 393);
+            this.tabAppointments.Size = new System.Drawing.Size(707, 397);
             this.tabAppointments.TabIndex = 2;
             this.tabAppointments.Text = "Appointments";
             // 

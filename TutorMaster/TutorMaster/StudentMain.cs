@@ -22,7 +22,9 @@ namespace TutorMaster
             TutorMasterDBEntities4 db = new TutorMasterDBEntities4();                                             //open database
             bool tutor = (bool)(from row in db.Students where row.ID == id select row.Tutor).First();             //get if they are a tutee and/or tutor
             bool tutee = (bool)(from row in db.Students where row.ID == id select row.Tutee).First();
+            string name = (from row in db.Users where row.ID == id select row.FirstName + " " + row.LastName).First();
             InitializeComponent();
+            label2.Text = "Welcome " + name + "!";
             
             if (!tutee)
             {
@@ -42,6 +44,7 @@ namespace TutorMaster
             populateColumns(tutor, tutee);                                                                        //initialize the columns of listviews approriately
             weekStartDateTime.Value = DateTime.Today;                                                             //initialize datetime pickers to be today
             DateTime start = DateTime.Now;
+            setSelectedTab(start);
             loadAvail(start);                                                                                     //load availability starting from today
             setUpLabels(start);                                                                                   //set up the labels above each schedule list view a week from today
             loadAppointments(false);                                                                              //load the appointments
@@ -219,6 +222,35 @@ namespace TutorMaster
                 {
                     return System.Drawing.Color.FromArgb(4, 13, 137);
                 }
+            }
+        }
+
+        private void setSelectedTab(DateTime setDate)
+        {
+            DayOfWeek a = setDate.DayOfWeek;
+            switch (a)
+            {
+                case DayOfWeek.Sunday:
+                    dayTabs.SelectedTab = tabSunday;
+                    break;
+                case DayOfWeek.Monday:
+                    dayTabs.SelectedTab = tabMonday;
+                    break;
+                case DayOfWeek.Tuesday:
+                    dayTabs.SelectedTab = tabTuesday;
+                    break;
+                case DayOfWeek.Wednesday:
+                    dayTabs.SelectedTab = tabWednesday;
+                    break;
+                case DayOfWeek.Thursday:
+                    dayTabs.SelectedTab = tabThursday;
+                    break;
+                case DayOfWeek.Friday:
+                    dayTabs.SelectedTab = tabFriday;
+                    break;
+                case DayOfWeek.Saturday:
+                    dayTabs.SelectedTab = tabSaturday;
+                    break;
             }
         }
 
@@ -850,16 +882,6 @@ namespace TutorMaster
 
         //in case someone changes the startofweek datetime picker
         //change the listviews to show the appropriate data based on the user's selection
-        private void weekStartDateTime_ValueChanged(object sender, EventArgs e)
-        {                                                                                              //when upper right dateTime picker's value changes, reload the day listviews and reset the labels
-            DateTime start = new DateTime(weekStartDateTime.Value.Year, weekStartDateTime.Value.Month, weekStartDateTime.Value.Day, 0, 0, 0);
-            if (start.CompareTo(DateTime.Now) < 0)
-            {
-                start = DateTime.Now;
-            }
-            loadAvail(start);
-            setUpLabels(start);
-        }
 
         //QuickSort functions
         private void Split(ref List<TutorMaster.Commitment> values, int first, int last, ref int splitPoint)
@@ -962,6 +984,21 @@ namespace TutorMaster
                 QuickSort2(ref values, first, splitPoint - 1);
                 QuickSort2(ref values, splitPoint + 1, last);
             }
+        }
+
+        //in case someone changes the startofweek datetime picker
+        //change the listviews to show the appropriate data based on the user's selection
+        private void weekStartDateTime_ValueChanged(object sender, EventArgs e)
+        {
+            //when upper right dateTime picker's value changes, reload the day listviews and reset the labels
+            DateTime start = new DateTime(weekStartDateTime.Value.Year, weekStartDateTime.Value.Month, weekStartDateTime.Value.Day, 0, 0, 0);
+            if (start.CompareTo(DateTime.Now) < 0)
+            {
+                start = DateTime.Now;
+            }
+            loadAvail(start);
+            setUpLabels(start);
+            setSelectedTab(start);
         }
 
         private void QuickSort(ref List<TutorMaster.Commitment> values, int numValues)
@@ -2353,5 +2390,7 @@ namespace TutorMaster
             g.Show();
             this.Close();
         }
+        
+        
     }
 }
