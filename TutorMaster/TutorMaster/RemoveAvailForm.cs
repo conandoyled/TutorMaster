@@ -22,18 +22,13 @@ namespace TutorMaster
             loadListView(removeList);
         }
 
-        private bool startEarlierThanEnd(DateTime startTime, DateTime endTime)
-        {
-            return startTime.CompareTo(endTime) < 0;
-        }
-
         private void loadListView(List<string> removeList)
         {//this function is made to load the listviews with times of prospective desired remove times
             for (int i = 0; i < removeList.Count(); i++)
             {
-                DateTime startTime = getDate(removeList[i].Split(',')[0]);                 //get the start time
-                DateTime endTime = getDate(removeList[i].Split(',')[1]);                   //get the end time
-                while (startEarlierThanEnd(startTime, endTime))                            //if the start time is before the end time, add the strings to the listviews
+                DateTime startTime = DateTimeMethods.getDate(removeList[i].Split(',')[0]);                 //get the start time
+                DateTime endTime = DateTimeMethods.getDate(removeList[i].Split(',')[1]);                   //get the end time
+                while (DateTimeMethods.startEarlierThanEnd(startTime, endTime))                            //if the start time is before the end time, add the strings to the listviews
                 {
                     lvTimeSlots.Items.Add(new ListViewItem(new string[] {startTime.ToString(), startTime.AddMinutes(15).ToString(), removeList[i].Split(',')[2] }));
                     startTime = startTime.AddMinutes(15);                                  //add the next 15 minute time block
@@ -41,30 +36,6 @@ namespace TutorMaster
             }
         }
 
-        private DateTime getDate(string day)
-        {
-            string totalDate = day.Split(' ')[0];                                          //get the date part of the string
-            int month = Convert.ToInt32(totalDate.Split('/')[0]);                          //get the month part of the string
-            int date = Convert.ToInt32(totalDate.Split('/')[1]);                           //get the date number of the string
-            int year = Convert.ToInt32(totalDate.Split('/')[2]);                           //get the year number of the string
-
-            string time = day.Split(' ')[1];                                               //get the time part of the string
-            int hour = Convert.ToInt32(time.Split(':')[0]);                                //get the hour number from the time string
-            int min = Convert.ToInt32(time.Split(':')[1]);                                 //get the minute number from the time string
-            string amPm = day.Split(' ')[2];                                               //get whether this is in the morning or evening
-
-            if (amPm == "PM" && hour != 12)                                                //if evening and not 12, then add 12
-            {
-                hour += 12;
-            }
-            else if (amPm == "AM" && hour == 12)                                           //if 12AM, then set hour to 0
-            {
-                hour = 0;
-            }
-
-            DateTime result = new DateTime(year, month, date, hour, min, 0);               //return the datetime
-            return result;
-        }
 
         private List<DateTime> getStartTimes()
         {//the purpose of this function is to get the starttimes from the checked items of the listviews
@@ -72,35 +43,10 @@ namespace TutorMaster
             
             for (int n = 0; n < lvTimeSlots.CheckedItems.Count; n++)                             //go through each of the checked items
             {
-                result.Add(getDate(lvTimeSlots.CheckedItems[n].SubItems[0].Text.ToString()));    //add the start time date to the list
+                result.Add(DateTimeMethods.getDate(lvTimeSlots.CheckedItems[n].SubItems[0].Text.ToString()));    //add the start time date to the list
             }
             
             return result;                                                                       //return the desired list
-        }
-
-        private bool weeklyAndFound(Commitment commit, List<DateTime> searchList)
-        {//this function checks if a commitment is weekly and found in the commitment list
-            return commit.Weekly == true && SortsAndSearches.BinarySearch(searchList, Convert.ToDateTime(commit.StartTime));
-        }
-
-        private bool weekBackEarlier(DateTime weekBack, Commitment commit)
-        {//this function sees if the the weekback dateTime is before the commitment time
-            return DateTime.Compare(weekBack, Convert.ToDateTime(commit.StartTime)) < 0;
-        }
-
-        private bool sameTime(Commitment commit, DateTime weekBack)
-        {//this funciton sees if the the commitment is the sametime in the weekback
-            return DateTime.Compare(Convert.ToDateTime(commit.StartTime), weekBack) == 0;
-        }
-
-        private bool endOfSemesIsLater(DateTime endSemes, DateTime weekForward)
-        {
-            return DateTime.Compare(endSemes, weekForward) > 0;
-        }
-
-        private bool forwardEarlierThanStart(DateTime weekForward, Commitment commit)
-        {
-            return DateTime.Compare(weekForward, Convert.ToDateTime(commit.StartTime)) < 0;
         }
 
         private void setPreviousWeekliesToFalse()
@@ -120,7 +66,7 @@ namespace TutorMaster
 
             for (int i = 0; i < cmtList.Count(); i++)                                                         //for each commitment in the commit list
             {
-                if (weeklyAndFound(cmtList[i], searchList))                                                   //if the commitment is in the search list and weekly
+                if (DateTimeMethods.weeklyAndFound(cmtList[i], searchList))                                                   //if the commitment is in the search list and weekly
                 {
                     DateTime startSemes = new DateTime(2017, 1, 1, 0, 0, 0);
                     DateTime weekBack = Convert.ToDateTime(cmtList[i].StartTime).AddDays(-7);                 //go a week back in time
@@ -132,7 +78,7 @@ namespace TutorMaster
                         while (first <= last && !found)
                         {
                             int midpoint = (first + last) / 2;
-                            if (sameTime(cmtList[midpoint], weekBack))                                        //if you find the weekBack date time
+                            if (DateTimeMethods.sameTime(cmtList[midpoint], weekBack))                                        //if you find the weekBack date time
                             {
                                 if (cmtList[midpoint].Open == true)                                           //if the commitment is open
                                 {
@@ -143,7 +89,7 @@ namespace TutorMaster
                             }
                             else
                             {
-                                if (weekBackEarlier(weekBack, cmtList[midpoint]))                                    //if weekback is earlier, search first half of list
+                                if (DateTimeMethods.weekBackEarlier(weekBack, cmtList[midpoint]))                                    //if weekback is earlier, search first half of list
                                 {
                                     last = midpoint - 1;
                                 }
@@ -184,7 +130,7 @@ namespace TutorMaster
                         {//ask the user if they want to delete the weekly commitment through the end of the semester
                             DateTime endSemes = new DateTime(2017, 5, 1, 0, 0, 0);                            //get end of semester
                             DateTime weekForward = Convert.ToDateTime(cmtList[i].StartTime).AddDays(7);       //go a week forward
-                            while (endOfSemesIsLater(endSemes, weekForward))                                  //if the end of the semester is later than our commitment start Time
+                            while (DateTimeMethods.endOfSemesIsLater(endSemes, weekForward))                                  //if the end of the semester is later than our commitment start Time
                             {                                                                                 //run a binary search
                                 bool found = false;
                                 int first = 0;
@@ -192,7 +138,7 @@ namespace TutorMaster
                                 while (first <= last && !found)
                                 {
                                     int midpoint = (first + last) / 2;
-                                    if (sameTime(cmtList[midpoint], weekForward))                             //if commitment time and weekforward time are the same
+                                    if (DateTimeMethods.sameTime(cmtList[midpoint], weekForward))                             //if commitment time and weekforward time are the same
                                     {
                                         if (cmtList[midpoint].Open == true)                                   //and if the midpoint commitment is open
                                         {
@@ -205,7 +151,7 @@ namespace TutorMaster
                                     }
                                     else
                                     {
-                                        if (forwardEarlierThanStart(weekForward, cmtList[midpoint]))
+                                        if (DateTimeMethods.forwardEarlierThanStart(weekForward, cmtList[midpoint]))
                                         {
                                             last = midpoint - 1;
                                         }

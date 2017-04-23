@@ -15,14 +15,14 @@ namespace TutorMaster
             while (first <= last && !found)
             {
                 int midpoint = (first + last) / 2;
-                if (DateTime.Compare(Commits.getStartTime(cmtList[midpoint]), Commits.getStartTime(commit)) == 0)
+                if (DateTime.Compare(DateTimeMethods.getStartTime(cmtList[midpoint]), DateTimeMethods.getStartTime(commit)) == 0)
                 {
                     found = true;
                     return found;
                 }
                 else
                 {
-                    if (DateTime.Compare(Commits.getStartTime(commit), Commits.getStartTime(cmtList[midpoint])) < 0)
+                    if (DateTime.Compare(DateTimeMethods.getStartTime(commit), DateTimeMethods.getStartTime(cmtList[midpoint])) < 0)
                     {
                         last = midpoint - 1;
                     }

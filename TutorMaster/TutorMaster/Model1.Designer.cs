@@ -704,6 +704,7 @@ namespace TutorMaster
         partial void OnIDChanged();
 
         #endregion
+
     
         #region Navigation Properties
     

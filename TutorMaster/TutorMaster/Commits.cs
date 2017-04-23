@@ -7,60 +7,7 @@ namespace TutorMaster
 {
     class Commits
     {
-        public static DateTime getStartTime(string slot)
-        {
-            string startDateTime = slot.Split(',')[0];
-            string startDate = startDateTime.Split(' ')[0];
-            string startTime = startDateTime.Split(' ')[1];
-            string amPm = startDateTime.Split(' ')[2];
-
-            int month = Convert.ToInt32(startDate.Split('/')[0]);
-            int day = Convert.ToInt32(startDate.Split('/')[1]);
-            int year = Convert.ToInt32(startDate.Split('/')[2]);
-
-            int hour = Convert.ToInt32(startTime.Split(':')[0]);
-            int min = Convert.ToInt32(startTime.Split(':')[1]);
-
-
-            if (hour < 12 && amPm == "PM")
-            {
-                hour += 12;
-            }
-            else if (hour == 12 && amPm == "AM")
-            {
-                hour = 0;
-            }
-            DateTime date = new DateTime(year, month, day, hour, min, 0);
-            return date;
-        }
-
-        public static DateTime getEndTime(string slot)
-        {
-            string startDateTime = slot.Split(',')[1];
-            string startDate = startDateTime.Split(' ')[0];
-            string startTime = startDateTime.Split(' ')[1];
-            string amPm = startDateTime.Split(' ')[2];
-
-            int month = Convert.ToInt32(startDate.Split('/')[0]);
-            int day = Convert.ToInt32(startDate.Split('/')[1]);
-            int year = Convert.ToInt32(startDate.Split('/')[2]);
-
-            int hour = Convert.ToInt32(startTime.Split(':')[0]);
-            int min = Convert.ToInt32(startTime.Split(':')[1]);
-
-
-            if (hour < 12 && amPm == "PM")
-            {
-                hour += 12;
-            }
-            else if (hour == 12 && amPm == "AM")
-            {
-                hour = 0;
-            }
-
-            DateTime date = new DateTime(year, month, day, hour, min, 0);
-            return date;
-        }
+        
 
         public static bool sameCategory(TutorMaster.Commitment commitFirst, TutorMaster.Commitment commitSecond)      //ask if the 15 minute time block of the first has the same values as the second
         {

@@ -893,11 +893,6 @@ namespace TutorMaster
             return lvPendingTutee.CheckedItems[x].SubItems[0].Text.ToString() + "," + lvPendingTutee.CheckedItems[x].SubItems[1].Text.ToString() + "," + lvPendingTutee.CheckedItems[x].SubItems[8].Text.ToString();
         }
 
-        private bool inTheTimeSlot(DateTime startDate, DateTime endDate, Commitment commit)
-        {
-            return (DateTime.Compare(startDate, Convert.ToDateTime(commit.StartTime)) <= 0 && DateTime.Compare(endDate, Convert.ToDateTime(commit.StartTime)) > 0);
-        }
-
         private void clearAppointmentListviews()
         {
             lvTutor.Items.Clear();
@@ -989,21 +984,6 @@ namespace TutorMaster
             loadAppointments(true);
         }
 
-        private bool betweenGivenStartAndEndTime(DateTime startDate, DateTime endDate, Commitment commit)
-        {
-            return DateTime.Compare(startDate, Convert.ToDateTime(commit.StartTime)) <= 0 && DateTime.Compare(endDate, Convert.ToDateTime(commit.StartTime)) > 0;
-        }
-
-        private bool sameTime(Commitment commit, DateTime weekBack)
-        {
-            return DateTime.Compare(Convert.ToDateTime(commit.StartTime), weekBack) == 0;
-        }
-
-        private bool weekBackEarlier(DateTime weekBack, Commitment commit)
-        {
-            return DateTime.Compare(weekBack, Convert.ToDateTime(commit.StartTime)) < 0;
-        }
-
         private void cancelAppointments(List<string> commits, int accID, bool partner)
         {
             TutorMasterDBEntities4 db = new TutorMasterDBEntities4();                                                   //Connect to database
@@ -1017,12 +997,12 @@ namespace TutorMaster
 
             for (int f = 0; f < commits.Count(); f++)                                                                   //for each cancellation in the list
             {
-                DateTime startDate = Commits.getStartTime(commits[f]);                                                          //get its start and end times of the cancellation
-                DateTime endDate = Commits.getEndTime(commits[f]);
+                DateTime startDate = DateTimeMethods.getStartTime(commits[f]);                                                          //get its start and end times of the cancellation
+                DateTime endDate = DateTimeMethods.getEndTime(commits[f]);
 
                 for (int c = 0; c < stdCmtList.Count(); c++)                                                            //go through the student's commitments
                 {
-                    if (betweenGivenStartAndEndTime(startDate, endDate, stdCmtList[c]))                                 //if the commitment is between the start and end times
+                    if (DateTimeMethods.betweenGivenStartAndEndTime(startDate, endDate, stdCmtList[c]))                                 //if the commitment is between the start and end times
                     {
                         if (stdCmtList[c].Weekly == true)                                                               //if the commitment is weekly
                         {
@@ -1036,7 +1016,7 @@ namespace TutorMaster
                                 while (first <= last && !found)                                                         //if we haven't found the time in the list and start search pos is less than or equal to our end search position
                                 {
                                     int midpoint = (first + last) / 2;                                                  //get the midpoint between the two
-                                    if (sameTime(stdCmtList[midpoint], weekBack))                                       //if the mid commit and the weekback time at the same
+                                    if (DateTimeMethods.sameTime(stdCmtList[midpoint], weekBack))                                       //if the mid commit and the weekback time at the same
                                     {
                                         if (Commits.openOrSameType(stdCmtList[c], stdCmtList[midpoint]))                        //ask if it is open or the same type of commitment as our cancel commit
                                         {
@@ -1047,7 +1027,7 @@ namespace TutorMaster
                                     }
                                     else
                                     {
-                                        if (weekBackEarlier(weekBack, stdCmtList[midpoint]))                            //adjust the start and end search indexes as necessary
+                                        if (DateTimeMethods.weekBackEarlier(weekBack, stdCmtList[midpoint]))                            //adjust the start and end search indexes as necessary
                                         {
                                             last = midpoint - 1;
                                         }
@@ -1100,7 +1080,7 @@ namespace TutorMaster
                 DateTime endDate = getListViewTime(lvPendingTutee.CheckedItems[i].SubItems[1].Text);                       //get the dateTime of the time in the end time column
                 for (int c = 0; c < cmtList.Count(); c++)
                 {
-                    if (inTheTimeSlot(startDate, endDate, cmtList[c]))                                                     //take off question mark if the commitment is in between the two times
+                    if (DateTimeMethods.inTheTimeSlot(startDate, endDate, cmtList[c]))                                                     //take off question mark if the commitment is in between the two times
                     {
                         cmtList[c].Location = takeOffLocationQuestionMark(cmtList[c]);
                         db.SaveChanges();                                                                                  //save the changes
@@ -1125,7 +1105,7 @@ namespace TutorMaster
                 DateTime endDate = getListViewTime(lvPendingTutee.CheckedItems[i].SubItems[1].Text);               //get the dateTime of the time in the end time column
                 for (int c = 0; c < cmtList.Count(); c++)
                 {
-                    if (inTheTimeSlot(startDate, endDate, cmtList[c]))                                             //if the commitment is between the times, take off the question mark
+                    if (DateTimeMethods.inTheTimeSlot(startDate, endDate, cmtList[c]))                                             //if the commitment is between the times, take off the question mark
                     {
                         cmtList[c].Class = cmtList[c].Class + "!";
                         cmtList[c].Location = takeOffLocationQuestionMark(cmtList[c]);
@@ -1243,128 +1223,72 @@ namespace TutorMaster
             //this function iterates through all of the day listviews and gets every item that is selected and puts the start date, end date, and partner id in a string and adds that string to a list
 
             List<string> all = new List<string>();
-            
+            string monthDay = "";
+
             for (int i = 0; i < lvSunday.CheckedItems.Count; i++)
             {
-                DateTime startDate = getDate("Sunday", lvSunday.CheckedItems[i].SubItems[0].Text.ToString());
-                DateTime endDate = getDate("Sunday", lvSunday.CheckedItems[i].SubItems[1].Text.ToString());
+                monthDay = lblSunday.Text.Split(',')[1];
+                DateTime startDate = DateTimeMethods.getDate(monthDay, lvSunday.CheckedItems[i].SubItems[0].Text.ToString());
+                DateTime endDate = DateTimeMethods.getDate(monthDay, lvSunday.CheckedItems[i].SubItems[1].Text.ToString());
                 string slot = startDate.ToString() + "," + endDate.ToString() + "," + lvSunday.CheckedItems[i].SubItems[6].Text.ToString(); ;
                 all.Add(slot);
             }
             
             for (int n = 0; n < lvMonday.CheckedItems.Count; n++)
             {
-                DateTime startDate = getDate("Monday", lvMonday.CheckedItems[n].SubItems[0].Text.ToString());
-                DateTime endDate = getDate("Monday", lvMonday.CheckedItems[n].SubItems[1].Text.ToString());
+                monthDay = lblMonday.Text.Split(',')[1];
+                DateTime startDate = DateTimeMethods.getDate(monthDay, lvMonday.CheckedItems[n].SubItems[0].Text.ToString());
+                DateTime endDate = DateTimeMethods.getDate(monthDay, lvMonday.CheckedItems[n].SubItems[1].Text.ToString());
                 string slot = startDate.ToString() + "," + endDate.ToString() + "," + lvMonday.CheckedItems[n].SubItems[6].Text.ToString(); ;
                 all.Add(slot);
             }
 
             for (int f = 0; f < lvTuesday.CheckedItems.Count; f++)
             {
-                DateTime startDate = getDate("Tuesday", lvTuesday.CheckedItems[f].SubItems[0].Text.ToString());
-                DateTime endDate = getDate("Tuesday", lvTuesday.CheckedItems[f].SubItems[1].Text.ToString());
+                monthDay = lblTuesday.Text.Split(',')[1];
+                DateTime startDate = DateTimeMethods.getDate(monthDay, lvTuesday.CheckedItems[f].SubItems[0].Text.ToString());
+                DateTime endDate = DateTimeMethods.getDate(monthDay, lvTuesday.CheckedItems[f].SubItems[1].Text.ToString());
                 string slot = startDate.ToString() + "," + endDate.ToString() + "," + lvTuesday.CheckedItems[f].SubItems[6].Text.ToString(); ;
                 all.Add(slot);
             }
 
             for (int j = 0; j < lvWednesday.CheckedItems.Count; j++)
             {
-                DateTime startDate = getDate("Wednesday", lvWednesday.CheckedItems[j].SubItems[0].Text.ToString());
-                DateTime endDate = getDate("Wednesday", lvWednesday.CheckedItems[j].SubItems[1].Text.ToString());
+                monthDay = lblWednesday.Text.Split(',')[1];
+                DateTime startDate = DateTimeMethods.getDate(monthDay, lvWednesday.CheckedItems[j].SubItems[0].Text.ToString());
+                DateTime endDate = DateTimeMethods.getDate(monthDay, lvWednesday.CheckedItems[j].SubItems[1].Text.ToString());
                 string slot = startDate.ToString() + "," + endDate.ToString() + "," + lvWednesday.CheckedItems[j].SubItems[6].Text.ToString(); ;
                 all.Add(slot);
             }
 
             for (int g = 0; g < lvThursday.CheckedItems.Count; g++)
             {
-                DateTime startDate = getDate("Thursday", lvThursday.CheckedItems[g].SubItems[0].Text.ToString());
-                DateTime endDate = getDate("Thursday", lvThursday.CheckedItems[g].SubItems[1].Text.ToString());
+                monthDay = lblThursday.Text.Split(',')[1];
+                DateTime startDate = DateTimeMethods.getDate(monthDay, lvThursday.CheckedItems[g].SubItems[0].Text.ToString());
+                DateTime endDate = DateTimeMethods.getDate(monthDay, lvThursday.CheckedItems[g].SubItems[1].Text.ToString());
                 string slot = startDate.ToString() + "," + endDate.ToString() + "," + lvThursday.CheckedItems[g].SubItems[6].Text.ToString(); ;
                 all.Add(slot);
             }
 
             for (int p = 0; p < lvFriday.CheckedItems.Count; p++)
             {
-                DateTime startDate = getDate("Friday", lvFriday.CheckedItems[p].SubItems[0].Text.ToString());
-                DateTime endDate = getDate("Friday", lvFriday.CheckedItems[p].SubItems[1].Text.ToString());
+                monthDay = lblFriday.Text.Split(',')[1];
+                DateTime startDate = DateTimeMethods.getDate(monthDay, lvFriday.CheckedItems[p].SubItems[0].Text.ToString());
+                DateTime endDate = DateTimeMethods.getDate(monthDay, lvFriday.CheckedItems[p].SubItems[1].Text.ToString());
                 string slot = startDate.ToString() + "," + endDate.ToString() + "," + lvFriday.CheckedItems[p].SubItems[6].Text.ToString();
                 all.Add(slot);
             }
 
             for (int q = 0; q < lvSaturday.CheckedItems.Count; q++)
             {
-                DateTime startDate = getDate("Saturday", lvFriday.CheckedItems[q].SubItems[0].Text.ToString());
-                DateTime endDate = getDate("Saturday", lvFriday.CheckedItems[q].SubItems[1].Text.ToString());
+                monthDay = lblSaturday.Text.Split(',')[1];
+                DateTime startDate = DateTimeMethods.getDate(monthDay, lvFriday.CheckedItems[q].SubItems[0].Text.ToString());
+                DateTime endDate = DateTimeMethods.getDate(monthDay, lvFriday.CheckedItems[q].SubItems[1].Text.ToString());
                 string slot = startDate.ToString() + "," + endDate.ToString() + "," + lvSaturday.CheckedItems[q].SubItems[6].Text.ToString(); ;
                 all.Add(slot);
             }
 
             return all;
-        }
-
-        private DateTime getDate(string dayOfWeek, string startTime)
-        {
-            string monthDay = "";
-
-            switch (dayOfWeek)                                                                  //read a label based on the day of the week indicated and split the text on the comma and extract info
-            {
-                case "Sunday":
-                    monthDay = lblSunday.Text.Split(',')[1];
-                    break;
-                case "Monday":
-                    monthDay = lblMonday.Text.Split(',')[1];
-                    break;
-                case "Tuesday":
-                    monthDay = lblTuesday.Text.Split(',')[1];
-                    break;
-                case "Wednesday":
-                    monthDay = lblWednesday.Text.Split(',')[1];
-                    break;
-                case "Thursday":
-                    monthDay = lblThursday.Text.Split(',')[1];
-                    break;
-                case "Friday":
-                    monthDay = lblFriday.Text.Split(',')[1];
-                    break;
-                case "Saturday":
-                    monthDay = lblSaturday.Text.Split(',')[1];
-                    break;
-            }
-
-            int year = 2017;
-            
-            List<string> monthsList = new List<string>() {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
-
-            
-            string month = monthDay.Split(' ')[1];
-            int monthInt = 0;
-            for (int n = 0; n < monthsList.Count(); n++)                                                    //get the index of the month we are operating in
-            {
-                if (month == monthsList[n])
-                {
-                    monthInt = n+1;
-                    break;
-                }
-            }
-            int day = Convert.ToInt32(monthDay.Split(' ')[2]);                                              //get the number of the day we are interested in
-
-
-            int hour = Convert.ToInt32(startTime.Split(':')[0]);                                            //get the hour from the time parameter
-            int min = Convert.ToInt32(startTime.Split(':')[1]);                                             //get the minute from the time parameter
-            string amPm = startTime.Split(' ')[1];                                                          //get whether this is the morning or evening
-
-            if (amPm == "PM" && hour != 12)                                                                 //add 12 or set to 0 if necessary
-            {
-                hour += 12;
-            }
-            else if (amPm == "AM" && hour == 12)
-            {
-                hour = 0;
-            }
-
-            DateTime result = new DateTime(year, monthInt, day, hour, min ,0);                              //return dateTime of the strings we parsed
-            return result;
         }
 
         private void lvPendingTutor_ItemChecked(object sender, ItemCheckedEventArgs e)
