@@ -567,18 +567,19 @@ namespace TutorMaster
             {
                 TutorOrTuteeForm g = new TutorOrTuteeForm(id);
                 g.Show();
+                this.Dispose();
             }
             else if (tutor)
             {
                 AdminCreateAppointmentForm g = new AdminCreateAppointmentForm(id, true);
                 g.Show();
-                this.Close();
+                this.Dispose();
             }
             else if(tutee)
             {
                 AdminCreateAppointmentForm g = new AdminCreateAppointmentForm(id, false);
                 g.Show();
-                this.Close();
+                this.Dispose();
             }
         }
 
@@ -614,6 +615,16 @@ namespace TutorMaster
             {
                 btnCancelFinalized.Enabled = false;
                 btnCancelFinalized.BackColor = System.Drawing.Color.FromArgb(193, 200, 204);
+            }
+            if (itemsChecked == 1)
+            {
+                btnEditFinalized.Enabled = true;
+                btnEditFinalized.BackColor = System.Drawing.Color.FromArgb(226, 226, 226);
+            }
+            else
+            {
+                btnEditFinalized.Enabled = false;
+                btnEditFinalized.BackColor = System.Drawing.Color.FromArgb(193, 200, 204);
             }
         }
 
@@ -1028,8 +1039,10 @@ namespace TutorMaster
         private void btnEditFinalized_Click(object sender, EventArgs e)
         {
             string info = loadEditAppointment();
+            changeToOpen();
             AdminCreateAppointmentForm g = new AdminCreateAppointmentForm(id, info);
             g.Show();
+            this.Dispose();
         }
 
         private string loadEditAppointment()
@@ -1041,6 +1054,55 @@ namespace TutorMaster
             }
             result += lvFinalized.CheckedItems[0].SubItems[8].Text.ToString();
             return result;
+        }
+
+        private void changeToOpen()
+        {
+            string timeSlot = lvFinalized.CheckedItems[0].SubItems[0].Text.ToString() + "," + lvFinalized.CheckedItems[0].SubItems[1].Text.ToString();
+            DateTime start = DateTimeMethods.getStartTime(timeSlot);
+            DateTime end = DateTimeMethods.getEndTime(timeSlot);
+            int partnerID = Convert.ToInt16(lvFinalized.CheckedItems[0].SubItems[8].Text.ToString());
+            makeValidTimeSlot(start, end, partnerID);
+        }
+
+        private void makeValidTimeSlot(DateTime start, DateTime end, int partnerID)
+        {
+            TutorMasterDBEntities4 db = new TutorMasterDBEntities4();
+            List<Commitment> stdCmtList = (from stucmt in db.StudentCommitments.AsEnumerable()
+                                           where stucmt.ID == id
+                                           join cmt in db.Commitments on stucmt.CmtID equals cmt.CmtID
+                                           select cmt).ToList();
+
+            List<Commitment> partnerCmtList = (from stucmt in db.StudentCommitments.AsEnumerable()
+                                              where stucmt.ID == partnerID
+                                              join cmt in db.Commitments on stucmt.CmtID equals cmt.CmtID
+                                              select cmt).ToList();
+
+            for (int i = 0; i < stdCmtList.Count; i++)
+            {
+                if (DateTimeMethods.betweenGivenStartAndEndTime(start, end, stdCmtList[i]))
+                {
+                    stdCmtList[i].ID = -1;
+                    stdCmtList[i].Location = "-";
+                    stdCmtList[i].Open = true;
+                    stdCmtList[i].Tutoring = false;
+                    stdCmtList[i].Class = "-";
+                    db.SaveChanges();
+                }
+            }
+
+            for (int j = 0; j < partnerCmtList.Count; j++)
+            {
+                if (DateTimeMethods.betweenGivenStartAndEndTime(start, end, partnerCmtList[j]))
+                {
+                    partnerCmtList[j].ID = -1;
+                    partnerCmtList[j].Location = "-";
+                    partnerCmtList[j].Open = true;
+                    partnerCmtList[j].Tutoring = false;
+                    partnerCmtList[j].Class = "-";
+                    db.SaveChanges();
+                }
+            }
         }
     }
 }

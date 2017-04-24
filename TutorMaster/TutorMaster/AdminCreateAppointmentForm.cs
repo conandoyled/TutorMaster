@@ -16,6 +16,7 @@ namespace TutorMaster
         private List<int> rememberStudIDs = new List<int>();
         private ListViewItem lastItemChecked;
         private int chosenStudentIndex;
+        //private bool mustPick = false;
 
         //constructor
         public AdminCreateAppointmentForm(int accID, bool tutoringP)
@@ -39,16 +40,38 @@ namespace TutorMaster
         {
             InitializeComponent();
             id = accID;
+
+            populateListview();
             rememberStudIDs.Add(Convert.ToInt16(info.Split(',')[8]));
             loadAppointmentInformation(info);
             
             TutorMasterDBEntities4 db = new TutorMasterDBEntities4();
-
-            Class course = (from row in db.StudentClasses.AsEnumerable() where row.ClassCode == info.Split(',')[2] select row.Class).First();
+            string class1;
+            if (info.Split(',')[2].Contains('!'))
+            {
+                class1 = info.Split(',')[2].Substring(0, info.Split(',')[2].Length - 1);
+            }
+            else
+            {
+                class1 = info.Split(',')[2];
+            }
+            btnCancel.Hide();
+            Class course = (from row in db.StudentClasses.AsEnumerable() where row.ClassCode == class1 select row.Class).First();
             cbxClasses.Text = course.ClassName.ToString();
             cbxStudents.Text = info.Split(',')[7];
             loadMinutesAndHours(info);
-            loadMatchingTimeSlots();
+            pickCurrent(info);
+        }
+
+        private void pickCurrent(string info)
+        {
+            for (int i = 0; i < lvTimeMatches.Items.Count; i++)
+            {
+                if (lvTimeMatches.Items[i].SubItems[0].Text.ToString() == info.Split(',')[0] && lvTimeMatches.Items[i].SubItems[1].Text.ToString() == info.Split(',')[1])
+                {
+                    lvTimeMatches.Items[i].Checked = true;
+                }
+            }
         }
 
         private void loadAppointmentInformation(string info)
@@ -252,9 +275,9 @@ namespace TutorMaster
                 string classCode = (from row in db.Classes where cbxClasses.Text == row.ClassName select row.ClassCode).First();
                 int sessionLength = Convert.ToInt32(cbxHour.Text) * 4 + (Convert.ToInt32(cbxMinutes.Text) / 15);
 
-                if (sessionLength > 11 || sessionLength == 0)
+                if (sessionLength > 12 || sessionLength == 0)
                 {
-
+                    MessageBox.Show("Please pick a session legnth between 15 minutes and 3 hours.");
                 }
                 else
                 {
@@ -423,12 +446,14 @@ namespace TutorMaster
                 //but the second one makes sense to me and I know I need a statement like it. the second statement is in case we are just one short in our block and the last commit is what's needed to get the valid slot
                 if (consecutiveCommits >= sessionLength && DateTime.Compare(Convert.ToDateTime(cmtList[cmtList.Count() - 2].StartTime).AddMinutes(15), Convert.ToDateTime(cmtList[cmtList.Count() - 1].StartTime)) == 0)
                 {
-                    startDate = startDate.AddMinutes(15);
+                    //MessageBox.Show("Here");
+                    //startDate = startDate.AddMinutes(15);
                     endDate = endDate.AddMinutes(15);
                     validSlots.Add(startDate.ToString() + "," + endDate.ToString());
                 }
-                else if (consecutiveCommits == sessionLength - 1 && DateTime.Compare(Convert.ToDateTime(cmtList[cmtList.Count() - 2].StartTime).AddMinutes(15), Convert.ToDateTime(cmtList[cmtList.Count() - 1].StartTime)) == 0)
+                else if (consecutiveCommits == sessionLength && DateTime.Compare(Convert.ToDateTime(cmtList[cmtList.Count() - 2].StartTime).AddMinutes(15), Convert.ToDateTime(cmtList[cmtList.Count() - 1].StartTime)) == 0)
                 {
+                    
                     endDate = endDate.AddMinutes(15);
                     validSlots.Add(startDate.ToString() + "," + endDate.ToString());
                 }
@@ -550,7 +575,11 @@ namespace TutorMaster
 
                     addCommits(timeSlot, id, rememberStudIDs[chosenStudentIndex], tutorCommits, tuteeCommits, classCode, db, cbWeekly.Checked, sessionLength);
                 }
+                
+                AdminSeeSchedule g = new AdminSeeSchedule(id);
+                g.Show();
                 this.Dispose();
+                
             }
         }
 
@@ -644,6 +673,8 @@ namespace TutorMaster
 
         private void btnCancel_Click(object sender, EventArgs e)
         {
+            AdminSeeSchedule g = new AdminSeeSchedule(id);
+            g.Show();
             this.Dispose();
         }
 
