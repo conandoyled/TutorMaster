@@ -36,6 +36,7 @@
             this.btnAddAvailability = new System.Windows.Forms.Button();
             this.lvOpen = new System.Windows.Forms.ListView();
             this.tabAccepted = new System.Windows.Forms.TabPage();
+            this.btnEditFinalized = new System.Windows.Forms.Button();
             this.btnDeselect1 = new System.Windows.Forms.Button();
             this.btnCancelFinalized = new System.Windows.Forms.Button();
             this.lvFinalized = new System.Windows.Forms.ListView();
@@ -59,7 +60,6 @@
             this.btnDone = new System.Windows.Forms.Button();
             this.lblRemove = new System.Windows.Forms.Label();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.btnEditFinalized = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabAccepted.SuspendLayout();
@@ -156,6 +156,18 @@
             this.tabAccepted.Size = new System.Drawing.Size(699, 367);
             this.tabAccepted.TabIndex = 0;
             this.tabAccepted.Text = "Finalized Appointments";
+            // 
+            // btnEditFinalized
+            // 
+            this.btnEditFinalized.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
+            this.btnEditFinalized.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btnEditFinalized.Location = new System.Drawing.Point(189, 336);
+            this.btnEditFinalized.Name = "btnEditFinalized";
+            this.btnEditFinalized.Size = new System.Drawing.Size(177, 23);
+            this.btnEditFinalized.TabIndex = 24;
+            this.btnEditFinalized.Text = "Edit Appointment";
+            this.btnEditFinalized.UseVisualStyleBackColor = false;
+            this.btnEditFinalized.Click += new System.EventHandler(this.btnEditFinalized_Click);
             // 
             // btnDeselect1
             // 
@@ -414,16 +426,6 @@
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBox1.TabIndex = 22;
             this.pictureBox1.TabStop = false;
-            // 
-            // btnEditFinalized
-            // 
-            this.btnEditFinalized.Location = new System.Drawing.Point(203, 336);
-            this.btnEditFinalized.Name = "btnEditFinalized";
-            this.btnEditFinalized.Size = new System.Drawing.Size(121, 23);
-            this.btnEditFinalized.TabIndex = 24;
-            this.btnEditFinalized.Text = "Edit Appointment(s)";
-            this.btnEditFinalized.UseVisualStyleBackColor = true;
-            this.btnEditFinalized.Click += new System.EventHandler(this.btnEditFinalized_Click);
             // 
             // AdminSeeSchedule
             // 

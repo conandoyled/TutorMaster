@@ -130,6 +130,18 @@ namespace TutorMaster
             }
         }
 
+        private void cbxShowPassword_CheckedChanged(object sender, EventArgs e)
+        {
+            if (cbxShowPassword.Checked == true)
+            {
+                txtPassword.PasswordChar = '\0';
+            }
+            else
+            {
+                txtPassword.PasswordChar = '*';
+            }
+        }
+
 
 
     }

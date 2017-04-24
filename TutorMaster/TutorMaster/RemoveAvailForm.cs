@@ -12,11 +12,13 @@ namespace TutorMaster
     public partial class RemoveAvailForm : Form
     {
         private int id;
-        
+        private bool admin;
+
         //constructor
-        public RemoveAvailForm(int accID, List<string>removeList)
+        public RemoveAvailForm(int accID, List<string>removeList, bool adminP)
         {
             id = accID;
+            admin = adminP;
             InitializeComponent();
             populateColumns();
             loadListView(removeList);
@@ -28,9 +30,14 @@ namespace TutorMaster
             {
                 DateTime startTime = DateTimeMethods.getDate(removeList[i].Split(',')[0]);                 //get the start time
                 DateTime endTime = DateTimeMethods.getDate(removeList[i].Split(',')[1]);                   //get the end time
+                string weekly = "No";
+                if (removeList[i].Split(',')[2] == "True" || removeList[i].Split(',')[2] == "Yes")
+                {
+                    weekly = "Yes";
+                }
                 while (DateTimeMethods.startEarlierThanEnd(startTime, endTime))                            //if the start time is before the end time, add the strings to the listviews
                 {
-                    lvTimeSlots.Items.Add(new ListViewItem(new string[] {startTime.ToString(), startTime.AddMinutes(15).ToString(), removeList[i].Split(',')[2] }));
+                    lvTimeSlots.Items.Add(new ListViewItem(new string[] {startTime.ToString(), startTime.AddMinutes(15).ToString(), weekly}));
                     startTime = startTime.AddMinutes(15);                                  //add the next 15 minute time block
                 }
             }
@@ -216,9 +223,18 @@ namespace TutorMaster
                 c--;
             }
 
-            StudentMain g = new StudentMain(id);                         //send the user back to the student main
-            g.Show();
-            this.Dispose();
+            if (!admin)
+            {
+                StudentMain g = new StudentMain(id);                         //send the user back to the student main
+                g.Show();
+                this.Dispose();
+            }
+            else
+            {
+                AdminSeeSchedule g = new AdminSeeSchedule(id);
+                g.Show();
+                this.Dispose();
+            }
         }
 
         private bool checkChecked()
@@ -243,9 +259,18 @@ namespace TutorMaster
 
         private void btnCancel_Click(object sender, EventArgs e)
         {
-            StudentMain g = new StudentMain(id);
-            g.Show();
-            this.Dispose();
+            if (!admin)
+            {
+                StudentMain g = new StudentMain(id);
+                g.Show();
+                this.Dispose();
+            }
+            else
+            {
+                AdminSeeSchedule g = new AdminSeeSchedule(id);
+                g.Show();
+                this.Dispose();
+            }
         }
 
         private void btnDeselectAll_Click(object sender, EventArgs e)

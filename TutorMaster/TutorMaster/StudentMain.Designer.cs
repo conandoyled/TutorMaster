@@ -91,6 +91,7 @@
             this.lblAttention = new System.Windows.Forms.Label();
             this.lblWaiting = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
+            this.btnReload = new System.Windows.Forms.Button();
             this.dayTabs.SuspendLayout();
             this.tabSunday.SuspendLayout();
             this.tabMonday.SuspendLayout();
@@ -133,7 +134,7 @@
             this.dayTabs.Location = new System.Drawing.Point(3, 6);
             this.dayTabs.Name = "dayTabs";
             this.dayTabs.SelectedIndex = 0;
-            this.dayTabs.Size = new System.Drawing.Size(685, 352);
+            this.dayTabs.Size = new System.Drawing.Size(685, 390);
             this.dayTabs.TabIndex = 9;
             this.dayTabs.Selected += new System.Windows.Forms.TabControlEventHandler(this.dayTabs_Selected);
             // 
@@ -145,7 +146,7 @@
             this.tabSunday.Location = new System.Drawing.Point(4, 22);
             this.tabSunday.Name = "tabSunday";
             this.tabSunday.Padding = new System.Windows.Forms.Padding(3);
-            this.tabSunday.Size = new System.Drawing.Size(677, 326);
+            this.tabSunday.Size = new System.Drawing.Size(677, 364);
             this.tabSunday.TabIndex = 0;
             this.tabSunday.Text = "Sunday";
             // 
@@ -163,7 +164,7 @@
             this.lvSunday.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(237)))), ((int)(((byte)(239)))), ((int)(((byte)(239)))));
             this.lvSunday.Location = new System.Drawing.Point(0, 19);
             this.lvSunday.Name = "lvSunday";
-            this.lvSunday.Size = new System.Drawing.Size(677, 307);
+            this.lvSunday.Size = new System.Drawing.Size(677, 345);
             this.lvSunday.TabIndex = 0;
             this.lvSunday.UseCompatibleStateImageBehavior = false;
             this.lvSunday.View = System.Windows.Forms.View.Details;
@@ -177,7 +178,7 @@
             this.tabMonday.Location = new System.Drawing.Point(4, 22);
             this.tabMonday.Name = "tabMonday";
             this.tabMonday.Padding = new System.Windows.Forms.Padding(3);
-            this.tabMonday.Size = new System.Drawing.Size(677, 326);
+            this.tabMonday.Size = new System.Drawing.Size(677, 364);
             this.tabMonday.TabIndex = 1;
             this.tabMonday.Text = "Monday";
             // 
@@ -195,7 +196,7 @@
             this.lvMonday.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(237)))), ((int)(((byte)(239)))), ((int)(((byte)(239)))));
             this.lvMonday.Location = new System.Drawing.Point(0, 19);
             this.lvMonday.Name = "lvMonday";
-            this.lvMonday.Size = new System.Drawing.Size(677, 307);
+            this.lvMonday.Size = new System.Drawing.Size(677, 345);
             this.lvMonday.TabIndex = 1;
             this.lvMonday.UseCompatibleStateImageBehavior = false;
             this.lvMonday.View = System.Windows.Forms.View.Details;
@@ -208,7 +209,7 @@
             this.tabTuesday.Controls.Add(this.lvTuesday);
             this.tabTuesday.Location = new System.Drawing.Point(4, 22);
             this.tabTuesday.Name = "tabTuesday";
-            this.tabTuesday.Size = new System.Drawing.Size(677, 326);
+            this.tabTuesday.Size = new System.Drawing.Size(677, 364);
             this.tabTuesday.TabIndex = 2;
             this.tabTuesday.Text = "Tuesday";
             // 
@@ -226,7 +227,7 @@
             this.lvTuesday.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(237)))), ((int)(((byte)(239)))), ((int)(((byte)(239)))));
             this.lvTuesday.Location = new System.Drawing.Point(0, 19);
             this.lvTuesday.Name = "lvTuesday";
-            this.lvTuesday.Size = new System.Drawing.Size(677, 307);
+            this.lvTuesday.Size = new System.Drawing.Size(677, 345);
             this.lvTuesday.TabIndex = 1;
             this.lvTuesday.UseCompatibleStateImageBehavior = false;
             this.lvTuesday.View = System.Windows.Forms.View.Details;
@@ -239,7 +240,7 @@
             this.tabWednesday.Controls.Add(this.lvWednesday);
             this.tabWednesday.Location = new System.Drawing.Point(4, 22);
             this.tabWednesday.Name = "tabWednesday";
-            this.tabWednesday.Size = new System.Drawing.Size(677, 326);
+            this.tabWednesday.Size = new System.Drawing.Size(677, 364);
             this.tabWednesday.TabIndex = 3;
             this.tabWednesday.Text = "Wednesday";
             // 
@@ -257,7 +258,7 @@
             this.lvWednesday.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(237)))), ((int)(((byte)(239)))), ((int)(((byte)(239)))));
             this.lvWednesday.Location = new System.Drawing.Point(0, 19);
             this.lvWednesday.Name = "lvWednesday";
-            this.lvWednesday.Size = new System.Drawing.Size(677, 307);
+            this.lvWednesday.Size = new System.Drawing.Size(677, 345);
             this.lvWednesday.TabIndex = 1;
             this.lvWednesday.UseCompatibleStateImageBehavior = false;
             this.lvWednesday.View = System.Windows.Forms.View.Details;
@@ -270,7 +271,7 @@
             this.tabThursday.Controls.Add(this.lvThursday);
             this.tabThursday.Location = new System.Drawing.Point(4, 22);
             this.tabThursday.Name = "tabThursday";
-            this.tabThursday.Size = new System.Drawing.Size(677, 326);
+            this.tabThursday.Size = new System.Drawing.Size(677, 364);
             this.tabThursday.TabIndex = 4;
             this.tabThursday.Text = "Thursday";
             // 
@@ -288,7 +289,7 @@
             this.lvThursday.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(237)))), ((int)(((byte)(239)))), ((int)(((byte)(239)))));
             this.lvThursday.Location = new System.Drawing.Point(0, 19);
             this.lvThursday.Name = "lvThursday";
-            this.lvThursday.Size = new System.Drawing.Size(677, 307);
+            this.lvThursday.Size = new System.Drawing.Size(677, 345);
             this.lvThursday.TabIndex = 1;
             this.lvThursday.UseCompatibleStateImageBehavior = false;
             this.lvThursday.View = System.Windows.Forms.View.Details;
@@ -301,7 +302,7 @@
             this.tabFriday.Controls.Add(this.lvFriday);
             this.tabFriday.Location = new System.Drawing.Point(4, 22);
             this.tabFriday.Name = "tabFriday";
-            this.tabFriday.Size = new System.Drawing.Size(677, 326);
+            this.tabFriday.Size = new System.Drawing.Size(677, 364);
             this.tabFriday.TabIndex = 5;
             this.tabFriday.Text = "Friday";
             // 
@@ -319,7 +320,7 @@
             this.lvFriday.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(237)))), ((int)(((byte)(239)))), ((int)(((byte)(239)))));
             this.lvFriday.Location = new System.Drawing.Point(0, 19);
             this.lvFriday.Name = "lvFriday";
-            this.lvFriday.Size = new System.Drawing.Size(677, 307);
+            this.lvFriday.Size = new System.Drawing.Size(677, 345);
             this.lvFriday.TabIndex = 1;
             this.lvFriday.UseCompatibleStateImageBehavior = false;
             this.lvFriday.View = System.Windows.Forms.View.Details;
@@ -332,7 +333,7 @@
             this.tabSaturday.Controls.Add(this.lvSaturday);
             this.tabSaturday.Location = new System.Drawing.Point(4, 22);
             this.tabSaturday.Name = "tabSaturday";
-            this.tabSaturday.Size = new System.Drawing.Size(677, 326);
+            this.tabSaturday.Size = new System.Drawing.Size(677, 364);
             this.tabSaturday.TabIndex = 6;
             this.tabSaturday.Text = "Saturday";
             // 
@@ -350,7 +351,7 @@
             this.lvSaturday.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(237)))), ((int)(((byte)(239)))), ((int)(((byte)(239)))));
             this.lvSaturday.Location = new System.Drawing.Point(0, 19);
             this.lvSaturday.Name = "lvSaturday";
-            this.lvSaturday.Size = new System.Drawing.Size(677, 307);
+            this.lvSaturday.Size = new System.Drawing.Size(677, 345);
             this.lvSaturday.TabIndex = 1;
             this.lvSaturday.UseCompatibleStateImageBehavior = false;
             this.lvSaturday.View = System.Windows.Forms.View.Details;
@@ -360,12 +361,13 @@
             // 
             this.btnAddOpenBlock.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
             this.btnAddOpenBlock.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.btnAddOpenBlock.Location = new System.Drawing.Point(7, 364);
+            this.btnAddOpenBlock.Location = new System.Drawing.Point(6, 402);
             this.btnAddOpenBlock.Name = "btnAddOpenBlock";
             this.btnAddOpenBlock.Size = new System.Drawing.Size(132, 23);
             this.btnAddOpenBlock.TabIndex = 6;
             this.btnAddOpenBlock.Text = "Add Availability";
             this.btnAddOpenBlock.UseVisualStyleBackColor = false;
+            this.btnAddOpenBlock.Click += new System.EventHandler(this.btnAddOpenBlock_Click);
             // 
             // btnLogout
             // 
@@ -401,7 +403,7 @@
             this.tabControl1.Location = new System.Drawing.Point(12, 12);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(715, 423);
+            this.tabControl1.Size = new System.Drawing.Size(715, 457);
             this.tabControl1.TabIndex = 14;
             // 
             // tabSchedule
@@ -414,7 +416,7 @@
             this.tabSchedule.Name = "tabSchedule";
             this.tabSchedule.Padding = new System.Windows.Forms.Padding(3);
             this.tabSchedule.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.tabSchedule.Size = new System.Drawing.Size(707, 397);
+            this.tabSchedule.Size = new System.Drawing.Size(707, 431);
             this.tabSchedule.TabIndex = 1;
             this.tabSchedule.Text = "Schedule";
             // 
@@ -423,7 +425,7 @@
             this.btnRemoveAvail.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(193)))), ((int)(((byte)(200)))), ((int)(((byte)(204)))));
             this.btnRemoveAvail.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnRemoveAvail.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(47)))), ((int)(((byte)(66)))), ((int)(((byte)(76)))));
-            this.btnRemoveAvail.Location = new System.Drawing.Point(145, 364);
+            this.btnRemoveAvail.Location = new System.Drawing.Point(144, 402);
             this.btnRemoveAvail.Name = "btnRemoveAvail";
             this.btnRemoveAvail.Size = new System.Drawing.Size(132, 23);
             this.btnRemoveAvail.TabIndex = 16;
@@ -437,7 +439,7 @@
             this.tabAppointments.Controls.Add(this.tabControl2);
             this.tabAppointments.Location = new System.Drawing.Point(4, 22);
             this.tabAppointments.Name = "tabAppointments";
-            this.tabAppointments.Size = new System.Drawing.Size(707, 397);
+            this.tabAppointments.Size = new System.Drawing.Size(707, 431);
             this.tabAppointments.TabIndex = 2;
             this.tabAppointments.Text = "Appointments";
             // 
@@ -449,7 +451,7 @@
             this.tabControl2.Location = new System.Drawing.Point(0, 2);
             this.tabControl2.Name = "tabControl2";
             this.tabControl2.SelectedIndex = 0;
-            this.tabControl2.Size = new System.Drawing.Size(707, 393);
+            this.tabControl2.Size = new System.Drawing.Size(707, 429);
             this.tabControl2.TabIndex = 0;
             this.tabControl2.Selecting += new System.Windows.Forms.TabControlCancelEventHandler(this.btnDeselect1_Click);
             this.tabControl2.Selected += new System.Windows.Forms.TabControlEventHandler(this.tabControl2_Selected);
@@ -463,7 +465,7 @@
             this.tabAccepted.Location = new System.Drawing.Point(4, 22);
             this.tabAccepted.Name = "tabAccepted";
             this.tabAccepted.Padding = new System.Windows.Forms.Padding(3);
-            this.tabAccepted.Size = new System.Drawing.Size(699, 367);
+            this.tabAccepted.Size = new System.Drawing.Size(699, 403);
             this.tabAccepted.TabIndex = 0;
             this.tabAccepted.Text = "Finalized Appointments";
             // 
@@ -471,7 +473,7 @@
             // 
             this.btnDeselect1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
             this.btnDeselect1.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.btnDeselect1.Location = new System.Drawing.Point(592, 336);
+            this.btnDeselect1.Location = new System.Drawing.Point(592, 374);
             this.btnDeselect1.Name = "btnDeselect1";
             this.btnDeselect1.Size = new System.Drawing.Size(101, 23);
             this.btnDeselect1.TabIndex = 18;
@@ -483,7 +485,7 @@
             // 
             this.btnCancelFinalized.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
             this.btnCancelFinalized.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.btnCancelFinalized.Location = new System.Drawing.Point(6, 336);
+            this.btnCancelFinalized.Location = new System.Drawing.Point(6, 374);
             this.btnCancelFinalized.Name = "btnCancelFinalized";
             this.btnCancelFinalized.Size = new System.Drawing.Size(177, 23);
             this.btnCancelFinalized.TabIndex = 17;
@@ -497,7 +499,7 @@
             this.lvFinalized.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.lvFinalized.Location = new System.Drawing.Point(0, 0);
             this.lvFinalized.Name = "lvFinalized";
-            this.lvFinalized.Size = new System.Drawing.Size(699, 330);
+            this.lvFinalized.Size = new System.Drawing.Size(699, 368);
             this.lvFinalized.TabIndex = 16;
             this.lvFinalized.UseCompatibleStateImageBehavior = false;
             this.lvFinalized.View = System.Windows.Forms.View.Details;
@@ -517,7 +519,7 @@
             this.tabPendingTutor.Location = new System.Drawing.Point(4, 22);
             this.tabPendingTutor.Name = "tabPendingTutor";
             this.tabPendingTutor.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPendingTutor.Size = new System.Drawing.Size(699, 367);
+            this.tabPendingTutor.Size = new System.Drawing.Size(699, 403);
             this.tabPendingTutor.TabIndex = 1;
             this.tabPendingTutor.Text = "Pending Tutoring Appointments";
             // 
@@ -525,7 +527,7 @@
             // 
             this.btnDeselect2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
             this.btnDeselect2.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.btnDeselect2.Location = new System.Drawing.Point(592, 336);
+            this.btnDeselect2.Location = new System.Drawing.Point(592, 374);
             this.btnDeselect2.Name = "btnDeselect2";
             this.btnDeselect2.Size = new System.Drawing.Size(101, 23);
             this.btnDeselect2.TabIndex = 23;
@@ -537,7 +539,7 @@
             // 
             this.btnRejectTutor.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
             this.btnRejectTutor.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.btnRejectTutor.Location = new System.Drawing.Point(189, 336);
+            this.btnRejectTutor.Location = new System.Drawing.Point(189, 374);
             this.btnRejectTutor.Name = "btnRejectTutor";
             this.btnRejectTutor.Size = new System.Drawing.Size(177, 23);
             this.btnRejectTutor.TabIndex = 22;
@@ -549,7 +551,7 @@
             // 
             this.btnAcceptAddLoc.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
             this.btnAcceptAddLoc.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.btnAcceptAddLoc.Location = new System.Drawing.Point(6, 336);
+            this.btnAcceptAddLoc.Location = new System.Drawing.Point(6, 374);
             this.btnAcceptAddLoc.Name = "btnAcceptAddLoc";
             this.btnAcceptAddLoc.Size = new System.Drawing.Size(177, 23);
             this.btnAcceptAddLoc.TabIndex = 21;
@@ -561,7 +563,7 @@
             // 
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(6, 170);
+            this.label4.Location = new System.Drawing.Point(6, 191);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(254, 15);
             this.label4.TabIndex = 20;
@@ -582,7 +584,7 @@
             this.lvPendingTutor.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(237)))), ((int)(((byte)(239)))), ((int)(((byte)(239)))));
             this.lvPendingTutor.Location = new System.Drawing.Point(0, 24);
             this.lvPendingTutor.Name = "lvPendingTutor";
-            this.lvPendingTutor.Size = new System.Drawing.Size(699, 140);
+            this.lvPendingTutor.Size = new System.Drawing.Size(699, 164);
             this.lvPendingTutor.TabIndex = 18;
             this.lvPendingTutor.UseCompatibleStateImageBehavior = false;
             this.lvPendingTutor.View = System.Windows.Forms.View.Details;
@@ -592,9 +594,9 @@
             // lvTutor
             // 
             this.lvTutor.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(237)))), ((int)(((byte)(239)))), ((int)(((byte)(239)))));
-            this.lvTutor.Location = new System.Drawing.Point(0, 190);
+            this.lvTutor.Location = new System.Drawing.Point(0, 209);
             this.lvTutor.Name = "lvTutor";
-            this.lvTutor.Size = new System.Drawing.Size(699, 140);
+            this.lvTutor.Size = new System.Drawing.Size(699, 159);
             this.lvTutor.TabIndex = 17;
             this.lvTutor.UseCompatibleStateImageBehavior = false;
             this.lvTutor.View = System.Windows.Forms.View.Details;
@@ -613,7 +615,7 @@
             this.tabPendingTutee.Controls.Add(this.lvPendingTutee);
             this.tabPendingTutee.Location = new System.Drawing.Point(4, 22);
             this.tabPendingTutee.Name = "tabPendingTutee";
-            this.tabPendingTutee.Size = new System.Drawing.Size(699, 367);
+            this.tabPendingTutee.Size = new System.Drawing.Size(699, 403);
             this.tabPendingTutee.TabIndex = 2;
             this.tabPendingTutee.Text = "Pending Tutee Appointments";
             // 
@@ -621,7 +623,7 @@
             // 
             this.btnDeselect3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
             this.btnDeselect3.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.btnDeselect3.Location = new System.Drawing.Point(592, 336);
+            this.btnDeselect3.Location = new System.Drawing.Point(592, 374);
             this.btnDeselect3.Name = "btnDeselect3";
             this.btnDeselect3.Size = new System.Drawing.Size(101, 23);
             this.btnDeselect3.TabIndex = 26;
@@ -633,7 +635,7 @@
             // 
             this.btnRejectTutee.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
             this.btnRejectTutee.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.btnRejectTutee.Location = new System.Drawing.Point(189, 336);
+            this.btnRejectTutee.Location = new System.Drawing.Point(189, 374);
             this.btnRejectTutee.Name = "btnRejectTutee";
             this.btnRejectTutee.Size = new System.Drawing.Size(177, 23);
             this.btnRejectTutee.TabIndex = 25;
@@ -645,7 +647,7 @@
             // 
             this.btnFinalize.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
             this.btnFinalize.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.btnFinalize.Location = new System.Drawing.Point(6, 336);
+            this.btnFinalize.Location = new System.Drawing.Point(6, 374);
             this.btnFinalize.Name = "btnFinalize";
             this.btnFinalize.Size = new System.Drawing.Size(177, 23);
             this.btnFinalize.TabIndex = 24;
@@ -668,7 +670,7 @@
             this.lvTutee.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(237)))), ((int)(((byte)(239)))), ((int)(((byte)(239)))));
             this.lvTutee.Location = new System.Drawing.Point(0, 24);
             this.lvTutee.Name = "lvTutee";
-            this.lvTutee.Size = new System.Drawing.Size(699, 140);
+            this.lvTutee.Size = new System.Drawing.Size(699, 162);
             this.lvTutee.TabIndex = 22;
             this.lvTutee.UseCompatibleStateImageBehavior = false;
             this.lvTutee.View = System.Windows.Forms.View.Details;
@@ -679,7 +681,7 @@
             // 
             this.label6.AutoSize = true;
             this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label6.Location = new System.Drawing.Point(6, 170);
+            this.label6.Location = new System.Drawing.Point(6, 189);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(217, 15);
             this.label6.TabIndex = 21;
@@ -688,9 +690,9 @@
             // lvPendingTutee
             // 
             this.lvPendingTutee.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(237)))), ((int)(((byte)(239)))), ((int)(((byte)(239)))));
-            this.lvPendingTutee.Location = new System.Drawing.Point(0, 188);
+            this.lvPendingTutee.Location = new System.Drawing.Point(0, 207);
             this.lvPendingTutee.Name = "lvPendingTutee";
-            this.lvPendingTutee.Size = new System.Drawing.Size(699, 140);
+            this.lvPendingTutee.Size = new System.Drawing.Size(699, 161);
             this.lvPendingTutee.TabIndex = 18;
             this.lvPendingTutee.UseCompatibleStateImageBehavior = false;
             this.lvPendingTutee.View = System.Windows.Forms.View.Details;
@@ -712,7 +714,7 @@
             this.btnAdvanceRequest.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnAdvanceRequest.Location = new System.Drawing.Point(736, 168);
             this.btnAdvanceRequest.Name = "btnAdvanceRequest";
-            this.btnAdvanceRequest.Size = new System.Drawing.Size(200, 23);
+            this.btnAdvanceRequest.Size = new System.Drawing.Size(197, 23);
             this.btnAdvanceRequest.TabIndex = 17;
             this.btnAdvanceRequest.Text = "Make Advanced Tutor Request";
             this.btnAdvanceRequest.UseVisualStyleBackColor = false;
@@ -722,9 +724,9 @@
             // 
             this.btnChangePassword.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(208)))), ((int)(((byte)(222)))), ((int)(((byte)(229)))));
             this.btnChangePassword.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.btnChangePassword.Location = new System.Drawing.Point(736, 204);
+            this.btnChangePassword.Location = new System.Drawing.Point(736, 231);
             this.btnChangePassword.Name = "btnChangePassword";
-            this.btnChangePassword.Size = new System.Drawing.Size(200, 23);
+            this.btnChangePassword.Size = new System.Drawing.Size(197, 23);
             this.btnChangePassword.TabIndex = 18;
             this.btnChangePassword.Text = "Change Password";
             this.btnChangePassword.UseVisualStyleBackColor = false;
@@ -733,7 +735,7 @@
             // pictureBox1
             // 
             this.pictureBox1.Image = global::TutorMaster.Properties.Resources.WatermarkR2;
-            this.pictureBox1.Location = new System.Drawing.Point(834, 332);
+            this.pictureBox1.Location = new System.Drawing.Point(832, 364);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(119, 119);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -744,7 +746,7 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(733, 231);
+            this.label1.Location = new System.Drawing.Point(733, 257);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(115, 15);
             this.label1.TabIndex = 25;
@@ -755,7 +757,7 @@
             this.lblOpen.AutoSize = true;
             this.lblOpen.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(7)))), ((int)(((byte)(104)))), ((int)(((byte)(10)))));
             this.lblOpen.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(237)))), ((int)(((byte)(239)))), ((int)(((byte)(239)))));
-            this.lblOpen.Location = new System.Drawing.Point(733, 249);
+            this.lblOpen.Location = new System.Drawing.Point(733, 275);
             this.lblOpen.Name = "lblOpen";
             this.lblOpen.Padding = new System.Windows.Forms.Padding(40, 4, 40, 4);
             this.lblOpen.Size = new System.Drawing.Size(113, 21);
@@ -767,7 +769,7 @@
             this.lblTutor.AutoSize = true;
             this.lblTutor.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(6)))), ((int)(((byte)(120)))), ((int)(((byte)(122)))));
             this.lblTutor.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(237)))), ((int)(((byte)(239)))), ((int)(((byte)(239)))));
-            this.lblTutor.Location = new System.Drawing.Point(733, 276);
+            this.lblTutor.Location = new System.Drawing.Point(733, 302);
             this.lblTutor.Name = "lblTutor";
             this.lblTutor.Padding = new System.Windows.Forms.Padding(34, 4, 33, 4);
             this.lblTutor.Size = new System.Drawing.Size(113, 21);
@@ -779,7 +781,7 @@
             this.lblTutee.AutoSize = true;
             this.lblTutee.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(4)))), ((int)(((byte)(76)))), ((int)(((byte)(114)))));
             this.lblTutee.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(237)))), ((int)(((byte)(239)))), ((int)(((byte)(239)))));
-            this.lblTutee.Location = new System.Drawing.Point(733, 304);
+            this.lblTutee.Location = new System.Drawing.Point(733, 330);
             this.lblTutee.Name = "lblTutee";
             this.lblTutee.Padding = new System.Windows.Forms.Padding(19, 4, 20, 4);
             this.lblTutee.Size = new System.Drawing.Size(113, 21);
@@ -791,7 +793,7 @@
             this.lblAttention.AutoSize = true;
             this.lblAttention.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(137)))), ((int)(((byte)(6)))), ((int)(((byte)(6)))));
             this.lblAttention.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(237)))), ((int)(((byte)(239)))), ((int)(((byte)(239)))));
-            this.lblAttention.Location = new System.Drawing.Point(733, 332);
+            this.lblAttention.Location = new System.Drawing.Point(733, 358);
             this.lblAttention.Name = "lblAttention";
             this.lblAttention.Padding = new System.Windows.Forms.Padding(15, 4, 15, 4);
             this.lblAttention.Size = new System.Drawing.Size(113, 21);
@@ -803,7 +805,7 @@
             this.lblWaiting.AutoSize = true;
             this.lblWaiting.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(4)))), ((int)(((byte)(13)))), ((int)(((byte)(137)))));
             this.lblWaiting.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(237)))), ((int)(((byte)(239)))), ((int)(((byte)(239)))));
-            this.lblWaiting.Location = new System.Drawing.Point(733, 360);
+            this.lblWaiting.Location = new System.Drawing.Point(733, 386);
             this.lblWaiting.Name = "lblWaiting";
             this.lblWaiting.Padding = new System.Windows.Forms.Padding(8, 4, 8, 4);
             this.lblWaiting.Size = new System.Drawing.Size(114, 21);
@@ -820,12 +822,25 @@
             this.label2.TabIndex = 31;
             this.label2.Text = "Welcome Student\'s Name!";
             // 
+            // btnReload
+            // 
+            this.btnReload.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(208)))), ((int)(((byte)(222)))), ((int)(((byte)(229)))));
+            this.btnReload.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btnReload.Location = new System.Drawing.Point(736, 197);
+            this.btnReload.Name = "btnReload";
+            this.btnReload.Size = new System.Drawing.Size(197, 23);
+            this.btnReload.TabIndex = 17;
+            this.btnReload.Text = "Refresh";
+            this.btnReload.UseVisualStyleBackColor = false;
+            this.btnReload.Click += new System.EventHandler(this.btnReload_Click);
+            // 
             // StudentMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(218)))), ((int)(((byte)(232)))), ((int)(((byte)(239)))));
-            this.ClientSize = new System.Drawing.Size(948, 450);
+            this.ClientSize = new System.Drawing.Size(948, 481);
+            this.Controls.Add(this.btnReload);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.lblWaiting);
             this.Controls.Add(this.lblAttention);
@@ -844,7 +859,8 @@
             this.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(61)))), ((int)(((byte)(71)))), ((int)(((byte)(76)))));
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "StudentMain";
-            this.Text = "StudentMain";
+            this.Text = "TutorMaster";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.StudentMain_FormClosed);
             this.dayTabs.ResumeLayout(false);
             this.tabSunday.ResumeLayout(false);
             this.tabSunday.PerformLayout();
@@ -939,5 +955,6 @@
         private System.Windows.Forms.Label lblAttention;
         private System.Windows.Forms.Label lblWaiting;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Button btnReload;
     }
 }

@@ -1212,7 +1212,7 @@ namespace TutorMaster
             }
             else
             {
-                RemoveAvailForm g = new RemoveAvailForm(id, removeList);                                           //else, send that information to the remove availability form
+                RemoveAvailForm g = new RemoveAvailForm(id, removeList, false);                                           //else, send that information to the remove availability form
                 g.Show();
                 this.Close();
             }
@@ -1732,21 +1732,49 @@ namespace TutorMaster
         {
             Login g = new Login();
             g.Show();
-            this.Close();
+            this.Dispose();
         }
 
         private void btnAdvanceRequest_Click(object sender, EventArgs e)
         {
             AdvancedRequest g = new AdvancedRequest(id);
             g.Show();
-            Close();
+            this.Dispose();
         }
 
         private void btnChangePassword_Click(object sender, EventArgs e)
         {
             ChangePasswordForm g = new ChangePasswordForm(id);
             g.Show();
-            this.Close();
+            this.Dispose();
+        }
+
+        private void StudentMain_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            Login g = new Login();
+            g.Show();
+            this.Dispose();
+        }
+
+        private void btnAddOpenBlock_Click(object sender, EventArgs e)
+        {
+            AddAvailability g = new AddAvailability(id);
+            g.Show();
+            //this.Dispose();
+        }
+
+        private void btnReload_Click(object sender, EventArgs e)
+        {
+            clearDayListViews();
+            clearAppointmentListviews();
+            weekStartDateTime.Value = DateTime.Today;                                                             //initialize datetime pickers to be today
+            DateTime start = DateTime.Now;
+            setSelectedTab(start);
+            loadAvail(start);                                                                                     //load availability starting from today
+            setUpLabels(start);                                                                                   //set up the labels above each schedule list view a week from today
+            loadAppointments(false);                                                                              //load the appointments
+            disableButtons();                                                                                     //disable necessary buttons
+
         }
         
         
