@@ -161,7 +161,6 @@ namespace TutorMaster
             }
         }
 
-
         private void sortByNumber(ref List<Class> classList)
         {
             List<int> tempList = new List<int>();
@@ -963,7 +962,7 @@ namespace TutorMaster
             
             EditStudentForm g = new EditStudentForm(studentID);
             g.Show();
-            this.Close();
+            this.Dispose();
         }
 
         private void lvRequests_ItemChecked(object sender, ItemCheckedEventArgs e)

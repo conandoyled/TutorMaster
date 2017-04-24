@@ -114,6 +114,7 @@
             // btnStudentSchedule
             // 
             this.btnStudentSchedule.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
+            this.btnStudentSchedule.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnStudentSchedule.Location = new System.Drawing.Point(415, 343);
             this.btnStudentSchedule.Name = "btnStudentSchedule";
             this.btnStudentSchedule.Size = new System.Drawing.Size(140, 23);
@@ -136,6 +137,7 @@
             // btnDelete
             // 
             this.btnDelete.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
+            this.btnDelete.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnDelete.Location = new System.Drawing.Point(278, 343);
             this.btnDelete.Name = "btnDelete";
             this.btnDelete.Size = new System.Drawing.Size(130, 23);
@@ -147,6 +149,7 @@
             // btnCreateStudent
             // 
             this.btnCreateStudent.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
+            this.btnCreateStudent.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnCreateStudent.Location = new System.Drawing.Point(6, 343);
             this.btnCreateStudent.Name = "btnCreateStudent";
             this.btnCreateStudent.Size = new System.Drawing.Size(130, 23);
@@ -158,6 +161,7 @@
             // btnEdit
             // 
             this.btnEdit.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
+            this.btnEdit.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnEdit.Location = new System.Drawing.Point(142, 343);
             this.btnEdit.Name = "btnEdit";
             this.btnEdit.Size = new System.Drawing.Size(130, 23);
@@ -229,6 +233,7 @@
             // btnFacultyDelete
             // 
             this.btnFacultyDelete.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
+            this.btnFacultyDelete.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnFacultyDelete.Location = new System.Drawing.Point(446, 333);
             this.btnFacultyDelete.Name = "btnFacultyDelete";
             this.btnFacultyDelete.Size = new System.Drawing.Size(130, 23);
@@ -240,6 +245,7 @@
             // btnFacultyAdd
             // 
             this.btnFacultyAdd.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
+            this.btnFacultyAdd.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnFacultyAdd.Location = new System.Drawing.Point(446, 256);
             this.btnFacultyAdd.Name = "btnFacultyAdd";
             this.btnFacultyAdd.Size = new System.Drawing.Size(130, 38);
@@ -251,6 +257,7 @@
             // btnFacultyEdit
             // 
             this.btnFacultyEdit.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
+            this.btnFacultyEdit.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnFacultyEdit.Location = new System.Drawing.Point(446, 302);
             this.btnFacultyEdit.Name = "btnFacultyEdit";
             this.btnFacultyEdit.Size = new System.Drawing.Size(130, 23);
@@ -366,6 +373,7 @@
             // btnClassDelete
             // 
             this.btnClassDelete.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
+            this.btnClassDelete.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnClassDelete.Location = new System.Drawing.Point(434, 297);
             this.btnClassDelete.Name = "btnClassDelete";
             this.btnClassDelete.Size = new System.Drawing.Size(130, 23);
@@ -377,6 +385,7 @@
             // btnClassAdd
             // 
             this.btnClassAdd.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
+            this.btnClassAdd.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnClassAdd.Location = new System.Drawing.Point(434, 237);
             this.btnClassAdd.Name = "btnClassAdd";
             this.btnClassAdd.Size = new System.Drawing.Size(130, 23);
@@ -388,6 +397,7 @@
             // btnClassEdit
             // 
             this.btnClassEdit.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
+            this.btnClassEdit.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnClassEdit.Location = new System.Drawing.Point(434, 266);
             this.btnClassEdit.Name = "btnClassEdit";
             this.btnClassEdit.Size = new System.Drawing.Size(130, 23);
@@ -482,9 +492,10 @@
             // btnRejectRequests
             // 
             this.btnRejectRequests.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
-            this.btnRejectRequests.Location = new System.Drawing.Point(291, 343);
+            this.btnRejectRequests.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btnRejectRequests.Location = new System.Drawing.Point(314, 343);
             this.btnRejectRequests.Name = "btnRejectRequests";
-            this.btnRejectRequests.Size = new System.Drawing.Size(116, 23);
+            this.btnRejectRequests.Size = new System.Drawing.Size(148, 23);
             this.btnRejectRequests.TabIndex = 4;
             this.btnRejectRequests.Text = "Reject Requests";
             this.btnRejectRequests.UseVisualStyleBackColor = false;
@@ -493,9 +504,10 @@
             // btnEditRequests
             // 
             this.btnEditRequests.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
-            this.btnEditRequests.Location = new System.Drawing.Point(147, 343);
+            this.btnEditRequests.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btnEditRequests.Location = new System.Drawing.Point(160, 343);
             this.btnEditRequests.Name = "btnEditRequests";
-            this.btnEditRequests.Size = new System.Drawing.Size(119, 23);
+            this.btnEditRequests.Size = new System.Drawing.Size(148, 23);
             this.btnEditRequests.TabIndex = 3;
             this.btnEditRequests.Text = "Edit Request";
             this.btnEditRequests.UseVisualStyleBackColor = false;
@@ -504,9 +516,10 @@
             // btnAcceptRequest
             // 
             this.btnAcceptRequest.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
-            this.btnAcceptRequest.Location = new System.Drawing.Point(14, 343);
+            this.btnAcceptRequest.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btnAcceptRequest.Location = new System.Drawing.Point(6, 343);
             this.btnAcceptRequest.Name = "btnAcceptRequest";
-            this.btnAcceptRequest.Size = new System.Drawing.Size(113, 23);
+            this.btnAcceptRequest.Size = new System.Drawing.Size(148, 23);
             this.btnAcceptRequest.TabIndex = 2;
             this.btnAcceptRequest.Text = "Accept Requests";
             this.btnAcceptRequest.UseVisualStyleBackColor = false;
@@ -515,9 +528,9 @@
             // lvRequests
             // 
             this.lvRequests.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(237)))), ((int)(((byte)(239)))), ((int)(((byte)(239)))));
-            this.lvRequests.Location = new System.Drawing.Point(-4, 0);
+            this.lvRequests.Location = new System.Drawing.Point(0, 0);
             this.lvRequests.Name = "lvRequests";
-            this.lvRequests.Size = new System.Drawing.Size(621, 337);
+            this.lvRequests.Size = new System.Drawing.Size(617, 337);
             this.lvRequests.TabIndex = 1;
             this.lvRequests.UseCompatibleStateImageBehavior = false;
             this.lvRequests.View = System.Windows.Forms.View.Details;

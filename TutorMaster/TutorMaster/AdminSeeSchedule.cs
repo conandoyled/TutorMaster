@@ -11,7 +11,7 @@ namespace TutorMaster
 {
     public partial class AdminSeeSchedule : Form
     {
-        private bool open;
+        //private bool open;
         private int id;
 
         public AdminSeeSchedule(int accID)
@@ -26,7 +26,7 @@ namespace TutorMaster
             //loadAvail(start);                                                                                     //load availability starting from today
             loadAppointments(false);                                                                              //load the appointments
             disableButtons();                                                                                     //disable necessary buttons
-            open = true;
+            //open = true;
 
             lblNameTitle.Text = (from row in db.Users where row.ID == id select row.FirstName + " " + row.LastName).First() + "'s Schedule";
         }
@@ -137,7 +137,7 @@ namespace TutorMaster
                                             join cmt in db.Commitments on stucmt.CmtID equals cmt.CmtID
                                             select cmt).ToList();                                                   //get all of the student commitments for this student that is signed in
 
-                QuickSort(ref cmtList, cmtList.Count());                                                            //sort their list using QuickSort
+                SortsAndSearches.QuickSort(ref cmtList, cmtList.Count());                                                            //sort their list using QuickSort
 
                 if (cmtList.Count > 0)
                 {                                                                                                   //initialize carries to the first commitment
@@ -152,7 +152,7 @@ namespace TutorMaster
                         DateTime nextCommitDate = Convert.ToDateTime(cmtList[i + 1].StartTime);                     //get datetime of commitment ahead of it
 
                         //if the two commits are distinct besides time and current commit is within week of start time
-                        if (!sameCategory(cmtList[i], cmtList[i + 1]) || currentCommitDate.AddMinutes(15) != nextCommitDate)
+                        if (!Commits.sameCategory(cmtList[i], cmtList[i + 1]) || currentCommitDate.AddMinutes(15) != nextCommitDate)
                         {
                             endTime = endTime = Convert.ToDateTime(cmtList[i].StartTime).AddMinutes(15).ToString();                                               //update endtime and add what we have so far
                             addToAppointments(initialCommit, startTime, endTime);                                   //add the chunk of time to our listviews
@@ -190,34 +190,32 @@ namespace TutorMaster
                 partner = partnerData.FirstName + " " + partnerData.LastName;
             }
 
-            if (accepted(commit))                                                                                                                //if commit accepted, add to accepted listview
+            ListViewItem item = new ListViewItem(new string[] { startTime, endTime, commit.Class, commit.Location, 
+                    commit.Open.ToString(), commit.Tutoring.ToString(), commit.Weekly.ToString(), partner, commit.ID.ToString() });
+            if (Commits.isAccepted(commit))                                                                                                                //if commit accepted, add to accepted listview
             {
-                lvFinalized.Items.Add(new ListViewItem(new string[] { startTime, endTime, commit.Class, commit.Location, 
-                    commit.Open.ToString(), commit.Tutoring.ToString(), commit.Weekly.ToString(), partner, commit.ID.ToString() }));
+                lvFinalized.Items.Add(item);
             }
-            else if (waitingForLocation(commit))                                                                                                 //if waiting for location to be proposed
+            else if (Commits.waitingForLocation(commit))                                                                                                 //if waiting for location to be proposed
             {                                                                                                                                    //add to pending tutor listview
-                lvPendingTutor.Items.Add(new ListViewItem(new string[] { startTime, endTime, commit.Class, commit.Location, 
-                    commit.Open.ToString(), commit.Tutoring.ToString(), commit.Weekly.ToString(), partner, commit.ID.ToString() }));
+                lvPendingTutor.Items.Add(item);
             }
-            else if (waitingForTutee(commit))                                                                                                    //if tutor waiting for tutee to respond to location
+            else if (Commits.waitingForTutee(commit))                                                                                                    //if tutor waiting for tutee to respond to location
             {                                                                                                                                    //add to pending tutee listview
-                lvTutor.Items.Add(new ListViewItem(new string[] { startTime, endTime, commit.Class, commit.Location, 
-                    commit.Open.ToString(), commit.Tutoring.ToString(), commit.Weekly.ToString(), partner, commit.ID.ToString() }));
+                lvTutor.Items.Add(item);
             }
-            else if (waitingForLocationApproval(commit))                                                                                         //if waiting for location approval
+            else if (Commits.waitingForLocationApproval(commit))                                                                                         //if waiting for location approval
             {                                                                                                                                    //add to pending tutee listview
-                lvPendingTutee.Items.Add(new ListViewItem(new string[] { startTime, endTime, commit.Class, commit.Location, 
-                    commit.Open.ToString(), commit.Tutoring.ToString(), commit.Weekly.ToString(), partner, commit.ID.ToString() }));
+                lvPendingTutee.Items.Add(item);
             }
-            else if (waitingForTutor(commit))                                                                                                    //if waiting for tutor to respond to appointment
+            else if (Commits.waitingForTutor(commit))                                                                                                    //if waiting for tutor to respond to appointment
             {                                                                                                                                    //add to tutee listview
-                lvTutee.Items.Add(new ListViewItem(new string[] { startTime, endTime, commit.Class, commit.Location, 
-                    commit.Open.ToString(), commit.Tutoring.ToString(), commit.Weekly.ToString(), partner, commit.ID.ToString() }));
+                lvTutee.Items.Add(item);
             }
             else
             {
-                lvOpen.Items.Add(new ListViewItem(new string[] { startTime, endTime, commit.Weekly.ToString() }));
+                ListViewItem openItem = new ListViewItem(new string[] {startTime, endTime, commit.Weekly.ToString()});
+                lvOpen.Items.Add(openItem);
             }
 
         }
@@ -235,151 +233,6 @@ namespace TutorMaster
             }
 
             return yesno;
-        }
-
-        private bool isOpen(TutorMaster.Commitment commit)                     //criteria for a commitment to be open
-        {
-            return (commit.Class == "-" && commit.Location == "-" && commit.Open == true && commit.Tutoring == false && commit.ID == -1);
-        }
-
-        private bool waitingForTutor(TutorMaster.Commitment commit)            //criteria for a commitment to be waiting for a tutor
-        {
-            return (commit.Class != "-" && commit.Location == "-" && commit.Open == false && commit.Tutoring == false && commit.ID != -1);
-        }
-
-        private bool waitingForLocation(TutorMaster.Commitment commit)         //criteria for a commitment to be waiting for a location
-        {
-            return (commit.Class != "-" && commit.Location == "-" && commit.Open == false && commit.Tutoring == true && commit.ID != -1);
-        }
-
-        private bool waitingForLocationApproval(TutorMaster.Commitment commit) //criteria for a commitment to be waiting for a location approval
-        {
-            return (commit.Class != "-" && commit.Location.Contains('?') && commit.Open == false && commit.Tutoring == false && commit.ID != -1);
-        }
-
-        private bool waitingForTutee(TutorMaster.Commitment commit)            //criteria for a commitment to be waiting for a tutee
-        {
-            return (commit.Class != "-" && commit.Location.Contains('?') && commit.Open == false && commit.Tutoring == true && commit.ID != -1);
-        }
-
-        private bool accepted(TutorMaster.Commitment commit)                   //criteria for a commitment to be in the accepted state
-        {
-            return (commit.Class != "-" && !commit.Location.Contains('?') && commit.Location != "-" && commit.Open == false && commit.ID != -1);
-        }
-
-        private bool sameCategory(TutorMaster.Commitment commitFirst, TutorMaster.Commitment commitSecond)      //ask if the 15 minute time block of the first has the same values as the second
-        {
-            return (commitFirst.Class == commitSecond.Class && commitFirst.Location == commitSecond.Location
-                    && commitFirst.Open == commitSecond.Open && commitFirst.Weekly == commitSecond.Weekly
-                    && commitFirst.ID == commitSecond.ID);
-        }
-
-        //QuickSort functions
-        private void Split(ref List<TutorMaster.Commitment> values, int first, int last, ref int splitPoint)
-        {
-            int center = (first + last) / 2;
-            int median = 0;
-            DateTime valueF = Convert.ToDateTime(values[first].StartTime);
-            DateTime valueC = Convert.ToDateTime(values[center].StartTime);
-            DateTime valueL = Convert.ToDateTime(values[last].StartTime);
-
-            if ((DateTime.Compare(valueF, valueC) >= 0 && DateTime.Compare(valueF, valueL) <= 0) ||
-                (DateTime.Compare(valueF, valueL) >= 0 && DateTime.Compare(valueF, valueL) <= 0))
-            {
-                median = first;
-            }
-            else if (DateTime.Compare(valueC, valueF) >= 0 && (DateTime.Compare(valueC, valueL) <= 0) ||
-                   (DateTime.Compare(valueC, valueF)) >= 0 && (DateTime.Compare(valueC, valueL) <= 0))
-            {
-                median = center;
-            }
-            else
-            {
-                median = last;
-            }
-            //Swap the median and first committments in the list
-            TutorMaster.Commitment temp = values[first];
-            values[first] = values[median];
-            values[median] = temp;
-
-            valueF = Convert.ToDateTime(values[first].StartTime); //get current first datetime
-            valueC = Convert.ToDateTime(values[center].StartTime);//get current center datetime;
-            valueL = Convert.ToDateTime(values[last].StartTime);
-
-            TutorMaster.Commitment splitVal = values[first];
-            DateTime splitDate = Convert.ToDateTime(values[first].StartTime);
-
-            int saveFirst = first;
-            bool onCorrectSide = true;
-
-            first++;
-            valueF = Convert.ToDateTime(values[first].StartTime);
-            do
-            {
-                onCorrectSide = true;
-                while (onCorrectSide)
-                {
-                    if (DateTime.Compare(valueF, splitDate) > 0)
-                    {
-                        onCorrectSide = false;
-                    }
-                    else
-                    {
-                        first++;
-                        valueF = Convert.ToDateTime(values[first].StartTime);
-                        onCorrectSide = (first <= last);
-                    }
-                }
-
-                onCorrectSide = (first <= last);
-                while (onCorrectSide)
-                {
-                    if (DateTime.Compare(valueL, splitDate) <= 0)
-                    {
-                        onCorrectSide = false;
-                    }
-                    else
-                    {
-                        last--;
-                        valueL = Convert.ToDateTime(values[last].StartTime);
-                        onCorrectSide = (first <= last);
-                    }
-                }
-
-                if (first < last)
-                {
-                    TutorMaster.Commitment temp2 = values[first];
-                    values[first] = values[last];
-                    values[last] = temp2;
-                    first++;
-                    last--;
-
-                    valueF = Convert.ToDateTime(values[first].StartTime);
-                    valueL = Convert.ToDateTime(values[last].StartTime);
-                }
-            } while (first <= last);
-
-            splitPoint = last;
-            TutorMaster.Commitment temp3 = values[saveFirst];
-            values[saveFirst] = values[splitPoint];
-            values[splitPoint] = temp3;
-        }
-
-        private void QuickSort2(ref List<TutorMaster.Commitment> values, int first, int last)
-        {
-            if (first < last)
-            {
-                int splitPoint = -99;
-
-                Split(ref values, first, last, ref splitPoint);
-                QuickSort2(ref values, first, splitPoint - 1);
-                QuickSort2(ref values, splitPoint + 1, last);
-            }
-        }
-
-        private void QuickSort(ref List<TutorMaster.Commitment> values, int numValues)
-        {
-            QuickSort2(ref values, 0, numValues - 1);
         }
 
         private void btnAcceptAddLoc_Click(object sender, EventArgs e)
@@ -406,8 +259,8 @@ namespace TutorMaster
 
                 for (int i = 0; i < lvTutor.CheckedItems.Count; i++)
                 {
-                    DateTime startDate = getListViewTime(lvTutor.CheckedItems[i].SubItems[0].Text);
-                    DateTime endDate = getListViewTime(lvTutor.CheckedItems[i].SubItems[1].Text);
+                    DateTime startDate = DateTimeMethods.getListViewTime(lvTutor.CheckedItems[i].SubItems[0].Text);
+                    DateTime endDate = DateTimeMethods.getListViewTime(lvTutor.CheckedItems[i].SubItems[1].Text);
 
                     for (int c = 0; c < tuteeCmtList.Count(); c++)
                     {
@@ -438,32 +291,6 @@ namespace TutorMaster
             resetListViews(false);
         }
 
-        private DateTime getListViewTime(string slot)                                    //take a string of datetime from listview's string
-        {
-            string dateString = slot.Split(' ')[0];                                      //get the entire start datetime string
-
-            int month = Convert.ToInt32(dateString.Split('/')[0]);                       //convert its month value into an integer
-            int day = Convert.ToInt32(dateString.Split('/')[1]);                         //convert its day value into an integer
-
-            string timeString = slot.Split(' ')[1];                                      //get the time part of the start datetime
-
-            int hour = Convert.ToInt32(timeString.Split(':')[0]);                        //convert its hour into an integer
-            int min = Convert.ToInt32(timeString.Split(':')[1]);                         //convert its minutes into an integer
-
-            string amPm = slot.Split(' ')[2];                                            //record whether this is in the morning or evening
-
-            if (hour < 12 && amPm == "PM")                                               //add 12 to hours if necessary
-            {
-                hour += 12;
-            }
-            else if (hour == 12 && amPm == "AM")                                         //if first hour of the day, set hour to 0
-            {
-                hour = 0;
-            }
-            DateTime date = new DateTime(2017, month, day, hour, min, 0);                //make a datetime instance with the collected data and return it
-            return date;
-        }
-
         private void btnRejectTutor_Click(object sender, EventArgs e)
         {
             TutorMasterDBEntities4 db = new TutorMasterDBEntities4();
@@ -487,8 +314,8 @@ namespace TutorMaster
 
             for (int f = 0; f < commits.Count(); f++)
             {
-                DateTime startDate = getStartTime(commits[f]);
-                DateTime endDate = getEndTime(commits[f]);
+                DateTime startDate = DateTimeMethods.getStartTime(commits[f]);
+                DateTime endDate = DateTimeMethods.getEndTime(commits[f]);
 
                 for (int c = 0; c < tutorCmtList.Count(); c++)
                 {
@@ -533,7 +360,7 @@ namespace TutorMaster
         {
             TutorMasterDBEntities4 db = new TutorMasterDBEntities4();
             List<string> commits = new List<string>();
-
+            
             for (int i = 0; i < lvFinalized.CheckedItems.Count; i++)
             {
                 commits.Add(lvFinalized.CheckedItems[i].SubItems[0].Text.ToString() + "," + lvFinalized.CheckedItems[i].SubItems[1].Text.ToString() + "," + lvFinalized.CheckedItems[i].SubItems[8].Text.ToString());
@@ -547,8 +374,8 @@ namespace TutorMaster
 
             for (int f = 0; f < commits.Count(); f++)
             {
-                DateTime startDate = getStartTime(commits[f]);
-                DateTime endDate = getEndTime(commits[f]);
+                DateTime startDate = DateTimeMethods.getStartTime(commits[f]);
+                DateTime endDate = DateTimeMethods.getEndTime(commits[f]);
 
                 for (int c = 0; c < stdCmtList.Count(); c++)
                 {
@@ -620,8 +447,8 @@ namespace TutorMaster
 
             for (int f = 0; f < commits.Count(); f++)
             {
-                DateTime startDate = getStartTime(commits[f]);
-                DateTime endDate = getEndTime(commits[f]);
+                DateTime startDate = DateTimeMethods.getStartTime(commits[f]);
+                DateTime endDate = DateTimeMethods.getEndTime(commits[f]);
 
                 for (int c = 0; c < tuteeCmtList.Count(); c++)
                 {
@@ -675,8 +502,8 @@ namespace TutorMaster
             {
                 for (int i = 0; i < lvPendingTutee.CheckedItems.Count; i++)
                 {
-                    DateTime startDate = getListViewTime(lvPendingTutee.CheckedItems[i].SubItems[0].Text);
-                    DateTime endDate = getListViewTime(lvPendingTutee.CheckedItems[i].SubItems[1].Text);
+                    DateTime startDate = DateTimeMethods.getListViewTime(lvPendingTutee.CheckedItems[i].SubItems[0].Text);
+                    DateTime endDate = DateTimeMethods.getListViewTime(lvPendingTutee.CheckedItems[i].SubItems[1].Text);
 
                     for (int c = 0; c < tuteeCmtList.Count(); c++)
                     {
@@ -724,11 +551,6 @@ namespace TutorMaster
             this.Dispose();
         }
 
-        private void btnAcceptAppointment_Click(object sender, EventArgs e)
-        {
-
-        }
-
         private void btnAddAvailability_Click(object sender, EventArgs e)
         {
             AddAvailability g = new AddAvailability(id);
@@ -758,61 +580,6 @@ namespace TutorMaster
                 g.Show();
                 this.Close();
             }
-        }
-
-        private DateTime getStartTime(string slot)                                    //take a string that has the start datetime seperated by a comma with the end datetime
-        {
-            string startDateTime = slot.Split(',')[0];
-            string startDate = startDateTime.Split(' ')[0];                           //get the entire date of start datetime string
-            string startTime = startDateTime.Split(' ')[1];                           //get the entire time of the start datetime string
-            string amPm = startDateTime.Split(' ')[2];                                //record if this is in the morning or evening
-
-            int month = Convert.ToInt32(startDate.Split('/')[0]);                     //get the month
-            int day = Convert.ToInt32(startDate.Split('/')[1]);                       //get the day
-            int year = Convert.ToInt32(startDate.Split('/')[2]);                      //get the year
-
-            int hour = Convert.ToInt32(startTime.Split(':')[0]);                      //get the hour
-            int min = Convert.ToInt32(startTime.Split(':')[1]);                       //get the minutes
-
-
-            if (hour < 12 && amPm == "PM")                                            //add 12 to hours if necessary
-            {
-                hour += 12;
-            }
-            else if (hour == 12 && amPm == "AM")                                      //if first hour of the day, set hour to 0
-            {
-                hour = 0;
-            }
-            DateTime date = new DateTime(year, month, day, hour, min, 0);             //make a datetime instance with the collected data and return it
-            return date;
-        }
-
-        private DateTime getEndTime(string slot)                                      //take a string that has the start datetime seperated by a comma with the end datetime
-        {
-            string startDateTime = slot.Split(',')[1];
-            string startDate = startDateTime.Split(' ')[0];                           //get the entire date of end datetime string
-            string startTime = startDateTime.Split(' ')[1];                           //get the entire time of the end datetime string
-            string amPm = startDateTime.Split(' ')[2];                                //record if this is in the morning or evening
-
-            int month = Convert.ToInt32(startDate.Split('/')[0]);                     //get the month
-            int day = Convert.ToInt32(startDate.Split('/')[1]);                       //get the day
-            int year = Convert.ToInt32(startDate.Split('/')[2]);                      //get the year
-
-            int hour = Convert.ToInt32(startTime.Split(':')[0]);
-            int min = Convert.ToInt32(startTime.Split(':')[1]);
-
-
-            if (hour < 12 && amPm == "PM")                                            //add 12 to hours if necessary
-            {
-                hour += 12;
-            }
-            else if (hour == 12 && amPm == "AM")                                      //if first hour of the day, set hour to 0
-            {
-                hour = 0;
-            }
-
-            DateTime date = new DateTime(year, month, day, hour, min, 0);             //make a datetime instance with the collected data and return it
-            return date;
         }
 
         private void lvOpen_ItemChecked(object sender, ItemCheckedEventArgs e)
@@ -986,8 +753,6 @@ namespace TutorMaster
             }
         }
 
-        
-
         private void removeTimeBlocks(bool week)
         {
             setPreviousWeekliesToFalse();                                //set the previous weeklies to false
@@ -1015,31 +780,6 @@ namespace TutorMaster
             }
         }
 
-        private bool weeklyAndFound(Commitment commit, List<DateTime> searchList)
-        {//this function checks if a commitment is weekly and found in the commitment list
-            return commit.Weekly == true && BinarySearch(searchList, Convert.ToDateTime(commit.StartTime));
-        }
-
-        private bool weekBackEarlier(DateTime weekBack, Commitment commit)
-        {//this function sees if the the weekback dateTime is before the commitment time
-            return DateTime.Compare(weekBack, Convert.ToDateTime(commit.StartTime)) < 0;
-        }
-
-        private bool sameTime(Commitment commit, DateTime weekBack)
-        {//this funciton sees if the the commitment is the sametime in the weekback
-            return DateTime.Compare(Convert.ToDateTime(commit.StartTime), weekBack) == 0;
-        }
-
-        private bool endOfSemesIsLater(DateTime endSemes, DateTime weekForward)
-        {
-            return DateTime.Compare(endSemes, weekForward) > 0;
-        }
-
-        private bool forwardEarlierThanStart(DateTime weekForward, Commitment commit)
-        {
-            return DateTime.Compare(weekForward, Convert.ToDateTime(commit.StartTime)) < 0;
-        }
-
         private void setPreviousWeekliesToFalse()
         {
             TutorMasterDBEntities4 db = new TutorMasterDBEntities4();                                         //connect to the database
@@ -1051,13 +791,13 @@ namespace TutorMaster
 
             List<DateTime> searchList = new List<DateTime>();                                                 //initialize search list
 
-            QuickSort(ref cmtList, cmtList.Count());
+            SortsAndSearches.QuickSort(ref cmtList, cmtList.Count());
 
             searchList = getStartTimes();                                                                     //get the startTimes from the listview
 
             for (int i = 0; i < cmtList.Count(); i++)                                                         //for each commitment in the commit list
             {
-                if (weeklyAndFound(cmtList[i], searchList))                                                   //if the commitment is in the search list and weekly
+                if (DateTimeMethods.weeklyAndFound(cmtList[i], searchList))                                                   //if the commitment is in the search list and weekly
                 {
                     DateTime startSemes = new DateTime(2017, 1, 1, 0, 0, 0);
                     DateTime weekBack = Convert.ToDateTime(cmtList[i].StartTime).AddDays(-7);                 //go a week back in time
@@ -1070,7 +810,7 @@ namespace TutorMaster
                         while (first <= last && !found)
                         {
                             int midpoint = (first + last) / 2;
-                            if (sameTime(cmtList[midpoint], weekBack))                                        //if you find the weekBack date time
+                            if (DateTimeMethods.sameTime(cmtList[midpoint], weekBack))                                        //if you find the weekBack date time
                             {
                                 if (cmtList[midpoint].Open == true)                                           //if the commitment is open
                                 {
@@ -1081,7 +821,7 @@ namespace TutorMaster
                             }
                             else
                             {
-                                if (weekBackEarlier(weekBack, cmtList[midpoint]))                                    //if weekback is earlier, search first half of list
+                                if (DateTimeMethods.weekBackEarlier(weekBack, cmtList[midpoint]))                                    //if weekback is earlier, search first half of list
                                 {
                                     last = midpoint - 1;
                                 }
@@ -1106,7 +846,7 @@ namespace TutorMaster
                                         join cmt in db.Commitments on stucmt.CmtID equals cmt.CmtID
                                         select cmt).ToList();
 
-            QuickSort(ref cmtList, cmtList.Count());                                                         //sort the list by DateTime
+            SortsAndSearches.QuickSort(ref cmtList, cmtList.Count());                                                         //sort the list by DateTime
 
             List<DateTime> searchList = new List<DateTime>();
 
@@ -1116,13 +856,13 @@ namespace TutorMaster
             {
                 for (int i = 0; i < cmtList.Count(); i++)
                 {
-                    if (BinarySearch(searchList, Convert.ToDateTime(cmtList[i].StartTime)))
+                    if (SortsAndSearches.BinarySearch(searchList, Convert.ToDateTime(cmtList[i].StartTime)))
                     {
                         if (cmtList[i].Weekly == true)
                         {//ask the user if they want to delete the weekly commitment through the end of the semester
                             DateTime endSemes = new DateTime(2017, 5, 1, 0, 0, 0);                            //get end of semester
                             DateTime weekForward = Convert.ToDateTime(cmtList[i].StartTime).AddDays(7);       //go a week forward
-                            while (endOfSemesIsLater(endSemes, weekForward))                                  //if the end of the semester is later than our commitment start Time
+                            while (DateTimeMethods.endOfSemesIsLater(endSemes, weekForward))                                  //if the end of the semester is later than our commitment start Time
                             {                                                                                 //run a binary search
                                 bool found = false;
                                 int first = 0;
@@ -1130,7 +870,7 @@ namespace TutorMaster
                                 while (first <= last && !found)
                                 {
                                     int midpoint = (first + last) / 2;
-                                    if (sameTime(cmtList[midpoint], weekForward))                             //if commitment time and weekforward time are the same
+                                    if (DateTimeMethods.sameTime(cmtList[midpoint], weekForward))                             //if commitment time and weekforward time are the same
                                     {
                                         if (cmtList[midpoint].Open == true)                                   //and if the midpoint commitment is open
                                         {
@@ -1143,7 +883,7 @@ namespace TutorMaster
                                     }
                                     else
                                     {
-                                        if (forwardEarlierThanStart(weekForward, cmtList[midpoint]))
+                                        if (DateTimeMethods.forwardEarlierThanStart(weekForward, cmtList[midpoint]))
                                         {
                                             last = midpoint - 1;
                                         }
@@ -1169,7 +909,7 @@ namespace TutorMaster
             {
                 for (int i = 0; i < cmtList.Count(); i++)
                 {
-                    if (BinarySearch(searchList, Convert.ToDateTime(cmtList[i].StartTime)))
+                    if (SortsAndSearches.BinarySearch(searchList, Convert.ToDateTime(cmtList[i].StartTime)))
                     {
                         searchList.Remove(Convert.ToDateTime(cmtList[i].StartTime));
                         db.Commitments.DeleteObject(cmtList[i]);
@@ -1179,11 +919,6 @@ namespace TutorMaster
                 }
                 MessageBox.Show("Only the checked 15 minute time blocks have been removed from your availability.");
             }
-        }
-
-        private bool startEarlierThanEnd(DateTime startTime, DateTime endTime)
-        {
-            return startTime.CompareTo(endTime) < 0;
         }
 
         private List<DateTime> getStartTimes()
@@ -1199,69 +934,15 @@ namespace TutorMaster
 
             for (int i = 0; i < removeList.Count(); i++)
             {
-                DateTime startTime = getDate(removeList[i].Split(',')[0]);                 //get the start time
-                DateTime endTime = getDate(removeList[i].Split(',')[1]);                   //get the end time
-                while (startEarlierThanEnd(startTime, endTime))                            //if the start time is before the end time, add the strings to the listviews
+                DateTime startTime = DateTimeMethods.getDate(removeList[i].Split(',')[0]);                 //get the start time
+                DateTime endTime = DateTimeMethods.getDate(removeList[i].Split(',')[1]);                   //get the end time
+                while (DateTimeMethods.startEarlierThanEnd(startTime, endTime))                            //if the start time is before the end time, add the strings to the listviews
                 {
                     resultList.Add(startTime);
                     startTime = startTime.AddMinutes(15);                                  //add the next 15 minute time block
                 }
             }
             return resultList;                                                                 //return the desired list
-        }
-
-        private DateTime getDate(string day)
-        {
-            string totalDate = day.Split(' ')[0];                                          //get the date part of the string
-            int month = Convert.ToInt32(totalDate.Split('/')[0]);                          //get the month part of the string
-            int date = Convert.ToInt32(totalDate.Split('/')[1]);                           //get the date number of the string
-            int year = Convert.ToInt32(totalDate.Split('/')[2]);                           //get the year number of the string
-
-            string time = day.Split(' ')[1];                                               //get the time part of the string
-            int hour = Convert.ToInt32(time.Split(':')[0]);                                //get the hour number from the time string
-            int min = Convert.ToInt32(time.Split(':')[1]);                                 //get the minute number from the time string
-            string amPm = day.Split(' ')[2];                                               //get whether this is in the morning or evening
-
-            if (amPm == "PM" && hour != 12)                                                //if evening and not 12, then add 12
-            {
-                hour += 12;
-            }
-            else if (amPm == "AM" && hour == 12)                                           //if 12AM, then set hour to 0
-            {
-                hour = 0;
-            }
-
-            DateTime result = new DateTime(year, month, date, hour, min, 0);               //return the datetime
-            return result;
-        }
-
-        //binary search to search by dateTime in a commitment list
-        private bool BinarySearch(List<DateTime> cmtList, DateTime commit)
-        {
-            bool found = false;
-            int first = 0;
-            int last = cmtList.Count() - 1;
-            while (first <= last && !found)
-            {
-                int midpoint = (first + last) / 2;
-                if (DateTime.Compare(cmtList[midpoint], commit) == 0)
-                {
-                    found = true;
-                    return found;
-                }
-                else
-                {
-                    if (DateTime.Compare(commit, cmtList[midpoint]) < 0)
-                    {
-                        last = midpoint - 1;
-                    }
-                    else
-                    {
-                        first = midpoint + 1;
-                    }
-                }
-            }
-            return found;
         }
 
         private void btnRemoveAvailability_MouseHover(object sender, EventArgs e)
@@ -1280,7 +961,6 @@ namespace TutorMaster
         {
             lblRemove.Text = "";
         }
-
 
         private void btnRemoveAvailability_Click(object sender, EventArgs e)
         {
@@ -1324,7 +1004,6 @@ namespace TutorMaster
             return false;
         }
 
-
         private void resetListViews(bool reject)
         {
             lvOpen.Items.Clear();
@@ -1345,6 +1024,23 @@ namespace TutorMaster
         {
 
         }
+
+        private void btnEditFinalized_Click(object sender, EventArgs e)
+        {
+            string info = loadEditAppointment();
+            AdminCreateAppointmentForm g = new AdminCreateAppointmentForm(id, info);
+            g.Show();
+        }
+
+        private string loadEditAppointment()
+        {
+            string result = "";
+            for (int i = 0; i < 8; i++)
+            {
+                result += lvFinalized.CheckedItems[0].SubItems[i].Text.ToString() + ",";
+            }
+            result += lvFinalized.CheckedItems[0].SubItems[8].Text.ToString();
+            return result;
+        }
     }
-    
 }

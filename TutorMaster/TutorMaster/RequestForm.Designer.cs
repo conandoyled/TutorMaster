@@ -85,7 +85,6 @@
             this.cbxWeekly.TabIndex = 18;
             this.cbxWeekly.Text = "Is this a weekly appointment?";
             this.cbxWeekly.UseVisualStyleBackColor = true;
-            this.cbxWeekly.CheckedChanged += new System.EventHandler(this.cbxWeekly_CheckedChanged);
             // 
             // combCourseName
             // 
@@ -96,7 +95,6 @@
             this.combCourseName.Name = "combCourseName";
             this.combCourseName.Size = new System.Drawing.Size(149, 21);
             this.combCourseName.TabIndex = 29;
-            this.combCourseName.SelectedIndexChanged += new System.EventHandler(this.combCourseName_SelectedIndexChanged);
             // 
             // combHours
             // 
