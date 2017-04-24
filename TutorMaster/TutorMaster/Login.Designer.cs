@@ -101,7 +101,7 @@
             this.btnSignIn.Location = new System.Drawing.Point(179, 183);
             this.btnSignIn.Name = "btnSignIn";
             this.btnSignIn.Size = new System.Drawing.Size(83, 23);
-            this.btnSignIn.TabIndex = 7;
+            this.btnSignIn.TabIndex = 5;
             this.btnSignIn.Text = "Sign in";
             this.btnSignIn.UseVisualStyleBackColor = false;
             this.btnSignIn.Click += new System.EventHandler(this.btnSignIn_Click);
@@ -124,7 +124,7 @@
             this.btnRegister.Location = new System.Drawing.Point(73, 183);
             this.btnRegister.Name = "btnRegister";
             this.btnRegister.Size = new System.Drawing.Size(83, 23);
-            this.btnRegister.TabIndex = 9;
+            this.btnRegister.TabIndex = 6;
             this.btnRegister.Text = "Register";
             this.btnRegister.UseVisualStyleBackColor = false;
             this.btnRegister.Click += new System.EventHandler(this.btnRegister_Click);
@@ -142,10 +142,11 @@
             // cbxShowPassword
             // 
             this.cbxShowPassword.AutoSize = true;
+            this.cbxShowPassword.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.cbxShowPassword.Location = new System.Drawing.Point(162, 157);
             this.cbxShowPassword.Name = "cbxShowPassword";
-            this.cbxShowPassword.Size = new System.Drawing.Size(102, 17);
-            this.cbxShowPassword.TabIndex = 21;
+            this.cbxShowPassword.Size = new System.Drawing.Size(100, 17);
+            this.cbxShowPassword.TabIndex = 4;
             this.cbxShowPassword.Text = "Show Password";
             this.cbxShowPassword.UseVisualStyleBackColor = true;
             this.cbxShowPassword.CheckedChanged += new System.EventHandler(this.cbxShowPassword_CheckedChanged);

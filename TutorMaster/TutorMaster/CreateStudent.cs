@@ -201,6 +201,7 @@ namespace TutorMaster
                             }
                         }
                     }
+                    uncheckTree();
                     txtFirstname.Text = "";
                     txtLastname.Text = "";
                     txtUsername.Text = "";
@@ -217,6 +218,21 @@ namespace TutorMaster
                     {
                         MessageBox.Show("Request has been sent to the administrator.");
                     }
+                }
+            }
+        }
+
+        private void uncheckTree()
+        {
+            int numDepartments = tvClasses.Nodes.Count;
+            for (int i = 0; i < numDepartments; i++)
+            {
+                int numNodes = tvClasses.Nodes[i].Nodes.Count;
+                tvClasses.Nodes[i].Checked = false;
+                for (int j = 0; j < numNodes; j++)
+                {
+                    TreeNode tn = tvClasses.Nodes[i].Nodes[j];
+                    tn.Checked = false;
                 }
             }
         }

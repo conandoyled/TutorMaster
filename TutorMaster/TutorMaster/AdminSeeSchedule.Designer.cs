@@ -60,6 +60,7 @@
             this.btnDone = new System.Windows.Forms.Button();
             this.lblRemove = new System.Windows.Forms.Label();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.btnRefresh = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabAccepted.SuspendLayout();
@@ -427,12 +428,23 @@
             this.pictureBox1.TabIndex = 22;
             this.pictureBox1.TabStop = false;
             // 
+            // btnRefresh
+            // 
+            this.btnRefresh.Location = new System.Drawing.Point(204, 450);
+            this.btnRefresh.Name = "btnRefresh";
+            this.btnRefresh.Size = new System.Drawing.Size(132, 23);
+            this.btnRefresh.TabIndex = 23;
+            this.btnRefresh.Text = "Refresh";
+            this.btnRefresh.UseVisualStyleBackColor = true;
+            this.btnRefresh.Click += new System.EventHandler(this.btnRefresh_Click);
+            // 
             // AdminSeeSchedule
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(218)))), ((int)(((byte)(232)))), ((int)(((byte)(239)))));
             this.ClientSize = new System.Drawing.Size(793, 505);
+            this.Controls.Add(this.btnRefresh);
             this.Controls.Add(this.lblRemove);
             this.Controls.Add(this.btnDone);
             this.Controls.Add(this.lblNameTitle);
@@ -490,5 +502,6 @@
         private System.Windows.Forms.Label lblRemove;
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.Button btnEditFinalized;
+        private System.Windows.Forms.Button btnRefresh;
     }
 }

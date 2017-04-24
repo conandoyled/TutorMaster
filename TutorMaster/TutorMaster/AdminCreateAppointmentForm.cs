@@ -553,6 +553,7 @@ namespace TutorMaster
                     int sessionLength = Convert.ToInt32(cbxHour.Text) * 4 + (Convert.ToInt32(cbxMinutes.Text) / 15);
 
                     addCommits(timeSlot, rememberStudIDs[lvTimeMatches.CheckedIndices[0]], id, tutorCommits, tuteeCommits, classCode, db, cbWeekly.Checked, sessionLength);
+                    MessageBox.Show("The appointment has been set and finalized in both student's schedules.");
                 }
                 else
                 {
@@ -574,6 +575,7 @@ namespace TutorMaster
                     int sessionLength = Convert.ToInt32(cbxHour.Text) * 4 + (Convert.ToInt32(cbxMinutes.Text) / 15);
 
                     addCommits(timeSlot, id, rememberStudIDs[chosenStudentIndex], tutorCommits, tuteeCommits, classCode, db, cbWeekly.Checked, sessionLength);
+                    MessageBox.Show("The appointment has been set and finalized in both student's schedules.");
                 }
                 
                 AdminSeeSchedule g = new AdminSeeSchedule(id);
