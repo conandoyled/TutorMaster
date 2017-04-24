@@ -29,6 +29,7 @@ namespace TutorMaster
             action = act;
             accID = id;
             setupClasses();
+            getUsernames();
             if (action == EDIT)
             {
                 loadFormInfo(accID);
@@ -41,7 +42,7 @@ namespace TutorMaster
         private void getUsernames()
         {
             TutorMasterDBEntities4 db = new TutorMasterDBEntities4();
-            usernameList = db.Users.Select(u => u.Username).ToList();
+            usernameList = (from row in db.Users select row.Username).ToList();
         }
 
         //this function gets all of the classes in the database and the department names and loads them into a tree view
@@ -163,6 +164,10 @@ namespace TutorMaster
                     updateStudent.Tutor = tutor;
                     updateStudent.Tutee = tutee;
                     db.SaveChanges();
+
+                    AdminMain g = new AdminMain();
+                    g.Show();
+                    this.Dispose();
                 }
                 else
                 {
@@ -213,8 +218,6 @@ namespace TutorMaster
                         MessageBox.Show("Request has been sent to the administrator.");
                     }
                 }
-
-                
             }
         }
 
@@ -253,12 +256,37 @@ namespace TutorMaster
 
         private bool verifyTaken()
         {
+            TutorMasterDBEntities4 db = new TutorMasterDBEntities4();
+            string oldUsername;
+            try
+            {
+                oldUsername = (from row in db.Users where row.ID == accID select row.Username).First();
+            }
+            catch (Exception e)
+            {
+                oldUsername = "";
+            }
+            
+            string username;
             for (int i = 0; i < usernameList.Count(); i++)
             {
-                if (txtUsername.Text == usernameList[i] || (txtUsername.Text + "?") == usernameList[i])
+                username = usernameList[i];
+                if (txtUsername.Text == username || (txtUsername.Text + "?") == username)
                 {
-                    lblUsername.Text = "Already Taken";
-                    return true;
+
+                    if (action == EDIT)
+                    {
+                        if (!username.Equals(oldUsername))
+                        {
+                            lblUsername.Text = "Already Taken";
+                            return true;
+                        }
+                    }
+                    else
+                    {
+                        lblUsername.Text = "Already Taken";
+                        return true;
+                    }
                 }
             }
             return false;
@@ -271,7 +299,7 @@ namespace TutorMaster
             newUser.ID = id;
             newUser.FirstName = fname;
             newUser.LastName = lname;
-            newUser.Username = username + "?";
+            newUser.Username = username;
             newUser.Password = password;
             newUser.Email = email;
             newUser.AccountType = accounttype;
