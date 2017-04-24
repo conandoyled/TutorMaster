@@ -339,9 +339,6 @@ namespace TutorMaster
                                  join cla in db.Classes on stucla.ClassCode equals cla.ClassCode
                                  select cla).ToList();
 
-            var requests = (from row in db.TutorRequests where row.ID == accID select row).ToList();
-            var accepts = (from row in db.StudentClasses where row.ID == accID select row).ToList(); 
-
             int numDepartments = tvClasses.Nodes.Count;
             for (int i = 0; i < numDepartments; i++)
             {
@@ -355,13 +352,13 @@ namespace TutorMaster
                         if (acceptedClasses.Exists(x => x.ClassName.Equals(tn.Text)))
                         {
                            string classCode = acceptedClasses.Find(x => x.ClassName.Equals(tn.Text)).ClassCode;
-                           db.StudentClasses.DeleteObject(accepts.Find(x => x.ClassCode.Equals(classCode)));
+                           db.StudentClasses.DeleteObject((from row in db.StudentClasses where row.ClassCode == classCode select row).First());
                         }
                         //if requested and unchecked, delete from requests
                         if (requestClasses.Exists(x => x.ClassName.Equals(tn.Text)))
                         {
                             string classCode = requestClasses.Find(x => x.ClassName.Equals(tn.Text)).ClassCode;
-                            db.TutorRequests.DeleteObject(requests.Find(x => x.ClassCode.Equals(classCode)));
+                            db.TutorRequests.DeleteObject((from row in db.TutorRequests where row.ClassCode == classCode select row).First());
                         }
                     }
                     //if not approved or request but check, request
