@@ -14,8 +14,9 @@ namespace TutorMaster
         //Initial Set up
         private int ACCID;
         private bool leftside;
-        private bool Auto = false;
-        private TutorMaster.Commitment Appointment = new TutorMaster.Commitment();
+        private bool Auto = true;
+        private static System.Threading.EventWaitHandle _wait = new System.Threading.EventWaitHandle(true, System.Threading.EventResetMode.ManualReset); //this control is used later to control the auto search function
+        
         public AdvancedRequest(int accID)  
         {
             ACCID = accID;
@@ -256,7 +257,7 @@ namespace TutorMaster
                 combStartMinute.Hide();
 
                 if (leftside)
-                    MatchTimes(combTutorNameLeft, combClassBoxLeft); //match the left
+                    new System.Threading.Thread(MatchTimes(combTutorNameLeft, combClassBoxLeft)).Start(); //match the left
                 if (!leftside)
                     MatchTimes(combTutorNameRight, combClassBoxRight); //call the match for the right side
             }
@@ -270,8 +271,69 @@ namespace TutorMaster
         {
         }
 
+        private void btnManualTime_Click(object sender, EventArgs e)
+        {
+            //Show everything
+            Auto = false;
+            combTutorAvailability.Items.Clear(); // do this to prevent some potential errors
+            dayStartDateTime.Show();
+            combStartAmPm.Show();
+            combStartHour.Show();
+            combStartMinute.Show();
+            combTutorAvailability.Hide();
+
+        }
+
+        private void btnSendRequest_Click(object sender, EventArgs e)
+        {
+            
+            if (Auto)
+            {
+                if (combTutorAvailability.SelectedItem == null)
+                    MessageBox.Show("Please select a time before trying to submit an appointment");
+                else
+                    _wait.Set();   //This will unpause our auto function
+            }
+            else      //If we are using the manual addition
+            {
+                //1. check to make sure all the info has been entered
+                _wait.Set(); //This will let the match function finish so we don't have a bunch of threads open
+                if (ValidTimeBoxes())
+                {
+                    //2. Actually add the commitments to the DB
+                    //z. base case of there being an existing conflict with a confirmed appointment, give a message and tell the user requesting that they should try a different time. 
+                    //a. case for when there is no availibility at all in the the db
+                    //b. case where this overides some or all of an open time
+                }
+            }
+        }
+
+
+        //Helper function for Send Request
+        private bool ValidTimeBoxes()
+        {
+            bool valid = true;
+            if (combStartHour.SelectedItem == null)
+            {
+                MessageBox.Show("Please select a valid start hour.");
+                valid = false;
+            }
+            if (combStartMinute.SelectedItem == null)
+            {
+                MessageBox.Show("Please select a valid start minute.");
+                valid = false;
+            }
+            if (combStartAmPm.SelectedItem == null)
+            {
+                MessageBox.Show("Please select whether the time is Am or Pm.");
+                valid = false;
+            }
+            return valid;
+        }
+
+
         //Match Function and it's helpers
-        private void MatchTimes(ComboBox TutBox, ComboBox ClsBox)
+        private int MatchTimes(ComboBox TutBox, ComboBox ClsBox)
         {
 
             TutorMasterDBEntities4 db = new TutorMasterDBEntities4();
@@ -327,18 +389,26 @@ namespace TutorMaster
                 removeNotOpens(ref tutorCommits, start, weekly); //remove the occupied commitments
 
                 List<string> tutorValidSlots = getValidSlots(ref tutorCommits, length); //create a list of all the valid tutor slots
-  
+
+                if (tuteeValidSlots.Count() == 0)//If there are no mathcing slots, direct the user to try again or do a manual time. 
+                {
+                    MessageBox.Show("This Tutor has no matching availibility long enough. Please consider a either a shorter session or a different tutor. Alternatively, you can manually enter a time.");
+                    return 1;
+                }
                 for (int j = 0; j < tutorValidSlots.Count(); j++) //iterate through all the available tutor slots 
                 {
                     if (BinarySearch(tuteeValidSlots, tutorValidSlots[j]))
                     {
-                        //instead of a dailog box add them to the combo box for TutAvail
+                        //add all the slots to the tutor availibility timeslot
                         string MatchedTime = tutorValidSlots[j].Split(',')[0] + " - " + tutorValidSlots[j].Split(',')[1]; //this string is the matched time
-                        combTutorAvailability.Items.Add(MatchedTime);
-                        addCommits(tutorValidSlots[j], TutID, TuteeID, tutorCommits, tuteeCommits, classCode, db, weekly, length);
+                        combTutorAvailability.Items.Add(MatchedTime);//adds the time slot to the combo box 
                     }
                 }
+                _wait.WaitOne(); //wait until the send button is hit
+               if(Auto)
+                   addCommits(/*This index is the same in the combo box as it is in the valid slots list*/tutorValidSlots[combTutorAvailability.SelectedIndex], TutID, TuteeID, tutorCommits, tuteeCommits, classCode, db, weekly, length);//Change this to a function that prepares Appointment to be added
             }
+            return 0;
         }
 
         private void addCommits(string timeSlot, int tutorId, int tuteeId, List<TutorMaster.Commitment> tutorCommits, List<TutorMaster.Commitment> tuteeCommits, string classCode, TutorMasterDBEntities4 db, bool weekly, int numSessions)
@@ -753,19 +823,6 @@ namespace TutorMaster
         private void QuickSort(ref List<TutorMaster.Commitment> values, int numValues)
         {
             QuickSort2(ref values, 0, numValues - 1);
-        }
-
-        private void btnManualTime_Click(object sender, EventArgs e)
-        {
-            //Show everything
-            Auto = false;
-            combTutorAvailability.Items.Clear(); // do this to prevent some potential errors
-            dayStartDateTime.Show();
-            combStartAmPm.Show();
-            combStartHour.Show();
-            combStartMinute.Show();
-            combTutorAvailability.Hide();
-
         }
     }
 }
