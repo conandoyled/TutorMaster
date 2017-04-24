@@ -155,7 +155,7 @@ namespace TutorMaster
                     }
                     StudentMain g = new StudentMain(id);
                     g.Show();
-                    this.Close();
+                    this.Dispose();
                 }
             }
         }
