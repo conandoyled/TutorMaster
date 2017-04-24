@@ -824,8 +824,8 @@
             // 
             // btnReload
             // 
-            this.btnReload.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
-            this.btnReload.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnReload.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(208)))), ((int)(((byte)(222)))), ((int)(((byte)(229)))));
+            this.btnReload.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnReload.Location = new System.Drawing.Point(736, 197);
             this.btnReload.Name = "btnReload";
             this.btnReload.Size = new System.Drawing.Size(197, 23);
