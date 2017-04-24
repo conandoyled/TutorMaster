@@ -12,6 +12,7 @@ namespace TutorMaster
     public partial class AddAvailability : Form
     {
         int id;
+        private List<string> alreadyRecordedTimes = new List<string>();
 
         public AddAvailability(int ID)
         {
@@ -79,6 +80,7 @@ namespace TutorMaster
         {
             DateTime begin = startTime;
             int compare = begin.CompareTo(endTime);
+            bool recorded = false;
             if (compare < 0)
             {
                 while (compare < 0)                      //if the first date is earlier than the second date
@@ -87,8 +89,23 @@ namespace TutorMaster
                     {
                         add15Block(begin, weekly);       //add the 15 minute time block and whether or not its weekly
                     }
+                    else
+                    {
+                        recorded = true;
+                    }
                     begin = begin.AddMinutes(15);        //repeat this process until we get to the endtime
                     compare = begin.CompareTo(endTime);
+                }
+                if (recorded)
+                {
+                    string message = "These times are already in the database and have not been added as availability ";
+                    for (int i = 0; i < alreadyRecordedTimes.Count-1; i++)
+                    {
+                        message += alreadyRecordedTimes[i] + ", ";
+                    }
+                    message += alreadyRecordedTimes[alreadyRecordedTimes.Count - 1];
+                    MessageBox.Show(message);
+                    alreadyRecordedTimes.Clear();
                 }
             }
             else
@@ -114,14 +131,14 @@ namespace TutorMaster
                 if (begin == Convert.ToDateTime(date[i]))//if a datetime is already taken, say it has and output a message about it
                 {
                     found = true;
-                    MessageBox.Show(date[i].ToString() + " is already in the database, this will not be added");
+                    alreadyRecordedTimes.Add(date[i].ToString());
                 }
             }
 
-            if (found)
-            {
-                MessageBox.Show(begin.ToString() + " is already in the database, this will not be added");
-            }
+            //if (found)
+            //{
+            //    MessageBox.Show(begin.ToString() + " is already in the database, this will not be added");
+            //}
 
             return found;
         }
@@ -234,7 +251,7 @@ namespace TutorMaster
 
         private void AddAvailability_FormClosed(object sender, FormClosedEventArgs e)
         {
-
+                this.Dispose();
         }
     }
 }

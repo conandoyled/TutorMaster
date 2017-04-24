@@ -161,9 +161,9 @@
             // 
             this.btnEditFinalized.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
             this.btnEditFinalized.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.btnEditFinalized.Location = new System.Drawing.Point(203, 336);
+            this.btnEditFinalized.Location = new System.Drawing.Point(189, 336);
             this.btnEditFinalized.Name = "btnEditFinalized";
-            this.btnEditFinalized.Size = new System.Drawing.Size(121, 23);
+            this.btnEditFinalized.Size = new System.Drawing.Size(177, 23);
             this.btnEditFinalized.TabIndex = 24;
             this.btnEditFinalized.Text = "Edit Appointment";
             this.btnEditFinalized.UseVisualStyleBackColor = false;

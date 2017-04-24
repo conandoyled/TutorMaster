@@ -31,16 +31,41 @@ namespace TutorMaster
                 combCourseName.Items.Add(c.ClassName); //add all the class names to this list 
             }
 
+            removeInvalidCourses();
             combHours.Text = "0";
             combMins.Text = "00";
 
+        }
+
+        private void removeInvalidCourses()
+        {
+            TutorMasterDBEntities4 db = new TutorMasterDBEntities4();
+            bool thisStudentATutor = (bool)(from row in db.Students where row.ID == id select row.Tutor).First();
+            if (thisStudentATutor)
+            {
+                List<string> removeClasses = (from stuClass in db.StudentClasses.AsEnumerable()
+                                              where stuClass.ID == id
+                                              join course in db.Classes.AsEnumerable() on stuClass.ClassCode equals course.ClassCode
+                                              select course.ClassName).ToList();
+
+                for (int i = 0; i < combCourseName.Items.Count; i++)
+                {
+                    for (int j = 0; j < removeClasses.Count; j++)
+                    {
+                        if (removeClasses[j].ToString() == combCourseName.Items[i].ToString())
+                        {
+                            combCourseName.Items.Remove(combCourseName.Items[i]);
+                        }
+                    }
+                }
+            }
         }
 
         private void btnExit_Click(object sender, EventArgs e)
         {
             StudentMain f = new StudentMain(id);
             f.Show();
-            this.Close();
+            this.Dispose();
         }
 
 

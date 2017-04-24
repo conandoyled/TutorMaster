@@ -38,6 +38,7 @@
             this.lblErrMsg = new System.Windows.Forms.Label();
             this.btnRegister = new System.Windows.Forms.Button();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.cbxShowPassword = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -97,7 +98,7 @@
             this.btnSignIn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(208)))), ((int)(((byte)(222)))), ((int)(((byte)(229)))));
             this.btnSignIn.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnSignIn.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(61)))), ((int)(((byte)(71)))), ((int)(((byte)(76)))));
-            this.btnSignIn.Location = new System.Drawing.Point(179, 159);
+            this.btnSignIn.Location = new System.Drawing.Point(179, 183);
             this.btnSignIn.Name = "btnSignIn";
             this.btnSignIn.Size = new System.Drawing.Size(83, 23);
             this.btnSignIn.TabIndex = 7;
@@ -120,7 +121,7 @@
             this.btnRegister.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(208)))), ((int)(((byte)(222)))), ((int)(((byte)(229)))));
             this.btnRegister.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnRegister.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(61)))), ((int)(((byte)(71)))), ((int)(((byte)(76)))));
-            this.btnRegister.Location = new System.Drawing.Point(73, 159);
+            this.btnRegister.Location = new System.Drawing.Point(73, 183);
             this.btnRegister.Name = "btnRegister";
             this.btnRegister.Size = new System.Drawing.Size(83, 23);
             this.btnRegister.TabIndex = 9;
@@ -138,12 +139,24 @@
             this.pictureBox1.TabIndex = 20;
             this.pictureBox1.TabStop = false;
             // 
+            // cbxShowPassword
+            // 
+            this.cbxShowPassword.AutoSize = true;
+            this.cbxShowPassword.Location = new System.Drawing.Point(162, 157);
+            this.cbxShowPassword.Name = "cbxShowPassword";
+            this.cbxShowPassword.Size = new System.Drawing.Size(102, 17);
+            this.cbxShowPassword.TabIndex = 21;
+            this.cbxShowPassword.Text = "Show Password";
+            this.cbxShowPassword.UseVisualStyleBackColor = true;
+            this.cbxShowPassword.CheckedChanged += new System.EventHandler(this.cbxShowPassword_CheckedChanged);
+            // 
             // Login
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(218)))), ((int)(((byte)(232)))), ((int)(((byte)(239)))));
             this.ClientSize = new System.Drawing.Size(344, 232);
+            this.Controls.Add(this.cbxShowPassword);
             this.Controls.Add(this.btnRegister);
             this.Controls.Add(this.lblErrMsg);
             this.Controls.Add(this.btnSignIn);
@@ -174,6 +187,7 @@
         private System.Windows.Forms.Label lblErrMsg;
         private System.Windows.Forms.Button btnRegister;
         private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.CheckBox cbxShowPassword;
 
     }
 }

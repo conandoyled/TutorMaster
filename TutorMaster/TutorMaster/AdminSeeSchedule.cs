@@ -307,53 +307,95 @@ namespace TutorMaster
                 commits.Add(lvTutor.CheckedItems[n].SubItems[0].Text.ToString() + "," + lvTutor.CheckedItems[n].SubItems[1].Text.ToString() + "," + lvTutor.CheckedItems[n].SubItems[8].Text.ToString());
             }
 
-            List<Commitment> tutorCmtList = (from stucmt in db.StudentCommitments
-                                             where stucmt.ID == id
-                                             join cmt in db.Commitments on stucmt.CmtID equals cmt.CmtID
-                                             select cmt).ToList();
+           
 
-            for (int f = 0; f < commits.Count(); f++)
+            for (int f = 0; f < commits.Count; f++)
             {
-                DateTime startDate = DateTimeMethods.getStartTime(commits[f]);
-                DateTime endDate = DateTimeMethods.getEndTime(commits[f]);
-
-                for (int c = 0; c < tutorCmtList.Count(); c++)
-                {
-                    if (DateTime.Compare(startDate, Convert.ToDateTime(tutorCmtList[c].StartTime)) <= 0 && DateTime.Compare(endDate, Convert.ToDateTime(tutorCmtList[c].StartTime)) > 0)
-                    {
-                        tutorCmtList[c].Weekly = false;
-                        tutorCmtList[c].Tutoring = false;
-                        tutorCmtList[c].Class = "-";
-                        tutorCmtList[c].Location = "-";
-                        tutorCmtList[c].Open = true;
-                        tutorCmtList[c].ID = -1;
-                        db.SaveChanges();
-                    }
-                }
+                int accID = id;
+                cancelAppointments(commits, accID, true);
 
                 int partnerID = Convert.ToInt32(commits[f].Split(',')[2]);
+                cancelAppointments(commits, partnerID, true);
+            }
+            
+            DateTime start = DateTime.Now;
+            resetListViews(false);
+        }
 
-                List<Commitment> tuteeCmtList = (from stucmt in db.StudentCommitments
-                                                 where stucmt.ID == partnerID
-                                                 join cmt in db.Commitments on stucmt.CmtID equals cmt.CmtID
-                                                 select cmt).ToList();
+        private void cancelAppointments(List<string> commits, int accID, bool partner)
+        {
+            TutorMasterDBEntities4 db = new TutorMasterDBEntities4();                                                   //Connect to database
 
-                for (int m = 0; m < tuteeCmtList.Count(); m++)
+            List<Commitment> stdCmtList = (from stucmt in db.StudentCommitments                                         //get the student's commitments
+                                           where stucmt.ID == accID
+                                           join cmt in db.Commitments on stucmt.CmtID equals cmt.CmtID
+                                           select cmt).ToList();
+
+            SortsAndSearches.QuickSort(ref stdCmtList, stdCmtList.Count());                                                              //sort them
+
+            for (int f = 0; f < commits.Count(); f++)                                                                   //for each cancellation in the list
+            {
+                DateTime startDate = DateTimeMethods.getStartTime(commits[f]);                                                          //get its start and end times of the cancellation
+                DateTime endDate = DateTimeMethods.getEndTime(commits[f]);
+
+                for (int c = 0; c < stdCmtList.Count(); c++)                                                            //go through the student's commitments
                 {
-                    if (DateTime.Compare(startDate, Convert.ToDateTime(tuteeCmtList[m].StartTime)) <= 0 && DateTime.Compare(endDate, Convert.ToDateTime(tuteeCmtList[m].StartTime)) > 0)
+                    if (DateTimeMethods.betweenGivenStartAndEndTime(startDate, endDate, stdCmtList[c]))                                 //if the commitment is between the start and end times
                     {
-                        tuteeCmtList[m].Weekly = false;
-                        tuteeCmtList[m].Tutoring = false;
-                        tuteeCmtList[m].Class = "@";
-                        tuteeCmtList[m].Location = "-";
-                        tuteeCmtList[m].Open = true;
-                        tuteeCmtList[m].ID = -1;
+                        if (stdCmtList[c].Weekly == true)                                                               //if the commitment is weekly
+                        {
+                            DateTime startSemes = new DateTime(2017, 1, 1, 0, 0, 0);                                    //look a week back from the commitment
+                            DateTime weekBack = Convert.ToDateTime(stdCmtList[c].StartTime).AddDays(-7);
+                            while (DateTime.Compare(startSemes, weekBack) <= 0)                                         //if it is at the day of the start of the semester or before it
+                            {                                                                                           //begin to execute a binary search
+                                bool found = false;                                                                     //NOTE: this has to be done here so the changes made can be recorded in the database connection
+                                int first = 0;
+                                int last = stdCmtList.Count() - 1;
+                                while (first <= last && !found)                                                         //if we haven't found the time in the list and start search pos is less than or equal to our end search position
+                                {
+                                    int midpoint = (first + last) / 2;                                                  //get the midpoint between the two
+                                    if (DateTimeMethods.sameTime(stdCmtList[midpoint], weekBack))                                       //if the mid commit and the weekback time at the same
+                                    {
+                                        if (Commits.openOrSameType(stdCmtList[c], stdCmtList[midpoint]))                        //ask if it is open or the same type of commitment as our cancel commit
+                                        {
+                                            stdCmtList[midpoint].Weekly = false;                                        //if it is, turn its weekly to false
+                                            db.SaveChanges();                                                           //save the changes to the database
+                                        }
+                                        found = true;                                                                   //set found equal to true
+                                    }
+                                    else
+                                    {
+                                        if (DateTimeMethods.weekBackEarlier(weekBack, stdCmtList[midpoint]))                            //adjust the start and end search indexes as necessary
+                                        {
+                                            last = midpoint - 1;
+                                        }
+                                        else
+                                        {
+                                            first = midpoint + 1;
+                                        }
+                                    }
+                                }
+                                weekBack = weekBack.AddDays(-7);                                                        //repeat the process for another date that is a week back until you reach the beginning of the semester
+                            }
+                        }
+
+                        stdCmtList[c].Weekly = false;                                                                   //for this commitment, set it to a new, open state
+                        stdCmtList[c].Tutoring = false;
+                        stdCmtList[c].Location = "-";
+                        if (partner)
+                        {
+                            stdCmtList[c].Class = "@";                                                                  //if they have a partner, set it to a cancel state
+                        }
+                        else
+                        {
+                            stdCmtList[c].Class = "-";                                                                  //else, just say its open
+                        }
+                        stdCmtList[c].Open = true;
+                        stdCmtList[c].ID = -1;
                         db.SaveChanges();
                     }
                 }
             }
-            DateTime start = DateTime.Now;
-            resetListViews(false);
         }
 
         private void btnCancelFinalized_Click(object sender, EventArgs e)
@@ -366,62 +408,17 @@ namespace TutorMaster
                 commits.Add(lvFinalized.CheckedItems[i].SubItems[0].Text.ToString() + "," + lvFinalized.CheckedItems[i].SubItems[1].Text.ToString() + "," + lvFinalized.CheckedItems[i].SubItems[8].Text.ToString());
             }
 
-
-            List<Commitment> stdCmtList = (from stucmt in db.StudentCommitments
-                                           where stucmt.ID == id
-                                           join cmt in db.Commitments on stucmt.CmtID equals cmt.CmtID
-                                           select cmt).ToList();
-
-            for (int f = 0; f < commits.Count(); f++)
+            for (int n = 0; n < commits.Count; n++)
             {
-                DateTime startDate = DateTimeMethods.getStartTime(commits[f]);
-                DateTime endDate = DateTimeMethods.getEndTime(commits[f]);
+                int accID = id;
+                cancelAppointments(commits, accID, true);
 
-                for (int c = 0; c < stdCmtList.Count(); c++)
-                {
-                    if (DateTime.Compare(startDate, Convert.ToDateTime(stdCmtList[c].StartTime)) <= 0 && DateTime.Compare(endDate, Convert.ToDateTime(stdCmtList[c].StartTime)) > 0)
-                    {
-                        stdCmtList[c].Weekly = false;
-                        stdCmtList[c].Tutoring = false;
-                        stdCmtList[c].Class = "-";
-                        stdCmtList[c].Location = "-";
-                        stdCmtList[c].Open = true;
-                        stdCmtList[c].ID = -1;
-                        db.SaveChanges();
-                    }
-                }
-
-                int partnerID = Convert.ToInt32(commits[f].Split(',')[2]);
-
-                List<Commitment> partnerCmtList = (from stucmt in db.StudentCommitments
-                                                   where stucmt.ID == partnerID
-                                                   join cmt in db.Commitments on stucmt.CmtID equals cmt.CmtID
-                                                   select cmt).ToList();
-
-                for (int m = 0; m < partnerCmtList.Count(); m++)
-                {
-                    if (DateTime.Compare(startDate, Convert.ToDateTime(partnerCmtList[m].StartTime)) <= 0 && DateTime.Compare(endDate, Convert.ToDateTime(partnerCmtList[m].StartTime)) > 0)
-                    {
-                        partnerCmtList[m].Weekly = false;
-                        partnerCmtList[m].Tutoring = false;
-                        partnerCmtList[m].Class = "@";
-                        partnerCmtList[m].Location = "-";
-                        partnerCmtList[m].Open = true;
-                        partnerCmtList[m].ID = -1;
-                        db.SaveChanges();
-                    }
-                }
+                int partnerID = Convert.ToInt32(commits[n].Split(',')[2]);
+                cancelAppointments(commits, partnerID, true);
             }
 
             DateTime start = DateTime.Now;
-            lvTutor.Items.Clear();
-            lvPendingTutor.Items.Clear();
-            lvFinalized.Items.Clear();
-            lvPendingTutee.Items.Clear();
-            lvTutee.Items.Clear();
-            lvOpen.Items.Clear();
-
-            loadAppointments(true);
+            resetListViews(false);
         }
 
         private void btnRejectTutee_Click(object sender, EventArgs e)
@@ -439,51 +436,13 @@ namespace TutorMaster
                 commits.Add(lvTutee.CheckedItems[n].SubItems[0].Text.ToString() + "," + lvTutee.CheckedItems[n].SubItems[1].Text.ToString() + "," + lvTutee.CheckedItems[n].SubItems[8].Text.ToString());
             }
 
-
-            List<Commitment> tuteeCmtList = (from stucmt in db.StudentCommitments
-                                             where stucmt.ID == id
-                                             join cmt in db.Commitments on stucmt.CmtID equals cmt.CmtID
-                                             select cmt).ToList();
-
-            for (int f = 0; f < commits.Count(); f++)
+            for (int f = 0; f < commits.Count; f++)
             {
-                DateTime startDate = DateTimeMethods.getStartTime(commits[f]);
-                DateTime endDate = DateTimeMethods.getEndTime(commits[f]);
-
-                for (int c = 0; c < tuteeCmtList.Count(); c++)
-                {
-                    if (DateTime.Compare(startDate, Convert.ToDateTime(tuteeCmtList[c].StartTime)) <= 0 && DateTime.Compare(endDate, Convert.ToDateTime(tuteeCmtList[c].StartTime)) > 0)
-                    {
-                        tuteeCmtList[c].Weekly = false;
-                        tuteeCmtList[c].Tutoring = false;
-                        tuteeCmtList[c].Class = "-";
-                        tuteeCmtList[c].Location = "-";
-                        tuteeCmtList[c].Open = true;
-                        tuteeCmtList[c].ID = -1;
-                        db.SaveChanges();
-                    }
-                }
+                int accID = id;
+                cancelAppointments(commits, accID, true);
 
                 int partnerID = Convert.ToInt32(commits[f].Split(',')[2]);
-
-                List<Commitment> tutorCmtList = (from stucmt in db.StudentCommitments
-                                                 where stucmt.ID == partnerID
-                                                 join cmt in db.Commitments on stucmt.CmtID equals cmt.CmtID
-                                                 select cmt).ToList();
-
-                for (int m = 0; m < tutorCmtList.Count(); m++)
-                {
-                    if (DateTime.Compare(startDate, Convert.ToDateTime(tutorCmtList[m].StartTime)) <= 0 && DateTime.Compare(endDate, Convert.ToDateTime(tutorCmtList[m].StartTime)) > 0)
-                    {
-                        tutorCmtList[m].Weekly = false;
-                        tutorCmtList[m].Tutoring = false;
-                        tutorCmtList[m].Class = "@";
-                        tutorCmtList[m].Location = "-";
-                        tutorCmtList[m].Open = true;
-                        tutorCmtList[m].ID = -1;
-                        db.SaveChanges();
-                    }
-                }
+                cancelAppointments(commits, partnerID, true);
             }
             DateTime start = DateTime.Now;
             resetListViews(false);
@@ -984,15 +943,15 @@ namespace TutorMaster
                 List<string> removeList = new List<string>();
                 removeList.Add(startTime + "," + endTime + "," + weekly);
 
-                RemoveAvailForm g = new RemoveAvailForm(id, removeList);
+                RemoveAvailForm g = new RemoveAvailForm(id, removeList, true);
                 g.Show();
+                this.Dispose();
             }
             else if (lvOpen.CheckedItems.Count > 1)
             {
                 bool weeklyChoice = checkChecked();
                 if (weeklyChoice)
                 {
-
                     removeTimeBlocks(true);
                 }
                 else
