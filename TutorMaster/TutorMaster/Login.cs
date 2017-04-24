@@ -117,7 +117,7 @@ namespace TutorMaster
 
         private void btnRegister_Click(object sender, EventArgs e)
         {
-            SignUpTutorTutee g = new SignUpTutorTutee();
+            CreateStudent g = new CreateStudent(3);
             g.Show();
             this.Hide();
         }

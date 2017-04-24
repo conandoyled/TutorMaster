@@ -310,7 +310,7 @@ namespace TutorMaster
 
         private void btnCreateStudent_Click(object sender, EventArgs e)
         {
-            CreateStudent g = new CreateStudent();
+            CreateStudent g = new CreateStudent(1);
             g.Show();
             this.Dispose();
         }
@@ -578,7 +578,7 @@ namespace TutorMaster
             TutorMasterDBEntities4 db = new TutorMasterDBEntities4();
             string username = lvStudent.CheckedItems[0].Text.ToString();
             int studentID = (from row in db.Users where row.Username == username select row.ID).First();
-            EditStudentForm g = new EditStudentForm(studentID);
+            CreateStudent g = new CreateStudent(2, studentID);
             g.Show();
             this.Dispose();
         }
@@ -959,8 +959,8 @@ namespace TutorMaster
             TutorMasterDBEntities4 db = new TutorMasterDBEntities4();
             string lvUsername = lvRequests.CheckedItems[0].SubItems[0].Text.ToString();
             int studentID = (from row in db.Users where row.Username == lvUsername select row.ID).First();
-            
-            EditStudentForm g = new EditStudentForm(studentID);
+
+            CreateStudent g = new CreateStudent(2, studentID);
             g.Show();
             this.Dispose();
         }
