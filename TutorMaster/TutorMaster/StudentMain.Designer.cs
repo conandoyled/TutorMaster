@@ -728,7 +728,7 @@
             this.btnChangePassword.Name = "btnChangePassword";
             this.btnChangePassword.Size = new System.Drawing.Size(197, 23);
             this.btnChangePassword.TabIndex = 18;
-            this.btnChangePassword.Text = "Change Password";
+            this.btnChangePassword.Text = "View Profile";
             this.btnChangePassword.UseVisualStyleBackColor = false;
             this.btnChangePassword.Click += new System.EventHandler(this.btnChangePassword_Click);
             // 

@@ -754,7 +754,7 @@ namespace TutorMaster
         {
             RequestForm g = new RequestForm(id);
             g.Show();
-            Close();
+            Dispose();
         }
 
         //deselect every item in the appointments listview tabs
@@ -1744,9 +1744,8 @@ namespace TutorMaster
 
         private void btnChangePassword_Click(object sender, EventArgs e)
         {
-            ChangePasswordForm g = new ChangePasswordForm(id);
+            StudentViewProfile g = new StudentViewProfile(id);
             g.Show();
-            this.Dispose();
         }
 
         private void StudentMain_FormClosed(object sender, FormClosedEventArgs e)
