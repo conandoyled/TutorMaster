@@ -12,6 +12,7 @@ namespace TutorMaster
     public partial class AdminCreateAppointmentForm : Form
     {
         private int id;
+        private bool edit = false;
         private bool tutoring;
         private List<int> rememberStudIDs = new List<int>();
         private ListViewItem lastItemChecked;
@@ -40,7 +41,7 @@ namespace TutorMaster
         {
             InitializeComponent();
             id = accID;
-
+            edit = true;
             populateListview();
             rememberStudIDs.Add(Convert.ToInt16(info.Split(',')[8]));
             loadAppointmentInformation(info);
@@ -551,9 +552,9 @@ namespace TutorMaster
 
                     string timeSlot = lvTimeMatches.CheckedItems[0].SubItems[0].Text.ToString() + "," + lvTimeMatches.CheckedItems[0].SubItems[1].Text.ToString();
                     int sessionLength = Convert.ToInt32(cbxHour.Text) * 4 + (Convert.ToInt32(cbxMinutes.Text) / 15);
-
-                    addCommits(timeSlot, rememberStudIDs[lvTimeMatches.CheckedIndices[0]], id, tutorCommits, tuteeCommits, classCode, db, cbWeekly.Checked, sessionLength);
-                    MessageBox.Show("The appointment has been set and finalized in both student's schedules.");
+                    
+                    addCommits(timeSlot, rememberStudIDs[chosenStudentIndex], id, tutorCommits, tuteeCommits, classCode, db, cbWeekly.Checked, sessionLength);
+                    
                 }
                 else
                 {
@@ -575,14 +576,36 @@ namespace TutorMaster
                     int sessionLength = Convert.ToInt32(cbxHour.Text) * 4 + (Convert.ToInt32(cbxMinutes.Text) / 15);
 
                     addCommits(timeSlot, id, rememberStudIDs[chosenStudentIndex], tutorCommits, tuteeCommits, classCode, db, cbWeekly.Checked, sessionLength);
+                }
+
+                if (edit)
+                {
+                    MessageBox.Show("The appointment has been updated for both students and availability schedules have been adjusted approriately.");
+                }
+                else
+                {
                     MessageBox.Show("The appointment has been set and finalized in both student's schedules.");
                 }
-                
+
                 AdminSeeSchedule g = new AdminSeeSchedule(id);
                 g.Show();
                 this.Dispose();
                 
             }
+        }
+
+        private void hideEverything()
+        {
+            lblPartner.Hide();
+            cbxStudents.Hide();
+            lblHours.Hide();
+            cbxHour.Hide();
+            lblMinutes.Hide();
+            cbxMinutes.Hide();
+            lblLocation.Hide();
+            tbxLocation.Hide();
+            cbWeekly.Hide();
+            lvTimeMatches.Hide();
         }
 
         private void addCommits(string timeSlot, int tutorId, int tuteeId, List<TutorMaster.Commitment> tutorCommits, List<TutorMaster.Commitment> tuteeCommits, string classCode, TutorMasterDBEntities4 db, bool weekly, int numSessions)
@@ -726,6 +749,8 @@ namespace TutorMaster
 
         private bool loadTuteeStudentCheckBox()
         {
+            cbxStudents.Items.Clear();
+            rememberStudIDs.Clear();
             bool tutorsExist = false;
             
             TutorMasterDBEntities4 db = new TutorMasterDBEntities4();
@@ -739,7 +764,7 @@ namespace TutorMaster
 
             if (approvedTutors.Count == 0)
             {
-                MessageBox.Show("There are currently no tutors approved for this course."); 
+                MessageBox.Show("There are currently no tutors approved for this course, please try again later or choose another course."); 
             }
             else
             {
@@ -770,6 +795,11 @@ namespace TutorMaster
                 cbWeekly.Show();
                 lvTimeMatches.Show();
                 btnSubmit.Show();
+                lvTimeMatches.Items.Clear();
+                tbxLocation.Text = "";
+                cbxHour.Text = "";
+                cbxMinutes.Text = "";
+                
                 btnSubmit.Enabled = false;
                 chosenStudentIndex = cbxStudents.SelectedIndex;
             }
@@ -793,6 +823,10 @@ namespace TutorMaster
             {
                 resetListView();
             }
+            else
+            {
+                lvTimeMatches.Items.Clear();
+            }
         }
 
         private void cbxMinutes_SelectedIndexChanged(object sender, EventArgs e)
@@ -800,6 +834,10 @@ namespace TutorMaster
             if (!string.IsNullOrWhiteSpace(cbxHour.Text.ToString()) && !string.IsNullOrWhiteSpace(cbxMinutes.Text.ToString()))
             {
                 resetListView();
+            }
+            else
+            {
+                lvTimeMatches.Items.Clear();
             }
         }
         

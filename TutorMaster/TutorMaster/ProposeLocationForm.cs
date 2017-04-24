@@ -26,9 +26,16 @@ namespace TutorMaster
 
         private void btnCancel_Click(object sender, EventArgs e)
         {
-            StudentMain g = new StudentMain(id);
-            g.Show();
-            this.Dispose();
+            if (!admin)
+            {
+                StudentMain g = new StudentMain(id);
+                g.Show();
+                this.Dispose();
+            }
+            else
+            {
+                this.Dispose();
+            }
         }
 
         private void setTutorLocations()
@@ -111,9 +118,18 @@ namespace TutorMaster
             {
                 setTutorLocations();                                                                                    //set the tutor commitment locations where necessary
                 setTuteeLocations();                                                                                    //set the tutee commitment locations where necessary
-                StudentMain g = new StudentMain(id);                                                                    //send the student back to student main
-                g.Show();
-                this.Dispose();
+                if (!admin)
+                {
+                    MessageBox.Show("The location has been recorded. The appointment(s) must be accepted by the tutee before being finalized");
+                    StudentMain g = new StudentMain(id);                                                                    //send the student back to student main
+                    g.Show();
+                    this.Dispose();
+                }
+                else
+                {
+                    MessageBox.Show("The location has been set and the appointment(s) have been finalized in both student's schedules");
+                    this.Dispose();
+                }
             }
         }
 

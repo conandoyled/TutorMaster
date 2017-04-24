@@ -123,6 +123,7 @@
             this.cbxHour.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.cbxHour.FormattingEnabled = true;
             this.cbxHour.Items.AddRange(new object[] {
+            "",
             "0",
             "1",
             "2",
@@ -139,6 +140,7 @@
             this.cbxMinutes.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.cbxMinutes.FormattingEnabled = true;
             this.cbxMinutes.Items.AddRange(new object[] {
+            "",
             "00",
             "15",
             "30",
