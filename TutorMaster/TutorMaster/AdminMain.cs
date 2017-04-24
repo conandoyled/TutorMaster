@@ -591,12 +591,33 @@ namespace TutorMaster
             {
                 string username = lvStudent.CheckedItems[i].SubItems[0].Text;
                 User delU = (from row in db.Users where row.Username == username select row).First();
+                deletePartnerCommits(delU.ID);
                 db.Users.DeleteObject(delU);
                 db.SaveChanges();
             }
 
+
             lvStudent.Clear();
             setupStudentLV();
+        }
+
+        private void deletePartnerCommits(int deleteId)
+        {
+            TutorMasterDBEntities4 db = new TutorMasterDBEntities4();
+            List<Commitment> cmtList = (from row in db.Commitments where row.ID == deleteId select row).ToList();
+
+            for (int p = 0; p < cmtList.Count; p++)
+            {
+                if (cmtList[p].ID == deleteId)
+                {
+                    cmtList[p].ID = -1;
+                    cmtList[p].Location = "-";
+                    cmtList[p].Open = true;
+                    cmtList[p].Class = "-";
+                    cmtList[p].Tutoring = false;
+                }
+            }
+            db.SaveChanges();
         }
 
         private void btnFacultyAdd_Click(object sender, EventArgs e)
