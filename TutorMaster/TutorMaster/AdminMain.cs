@@ -962,7 +962,7 @@ namespace TutorMaster
             
             EditStudentForm g = new EditStudentForm(studentID);
             g.Show();
-            this.Close();
+            this.Dispose();
         }
 
         private void lvRequests_ItemChecked(object sender, ItemCheckedEventArgs e)

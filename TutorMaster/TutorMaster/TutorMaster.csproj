@@ -108,6 +108,7 @@
     <Compile Include="CreateStudent.Designer.cs">
       <DependentUpon>CreateStudent.cs</DependentUpon>
     </Compile>
+    <Compile Include="DateTimeMethods.cs" />
     <Compile Include="EditStudentForm.cs">
       <SubType>Form</SubType>
     </Compile>

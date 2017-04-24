@@ -155,7 +155,7 @@ namespace TutorMaster
                     }
                     StudentMain g = new StudentMain(id);
                     g.Show();
-                    this.Close();
+                    this.Dispose();
                 }
             }
         }
@@ -290,8 +290,8 @@ namespace TutorMaster
         private void addCommits(string timeSlot, int tutorId, int tuteeId, List<TutorMaster.Commitment> tutorCommits, List<TutorMaster.Commitment> tuteeCommits, string classCode, TutorMasterDBEntities4 db, bool weekly, int numSessions)
         {
             //TutorMasterDBEntities4 db = new TutorMasterDBEntities4();
-            DateTime startTime = Commits.getStartTime(timeSlot);
-            DateTime endTime = Commits.getEndTime(timeSlot);
+            DateTime startTime = DateTimeMethods.getStartTime(timeSlot);
+            DateTime endTime = DateTimeMethods.getEndTime(timeSlot);
             DateTime saveFirst = startTime;
             DateTime saveEnd = endTime;
 

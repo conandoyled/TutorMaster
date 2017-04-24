@@ -59,6 +59,7 @@
             this.btnDone = new System.Windows.Forms.Button();
             this.lblRemove = new System.Windows.Forms.Label();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.btnEditFinalized = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabAccepted.SuspendLayout();
@@ -145,6 +146,7 @@
             // tabAccepted
             // 
             this.tabAccepted.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(237)))), ((int)(((byte)(239)))), ((int)(((byte)(239)))));
+            this.tabAccepted.Controls.Add(this.btnEditFinalized);
             this.tabAccepted.Controls.Add(this.btnDeselect1);
             this.tabAccepted.Controls.Add(this.btnCancelFinalized);
             this.tabAccepted.Controls.Add(this.lvFinalized);
@@ -413,6 +415,16 @@
             this.pictureBox1.TabIndex = 22;
             this.pictureBox1.TabStop = false;
             // 
+            // btnEditFinalized
+            // 
+            this.btnEditFinalized.Location = new System.Drawing.Point(203, 336);
+            this.btnEditFinalized.Name = "btnEditFinalized";
+            this.btnEditFinalized.Size = new System.Drawing.Size(121, 23);
+            this.btnEditFinalized.TabIndex = 24;
+            this.btnEditFinalized.Text = "Edit Appointment(s)";
+            this.btnEditFinalized.UseVisualStyleBackColor = true;
+            this.btnEditFinalized.Click += new System.EventHandler(this.btnEditFinalized_Click);
+            // 
             // AdminSeeSchedule
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -475,5 +487,6 @@
         private System.Windows.Forms.Button btnRemoveAvailability;
         private System.Windows.Forms.Label lblRemove;
         private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.Button btnEditFinalized;
     }
 }

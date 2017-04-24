@@ -35,6 +35,99 @@ namespace TutorMaster
             }
         }
 
+        public AdminCreateAppointmentForm(int accID, string info)
+        {
+            InitializeComponent();
+            id = accID;
+            rememberStudIDs.Add(Convert.ToInt16(info.Split(',')[8]));
+            loadAppointmentInformation(info);
+            
+            TutorMasterDBEntities4 db = new TutorMasterDBEntities4();
+
+            Class course = (from row in db.StudentClasses.AsEnumerable() where row.ClassCode == info.Split(',')[2] select row.Class).First();
+            cbxClasses.Text = course.ClassName.ToString();
+            cbxStudents.Text = info.Split(',')[7];
+            loadMinutesAndHours(info);
+            loadMatchingTimeSlots();
+        }
+
+        private void loadAppointmentInformation(string info)
+        {
+            string tutoringString = info.Split(',')[5];
+            bool tutoring;
+            if (tutoringString == "True")
+            {
+                tutoring = true;
+            }
+            else
+            {
+                tutoring = false;
+            }
+
+            if (tutoring)
+            {
+                loadTutorOptions();
+            }
+            else
+            {
+                loadTuteeOptions();
+            }
+
+            tbxLocation.Text = info.Split(',')[3];
+            string weeklyString = info.Split(',')[6];
+            bool weekly;
+            
+            if (weeklyString == "True")
+            {
+                weekly = true;
+            }
+            else
+            {
+                weekly = false;
+            }
+            cbWeekly.Checked = weekly;
+
+        }
+
+
+        private void loadMinutesAndHours(string info)
+        {
+            int numSession = getNumSession(info);
+            int hour = 0;
+            while (numSession > 3)
+            {
+                hour++;
+                numSession = numSession % 4;
+            }
+            cbxHour.Text = hour.ToString();
+            if (numSession > 0)
+            {
+                cbxMinutes.Text = (numSession * 15).ToString();
+            }
+            else
+            {
+                string zero = "00";
+                cbxMinutes.Text = zero;
+            }
+        }
+
+
+        private int getNumSession(string info)
+        {
+            int numSession = 0;
+            string startTime = info.Split(',')[0];
+            string endTime = info.Split(',')[1];
+            string timeSlot = startTime + "," + endTime;
+            DateTime start = DateTimeMethods.getStartTime(timeSlot);
+            DateTime end = DateTimeMethods.getEndTime(timeSlot);
+            while (DateTime.Compare(start, end) < 0)
+            {
+                numSession++;
+                start = start.AddMinutes(15);
+            }
+            return numSession;
+        }
+
         private void hideControls()
         {
             lblPartner.Hide();
@@ -77,6 +170,32 @@ namespace TutorMaster
             {
                 cbxClasses.Items.Add(classes[i]);
             }
+
+            removeInvalidCourses();
+        }
+
+        private void removeInvalidCourses()
+        {
+            TutorMasterDBEntities4 db = new TutorMasterDBEntities4();
+            bool thisStudentATutor = (bool)(from row in db.Students where row.ID == id select row.Tutor).First();
+            if (thisStudentATutor)
+            {
+                List<string> removeClasses = (from stuClass in db.StudentClasses.AsEnumerable()
+                                              where stuClass.ID == id
+                                              join course in db.Classes.AsEnumerable() on stuClass.ClassCode equals course.ClassCode
+                                              select course.ClassName).ToList();
+
+                for (int i = 0; i < cbxClasses.Items.Count; i++)
+                {
+                    for (int j = 0; j < removeClasses.Count; j++)
+                    {
+                        if (removeClasses[j].ToString() == cbxClasses.Items[i].ToString())
+                        {
+                            cbxClasses.Items.Remove(cbxClasses.Items[i]);
+                        }
+                    }
+                }
+            }
         }
 
 
@@ -109,9 +228,12 @@ namespace TutorMaster
             for (int i = 0; i < tuteeIds.Count; i++)
             {
                 User student = (from row in db.Users.AsEnumerable() where row.ID == tuteeIds[i] select row).First();
-                rememberStudIDs.Add(student.ID);
-                string name = student.FirstName + " " + student.LastName;
-                cbxStudents.Items.Add(name);
+                if (!student.Username.ToString().Contains('?'))
+                {
+                    rememberStudIDs.Add(student.ID);
+                    string name = student.FirstName + " " + student.LastName;
+                    cbxStudents.Items.Add(name);
+                }
             }
         }
 
@@ -545,6 +667,7 @@ namespace TutorMaster
                 if (!string.IsNullOrWhiteSpace(cbxClasses.Text.ToString()))
                 {
                     bool tutors = loadTuteeStudentCheckBox();
+
                     if (tutors)
                     {
                         lblPartner.Show();
@@ -590,9 +713,12 @@ namespace TutorMaster
                 for (int i = 0; i < approvedTutors.Count; i++)
                 {
                     User tutor = (from row in db.Users.AsEnumerable() where row.ID == approvedTutors[i] select row).First();
-                    cbxStudents.Items.Add(tutor.FirstName + " " + tutor.LastName);
-                    rememberStudIDs.Add(tutor.ID);
-                    tutorsExist = true;
+                    if (!tutor.Username.ToString().Contains('?'))
+                    {
+                        cbxStudents.Items.Add(tutor.FirstName + " " + tutor.LastName);
+                        rememberStudIDs.Add(tutor.ID);
+                        tutorsExist = true;
+                    }
                 }
             }
             return tutorsExist;

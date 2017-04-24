@@ -214,7 +214,8 @@ namespace TutorMaster
             }
             else
             {
-                lvOpen.Items.Add(item);
+                ListViewItem openItem = new ListViewItem(new string[] {startTime, endTime, commit.Weekly.ToString()});
+                lvOpen.Items.Add(openItem);
             }
 
         }
@@ -359,7 +360,7 @@ namespace TutorMaster
         {
             TutorMasterDBEntities4 db = new TutorMasterDBEntities4();
             List<string> commits = new List<string>();
-
+            
             for (int i = 0; i < lvFinalized.CheckedItems.Count; i++)
             {
                 commits.Add(lvFinalized.CheckedItems[i].SubItems[0].Text.ToString() + "," + lvFinalized.CheckedItems[i].SubItems[1].Text.ToString() + "," + lvFinalized.CheckedItems[i].SubItems[8].Text.ToString());
@@ -1023,6 +1024,23 @@ namespace TutorMaster
         {
 
         }
+
+        private void btnEditFinalized_Click(object sender, EventArgs e)
+        {
+            string info = loadEditAppointment();
+            AdminCreateAppointmentForm g = new AdminCreateAppointmentForm(id, info);
+            g.Show();
+        }
+
+        private string loadEditAppointment()
+        {
+            string result = "";
+            for (int i = 0; i < 8; i++)
+            {
+                result += lvFinalized.CheckedItems[0].SubItems[i].Text.ToString() + ",";
+            }
+            result += lvFinalized.CheckedItems[0].SubItems[8].Text.ToString();
+            return result;
+        }
     }
-    
 }
