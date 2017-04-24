@@ -95,6 +95,7 @@ namespace TutorMaster
                     }
                     begin = begin.AddMinutes(15);        //repeat this process until we get to the endtime
                     compare = begin.CompareTo(endTime);
+                    
                 }
                 if (recorded)
                 {
@@ -107,6 +108,7 @@ namespace TutorMaster
                     MessageBox.Show(message);
                     alreadyRecordedTimes.Clear();
                 }
+                MessageBox.Show("All 15 minute time blocks that were not already occupied have been added to your availability.");
             }
             else
             {

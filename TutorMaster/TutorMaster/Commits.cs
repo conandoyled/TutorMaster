@@ -32,8 +32,43 @@ namespace TutorMaster
                 class2 = commitSecond.Class;
             }
 
+            
+            
+
 
             return (class1 == class2 && commitFirst.Location == commitSecond.Location                           //check all of the information except for the dateTimes of both commitments
+                    && commitFirst.Open == commitSecond.Open && commitFirst.Weekly == commitSecond.Weekly       //all of the information must be the same in order for them to be in the same category
+                    && commitFirst.ID == commitSecond.ID);
+        }
+
+        public static bool sameCategoryExceptLocation(Commitment commitFirst, Commitment commitSecond)
+        {
+            string class1;
+            string class2;
+
+            if (commitFirst.Class == "@")                                                                       //if there is an @ sign, treat it as if it is - so the cancelled time can go with its adjacent open times
+            {
+                class1 = "-";
+            }
+            else
+            {
+                class1 = commitFirst.Class;
+            }
+
+            if (commitSecond.Class == "@")                                                                     //do the same for the second commitment passed in here
+            {
+                class2 = "-";
+            }
+            else
+            {
+                class2 = commitSecond.Class;
+            }
+
+
+
+
+
+            return (class1 == class2                         //check all of the information except for the dateTimes of both commitments
                     && commitFirst.Open == commitSecond.Open && commitFirst.Weekly == commitSecond.Weekly       //all of the information must be the same in order for them to be in the same category
                     && commitFirst.ID == commitSecond.ID);
         }
@@ -42,6 +77,12 @@ namespace TutorMaster
         {
             return midCommit.Open == true || Commits.sameCategory(listCommit, midCommit);
         }
+
+        public static bool openOrSameTypeDespiteLoc(Commitment listCommit, Commitment midCommit)
+        {
+            return midCommit.Open == true || Commits.sameCategoryExceptLocation(listCommit, midCommit);
+        }
+
 
         public static string getNextEndTime(Commitment commit)
         {

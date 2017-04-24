@@ -146,6 +146,7 @@ namespace TutorMaster
             }
 
             db.SaveChanges();
+            MessageBox.Show("The selected tutor requests have been accepted and the tutors have been approved to tutor the selected courses");
             lvPendingRequests.Clear(); //clean out the box
             SetupPendingRequests(id); //Set up the box again
         }
@@ -174,6 +175,8 @@ namespace TutorMaster
 
                 }
             }
+
+            MessageBox.Show("The selected requests have been rejected and the selected tutors have not been approved for the requests courses.");
             lvPendingRequests.Clear(); //clean out the box
             SetupPendingRequests(id); //Set up the box again
         }

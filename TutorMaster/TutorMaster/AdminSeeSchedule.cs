@@ -287,7 +287,9 @@ namespace TutorMaster
                         }
                     }
                 }
+                MessageBox.Show("The selected appointments have been moved to the finalized state.");
             }
+            
             resetListViews(false);
         }
 
@@ -317,7 +319,8 @@ namespace TutorMaster
                 int partnerID = Convert.ToInt32(commits[f].Split(',')[2]);
                 cancelAppointments(commits, partnerID, true);
             }
-            
+
+            MessageBox.Show("The selected appointments have been cancelled and the times have been added back to each student's availability schedules.");
             DateTime start = DateTime.Now;
             resetListViews(false);
         }
@@ -354,9 +357,9 @@ namespace TutorMaster
                                 while (first <= last && !found)                                                         //if we haven't found the time in the list and start search pos is less than or equal to our end search position
                                 {
                                     int midpoint = (first + last) / 2;                                                  //get the midpoint between the two
-                                    if (DateTimeMethods.sameTime(stdCmtList[midpoint], weekBack))                                       //if the mid commit and the weekback time at the same
+                                    if (DateTimeMethods.sameTime(stdCmtList[midpoint], weekBack))                       //if the mid commit and the weekback time at the same
                                     {
-                                        if (Commits.openOrSameType(stdCmtList[c], stdCmtList[midpoint]))                        //ask if it is open or the same type of commitment as our cancel commit
+                                        if (Commits.openOrSameTypeDespiteLoc(stdCmtList[c], stdCmtList[midpoint]))      //ask if it is open or the same type of commitment as our cancel commit
                                         {
                                             stdCmtList[midpoint].Weekly = false;                                        //if it is, turn its weekly to false
                                             db.SaveChanges();                                                           //save the changes to the database
@@ -417,6 +420,7 @@ namespace TutorMaster
                 cancelAppointments(commits, partnerID, true);
             }
 
+            MessageBox.Show("The selected appointments have been cancelled and the times have been added back to each student's availability schedules.");
             DateTime start = DateTime.Now;
             resetListViews(false);
         }
@@ -444,6 +448,7 @@ namespace TutorMaster
                 int partnerID = Convert.ToInt32(commits[f].Split(',')[2]);
                 cancelAppointments(commits, partnerID, true);
             }
+            MessageBox.Show("The selected appointments have been cancelled and the times have been added back to each student's availability schedules.");
             DateTime start = DateTime.Now;
             resetListViews(false);
         }
@@ -489,6 +494,7 @@ namespace TutorMaster
                         }
                     }
                 }
+                MessageBox.Show("The selected appointments have been moved to the finalized state.");
             }
             else
             {
@@ -501,7 +507,6 @@ namespace TutorMaster
                 ProposeLocationForm g = new ProposeLocationForm(id, commits, true);
                 g.Show();
             }
-
             resetListViews(false);
         }
 
@@ -607,8 +612,8 @@ namespace TutorMaster
             }
             else if (numTutor > 0 && numPendingTutor == 0)                             //if tutor has something checked but pendingTutor does not, only reject should be on
             {
-                btnAcceptAddLoc.Enabled = false;
-                btnAcceptAddLoc.BackColor = System.Drawing.Color.FromArgb(193, 200, 204);
+                btnAcceptAddLoc.Enabled = true;
+                btnAcceptAddLoc.BackColor = System.Drawing.Color.FromArgb(226, 226, 226);//System.Drawing.Color.FromArgb(193, 200, 204);
                 btnRejectTutor.Enabled = true;
                 btnRejectTutor.BackColor = System.Drawing.Color.FromArgb(226, 226, 226);
             }
@@ -641,8 +646,8 @@ namespace TutorMaster
             }
             else if (numTutor > 0 && numPendingTutor == 0)                             //if tutor has something checked but pendingTutor does not, only reject should be on
             {
-                btnAcceptAddLoc.Enabled = false;
-                btnAcceptAddLoc.BackColor = System.Drawing.Color.FromArgb(193, 200, 204);
+                btnAcceptAddLoc.Enabled = true;
+                btnAcceptAddLoc.BackColor = System.Drawing.Color.FromArgb(226, 226, 226); //System.Drawing.Color.FromArgb(193, 200, 204);
                 btnRejectTutor.Enabled = true;
                 btnRejectTutor.BackColor = System.Drawing.Color.FromArgb(226, 226, 226);
             }
@@ -675,8 +680,8 @@ namespace TutorMaster
             }
             else if (numTutee > 0 && numPendingTutee == 0)                             //if tutee has something checked but pendingTutee does not, only reject should be on
             {
-                btnFinalize.Enabled = false;
-                btnFinalize.BackColor = System.Drawing.Color.FromArgb(193, 200, 204);
+                btnFinalize.Enabled = true;
+                btnFinalize.BackColor = System.Drawing.Color.FromArgb(226, 226, 226);//System.Drawing.Color.FromArgb(193, 200, 204);
                 btnRejectTutee.Enabled = true;
                 btnRejectTutee.BackColor = System.Drawing.Color.FromArgb(226, 226, 226);
             }
@@ -709,8 +714,8 @@ namespace TutorMaster
             }
             else if (numTutee > 0 && numPendingTutee == 0)                             //if tutee has something checked but pendingTutee does not, only reject should be on
             {
-                btnFinalize.Enabled = false;
-                btnFinalize.BackColor = System.Drawing.Color.FromArgb(193, 200, 204);
+                btnFinalize.Enabled = true;
+                btnFinalize.BackColor = System.Drawing.Color.FromArgb(226, 226, 226);//System.Drawing.Color.FromArgb(193, 200, 204);
                 btnRejectTutee.Enabled = true;
                 btnRejectTutee.BackColor = System.Drawing.Color.FromArgb(226, 226, 226);
             }
@@ -1061,6 +1066,49 @@ namespace TutorMaster
                     partnerCmtList[j].Class = "-";
                     db.SaveChanges();
                 }
+            }
+        }
+
+        private void btnRefresh_Click(object sender, EventArgs e)
+        {
+            resetListViews(false);
+        }
+
+        private void tabControl1_Selected(object sender, TabControlEventArgs e)
+        {
+            deselectAll();
+        }
+
+        private void deselectAll()
+        {
+            for (int i = 0; i < lvOpen.Items.Count; i++)
+            {
+                lvOpen.Items[i].Checked = false;
+            }
+
+            for (int n = 0; n < lvFinalized.Items.Count; n++)
+            {
+                lvFinalized.Items[n].Checked = false;
+            }
+
+            for (int f = 0; f < lvPendingTutor.Items.Count; f++)
+            {
+                lvPendingTutor.Items[f].Checked = false;
+            }
+
+            for (int j = 0; j < lvTutor.Items.Count; j++)
+            {
+                lvTutor.Items[j].Checked = false;
+            }
+
+            for (int c = 0; c < lvPendingTutee.Items.Count; c++)
+            {
+                lvPendingTutee.Items[c].Checked = false;
+            }
+
+            for (int k = 0; k < lvTutee.Items.Count; k++)
+            {
+                lvTutee.Items[k].Checked = false;
             }
         }
     }

@@ -435,7 +435,7 @@ namespace TutorMaster
                     setupDepartmentBoxes();
 
                     db.SaveChanges();
-
+                    txtClassCode.Enabled = true;
                     unsetEditClassControls();
                 }
             }
@@ -470,7 +470,8 @@ namespace TutorMaster
                     combDepartmentsAdd.SelectedIndex = 0;
                     txtDepartment.Hide();
                     lblDepartment.Hide();
-
+                    
+                    txtClassCode.Enabled = true;
                     MessageBox.Show("Class has been edited in the database");
 
                     db.SaveChanges();
@@ -486,7 +487,7 @@ namespace TutorMaster
         private void btnClassCancel_Click(object sender, EventArgs e)
         {
             unsetEditClassControls();
-
+            txtClassCode.Enabled = true;
             txtClassCode.Text = "";
             txtClassName.Text = "";
             combDepartmentsAdd.SelectedIndex = 0;
@@ -591,12 +592,33 @@ namespace TutorMaster
             {
                 string username = lvStudent.CheckedItems[i].SubItems[0].Text;
                 User delU = (from row in db.Users where row.Username == username select row).First();
+                deletePartnerCommits(delU.ID);
                 db.Users.DeleteObject(delU);
                 db.SaveChanges();
             }
 
+
             lvStudent.Clear();
             setupStudentLV();
+        }
+
+        private void deletePartnerCommits(int deleteId)
+        {
+            TutorMasterDBEntities4 db = new TutorMasterDBEntities4();
+            List<Commitment> cmtList = (from row in db.Commitments where row.ID == deleteId select row).ToList();
+
+            for (int p = 0; p < cmtList.Count; p++)
+            {
+                if (cmtList[p].ID == deleteId)
+                {
+                    cmtList[p].ID = -1;
+                    cmtList[p].Location = "-";
+                    cmtList[p].Open = true;
+                    cmtList[p].Class = "-";
+                    cmtList[p].Tutoring = false;
+                }
+            }
+            db.SaveChanges();
         }
 
         private void btnFacultyAdd_Click(object sender, EventArgs e)
@@ -705,12 +727,32 @@ namespace TutorMaster
             {
                 string classCode = lvClass.CheckedItems[i].SubItems[0].Text;
                 Class delC = (from row in db.Classes where row.ClassCode == classCode select row).First();
+                deleteCourseCommits(delC.ClassCode);
                 db.Classes.DeleteObject(delC);
                 db.SaveChanges();
             }
 
             lvClass.Clear();
             setupClassLV();
+        }
+
+        private void deleteCourseCommits(string courseCode)
+        {
+            TutorMasterDBEntities4 db = new TutorMasterDBEntities4();
+            List<Commitment> cmtList = (from row in db.Commitments where row.Class == courseCode select row).ToList();
+
+            for (int p = 0; p < cmtList.Count; p++)
+            {
+                if (cmtList[p].Class == courseCode)
+                {
+                    cmtList[p].ID = -1;
+                    cmtList[p].Location = "-";
+                    cmtList[p].Open = true;
+                    cmtList[p].Class = "-";
+                    cmtList[p].Tutoring = false;
+                }
+            }
+            db.SaveChanges();
         }
 
         private void combDepartmentsAdd_DropDownClosed(object sender, EventArgs e)
@@ -749,6 +791,14 @@ namespace TutorMaster
                 {
                     MessageBox.Show("Class Name is already taken. Please pick another one.");
                 }
+                else if (combDepartmentsAdd.Text.ToString() == "Department...")
+                {
+                    MessageBox.Show("Please select an academic department for the course.");
+                }
+                else if (!txtClassCode.Text.ToString().Contains('-'))
+                {
+                    MessageBox.Show("Please input a valid course number.");
+                }
                 else
                 {
                     TutorMaster.Class newClass = new TutorMaster.Class();
@@ -784,8 +834,17 @@ namespace TutorMaster
                 {
                     MessageBox.Show("Class Name is already taken. Please pick another one.");
                 }
+                else if (combDepartmentsAdd.Text.ToString() == "Department...")
+                {
+                    MessageBox.Show("Please select an academic department for the course.");
+                }
+                else if (!txtClassCode.Text.ToString().Contains('-'))
+                {
+                    MessageBox.Show("Please input a valid course number.");
+                }
                 else
                 {
+                    MessageBox.Show(combDepartmentsAdd.Text.ToString());
                     TutorMaster.Class newClass = new TutorMaster.Class();
                     newClass.ClassCode = classCode;
                     newClass.ClassName = className;
@@ -814,9 +873,11 @@ namespace TutorMaster
             var cl = (from row in db.Classes where row.ClassCode == classCode select row).First();
 
             txtClassCode.Text = cl.ClassCode.ToString();
+            txtClassCode.Enabled = false;
             txtClassName.Text = cl.ClassName.ToString();
             combDepartmentsAdd.SelectedText = cl.Department.ToString();
             lblID.Text = classCode;
+            
         }
 
         private void btnStudentSchedule_Click(object sender, EventArgs e)
