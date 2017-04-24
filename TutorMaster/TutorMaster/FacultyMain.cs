@@ -124,11 +124,15 @@ namespace TutorMaster
             int reqNum = lvPendingRequests.CheckedItems.Count;                                                      //identify how many requests have been checked
             for (int i = 0; i < reqNum; i++)                                                                        //iterate for how many requests have been clicked
             {
-
-
                 string CC = lvPendingRequests.CheckedItems[i].SubItems[1].Text;                                     //pull the classcode from the request in question
                 string Id = lvPendingRequests.CheckedItems[i].SubItems[2].Text;
                 int Id2 = Int32.Parse(Id);                                                                         //Change the string into an int, this is really fragile if a bad id number is put in the system somehow. typechecking for those ids should prevent it
+
+                StudentClass newClass = new StudentClass();
+                newClass.Key = getNextRequestKey();
+                newClass.ClassCode = CC;
+                newClass.ID = Id2;
+                db.StudentClasses.AddObject(newClass);
 
                 Student tutor = (from row in db.Students where row.ID==Id2 select row).First();
                 tutor.Tutor = true;
@@ -138,9 +142,10 @@ namespace TutorMaster
                 {
                     db.TutorRequests.DeleteObject(delU);                                                                //delete the object in the db
                     db.SaveChanges();                                                                                   //save the cahnges to the db
-
                 }
             }
+
+            db.SaveChanges();
             lvPendingRequests.Clear(); //clean out the box
             SetupPendingRequests(id); //Set up the box again
         }
@@ -148,15 +153,11 @@ namespace TutorMaster
         private void btnReject_Click(object sender, EventArgs e)                                                    //This Button now works fully! addition functionality would be eror checking for parse function and sending message to students and administrators once we set that up. 
         {
             //This will need to remove all the requests from the DB and leave all acounts unchanged. Eventually, it will send a message to the admin account
-
-            
             TutorMasterDBEntities4 db = new TutorMasterDBEntities4();    //side note, we should carefully control the life cycle of object contexts like these                                           //open the db
 
             int reqNum = lvPendingRequests.CheckedItems.Count;                                                      //identify how many requests have been checked
             for (int i = 0; i < reqNum; i++)                                                                        //iterate for how many requests have been clicked
             {
-
-
                 string CC = lvPendingRequests.CheckedItems[i].SubItems[1].Text;                                     //pull the classcode from the request in question
                 string Id = lvPendingRequests.CheckedItems[i].SubItems[2].Text;
                 int Id2 = Int32.Parse(Id);                                                                         //Change the string into an int
@@ -175,6 +176,23 @@ namespace TutorMaster
             }
             lvPendingRequests.Clear(); //clean out the box
             SetupPendingRequests(id); //Set up the box again
+        }
+
+        private int getNextRequestKey()
+        {
+            TutorMasterDBEntities4 db = new TutorMasterDBEntities4();
+            int rowNum = db.StudentClasses.Count();
+            int lastRow;
+
+            if (rowNum > 0)
+            {
+                lastRow = db.StudentClasses.OrderByDescending(u => u.Key).Select(r => r.Key).First();
+            }
+            else
+            {
+                lastRow = 0;
+            }
+            return lastRow + 1;
         }
 
         private void btnChangePassword_Click(object sender, EventArgs e)
