@@ -22,20 +22,21 @@ namespace TutorMaster
 
         int accID;
 
+        //constructor
         public CreateStudent(int act, int id = 0)
         {
             InitializeComponent();
 
             action = act;
             accID = id;
-            setupClasses();
-            getUsernames();
-            if (action == EDIT)
+            setupClasses();             //sets up treeview of classes         
+            getUsernames();             //gets a list of existing usernames
+            if (action == EDIT)         //if in edit mode, sets fields to existing information on the student being edited
             {
                 loadFormInfo(accID);
             }
 
-            setButtonText();
+            setButtonText();            //sets the button text based on action user is taking
         }
 
         //this function gets all of the usernames in the database and puts them into a list
@@ -73,6 +74,7 @@ namespace TutorMaster
         }
 
         private void setButtonText()
+        //sets the button text based on what the user wants to do
         {
             switch (action)
             {
@@ -89,6 +91,7 @@ namespace TutorMaster
         }
 
         private void btnExit_Click(object sender, EventArgs e)
+        //sends you back to the correct form
         {
             if (action == REQUEST)
             {
@@ -105,6 +108,7 @@ namespace TutorMaster
         }
 
         private void CreateStudent_FormClosed(object sender, FormClosedEventArgs e)
+        //send you back to the correct form
         {
             if (action == REQUEST)
             {
@@ -122,7 +126,7 @@ namespace TutorMaster
 
         private void btnAdd_Click(object sender, EventArgs e)
         {
-            string fname = txtFirstname.Text;
+            string fname = txtFirstname.Text;                               //gets information from the form fields
             string lname = txtLastname.Text;
             string username = txtUsername.Text;
             string password = txtPassword.Text;
@@ -131,17 +135,18 @@ namespace TutorMaster
             string accounttype = "Student";
             bool tutor = cbxTutor.Checked;
             bool tutee = cbxTutee.Checked;
+
             TutorMasterDBEntities4 db = new TutorMasterDBEntities4();
 
-            if (goodToAdd(fname, lname, username, password, phone, email, tutor, tutee))
+            if (goodToAdd(fname, lname, username, password, phone, email, tutor, tutee))            //checks if the form is filled out appropriately
             {
-                if (action == EDIT)
+                if (action == EDIT)                 //if the user is editing a student
                 {
-                    if (tutor)
+                    if (tutor)                      //save the classes if student is a tutor
                     {
                         saveClasses();
                     }
-                    else
+                    else                            //if tutor status has been removed, remove all the classes they were approved for/had requested
                     {
                         if ((bool)(from row in db.Students where row.ID == accID select row.Tutor).First())
                         {
@@ -149,59 +154,60 @@ namespace TutorMaster
                         }
                     }
 
-                    var updateUser = (from row in db.Users where row.ID == accID select row).Single();
+                    User updateUser = (from row in db.Users where row.ID == accID select row).Single();      //get the user object from the database
 
-                    updateUser.FirstName = fname;
+                    updateUser.FirstName = fname;                                       //update the object to admin input
                     updateUser.LastName = lname;
                     updateUser.Username = username;
                     updateUser.Password = password;
                     updateUser.PhoneNumber = phone;
                     updateUser.Email = email;
                     updateUser.AccountType = accounttype;
-                    db.SaveChanges();
 
-                    var updateStudent = (from row in db.Students where row.ID == accID select row).Single();
-                    updateStudent.Tutor = tutor;
+                    Student updateStudent = (from row in db.Students where row.ID == accID select row).Single();    //get the Student object from the database
+                    updateStudent.Tutor = tutor;                                        //update the object to admin input
                     updateStudent.Tutee = tutee;
-                    db.SaveChanges();
 
-                    AdminMain g = new AdminMain();
+                    db.SaveChanges();           //save changes
+
+                    AdminMain g = new AdminMain();      //return to admin main
                     g.Show();
                     this.Dispose();
                 }
-                else
+                else                                       //user is in request or create mode
                 {
-                    int ID = getNextID();
-                    if (action == REQUEST)
+                    int ID = getNextID();                   //gets ID for new user
+                    if (action == REQUEST)                  //if in request mode, adds the indicator to the end of the username
                     {
                         username += "?";
                     }
 
-                    saveNewUser(fname, lname, username, password, email, phone, accounttype, ID);
+                    saveNewUser(fname, lname, username, password, email, phone, accounttype, ID);       //saves the user and student account to the database
                     saveNewTutorTutee(tutor, tutee, ID);
 
-                    if (tutor)
+                    if (tutor)                                                      //if tutor, sends appropriate tutor requests
                     {
                         int numDepartments = tvClasses.Nodes.Count;
-                        for (int i = 0; i < numDepartments; i++)
+                        for (int i = 0; i < numDepartments; i++)                    //loop through departments
                         {
-                            int numNodes = tvClasses.Nodes[i].Nodes.Count;
+                            int numNodes = tvClasses.Nodes[i].Nodes.Count;          //for each class in a department
                             for (int j = 0; j < numNodes; j++)
                             {
                                 TreeNode tn = tvClasses.Nodes[i].Nodes[j];
-                                if (tn.Checked)
+                                if (tn.Checked)                                     //check if the class is checked
                                 {
-                                    TutorMaster.TutorRequest request = new TutorMaster.TutorRequest();
+                                    TutorMaster.TutorRequest request = new TutorMaster.TutorRequest();              //create the request
                                     request.Key = getNextRequestKey();
                                     request.ID = ID;
                                     string classCode = (from row in db.Classes where row.ClassName == tn.Text select row.ClassCode).First();
                                     request.ClassCode = classCode;
-                                    addRequest(request);
+                                    addRequest(request);                                //add request to database
                                 }
                             }
                         }
                     }
-                    uncheckTree();
+
+                    uncheckTree();                                          //reset the form
                     txtFirstname.Text = "";
                     txtLastname.Text = "";
                     txtUsername.Text = "";
@@ -210,7 +216,8 @@ namespace TutorMaster
                     txtEmail.Text = "";
                     cbxTutor.Checked = false;
                     cbxTutee.Checked = false;
-                    if (action == CREATE)
+
+                    if (action == CREATE)                                                       //show user appropriate message
                     {
                         MessageBox.Show("Student has been added to the database.");
                     }
@@ -223,6 +230,7 @@ namespace TutorMaster
         }
 
         private void uncheckTree()
+        //uncheck all the classes in the treeview
         {
             int numDepartments = tvClasses.Nodes.Count;
             for (int i = 0; i < numDepartments; i++)
@@ -238,8 +246,10 @@ namespace TutorMaster
         }
 
         private bool goodToAdd(string fname, string lname, string username, string password, string phone, string email, bool tutor, bool tutee)
+        //checks that the form is filled out approprately to add a student
         {
             bool good = true;
+
             if (string.IsNullOrEmpty(fname) || string.IsNullOrWhiteSpace(lname) ||
                 string.IsNullOrWhiteSpace(username) || string.IsNullOrWhiteSpace(password) ||
                     string.IsNullOrWhiteSpace(phone) || string.IsNullOrWhiteSpace(email))
@@ -271,26 +281,27 @@ namespace TutorMaster
         }
 
         private bool verifyTaken()
+        //checks if a username is taken
         {
             TutorMasterDBEntities4 db = new TutorMasterDBEntities4();
+
             string oldUsername;
-            try
+            if (action == EDIT)                         //if user is in edit mode, gets their previous username
             {
                 oldUsername = (from row in db.Users where row.ID == accID select row.Username).First();
             }
-            catch (Exception e)
+            else
             {
                 oldUsername = "";
             }
             
             string username;
-            for (int i = 0; i < usernameList.Count(); i++)
+            for (int i = 0; i < usernameList.Count(); i++)          //for each username in the list
             {
                 username = usernameList[i];
-                if (txtUsername.Text == username || (txtUsername.Text + "?") == username)
+                if (txtUsername.Text == username || (txtUsername.Text + "?") == username)       //check if the username field exists already with or without the request indicator
                 {
-
-                    if (action == EDIT)
+                    if (action == EDIT)                             //if user is in edit mode, allow them to keep the username if it was already theirs
                     {
                         if (!username.Equals(oldUsername))
                         {
@@ -298,7 +309,7 @@ namespace TutorMaster
                             return true;
                         }
                     }
-                    else
+                    else                                            //otherwise alert user the username is already taken
                     {
                         lblUsername.Text = "Already Taken";
                         return true;
@@ -320,6 +331,7 @@ namespace TutorMaster
             newUser.Email = email;
             newUser.AccountType = accounttype;
             newUser.PhoneNumber = phone;
+
             db.Users.AddObject(newUser);                                                       //add them to the users table in the database
             db.SaveChanges();                                                                  //save the changes to the database
         }
@@ -331,11 +343,13 @@ namespace TutorMaster
             newStudent.Tutee = tutee;                                                          //load up the information
             newStudent.Tutor = tutor;
             newStudent.ID = id;
+
             db.Students.AddObject(newStudent);                                                 //add the tutor/tutee to the database
             db.SaveChanges();                                                                  //save the changes
         }
 
         private void addRequest(TutorMaster.TutorRequest request)
+        //add tutor request to the datbase
         {
             TutorMasterDBEntities4 db = new TutorMasterDBEntities4();
             db.TutorRequests.AddObject(request);
@@ -359,7 +373,7 @@ namespace TutorMaster
             for (int i = 0; i < numDepartments; i++)
             {
                 int numNodes = tvClasses.Nodes[i].Nodes.Count;
-                for (int j = 0; j < numNodes; j++)
+                for (int j = 0; j < numNodes; j++)                          //loop through each class in each department and check whether the node is checked
                 {
                     TreeNode tn = tvClasses.Nodes[i].Nodes[j];
                     if (!tn.Checked)
@@ -377,7 +391,7 @@ namespace TutorMaster
                             db.TutorRequests.DeleteObject((from row in db.TutorRequests where row.ClassCode == classCode select row).First());
                         }
                     }
-                    //if not approved or request but check, request
+                    //if not approved or requested but checked, submit a request
                     else
                     {
                         if (!(acceptedClasses.Exists(x => x.ClassName.Equals(tn.Text))) && !(requestClasses.Exists(x => x.ClassName.Equals(tn.Text))))
@@ -397,6 +411,7 @@ namespace TutorMaster
         }
 
         private void removeAllClasses()
+        //remove all a users tutor classes and tutor requests
         {
             TutorMasterDBEntities4 db = new TutorMasterDBEntities4();
 
@@ -417,6 +432,7 @@ namespace TutorMaster
         }
 
         private int getNextID()
+        //get unused id for a new user
         {
             TutorMasterDBEntities4 db = new TutorMasterDBEntities4();
             int rowNum = db.Users.Count();
@@ -426,6 +442,7 @@ namespace TutorMaster
         }
 
         private int getNextRequestKey()
+        //get unused id for a new tutor request
         {
             TutorMasterDBEntities4 db = new TutorMasterDBEntities4();
             int rowNum = db.TutorRequests.Count();
@@ -443,6 +460,7 @@ namespace TutorMaster
         }
 
         private void cbxTutor_CheckStateChanged(object sender, EventArgs e)
+        //expand the window and show the classes if tutor is checked
         {
             if (!cbxTutor.Checked)
             {
@@ -461,6 +479,7 @@ namespace TutorMaster
         }
 
         private bool validateInfo(string email, string phone)
+        //make sure valid email and phone number have been entered
         {
             string address = email.Substring(email.Length - 4);
             if ((email.Contains('@')) && (phone.Length == 14) && (address == ".edu" || address == ".com"))
@@ -471,6 +490,8 @@ namespace TutorMaster
         }
 
         private void loadFormInfo(int accID)
+        //gets called if user is in edit mode
+        //gets object being edited from the database and loads the form fields
         {
             TutorMasterDBEntities4 db = new TutorMasterDBEntities4();
             txtFirstname.Text = (from row in db.Users where row.ID == accID select row.FirstName).First();
@@ -482,50 +503,53 @@ namespace TutorMaster
             cbxTutor.Checked = Convert.ToBoolean((from row in db.Students where row.ID == accID select row.Tutor).First());
             cbxTutee.Checked = Convert.ToBoolean((from row in db.Students where row.ID == accID select row.Tutee).First());
 
-            getClasses(accID);
+            if (cbxTutor.Checked)
+            {
+                getClasses(accID);          //gets and loads the classes of the student if they're a tutor
+            }
         }
 
         private void getClasses(int accID)
         {
             TutorMasterDBEntities4 db = new TutorMasterDBEntities4();
-            //var numReq = db.TutorRequests.Count(x => x.ID == accID);
-            var requestCodes = (from row in db.TutorRequests.AsEnumerable() where row.ID == accID select row.ClassCode).ToArray();
-            var acceptedCodes = (from row in db.StudentClasses.AsEnumerable() where row.ID == accID select row.ClassCode).ToArray();
+            
+            var requestCodes = (from row in db.TutorRequests.AsEnumerable() where row.ID == accID select row.ClassCode).ToList();      //gets the class codes of a student's tutor request and tutor classes
+            var acceptedCodes = (from row in db.StudentClasses.AsEnumerable() where row.ID == accID select row.ClassCode).ToList();
 
-            int numCourses = requestCodes.Length + acceptedCodes.Length;
-            string[] requestClasses = new string[numCourses];
-            for (int n = 0; n < requestCodes.Length; n++)
+            List<string> classes = new List<string>();
+
+            foreach (string r in requestCodes)                          //adds all the request class names to a list
             {
-                requestClasses[n] = (from row in db.Classes.AsEnumerable() where requestCodes[n] == row.ClassCode select row.ClassName).First();
+                classes.Add((from row in db.Classes.AsEnumerable() where r == row.ClassCode select row.ClassName).First());
             }
-            for (int n = requestCodes.Length; n < acceptedCodes.Length; n++)
+            foreach (string a in acceptedCodes)                         //adds all the accepeted class names to a list
             {
-                requestClasses[n] = (from row in db.Classes.AsEnumerable() where acceptedCodes[n] == row.ClassCode select row.ClassName).First();
+                classes.Add((from row in db.Classes.AsEnumerable() where a == row.ClassCode select row.ClassName).First());
             }
 
             int numDepartments = tvClasses.Nodes.Count;
-            for (int i = 0; i < numDepartments; i++)
+            for (int i = 0; i < numDepartments; i++)                    //loop through all the departments
             {
                 int numNodes = tvClasses.Nodes[i].Nodes.Count;
                 int count = 0;
-                for (int j = 0; j < numNodes; j++)
+                for (int j = 0; j < numNodes; j++)                      //go through all the classes in each department
                 {
                     TreeNode tn = tvClasses.Nodes[i].Nodes[j];
-                    if (requestClasses.Contains(tn.Text))
+                    if (classes.Contains(tn.Text))                      //if the class was in requests or accepted, check the node
                     {
                         tn.Checked = true;
                         count++;
                     }
                 }
-                if (count == numNodes)
+                if (count == numNodes)                                  //if the number of classes checked is equal to the number of the classes in the department, check the department 
                 {
                     tvClasses.Nodes[i].Checked = true;
                 }
             }
         }
 
-        //Doesn't work on double click
         private void tvClasses_AfterCheck(object sender, TreeViewEventArgs e)
+        //if department node is check, check all the classes in that department
         {
             if (e.Action != TreeViewAction.Unknown)
             {
@@ -540,6 +564,7 @@ namespace TutorMaster
         }
 
         private void txtUsername_KeyUp(object sender, KeyEventArgs e)
+        //check if the username is taken already as the user types
         {
             bool taken = verifyTaken();
             if (!taken)

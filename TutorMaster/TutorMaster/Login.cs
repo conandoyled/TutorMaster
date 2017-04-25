@@ -22,16 +22,15 @@ namespace TutorMaster
             string username = txtUsername.Text;
             string password = txtPassword.Text;
 
-            if (string.IsNullOrWhiteSpace(username) || string.IsNullOrWhiteSpace(password))
+            if (string.IsNullOrWhiteSpace(username) || string.IsNullOrWhiteSpace(password))             //make sure both fields are filled in
             {
                 MessageBox.Show("Please enter in both a username and password.");
             }
-
             else if (isValidUser(username, password)) //checks to see if the account is valid
             {
-                if (username.Contains('?'))
+                if (username.Contains('?'))         //usernames can't contain '?'
                 {
-                    MessageBox.Show("You have not yet been approved as a tutor or tutee yet. If you have any questions, feel free to contact the campus administrator");
+                    lblErrMsg.Text = "Invalid Username or Password. Try again.";
                 }
                 else
                 {
@@ -103,8 +102,6 @@ namespace TutorMaster
             return accID;
         }
 
-        
-
         private void clearErrMsg(object sender, EventArgs e)
         {
             lblErrMsg.Text = "";
@@ -123,6 +120,7 @@ namespace TutorMaster
         }
 
         private void txtPassword_KeyDown(object sender, KeyEventArgs e)
+        //from password field, enter key tries to log you in
         {
             if (e.KeyValue == '\r')
             {
@@ -131,6 +129,7 @@ namespace TutorMaster
         }
 
         private void cbxShowPassword_CheckedChanged(object sender, EventArgs e)
+        //allows user to see password they're typing if they wwant
         {
             if (cbxShowPassword.Checked == true)
             {
