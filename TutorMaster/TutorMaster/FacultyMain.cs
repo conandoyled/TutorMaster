@@ -182,6 +182,7 @@ namespace TutorMaster
         }
 
         private int getNextRequestKey()
+        //gets unused key from database
         {
             TutorMasterDBEntities4 db = new TutorMasterDBEntities4();
             int rowNum = db.StudentClasses.Count();
@@ -206,6 +207,7 @@ namespace TutorMaster
         }
 
         private void lvPendingRequests_ItemChecked(object sender, ItemCheckedEventArgs e)
+        //ensures buttons are only enabled when the correct number of itemss are checked
         {
             if (lvPendingRequests.CheckedItems.Count > 0)
             {
