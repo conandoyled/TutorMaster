@@ -7,6 +7,7 @@ namespace TutorMaster
 {
     class SortsAndSearches
     {
+        //this binary search is to find a commitment in a list of commitments by start times. if the commit's start time is in the list, then this returns true. otherwise, it returns false
         public static bool BinarySearch(List<string> cmtList, string commit)
         {
             bool found = false;
@@ -35,6 +36,7 @@ namespace TutorMaster
             return found;
         }
 
+        //this finds the direct commitment's Date time and searches in a list of datetimes. if the start time of the commit is in the list, it returns true, otherwise, it returns false
         public static bool BinarySearch(List<DateTime> cmtList, DateTime commit)
         {
             bool found = false;
@@ -63,6 +65,7 @@ namespace TutorMaster
             return found;
         }
 
+        //this binary search looks for a datetime in a commitment list. if it is, it returns true. otherwise, return false
         public static bool BinarySearch(DateTime date, List<TutorMaster.Commitment> searchList)
         {
             bool found = false;
@@ -92,6 +95,7 @@ namespace TutorMaster
         }
 
         //QuickSort functions
+        //this QuickSort sorts a commitment list by datetimes
         private static void Split(ref List<TutorMaster.Commitment> values, int first, int last, ref int splitPoint)
         {
             int center = (first + last) / 2;

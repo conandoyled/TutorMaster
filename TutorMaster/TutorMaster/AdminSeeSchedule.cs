@@ -821,7 +821,7 @@ namespace TutorMaster
                                         join cmt in db.Commitments on stucmt.CmtID equals cmt.CmtID
                                         select cmt).ToList();
 
-            SortsAndSearches.QuickSort(ref cmtList, cmtList.Count());                                                         //sort the list by DateTime
+            SortsAndSearches.QuickSort(ref cmtList, cmtList.Count());                                        //sort the list by DateTime
 
             List<DateTime> searchList = new List<DateTime>();
 
@@ -837,7 +837,7 @@ namespace TutorMaster
                         {//ask the user if they want to delete the weekly commitment through the end of the semester
                             DateTime endSemes = new DateTime(2017, 5, 1, 0, 0, 0);                            //get end of semester
                             DateTime weekForward = Convert.ToDateTime(cmtList[i].StartTime).AddDays(7);       //go a week forward
-                            while (DateTimeMethods.endOfSemesIsLater(endSemes, weekForward))                                  //if the end of the semester is later than our commitment start Time
+                            while (DateTimeMethods.endOfSemesIsLater(endSemes, weekForward))                  //if the end of the semester is later than our commitment start Time
                             {                                                                                 //run a binary search
                                 bool found = false;
                                 int first = 0;
