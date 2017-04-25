@@ -14,7 +14,7 @@ namespace TutorMaster
         //id of student that signs into the account and a list of their scheduled commitments that will be used for checking for duplicates if necessary
         private int id;
         private List<TutorMaster.Commitment> searchList = new List<Commitment>();
-        
+        private ListViewItem lastItemChecked;
         //constructor
         public StudentMain(int accID)
         {
@@ -457,9 +457,12 @@ namespace TutorMaster
                             updateInformationAppointments(ref startTime, ref endTime, ref initialCommit, cmtList[i + 1]);
                         }
                     }
-                    db.SaveChanges();                                                                                //save ths changes to the database
+
+                    
+                    
                     endTime = Commits.getNextEndTime(cmtList[cmtList.Count() - 1]);                                          //update the end time for the last commitment
-                    handleLastCommitment(cmtList, initialCommit, startTime, endTime, ref newNotifs, ref numCancels); //check the last commitment and then add it
+                    handleLastCommitment(cmtList, initialCommit, startTime, endTime, ref newNotifs, ref numCancels, ref newAppointsList, ref cancelList); //check the last commitment and then add it
+                    db.SaveChanges();                                                                                //save ths changes to the database
                     
                     sendNotificationsMessage(newNotifs, reject);                                                     //send a notification message if one needs to be sent
                     sendCancellationsMessage(numCancels, reject);                                                    //send a cancellation mess if one needs to be sent
@@ -467,24 +470,42 @@ namespace TutorMaster
             }
         }
 
-        private void handleLastCommitment(List<Commitment> cmtList, Commitment initialCommit, string startTime, string endTime, ref int newNotifs, ref int numCancels)
+        private void handleLastCommitment(List<Commitment> cmtList, Commitment initialCommit, string startTime, string endTime, ref int newNotifs, ref int numCancels, ref List<Commitment> newAppointsList, ref List<Commitment> cancelList)
         {
             DateTime currentCommitDate = Convert.ToDateTime(cmtList[cmtList.Count()-2].StartTime);                  //get datetime of second to last commitment
             DateTime nextCommitDate = Convert.ToDateTime(cmtList[cmtList.Count()-1].StartTime);                     //get datetime of the last commitment
             if (Commits.sameCategory(cmtList[cmtList.Count() - 1], cmtList[cmtList.Count() - 2]) && currentCommitDate.AddMinutes(15).CompareTo(nextCommitDate) == 0)
             {                                                                                                       //check if they are adjacent and in the same category
+                if(newAppointment(cmtList[cmtList.Count()-1]))
+                {
+                    newNotifs++;
+                    newAppointsList.Add(cmtList[cmtList.Count() - 1]);
+                    markNewAppointmentsAsRead(ref newAppointsList);
+                }
+                if (newCancel(cmtList[cmtList.Count() - 1]))
+                {
+                    numCancels++;
+                    cancelList.Add(cmtList[cmtList.Count() - 1]);
+                    markCancelsAsRead(ref cancelList);
+                }
+                endTime = Commits.getNextEndTime(cmtList[cmtList.Count() - 1]);
                 addToAppointments(initialCommit, startTime, endTime);                                               //if they are, add the last time block as it is
+                
             }
             else                                                                                                    //if they are not, then add the last time block as its own 15 minute time block
             {
                 updateInformationAppointments(ref startTime, ref endTime, ref initialCommit, cmtList[cmtList.Count() - 1]);
-                if (newAppointment(initialCommit))                                                                   //check if it will be a new notification or cancellation
+                if (newAppointment(cmtList[cmtList.Count() - 1]))
                 {
                     newNotifs++;
+                    newAppointsList.Add(cmtList[cmtList.Count() - 1]);
+                    markNewAppointmentsAsRead(ref newAppointsList);
                 }
-                if (newCancel(initialCommit))
+                if (newCancel(cmtList[cmtList.Count() - 1]))
                 {
                     numCancels++;
+                    cancelList.Add(cmtList[cmtList.Count() - 1]);
+                    markCancelsAsRead(ref cancelList);
                 }
                 addToAppointments(initialCommit, startTime, endTime);                                               //add it to the listView
             }
@@ -865,7 +886,7 @@ namespace TutorMaster
             
             ProposeLocationForm g = new ProposeLocationForm(id, commits, false);                           //pass the signed in student's id and this list to the propose location form
             g.Show();
-            this.Close();
+            this.Dispose();
         }
 
         private string getlvPendingTutorCheckedInfo(int i)                             //go through each checked item and get a string of the starttime, endtime, and partner id and add it to the list
@@ -1018,7 +1039,7 @@ namespace TutorMaster
                                     int midpoint = (first + last) / 2;                                                  //get the midpoint between the two
                                     if (DateTimeMethods.sameTime(stdCmtList[midpoint], weekBack))                                       //if the mid commit and the weekback time at the same
                                     {
-                                        if (Commits.openOrSameType(stdCmtList[c], stdCmtList[midpoint]))                        //ask if it is open or the same type of commitment as our cancel commit
+                                        if (Commits.openOrSameTypeDespiteLoc(stdCmtList[c], stdCmtList[midpoint]))                        //ask if it is open or the same type of commitment as our cancel commit
                                         {
                                             stdCmtList[midpoint].Weekly = false;                                        //if it is, turn its weekly to false
                                             db.SaveChanges();                                                           //save the changes to the database
@@ -1214,7 +1235,7 @@ namespace TutorMaster
             {
                 RemoveAvailForm g = new RemoveAvailForm(id, removeList, false);                                           //else, send that information to the remove availability form
                 g.Show();
-                this.Close();
+                this.Dispose();
             }
         }
 
@@ -1430,6 +1451,7 @@ namespace TutorMaster
         //these functions check to make sure every selected item in the day listviews are open, it one is not in any of them, it disables the remove availability button
         private void lvSunday_ItemChecked(object sender, ItemCheckedEventArgs e)
         {
+
             int itemsChecked = lvSunday.CheckedItems.Count;
             if (itemsChecked == 0)
             {
@@ -1774,6 +1796,83 @@ namespace TutorMaster
             loadAppointments(false);                                                                              //load the appointments
             disableButtons();                                                                                     //disable necessary buttons
 
+        }
+
+        private void lvSunday_ItemCheck(object sender, ItemCheckEventArgs e)
+        {
+            if (lastItemChecked != null && lastItemChecked.Checked
+        && lastItemChecked != lvSunday.Items[e.Index])
+            {
+                lastItemChecked.Checked = false;
+            }
+
+            lastItemChecked = lvSunday.Items[e.Index];
+        }
+
+        private void lvMonday_ItemCheck(object sender, ItemCheckEventArgs e)
+        {
+            if (lastItemChecked != null && lastItemChecked.Checked
+        && lastItemChecked != lvMonday.Items[e.Index])
+            {
+                lastItemChecked.Checked = false;
+            }
+
+            lastItemChecked = lvMonday.Items[e.Index];
+        }
+
+        private void lvTuesday_ItemCheck(object sender, ItemCheckEventArgs e)
+        {
+            if (lastItemChecked != null && lastItemChecked.Checked
+        && lastItemChecked != lvTuesday.Items[e.Index])
+            {
+                lastItemChecked.Checked = false;
+            }
+
+            lastItemChecked = lvTuesday.Items[e.Index];
+        }
+
+        private void lvWednesday_ItemCheck(object sender, ItemCheckEventArgs e)
+        {
+            if (lastItemChecked != null && lastItemChecked.Checked
+        && lastItemChecked != lvWednesday.Items[e.Index])
+            {
+                lastItemChecked.Checked = false;
+            }
+
+            lastItemChecked = lvWednesday.Items[e.Index];
+        }
+
+        private void lvThursday_ItemCheck(object sender, ItemCheckEventArgs e)
+        {
+            if (lastItemChecked != null && lastItemChecked.Checked
+        && lastItemChecked != lvThursday.Items[e.Index])
+            {
+                lastItemChecked.Checked = false;
+            }
+
+            lastItemChecked = lvThursday.Items[e.Index];
+        }
+
+        private void lvFriday_ItemCheck(object sender, ItemCheckEventArgs e)
+        {
+            if (lastItemChecked != null && lastItemChecked.Checked
+        && lastItemChecked != lvFriday.Items[e.Index])
+            {
+                lastItemChecked.Checked = false;
+            }
+
+            lastItemChecked = lvFriday.Items[e.Index];
+        }
+
+        private void lvSaturday_ItemCheck(object sender, ItemCheckEventArgs e)
+        {
+            if (lastItemChecked != null && lastItemChecked.Checked
+        && lastItemChecked != lvSaturday.Items[e.Index])
+            {
+                lastItemChecked.Checked = false;
+            }
+
+            lastItemChecked = lvSaturday.Items[e.Index];
         }
         
         

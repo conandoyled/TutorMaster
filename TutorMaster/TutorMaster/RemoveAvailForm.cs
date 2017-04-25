@@ -198,42 +198,50 @@ namespace TutorMaster
 
         private void btnRemove_Click(object sender, EventArgs e)
         {
-            bool weeklyChoice = checkChecked();
-            setPreviousWeekliesToFalse();                                //set the previous weeklies to false
-            if (weeklyChoice)
+            DialogResult sureDelete = MessageBox.Show("Are you sure you want to delete all of the selected timeslots?", "Deletion confirmation", MessageBoxButtons.YesNo);
+            if (sureDelete == DialogResult.Yes)
             {
-                DialogResult choice = MessageBox.Show("Would you like to delete the weekly time slots until the end of the semester?", "Delete weekly timeslots?", MessageBoxButtons.YesNo);
-                if (choice == DialogResult.Yes)                                                       //if the user says yes
+                bool weeklyChoice = checkChecked();
+                setPreviousWeekliesToFalse();                                //set the previous weeklies to false
+                if (weeklyChoice)
                 {
-                    deleteAvail(true);
+                    DialogResult choice = MessageBox.Show("Would you like to delete the weekly time slots until the end of the semester?", "Delete weekly timeslots?", MessageBoxButtons.YesNo);
+                    if (choice == DialogResult.Yes)                                                       //if the user says yes
+                    {
+                        deleteAvail(true);
+                    }
+                    else if (choice == DialogResult.No)
+                    {
+                        deleteAvail(false);
+                    }
                 }
-                else if (choice == DialogResult.No)
+                else
                 {
                     deleteAvail(false);
                 }
-            }
-            else
-            {
-                deleteAvail(false);
-            }
-            
-            for (int c = 0; c < lvTimeSlots.CheckedItems.Count; c++)     //remove all of the selected time slots from the listview
-            {
-                lvTimeSlots.CheckedItems[c].Remove();
-                c--;
-            }
 
-            if (!admin)
-            {
-                StudentMain g = new StudentMain(id);                         //send the user back to the student main
-                g.Show();
-                this.Dispose();
+                for (int c = 0; c < lvTimeSlots.CheckedItems.Count; c++)     //remove all of the selected time slots from the listview
+                {
+                    lvTimeSlots.CheckedItems[c].Remove();
+                    c--;
+                }
+
+                if (!admin)
+                {
+                    StudentMain g = new StudentMain(id);                         //send the user back to the student main
+                    g.Show();
+                    this.Dispose();
+                }
+                else
+                {
+                    AdminSeeSchedule g = new AdminSeeSchedule(id);
+                    g.Show();
+                    this.Dispose();
+                }
             }
             else
             {
-                AdminSeeSchedule g = new AdminSeeSchedule(id);
-                g.Show();
-                this.Dispose();
+                MessageBox.Show("Cancellation confirmed, the selected time slots have not been deleted from your availability.");
             }
         }
 

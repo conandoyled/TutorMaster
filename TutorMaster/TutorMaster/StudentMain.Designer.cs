@@ -114,7 +114,7 @@
             // 
             this.weekStartDateTime.CalendarMonthBackground = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
             this.weekStartDateTime.Location = new System.Drawing.Point(733, 84);
-            this.weekStartDateTime.MaxDate = new System.DateTime(2017, 4, 30, 0, 0, 0, 0);
+            this.weekStartDateTime.MaxDate = new System.DateTime(2017, 5, 31, 0, 0, 0, 0);
             this.weekStartDateTime.MinDate = new System.DateTime(2017, 1, 1, 0, 0, 0, 0);
             this.weekStartDateTime.Name = "weekStartDateTime";
             this.weekStartDateTime.Size = new System.Drawing.Size(200, 20);
@@ -168,6 +168,7 @@
             this.lvSunday.TabIndex = 0;
             this.lvSunday.UseCompatibleStateImageBehavior = false;
             this.lvSunday.View = System.Windows.Forms.View.Details;
+            this.lvSunday.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.lvSunday_ItemCheck);
             this.lvSunday.ItemChecked += new System.Windows.Forms.ItemCheckedEventHandler(this.lvSunday_ItemChecked);
             // 
             // tabMonday
@@ -200,6 +201,7 @@
             this.lvMonday.TabIndex = 1;
             this.lvMonday.UseCompatibleStateImageBehavior = false;
             this.lvMonday.View = System.Windows.Forms.View.Details;
+            this.lvMonday.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.lvMonday_ItemCheck);
             this.lvMonday.ItemChecked += new System.Windows.Forms.ItemCheckedEventHandler(this.lvMonday_ItemChecked);
             // 
             // tabTuesday
@@ -231,6 +233,7 @@
             this.lvTuesday.TabIndex = 1;
             this.lvTuesday.UseCompatibleStateImageBehavior = false;
             this.lvTuesday.View = System.Windows.Forms.View.Details;
+            this.lvTuesday.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.lvTuesday_ItemCheck);
             this.lvTuesday.ItemChecked += new System.Windows.Forms.ItemCheckedEventHandler(this.lvTuesday_ItemChecked);
             // 
             // tabWednesday
@@ -262,6 +265,7 @@
             this.lvWednesday.TabIndex = 1;
             this.lvWednesday.UseCompatibleStateImageBehavior = false;
             this.lvWednesday.View = System.Windows.Forms.View.Details;
+            this.lvWednesday.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.lvWednesday_ItemCheck);
             this.lvWednesday.ItemChecked += new System.Windows.Forms.ItemCheckedEventHandler(this.lvWednesday_ItemChecked);
             // 
             // tabThursday
@@ -293,6 +297,7 @@
             this.lvThursday.TabIndex = 1;
             this.lvThursday.UseCompatibleStateImageBehavior = false;
             this.lvThursday.View = System.Windows.Forms.View.Details;
+            this.lvThursday.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.lvThursday_ItemCheck);
             this.lvThursday.ItemChecked += new System.Windows.Forms.ItemCheckedEventHandler(this.lvThursday_ItemChecked);
             // 
             // tabFriday
@@ -324,6 +329,7 @@
             this.lvFriday.TabIndex = 1;
             this.lvFriday.UseCompatibleStateImageBehavior = false;
             this.lvFriday.View = System.Windows.Forms.View.Details;
+            this.lvFriday.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.lvFriday_ItemCheck);
             this.lvFriday.ItemChecked += new System.Windows.Forms.ItemCheckedEventHandler(this.lvFriday_ItemChecked);
             // 
             // tabSaturday
@@ -355,6 +361,7 @@
             this.lvSaturday.TabIndex = 1;
             this.lvSaturday.UseCompatibleStateImageBehavior = false;
             this.lvSaturday.View = System.Windows.Forms.View.Details;
+            this.lvSaturday.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.lvSaturday_ItemCheck);
             this.lvSaturday.ItemChecked += new System.Windows.Forms.ItemCheckedEventHandler(this.lvSaturday_ItemChecked);
             // 
             // btnAddOpenBlock
