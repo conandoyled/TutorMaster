@@ -15,7 +15,6 @@ namespace TutorMaster
         private int ACCID;
         private bool leftside;
         private bool Auto = true;
-        private static System.Threading.EventWaitHandle _wait = new System.Threading.EventWaitHandle(true, System.Threading.EventResetMode.ManualReset); //this control is used later to control the auto search function
         
         public AdvancedRequest(int accID)  
         {
@@ -257,7 +256,7 @@ namespace TutorMaster
                 combStartMinute.Hide();
 
                 if (leftside)
-                    new System.Threading.Thread(MatchTimes(combTutorNameLeft, combClassBoxLeft)).Start(); //match the left
+                    MatchTimes(combTutorNameLeft, combClassBoxLeft); //match the left
                 if (!leftside)
                     MatchTimes(combTutorNameRight, combClassBoxRight); //call the match for the right side
             }
@@ -284,20 +283,19 @@ namespace TutorMaster
 
         }
 
-        private void btnSendRequest_Click(object sender, EventArgs e)
+        private void btnSendRequest_Click(object sender, EventArgs e,string tutorValidSlot, int TutID, int TuteeID, List<TutorMaster.Commitment> tutorCommits, List<TutorMaster.Commitment> tuteeCommits, string classCode, TutorMasterDBEntities4 db, bool weekly, int length)
         {
-            
             if (Auto)
             {
                 if (combTutorAvailability.SelectedItem == null)
                     MessageBox.Show("Please select a time before trying to submit an appointment");
                 else
-                    _wait.Set();   //This will unpause our auto function
+                    addCommits(tutorValidSlot, TutID, TuteeID, tutorCommits, tuteeCommits, classCode, db, weekly, length);//add the commits!  
             }
             else      //If we are using the manual addition
             {
                 //1. check to make sure all the info has been entered
-                _wait.Set(); //This will let the match function finish so we don't have a bunch of threads open
+                
                 if (ValidTimeBoxes())
                 {
                     //2. Actually add the commitments to the DB
@@ -404,9 +402,7 @@ namespace TutorMaster
                         combTutorAvailability.Items.Add(MatchedTime);//adds the time slot to the combo box 
                     }
                 }
-                _wait.WaitOne(); //wait until the send button is hit
-               if(Auto)
-                   addCommits(/*This index is the same in the combo box as it is in the valid slots list*/tutorValidSlots[combTutorAvailability.SelectedIndex], TutID, TuteeID, tutorCommits, tuteeCommits, classCode, db, weekly, length);//Change this to a function that prepares Appointment to be added
+                btnSendRequest.Click += new EventHandler(btnSendRequest_Click(this, e/*, tutorValidSlots[combTutorAvailability.SelectedIndex], TutID, TuteeID, tutorCommits, tuteeCommits, classCode, db, weekly, length*/));
             }
             return 0;
         }

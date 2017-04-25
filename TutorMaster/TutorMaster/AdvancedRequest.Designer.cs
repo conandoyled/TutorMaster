@@ -376,7 +376,7 @@
             this.Controls.Add(this.btnExit);
             this.Controls.Add(this.combTutorNameLeft);
             this.Name = "AdvancedRequest";
-            this.Text = "How many minutes ";
+            this.Text = "Advanced Request ";
             this.Load += new System.EventHandler(this.AdvancedRequest_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
