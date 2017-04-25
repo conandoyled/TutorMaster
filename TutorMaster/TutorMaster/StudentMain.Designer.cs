@@ -114,7 +114,7 @@
             // 
             this.weekStartDateTime.CalendarMonthBackground = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
             this.weekStartDateTime.Location = new System.Drawing.Point(733, 84);
-            this.weekStartDateTime.MaxDate = new System.DateTime(2017, 4, 30, 0, 0, 0, 0);
+            this.weekStartDateTime.MaxDate = new System.DateTime(2017, 5, 31, 0, 0, 0, 0);
             this.weekStartDateTime.MinDate = new System.DateTime(2017, 1, 1, 0, 0, 0, 0);
             this.weekStartDateTime.Name = "weekStartDateTime";
             this.weekStartDateTime.Size = new System.Drawing.Size(200, 20);

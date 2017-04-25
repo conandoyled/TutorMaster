@@ -54,7 +54,7 @@
             // dayEndDateTime
             // 
             this.dayEndDateTime.Location = new System.Drawing.Point(15, 118);
-            this.dayEndDateTime.MaxDate = new System.DateTime(2017, 4, 30, 0, 0, 0, 0);
+            this.dayEndDateTime.MaxDate = new System.DateTime(2017, 5, 31, 0, 0, 0, 0);
             this.dayEndDateTime.MinDate = new System.DateTime(2017, 1, 1, 0, 0, 0, 0);
             this.dayEndDateTime.Name = "dayEndDateTime";
             this.dayEndDateTime.Size = new System.Drawing.Size(218, 20);
@@ -64,10 +64,10 @@
             // dayStartDateTime
             // 
             this.dayStartDateTime.Location = new System.Drawing.Point(15, 34);
-            this.dayStartDateTime.MaxDate = new System.DateTime(2017, 4, 30, 0, 0, 0, 0);
+            this.dayStartDateTime.MaxDate = new System.DateTime(2017, 5, 31, 0, 0, 0, 0);
             this.dayStartDateTime.MinDate = new System.DateTime(2017, 1, 1, 0, 0, 0, 0);
             this.dayStartDateTime.Name = "dayStartDateTime";
-            this.dayStartDateTime.Size = new System.Drawing.Size(218, 20);
+            this.dayStartDateTime.Size = new System.Drawing.Size(229, 20);
             this.dayStartDateTime.TabIndex = 25;
             this.dayStartDateTime.Value = new System.DateTime(2017, 3, 23, 0, 0, 0, 0);
             // 
@@ -96,7 +96,7 @@
             "PM"});
             this.combStartAmPm.Location = new System.Drawing.Point(198, 60);
             this.combStartAmPm.Name = "combStartAmPm";
-            this.combStartAmPm.Size = new System.Drawing.Size(35, 21);
+            this.combStartAmPm.Size = new System.Drawing.Size(46, 21);
             this.combStartAmPm.TabIndex = 17;
             // 
             // btnAddOpenBlock
@@ -145,7 +145,7 @@
             "PM"});
             this.combEndAmPm.Location = new System.Drawing.Point(198, 144);
             this.combEndAmPm.Name = "combEndAmPm";
-            this.combEndAmPm.Size = new System.Drawing.Size(35, 21);
+            this.combEndAmPm.Size = new System.Drawing.Size(46, 21);
             this.combEndAmPm.TabIndex = 20;
             // 
             // combEndMinute

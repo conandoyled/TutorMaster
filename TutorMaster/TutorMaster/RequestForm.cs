@@ -87,7 +87,7 @@ namespace TutorMaster
             else
             {
                 bool weekly = cbxWeekly.Checked;
-                DateTime start = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 0, 0, 0);
+                DateTime start = DateTime.Now;
                 TutorMasterDBEntities4 db = new TutorMasterDBEntities4();
 
                 string classCode = (from row in db.Classes where combCourseName.Text == row.ClassName select row.ClassCode).First();
@@ -363,16 +363,20 @@ namespace TutorMaster
                 {
                     if (DateTime.Compare(startTime, Convert.ToDateTime(tuteeCommits[j].StartTime)) <= 0 && DateTime.Compare(endTime, Convert.ToDateTime(tuteeCommits[j].StartTime)) > 0)
                     {
-                        tuteeCommits[j].Open = false;
-                        tuteeCommits[j].Tutoring = false;
-                        tuteeCommits[j].ID = tutorId;
-                        tuteeCommits[j].Class = classCode+"!";
-                        db.SaveChanges();
+                        if (!tuteeCommits[j].Class.ToString().Contains('!'))
+                        {
+                            tuteeCommits[j].Open = false;
+                            tuteeCommits[j].Tutoring = false;
+                            tuteeCommits[j].ID = tutorId;
+                            tuteeCommits[j].Class = classCode + "!";
+                            db.SaveChanges();
+                        }
                     }
                     else if (DateTime.Compare(endTime, Convert.ToDateTime(tuteeCommits[j].StartTime)) <= 0)
                     {
                         startTime = startTime.AddDays(7);
                         endTime = endTime.AddDays(7);
+                        j--;
                     }
                 }
                 startTime = saveFirst;
@@ -381,16 +385,21 @@ namespace TutorMaster
                 {
                     if (DateTime.Compare(startTime, Convert.ToDateTime(tutorCommits[i].StartTime)) <= 0 && DateTime.Compare(endTime, Convert.ToDateTime(tutorCommits[i].StartTime)) > 0)
                     {
-                        tutorCommits[i].Open = false;
-                        tutorCommits[i].Tutoring = true;
-                        tutorCommits[i].ID = tuteeId;
-                        tutorCommits[i].Class = classCode+"!";
-                        db.SaveChanges();
+                        if (!tutorCommits[i].Class.ToString().Contains('!'))
+                        {
+                            tutorCommits[i].Open = false;
+                            tutorCommits[i].Tutoring = true;
+                            tutorCommits[i].ID = tuteeId;
+                            tutorCommits[i].Class = classCode + "!";
+                            db.SaveChanges();
+                        }
+                        
                     }
                     else if (DateTime.Compare(endTime, Convert.ToDateTime(tutorCommits[i].StartTime)) <= 0)
                     {
                         startTime = startTime.AddDays(7);
                         endTime = endTime.AddDays(7);
+                        i--;
                     }
                 }
             }

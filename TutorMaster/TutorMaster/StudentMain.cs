@@ -457,9 +457,12 @@ namespace TutorMaster
                             updateInformationAppointments(ref startTime, ref endTime, ref initialCommit, cmtList[i + 1]);
                         }
                     }
+
+                    
                     db.SaveChanges();                                                                                //save ths changes to the database
                     endTime = Commits.getNextEndTime(cmtList[cmtList.Count() - 1]);                                          //update the end time for the last commitment
-                    handleLastCommitment(cmtList, initialCommit, startTime, endTime, ref newNotifs, ref numCancels); //check the last commitment and then add it
+                    handleLastCommitment(cmtList, initialCommit, startTime, endTime, ref newNotifs, ref numCancels, ref newAppointsList, ref cancelList); //check the last commitment and then add it
+
                     
                     sendNotificationsMessage(newNotifs, reject);                                                     //send a notification message if one needs to be sent
                     sendCancellationsMessage(numCancels, reject);                                                    //send a cancellation mess if one needs to be sent
@@ -467,7 +470,7 @@ namespace TutorMaster
             }
         }
 
-        private void handleLastCommitment(List<Commitment> cmtList, Commitment initialCommit, string startTime, string endTime, ref int newNotifs, ref int numCancels)
+        private void handleLastCommitment(List<Commitment> cmtList, Commitment initialCommit, string startTime, string endTime, ref int newNotifs, ref int numCancels, ref List<Commitment> newAppointsList, ref List<Commitment> cancelList)
         {
             DateTime currentCommitDate = Convert.ToDateTime(cmtList[cmtList.Count()-2].StartTime);                  //get datetime of second to last commitment
             DateTime nextCommitDate = Convert.ToDateTime(cmtList[cmtList.Count()-1].StartTime);                     //get datetime of the last commitment
@@ -480,10 +483,13 @@ namespace TutorMaster
                 updateInformationAppointments(ref startTime, ref endTime, ref initialCommit, cmtList[cmtList.Count() - 1]);
                 if (newAppointment(initialCommit))                                                                   //check if it will be a new notification or cancellation
                 {
+                    newAppointsList.Add(
+                    markNewAppointmentsAsRead(ref newAppointsList);
                     newNotifs++;
                 }
                 if (newCancel(initialCommit))
                 {
+                    markCancelsAsRead(ref cancelList);
                     numCancels++;
                 }
                 addToAppointments(initialCommit, startTime, endTime);                                               //add it to the listView
@@ -865,7 +871,7 @@ namespace TutorMaster
             
             ProposeLocationForm g = new ProposeLocationForm(id, commits, false);                           //pass the signed in student's id and this list to the propose location form
             g.Show();
-            this.Close();
+            this.Dispose();
         }
 
         private string getlvPendingTutorCheckedInfo(int i)                             //go through each checked item and get a string of the starttime, endtime, and partner id and add it to the list
@@ -1018,7 +1024,7 @@ namespace TutorMaster
                                     int midpoint = (first + last) / 2;                                                  //get the midpoint between the two
                                     if (DateTimeMethods.sameTime(stdCmtList[midpoint], weekBack))                                       //if the mid commit and the weekback time at the same
                                     {
-                                        if (Commits.openOrSameType(stdCmtList[c], stdCmtList[midpoint]))                        //ask if it is open or the same type of commitment as our cancel commit
+                                        if (Commits.openOrSameTypeDespiteLoc(stdCmtList[c], stdCmtList[midpoint]))                        //ask if it is open or the same type of commitment as our cancel commit
                                         {
                                             stdCmtList[midpoint].Weekly = false;                                        //if it is, turn its weekly to false
                                             db.SaveChanges();                                                           //save the changes to the database
@@ -1214,7 +1220,7 @@ namespace TutorMaster
             {
                 RemoveAvailForm g = new RemoveAvailForm(id, removeList, false);                                           //else, send that information to the remove availability form
                 g.Show();
-                this.Close();
+                this.Dispose();
             }
         }
 

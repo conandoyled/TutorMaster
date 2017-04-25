@@ -171,7 +171,7 @@ namespace TutorMaster
             newStudentCommit.Key = lastSCR;
             addStudentCommit(newStudentCommit);
 
-            DateTime endOfSemester = new DateTime(2017, 5, 1, 0, 0, 0);
+            DateTime endOfSemester = new DateTime(2017, 6, 1, 0, 0, 0);
 
             //if it is weekly, keep going 7 days into future and if it is before end of semster, add the new commitment
             if (weekly)
