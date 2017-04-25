@@ -290,12 +290,15 @@ namespace TutorMaster
                 if (combTutorAvailability.SelectedItem == null)
                     MessageBox.Show("Please select a time before trying to submit an appointment");
                 else
+                {
                     addCommits(tutorValidSlot, TutID, TuteeID, tutorCommits, tuteeCommits, classCode, db, weekly, length);//add the commits!  
+                    MessageBox.Show("Your appointments has been Scheduled!");
+                }
             }
             else      //If we are using the manual addition
             {
                 //1. check to make sure all the info has been entered
-                
+
                 if (ValidTimeBoxes())
                 {
                     //2. Actually add the commitments to the DB
@@ -402,7 +405,9 @@ namespace TutorMaster
                         combTutorAvailability.Items.Add(MatchedTime);//adds the time slot to the combo box 
                     }
                 }
-                btnSendRequest.Click += new EventHandler(btnSendRequest_Click(this, e/*, tutorValidSlots[combTutorAvailability.SelectedIndex], TutID, TuteeID, tutorCommits, tuteeCommits, classCode, db, weekly, length*/));
+                if(combTutorAvailability.SelectedItem!= null)
+
+                btnSendRequest.Click += (sender, e) => btnSendRequest_Click(sender, e, tutorValidSlots[combTutorAvailability.SelectedIndex], TutID, TuteeID, tutorCommits, tuteeCommits, classCode, db, weekly, length);
             }
             return 0;
         }
