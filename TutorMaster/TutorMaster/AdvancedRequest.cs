@@ -163,6 +163,8 @@ namespace TutorMaster
             combMeetingLength.Hide();
             lblHowLong.Hide();
             cbxWeekly.Hide();
+            label3.Hide();
+            btnSendRequest.Hide();
 
             //Show Class Options
             lblClasses.Show();
@@ -283,7 +285,7 @@ namespace TutorMaster
 
         }
 
-        private void btnSendRequest_Click(object sender, EventArgs e,string tutorValidSlot, int TutID, int TuteeID, List<TutorMaster.Commitment> tutorCommits, List<TutorMaster.Commitment> tuteeCommits, string classCode, TutorMasterDBEntities4 db, bool weekly, int length)
+        private void btnSendRequest_Click(object sender, EventArgs e,List<string> tutorValidSlot, int TutID, int TuteeID, List<TutorMaster.Commitment> tutorCommits, List<TutorMaster.Commitment> tuteeCommits, string classCode, TutorMasterDBEntities4 db, bool weekly, int length)
         {
             if (Auto)
             {
@@ -291,11 +293,12 @@ namespace TutorMaster
                     MessageBox.Show("Please select a time before trying to submit an appointment");
                 else
                 {
-                    addCommits(tutorValidSlot, TutID, TuteeID, tutorCommits, tuteeCommits, classCode, db, weekly, length);//add the commits!  
-                    MessageBox.Show("Your appointments has been Scheduled!");
+                    addCommits(tutorValidSlot[combTutorAvailability.SelectedIndex], TutID, TuteeID, tutorCommits, tuteeCommits, classCode, db, weekly, length);//add the commits!  
+                    MessageBox.Show("Your appointments has been Scheduled!"); //Let them know that it worked!
+                    btnExit_Click(this, e); //close this form and send them back to the student form!
                 }
             }
-            else      //If we are using the manual addition
+            else      //If we are using the manual addition ------ This was scrapped last minute. I've left it here because it shouldn't cause any problems and we could use this as a spring board for an additional feature in Tutor Master 2.0
             {
                 //1. check to make sure all the info has been entered
 
@@ -375,6 +378,7 @@ namespace TutorMaster
             if (tuteeCommits.Count == 0) //If the tuttee doesn't have any compatible availibility then give a pop up box to let them know
             {
                 MessageBox.Show("You currently have no available slots, please add some availability before attempting to schedule a session of this length");
+                return 1;
             }
             else
             {
@@ -393,7 +397,7 @@ namespace TutorMaster
 
                 if (tuteeValidSlots.Count() == 0)//If there are no mathcing slots, direct the user to try again or do a manual time. 
                 {
-                    MessageBox.Show("This Tutor has no matching availibility long enough. Please consider a either a shorter session or a different tutor. Alternatively, you can manually enter a time.");
+                    MessageBox.Show("This Tutor has no matching availibility long enough. Please consider a either a shorter session or a different tutor.");
                     return 1;
                 }
                 for (int j = 0; j < tutorValidSlots.Count(); j++) //iterate through all the available tutor slots 
@@ -405,9 +409,7 @@ namespace TutorMaster
                         combTutorAvailability.Items.Add(MatchedTime);//adds the time slot to the combo box 
                     }
                 }
-                if(combTutorAvailability.SelectedItem!= null)
-
-                btnSendRequest.Click += (sender, e) => btnSendRequest_Click(sender, e, tutorValidSlots[combTutorAvailability.SelectedIndex], TutID, TuteeID, tutorCommits, tuteeCommits, classCode, db, weekly, length);
+                btnSendRequest.Click += (sender, e) => btnSendRequest_Click(sender, e, tutorValidSlots, TutID, TuteeID, tutorCommits, tuteeCommits, classCode, db, weekly, length);
             }
             return 0;
         }
