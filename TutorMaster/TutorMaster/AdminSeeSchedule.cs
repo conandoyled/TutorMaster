@@ -110,6 +110,7 @@ namespace TutorMaster
 
         }
 
+        //disable the buttons upon login
         private void disableButtons()
         {
             btnCancelFinalized.Enabled = false;
@@ -171,26 +172,27 @@ namespace TutorMaster
 
         }
 
+        //this is the function to add the commitment to the correct listview
         private void addToAppointments(TutorMaster.Commitment commit, string startTime, string endTime)
         {
             TutorMasterDBEntities4 db = new TutorMasterDBEntities4();
 
-            string partner = "";
-            string open = getYesNo((bool)commit.Open);
-            string tutoring = getYesNo((bool)commit.Tutoring);
-            string weekly = getYesNo((bool)commit.Weekly);
+            string partner = "";                                                                                    //string for the partner
+            string open = getYesNo((bool)commit.Open);                                                              //string for if this is open
+            string tutoring = getYesNo((bool)commit.Tutoring);                                                      //string for if their tutoring
+            string weekly = getYesNo((bool)commit.Weekly);                                                          //string for if it is weekly
 
-            if (commit.ID == -1)
+            if (commit.ID == -1)                                                                                    //set partner to none if there is no partner
             {
                 partner = "None";
             }
             else
             {
-                var partnerData = (from row in db.Users where row.ID == commit.ID select row).First();
+                var partnerData = (from row in db.Users where row.ID == commit.ID select row).First();              //if there is a partner, get their first and last name
                 partner = partnerData.FirstName + " " + partnerData.LastName;
             }
 
-            ListViewItem item = new ListViewItem(new string[] { startTime, endTime, commit.Class, commit.Location, 
+            ListViewItem item = new ListViewItem(new string[] { startTime, endTime, commit.Class, commit.Location,  //create a new listview item
                     commit.Open.ToString(), commit.Tutoring.ToString(), commit.Weekly.ToString(), partner, commit.ID.ToString() });
             if (Commits.isAccepted(commit))                                                                                                                //if commit accepted, add to accepted listview
             {
@@ -214,12 +216,13 @@ namespace TutorMaster
             }
             else
             {
-                ListViewItem openItem = new ListViewItem(new string[] {startTime, endTime, commit.Weekly.ToString()});
+                ListViewItem openItem = new ListViewItem(new string[] {startTime, endTime, commit.Weekly.ToString()});                                  //if open, add to open listview
                 lvOpen.Items.Add(openItem);
             }
 
         }
 
+        //function to read a bool and return yes or no in a string form
         private string getYesNo(bool b)
         {
             string yesno = "";
@@ -237,32 +240,32 @@ namespace TutorMaster
 
         private void btnAcceptAddLoc_Click(object sender, EventArgs e)
         {
-            TutorMasterDBEntities4 db = new TutorMasterDBEntities4();
-            List<string> commits = new List<string>();
+            TutorMasterDBEntities4 db = new TutorMasterDBEntities4();                                           //open the database
+            List<string> commits = new List<string>();                                                          //get ready to get all the checked items information
 
             if (lvPendingTutor.CheckedItems.Count > 0)
             {
-                for (int i = 0; i < lvPendingTutor.CheckedItems.Count; i++)
+                for (int i = 0; i < lvPendingTutor.CheckedItems.Count; i++)                                     //get the checked items information necessary
                 {
                     commits.Add(lvPendingTutor.CheckedItems[i].SubItems[0].Text.ToString() + "," + lvPendingTutor.CheckedItems[i].SubItems[1].Text.ToString() + "," + Convert.ToString(lvPendingTutor.CheckedItems[i].SubItems[8].Text));
                 }
 
-                ProposeLocationForm g = new ProposeLocationForm(id, commits, true);
+                ProposeLocationForm g = new ProposeLocationForm(id, commits, true);                             //send information to propose location form
                 g.Show();
             }
             else
             {
-                List<Commitment> tuteeCmtList = (from stucmt in db.StudentCommitments
-                                                 where stucmt.ID == id
+                List<Commitment> tuteeCmtList = (from stucmt in db.StudentCommitments                           //if the info is coming from lvTutor
+                                                 where stucmt.ID == id                                          //get the tutee's commitments
                                                  join cmt in db.Commitments on stucmt.CmtID equals cmt.CmtID
                                                  select cmt).ToList();
 
-                for (int i = 0; i < lvTutor.CheckedItems.Count; i++)
+                for (int i = 0; i < lvTutor.CheckedItems.Count; i++)                                            //get all of the information from lvTutor
                 {
                     DateTime startDate = DateTimeMethods.getListViewTime(lvTutor.CheckedItems[i].SubItems[0].Text);
                     DateTime endDate = DateTimeMethods.getListViewTime(lvTutor.CheckedItems[i].SubItems[1].Text);
 
-                    for (int c = 0; c < tuteeCmtList.Count(); c++)
+                    for (int c = 0; c < tuteeCmtList.Count(); c++)                                             //go the the tutee location part of the right commitments and update the location
                     {
                         if (DateTime.Compare(startDate, Convert.ToDateTime(tuteeCmtList[c].StartTime)) <= 0 && DateTime.Compare(endDate, Convert.ToDateTime(tuteeCmtList[c].StartTime)) > 0)
                         {
@@ -271,15 +274,15 @@ namespace TutorMaster
                         }
                     }
 
-                    int partnerID = Convert.ToInt32(lvTutor.CheckedItems[i].SubItems[8].Text);
+                    int partnerID = Convert.ToInt32(lvTutor.CheckedItems[i].SubItems[8].Text);                 //go to their partner's id
 
-                    List<Commitment> tutorCmtList = (from stucmt in db.StudentCommitments
+                    List<Commitment> tutorCmtList = (from stucmt in db.StudentCommitments                      //get their commitments
                                                      where stucmt.ID == partnerID
                                                      join cmt in db.Commitments on stucmt.CmtID equals cmt.CmtID
                                                      select cmt).ToList();
 
                     for (int m = 0; m < tutorCmtList.Count(); m++)
-                    {
+                    {                                                                                          //update the their right commitments
                         if (DateTime.Compare(startDate, Convert.ToDateTime(tutorCmtList[m].StartTime)) <= 0 && DateTime.Compare(endDate, Convert.ToDateTime(tutorCmtList[m].StartTime)) > 0)
                         {
                             tutorCmtList[m].Location = tutorCmtList[m].Location.Substring(0, tutorCmtList[m].Location.Length - 1);
@@ -295,11 +298,11 @@ namespace TutorMaster
 
         private void btnRejectTutor_Click(object sender, EventArgs e)
         {
-            TutorMasterDBEntities4 db = new TutorMasterDBEntities4();
-            List<string> commits = new List<string>();
+            TutorMasterDBEntities4 db = new TutorMasterDBEntities4();                                           //open the database
+            List<string> commits = new List<string>();                                                          //get ready to grab the right information
 
            
-            for (int i = 0; i < lvPendingTutor.CheckedItems.Count; i++)
+            for (int i = 0; i < lvPendingTutor.CheckedItems.Count; i++)                                         //grab information from checked items in lvPendingTutor and lvTutor
             {
                 commits.Add(lvPendingTutor.CheckedItems[i].SubItems[0].Text.ToString() + "," + lvPendingTutor.CheckedItems[i].SubItems[1].Text.ToString() + "," + lvPendingTutor.CheckedItems[i].SubItems[8].Text.ToString());
             }
@@ -309,17 +312,15 @@ namespace TutorMaster
                 commits.Add(lvTutor.CheckedItems[n].SubItems[0].Text.ToString() + "," + lvTutor.CheckedItems[n].SubItems[1].Text.ToString() + "," + lvTutor.CheckedItems[n].SubItems[8].Text.ToString());
             }
 
-           
-
-            for (int f = 0; f < commits.Count; f++)
+            for (int f = 0; f < commits.Count; f++)                                                           //go through each checked item's information and cancel the appointments
             {
                 int accID = id;
                 cancelAppointments(commits, accID, true);
 
-                int partnerID = Convert.ToInt32(commits[f].Split(',')[2]);
+                int partnerID = Convert.ToInt32(commits[f].Split(',')[2]);                                    //do for the student and their partner
                 cancelAppointments(commits, partnerID, true);
             }
-
+                                                                                                              //give a message saying that this is done  
             MessageBox.Show("The selected appointments have been cancelled and the times have been added back to each student's availability schedules.");
             DateTime start = DateTime.Now;
             resetListViews(false);
@@ -403,15 +404,15 @@ namespace TutorMaster
 
         private void btnCancelFinalized_Click(object sender, EventArgs e)
         {
-            TutorMasterDBEntities4 db = new TutorMasterDBEntities4();
-            List<string> commits = new List<string>();
+            TutorMasterDBEntities4 db = new TutorMasterDBEntities4();                                                   //connect to the database
+            List<string> commits = new List<string>();                                                                  //get ready to grab all the necessary information
             
-            for (int i = 0; i < lvFinalized.CheckedItems.Count; i++)
+            for (int i = 0; i < lvFinalized.CheckedItems.Count; i++)                                                    //get all the right info from the lvFinalized
             {
                 commits.Add(lvFinalized.CheckedItems[i].SubItems[0].Text.ToString() + "," + lvFinalized.CheckedItems[i].SubItems[1].Text.ToString() + "," + lvFinalized.CheckedItems[i].SubItems[8].Text.ToString());
             }
 
-            for (int n = 0; n < commits.Count; n++)
+            for (int n = 0; n < commits.Count; n++)                                                                     //go through and cancel the appointments for the tutor and tutee
             {
                 int accID = id;
                 cancelAppointments(commits, accID, true);
@@ -419,7 +420,7 @@ namespace TutorMaster
                 int partnerID = Convert.ToInt32(commits[n].Split(',')[2]);
                 cancelAppointments(commits, partnerID, true);
             }
-
+                                                                                                                        //message that we are done
             MessageBox.Show("The selected appointments have been cancelled and the times have been added back to each student's availability schedules.");
             DateTime start = DateTime.Now;
             resetListViews(false);
@@ -427,10 +428,10 @@ namespace TutorMaster
 
         private void btnRejectTutee_Click(object sender, EventArgs e)
         {
-            TutorMasterDBEntities4 db = new TutorMasterDBEntities4();
-            List<string> commits = new List<string>();
+            TutorMasterDBEntities4 db = new TutorMasterDBEntities4();                                                   //connect to the database
+            List<string> commits = new List<string>();                                                                  //get ready to grab the information
 
-            for (int i = 0; i < lvPendingTutee.CheckedItems.Count; i++)
+            for (int i = 0; i < lvPendingTutee.CheckedItems.Count; i++)                                                 //grab the information from the tutee listviews
             {
                 commits.Add(lvPendingTutee.CheckedItems[i].SubItems[0].Text.ToString() + "," + lvPendingTutee.CheckedItems[i].SubItems[1].Text.ToString() + "," + lvPendingTutee.CheckedItems[i].SubItems[8].Text.ToString());
             }
@@ -440,7 +441,7 @@ namespace TutorMaster
                 commits.Add(lvTutee.CheckedItems[n].SubItems[0].Text.ToString() + "," + lvTutee.CheckedItems[n].SubItems[1].Text.ToString() + "," + lvTutee.CheckedItems[n].SubItems[8].Text.ToString());
             }
 
-            for (int f = 0; f < commits.Count; f++)
+            for (int f = 0; f < commits.Count; f++)                                                                     //go through and cancel the appointments for both students
             {
                 int accID = id;
                 cancelAppointments(commits, accID, true);
@@ -448,6 +449,7 @@ namespace TutorMaster
                 int partnerID = Convert.ToInt32(commits[f].Split(',')[2]);
                 cancelAppointments(commits, partnerID, true);
             }
+                                                                                                                        //message that the program is done
             MessageBox.Show("The selected appointments have been cancelled and the times have been added back to each student's availability schedules.");
             DateTime start = DateTime.Now;
             resetListViews(false);
@@ -455,9 +457,9 @@ namespace TutorMaster
 
         private void btnFinalize_Click(object sender, EventArgs e)
         {
-            TutorMasterDBEntities4 db = new TutorMasterDBEntities4();
+            TutorMasterDBEntities4 db = new TutorMasterDBEntities4();                                                   //connect to the database
 
-            List<Commitment> tuteeCmtList = (from stucmt in db.StudentCommitments
+            List<Commitment> tuteeCmtList = (from stucmt in db.StudentCommitments                                       //get the tutee commitment list
                                              where stucmt.ID == id
                                              join cmt in db.Commitments on stucmt.CmtID equals cmt.CmtID
                                              select cmt).ToList();
@@ -469,7 +471,7 @@ namespace TutorMaster
                     DateTime startDate = DateTimeMethods.getListViewTime(lvPendingTutee.CheckedItems[i].SubItems[0].Text);
                     DateTime endDate = DateTimeMethods.getListViewTime(lvPendingTutee.CheckedItems[i].SubItems[1].Text);
 
-                    for (int c = 0; c < tuteeCmtList.Count(); c++)
+                    for (int c = 0; c < tuteeCmtList.Count(); c++)                                                   //move location to finalized state for tutee
                     {
                         if (DateTime.Compare(startDate, Convert.ToDateTime(tuteeCmtList[c].StartTime)) <= 0 && DateTime.Compare(endDate, Convert.ToDateTime(tuteeCmtList[c].StartTime)) > 0)
                         {
@@ -480,41 +482,43 @@ namespace TutorMaster
 
                     int partnerID = Convert.ToInt32(lvPendingTutee.CheckedItems[i].SubItems[8].Text);
 
-                    List<Commitment> tutorCmtList = (from stucmt in db.StudentCommitments
+                    List<Commitment> tutorCmtList = (from stucmt in db.StudentCommitments                           //get the tutor commits
                                                      where stucmt.ID == partnerID
                                                      join cmt in db.Commitments on stucmt.CmtID equals cmt.CmtID
                                                      select cmt).ToList();
 
                     for (int m = 0; m < tutorCmtList.Count(); m++)
-                    {
+                    {                                                                                              //move their locations to a finalized state
                         if (DateTime.Compare(startDate, Convert.ToDateTime(tutorCmtList[m].StartTime)) <= 0 && DateTime.Compare(endDate, Convert.ToDateTime(tutorCmtList[m].StartTime)) > 0)
                         {
                             tutorCmtList[m].Location = tutorCmtList[m].Location.Substring(0, tutorCmtList[m].Location.Length - 1);
                             db.SaveChanges();
                         }
                     }
-                }
+                }                                                                                                  //message saying that we are done
                 MessageBox.Show("The selected appointments have been moved to the finalized state.");
             }
             else
             {
                 List<string> commits = new List<string>();
-                for (int i = 0; i < lvTutee.CheckedItems.Count; i++)
+                for (int i = 0; i < lvTutee.CheckedItems.Count; i++)                                              //if this information comes from lvTutee, get the information
                 {
                     commits.Add(lvTutee.CheckedItems[i].SubItems[0].Text.ToString() + "," + lvTutee.CheckedItems[i].SubItems[1].Text.ToString() + "," + Convert.ToString(lvTutee.CheckedItems[i].SubItems[8].Text));
                 }
 
-                ProposeLocationForm g = new ProposeLocationForm(id, commits, true);
+                ProposeLocationForm g = new ProposeLocationForm(id, commits, true);                              //send the information to the propose location form
                 g.Show();
             }
             resetListViews(false);
         }
 
+        //done button
         private void btnDone_Click(object sender, EventArgs e)
         {
             this.Dispose();
         }
 
+        //add availability button
         private void btnAddAvailability_Click(object sender, EventArgs e)
         {
             AddAvailability g = new AddAvailability(id);
@@ -522,24 +526,25 @@ namespace TutorMaster
             
         }
 
+        //create appointment button
         private void btnCreateAppointment_Click(object sender, EventArgs e)
         {
             TutorMasterDBEntities4 db = new TutorMasterDBEntities4();                                             //open database
             bool tutor = (bool)(from row in db.Students where row.ID == id select row.Tutor).First();             //get if they are a tutee and/or tutor
             bool tutee = (bool)(from row in db.Students where row.ID == id select row.Tutee).First();
-            if (tutor && tutee)
+            if (tutor && tutee)                                                                                   //if both a tutee and tutor, send them to choose form
             {
                 TutorOrTuteeForm g = new TutorOrTuteeForm(id);
                 g.Show();
                 this.Dispose();
             }
-            else if (tutor)
+            else if (tutor)                                                                                        //if only a tutor, send them to create appointment form as a tutor
             {
                 AdminCreateAppointmentForm g = new AdminCreateAppointmentForm(id, true);
                 g.Show();
                 this.Dispose();
             }
-            else if(tutee)
+            else if(tutee)                                                                                          //if only a tutee, send them to create appointmet form as a tutee
             {
                 AdminCreateAppointmentForm g = new AdminCreateAppointmentForm(id, false);
                 g.Show();
@@ -549,6 +554,7 @@ namespace TutorMaster
 
         private void lvOpen_ItemChecked(object sender, ItemCheckedEventArgs e)
         {
+            //if there are more than one item checked in lvopen
             if (lvOpen.CheckedItems.Count > 0)
             {
                 btnAddAvailability.Enabled = false;
@@ -557,7 +563,7 @@ namespace TutorMaster
                 btnCreateAppointment.BackColor = System.Drawing.Color.FromArgb(193, 200, 204);
                 btnRemoveAvailability.Enabled = true;
                 btnRemoveAvailability.BackColor = System.Drawing.Color.FromArgb(226, 226, 226);
-            }
+            }//if there aren't any items selected 
             else
             {
                 btnAddAvailability.Enabled = true;
@@ -582,16 +588,6 @@ namespace TutorMaster
             {
                 btnCancelFinalized.Enabled = false;
                 btnCancelFinalized.BackColor = System.Drawing.Color.FromArgb(193, 200, 204);
-            }
-            if (itemsChecked == 1)
-            {
-                btnEditFinalized.Enabled = true;
-                btnEditFinalized.BackColor = System.Drawing.Color.FromArgb(226, 226, 226);
-            }
-            else
-            {
-                btnEditFinalized.Enabled = false;
-                btnEditFinalized.BackColor = System.Drawing.Color.FromArgb(193, 200, 204);
             }
         }
 
@@ -734,24 +730,24 @@ namespace TutorMaster
         private void removeTimeBlocks(bool week)
         {
             setPreviousWeekliesToFalse();                                //set the previous weeklies to false
-            if (week)
+            if (week)                                                    //if this is a weekly availability, ask if they want to delete futures
             {
                 DialogResult choice = MessageBox.Show("Would you like to delete the weekly time slots until the end of the semester?", "Delete weekly timeslot?", MessageBoxButtons.YesNo);
-                if (choice == DialogResult.Yes)
+                if (choice == DialogResult.Yes)                         //if yes, then delete futures
                 {
                     deleteAvail(true);
                 }
-                else if (choice == DialogResult.No)
+                else if (choice == DialogResult.No)                     //if no, then don't delete futures
                 {
                     deleteAvail(false);
                 }
             }
             else
-            {
+            {                                                          //if its not weekly, just delete whats here 
                 deleteAvail(false);
             }
 
-            for (int c = 0; c < lvOpen.CheckedItems.Count; c++)     //remove all of the selected time slots from the listview
+            for (int c = 0; c < lvOpen.CheckedItems.Count; c++)        //remove all of the selected time slots from the listview
             {
                 lvOpen.CheckedItems[c].Remove();
                 c--;
@@ -884,17 +880,17 @@ namespace TutorMaster
                 MessageBox.Show("The checked 15 minute time blocks have been removed from your availability until the end of the semster.");
             }
             else
-            {
+            {                                                                                                       //if not getting rid of futures
                 for (int i = 0; i < cmtList.Count(); i++)
                 {
-                    if (SortsAndSearches.BinarySearch(searchList, Convert.ToDateTime(cmtList[i].StartTime)))
+                    if (SortsAndSearches.BinarySearch(searchList, Convert.ToDateTime(cmtList[i].StartTime)))        //just see if the given commit is what we are looking for
                     {
-                        searchList.Remove(Convert.ToDateTime(cmtList[i].StartTime));
+                        searchList.Remove(Convert.ToDateTime(cmtList[i].StartTime));                                //then remove it from the database
                         db.Commitments.DeleteObject(cmtList[i]);
                         i--;
                         db.SaveChanges();
                     }
-                }
+                }                                                                                                   //message that we are done
                 MessageBox.Show("Only the checked 15 minute time blocks have been removed from your availability.");
             }
         }
@@ -924,7 +920,7 @@ namespace TutorMaster
         }
 
         private void btnRemoveAvailability_MouseHover(object sender, EventArgs e)
-        {
+        {//directions for when mouse is hovering over remove avail. set the text to some instructions
             if(lvOpen.CheckedItems.Count == 1)
             {
                 lblRemove.Text = "Choose which 15 minute time blocks to delete";
@@ -936,7 +932,7 @@ namespace TutorMaster
         }
 
         private void btnRemoveAvailability_MouseLeave(object sender, EventArgs e)
-        {
+        {//if it leaves, get rid of the message
             lblRemove.Text = "";
         }
 
@@ -944,21 +940,21 @@ namespace TutorMaster
         {
             if (lvOpen.CheckedItems.Count == 1)
             {
-                string startTime = lvOpen.CheckedItems[0].SubItems[0].Text.ToString();
-                string endTime = lvOpen.CheckedItems[0].SubItems[1].Text.ToString();
-                string weekly = lvOpen.CheckedItems[0].SubItems[2].Text.ToString();
+                string startTime = lvOpen.CheckedItems[0].SubItems[0].Text.ToString();      //get the starttime from the one selected item
+                string endTime = lvOpen.CheckedItems[0].SubItems[1].Text.ToString();        //get the endtime
+                string weekly = lvOpen.CheckedItems[0].SubItems[2].Text.ToString();         //get whether its weekly
 
                 List<string> removeList = new List<string>();
-                removeList.Add(startTime + "," + endTime + "," + weekly);
+                removeList.Add(startTime + "," + endTime + "," + weekly);                   //load it into the remove list
 
-                RemoveAvailForm g = new RemoveAvailForm(id, removeList, true);
+                RemoveAvailForm g = new RemoveAvailForm(id, removeList, true);              //send to the remove avail form
                 g.Show();
                 this.Dispose();
             }
-            else if (lvOpen.CheckedItems.Count > 1)
+            else if (lvOpen.CheckedItems.Count > 1)                                         //if more than one item is checked
             {
-                bool weeklyChoice = checkChecked();
-                if (weeklyChoice)
+                bool weeklyChoice = checkChecked();                                         //get whether is weekly
+                if (weeklyChoice)                                                           
                 {
                     removeTimeBlocks(true);
                 }
@@ -972,7 +968,7 @@ namespace TutorMaster
 
         private bool checkChecked()
         {
-            for (int i = 0; i < lvOpen.CheckedItems.Count; i++)
+            for (int i = 0; i < lvOpen.CheckedItems.Count; i++)                    //see if any of the chosen opens are weekly
             {
                 if (lvOpen.CheckedItems[i].SubItems[2].Text.ToString() == "True")
                 {
@@ -983,7 +979,7 @@ namespace TutorMaster
         }
 
         private void resetListViews(bool reject)
-        {
+        {                                                                           //reset each listview
             lvOpen.Items.Clear();
             lvTutor.Items.Clear();
             lvTutee.Items.Clear();
@@ -1003,74 +999,6 @@ namespace TutorMaster
 
         }
 
-        private void btnEditFinalized_Click(object sender, EventArgs e)
-        {
-            string info = loadEditAppointment();
-            changeToOpen();
-            AdminCreateAppointmentForm g = new AdminCreateAppointmentForm(id, info);
-            g.Show();
-            this.Dispose();
-        }
-
-        private string loadEditAppointment()
-        {
-            string result = "";
-            for (int i = 0; i < 8; i++)
-            {
-                result += lvFinalized.CheckedItems[0].SubItems[i].Text.ToString() + ",";
-            }
-            result += lvFinalized.CheckedItems[0].SubItems[8].Text.ToString();
-            return result;
-        }
-
-        private void changeToOpen()
-        {
-            string timeSlot = lvFinalized.CheckedItems[0].SubItems[0].Text.ToString() + "," + lvFinalized.CheckedItems[0].SubItems[1].Text.ToString();
-            DateTime start = DateTimeMethods.getStartTime(timeSlot);
-            DateTime end = DateTimeMethods.getEndTime(timeSlot);
-            int partnerID = Convert.ToInt16(lvFinalized.CheckedItems[0].SubItems[8].Text.ToString());
-            makeValidTimeSlot(start, end, partnerID);
-        }
-
-        private void makeValidTimeSlot(DateTime start, DateTime end, int partnerID)
-        {
-            TutorMasterDBEntities4 db = new TutorMasterDBEntities4();
-            List<Commitment> stdCmtList = (from stucmt in db.StudentCommitments.AsEnumerable()
-                                           where stucmt.ID == id
-                                           join cmt in db.Commitments on stucmt.CmtID equals cmt.CmtID
-                                           select cmt).ToList();
-
-            List<Commitment> partnerCmtList = (from stucmt in db.StudentCommitments.AsEnumerable()
-                                              where stucmt.ID == partnerID
-                                              join cmt in db.Commitments on stucmt.CmtID equals cmt.CmtID
-                                              select cmt).ToList();
-
-            for (int i = 0; i < stdCmtList.Count; i++)
-            {
-                if (DateTimeMethods.betweenGivenStartAndEndTime(start, end, stdCmtList[i]))
-                {
-                    stdCmtList[i].ID = -1;
-                    stdCmtList[i].Location = "-";
-                    stdCmtList[i].Open = true;
-                    stdCmtList[i].Tutoring = false;
-                    stdCmtList[i].Class = "-";
-                    db.SaveChanges();
-                }
-            }
-
-            for (int j = 0; j < partnerCmtList.Count; j++)
-            {
-                if (DateTimeMethods.betweenGivenStartAndEndTime(start, end, partnerCmtList[j]))
-                {
-                    partnerCmtList[j].ID = -1;
-                    partnerCmtList[j].Location = "-";
-                    partnerCmtList[j].Open = true;
-                    partnerCmtList[j].Tutoring = false;
-                    partnerCmtList[j].Class = "-";
-                    db.SaveChanges();
-                }
-            }
-        }
 
         private void btnRefresh_Click(object sender, EventArgs e)
         {
@@ -1082,6 +1010,7 @@ namespace TutorMaster
             deselectAll();
         }
 
+        //deselect every item checkbox in each listview
         private void deselectAll()
         {
             for (int i = 0; i < lvOpen.Items.Count; i++)

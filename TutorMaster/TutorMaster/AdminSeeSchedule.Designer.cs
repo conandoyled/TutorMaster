@@ -36,7 +36,6 @@
             this.btnAddAvailability = new System.Windows.Forms.Button();
             this.lvOpen = new System.Windows.Forms.ListView();
             this.tabAccepted = new System.Windows.Forms.TabPage();
-            this.btnEditFinalized = new System.Windows.Forms.Button();
             this.btnDeselect1 = new System.Windows.Forms.Button();
             this.btnCancelFinalized = new System.Windows.Forms.Button();
             this.lvFinalized = new System.Windows.Forms.ListView();
@@ -148,7 +147,6 @@
             // tabAccepted
             // 
             this.tabAccepted.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(237)))), ((int)(((byte)(239)))), ((int)(((byte)(239)))));
-            this.tabAccepted.Controls.Add(this.btnEditFinalized);
             this.tabAccepted.Controls.Add(this.btnDeselect1);
             this.tabAccepted.Controls.Add(this.btnCancelFinalized);
             this.tabAccepted.Controls.Add(this.lvFinalized);
@@ -158,18 +156,6 @@
             this.tabAccepted.Size = new System.Drawing.Size(699, 367);
             this.tabAccepted.TabIndex = 0;
             this.tabAccepted.Text = "Finalized Appointments";
-            // 
-            // btnEditFinalized
-            // 
-            this.btnEditFinalized.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
-            this.btnEditFinalized.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.btnEditFinalized.Location = new System.Drawing.Point(189, 336);
-            this.btnEditFinalized.Name = "btnEditFinalized";
-            this.btnEditFinalized.Size = new System.Drawing.Size(177, 23);
-            this.btnEditFinalized.TabIndex = 24;
-            this.btnEditFinalized.Text = "Edit Appointment";
-            this.btnEditFinalized.UseVisualStyleBackColor = false;
-            this.btnEditFinalized.Click += new System.EventHandler(this.btnEditFinalized_Click);
             // 
             // btnDeselect1
             // 
@@ -504,7 +490,6 @@
         private System.Windows.Forms.Button btnRemoveAvailability;
         private System.Windows.Forms.Label lblRemove;
         private System.Windows.Forms.PictureBox pictureBox1;
-        private System.Windows.Forms.Button btnEditFinalized;
         private System.Windows.Forms.Button btnRefresh;
     }
 }
