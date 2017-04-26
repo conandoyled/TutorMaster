@@ -495,42 +495,42 @@ namespace TutorMaster
                                     where stucmt.ID == id
                                     join cmt in db.Commitments.AsEnumerable() on stucmt.CmtID equals cmt.CmtID
                                     select cmt).ToList();
-                    SortsAndSearches.QuickSort(ref tuteeCommits, tuteeCommits.Count);                                                                               //sort the tutee
+                    SortsAndSearches.QuickSort(ref tuteeCommits, tuteeCommits.Count);                                                                               //sort the tutee commitment list
 
-                    tutorCommits = (from stucmt in db.StudentCommitments.AsEnumerable()
+                    tutorCommits = (from stucmt in db.StudentCommitments.AsEnumerable()                                                                             //get and sort the tutor commitment list
                                     where stucmt.ID == rememberStudIDs[chosenStudentIndex]
                                     join cmt in db.Commitments.AsEnumerable() on stucmt.CmtID equals cmt.CmtID
                                     select cmt).ToList();
 
                     SortsAndSearches.QuickSort(ref tutorCommits, tutorCommits.Count);
-                    string classCode = (from row in db.Classes.AsEnumerable() where row.ClassName == cbxClasses.Text.ToString() select row.ClassCode).First();
+                    string classCode = (from row in db.Classes.AsEnumerable() where row.ClassName == cbxClasses.Text.ToString() select row.ClassCode).First();     //get the classcode
 
-                    string timeSlot = lvTimeMatches.CheckedItems[0].SubItems[0].Text.ToString() + "," + lvTimeMatches.CheckedItems[0].SubItems[1].Text.ToString();
-                    int sessionLength = Convert.ToInt32(cbxHour.Text) * 4 + (Convert.ToInt32(cbxMinutes.Text) / 15);
+                    string timeSlot = lvTimeMatches.CheckedItems[0].SubItems[0].Text.ToString() + "," + lvTimeMatches.CheckedItems[0].SubItems[1].Text.ToString(); //time slot of the commitment
+                    int sessionLength = Convert.ToInt32(cbxHour.Text) * 4 + (Convert.ToInt32(cbxMinutes.Text) / 15);                                               //number of 15 minute time blocks
                     
-                    addCommits(timeSlot, rememberStudIDs[chosenStudentIndex], id, tutorCommits, tuteeCommits, classCode, db, cbWeekly.Checked, sessionLength);
+                    addCommits(timeSlot, rememberStudIDs[chosenStudentIndex], id, tutorCommits, tuteeCommits, classCode, db, cbWeekly.Checked, sessionLength);     //add the commitment to the student's schedules
                     
                 }
                 else
                 {
-                    tutorCommits = (from stucmt in db.StudentCommitments.AsEnumerable()
+                    tutorCommits = (from stucmt in db.StudentCommitments.AsEnumerable()                                                                             //get and sort the tutor commitments
                                     where stucmt.ID == id
                                     join cmt in db.Commitments.AsEnumerable() on stucmt.CmtID equals cmt.CmtID
                                     select cmt).ToList();
                     SortsAndSearches.QuickSort(ref tutorCommits, tutorCommits.Count);
 
-                    tuteeCommits = (from stucmt in db.StudentCommitments.AsEnumerable()
+                    tuteeCommits = (from stucmt in db.StudentCommitments.AsEnumerable()                                                                             //get and sort the tutee commitments
                                     where stucmt.ID == rememberStudIDs[chosenStudentIndex]
                                     join cmt in db.Commitments.AsEnumerable() on stucmt.CmtID equals cmt.CmtID
                                     select cmt).ToList();
 
                     SortsAndSearches.QuickSort(ref tuteeCommits, tuteeCommits.Count);
-                    string classCode = (from row in db.Classes.AsEnumerable() where row.ClassName == cbxClasses.Text.ToString() select row.ClassCode).First();
+                    string classCode = (from row in db.Classes.AsEnumerable() where row.ClassName == cbxClasses.Text.ToString() select row.ClassCode).First();      //get the classcode
 
-                    string timeSlot = lvTimeMatches.CheckedItems[0].SubItems[0].Text.ToString() + "," + lvTimeMatches.CheckedItems[0].SubItems[1].Text.ToString();
-                    int sessionLength = Convert.ToInt32(cbxHour.Text) * 4 + (Convert.ToInt32(cbxMinutes.Text) / 15);
+                    string timeSlot = lvTimeMatches.CheckedItems[0].SubItems[0].Text.ToString() + "," + lvTimeMatches.CheckedItems[0].SubItems[1].Text.ToString();  //get the time slot that has been chosen
+                    int sessionLength = Convert.ToInt32(cbxHour.Text) * 4 + (Convert.ToInt32(cbxMinutes.Text) / 15);                                                //get the number of 15 minute time blocks
 
-                    addCommits(timeSlot, id, rememberStudIDs[chosenStudentIndex], tutorCommits, tuteeCommits, classCode, db, cbWeekly.Checked, sessionLength);
+                    addCommits(timeSlot, id, rememberStudIDs[chosenStudentIndex], tutorCommits, tuteeCommits, classCode, db, cbWeekly.Checked, sessionLength);      //add commitments to student's schedules
                 }
 
                 if (edit)
@@ -565,19 +565,18 @@ namespace TutorMaster
 
         private void addCommits(string timeSlot, int tutorId, int tuteeId, List<TutorMaster.Commitment> tutorCommits, List<TutorMaster.Commitment> tuteeCommits, string classCode, TutorMasterDBEntities4 db, bool weekly, int numSessions)
         {
-            //TutorMasterDBEntities4 db = new TutorMasterDBEntities4();
-            DateTime startTime = DateTimeMethods.getStartTime(timeSlot);
-            DateTime endTime = DateTimeMethods.getEndTime(timeSlot);
-            DateTime saveFirst = startTime;
+            DateTime startTime = DateTimeMethods.getStartTime(timeSlot); //get the start time of the time block
+            DateTime endTime = DateTimeMethods.getEndTime(timeSlot);     //get the end time of the time block
+            DateTime saveFirst = startTime;                              //save copies of them
             DateTime saveEnd = endTime;
 
 
-            if (!weekly)
+            if (!weekly)                                                //if this is not weekly
             {
                 for (int j = 0; j < tuteeCommits.Count(); j++)
                 {
                     if (DateTime.Compare(startTime, Convert.ToDateTime(tuteeCommits[j].StartTime)) <= 0 && DateTime.Compare(endTime, Convert.ToDateTime(tuteeCommits[j].StartTime)) > 0)
-                    {
+                    {//if the tutee commit's start time is between our interval, then update the commitment to a finalized state
                         tuteeCommits[j].Location = tbxLocation.Text.ToString();
                         tuteeCommits[j].Open = false;
                         tuteeCommits[j].Tutoring = false;
@@ -587,7 +586,7 @@ namespace TutorMaster
                         db.SaveChanges();
                     }
                     else if (DateTime.Compare(endTime, Convert.ToDateTime(tuteeCommits[j].StartTime)) <= 0)
-                    {
+                    {//if its not, then break out the loop
                         break;
                     }
                 }
@@ -595,7 +594,7 @@ namespace TutorMaster
                 for (int i = 0; i < tutorCommits.Count(); i++)
                 {
                     if (DateTime.Compare(startTime, Convert.ToDateTime(tutorCommits[i].StartTime)) <= 0 && DateTime.Compare(endTime, Convert.ToDateTime(tutorCommits[i].StartTime)) > 0)
-                    {
+                    {//if the tutor commit's start time is between our interval, then update the commitment to a finalized state
                         tutorCommits[i].Location = tbxLocation.Text.ToString();
                         tutorCommits[i].Open = false;
                         tutorCommits[i].Tutoring = true;
@@ -605,52 +604,61 @@ namespace TutorMaster
                         db.SaveChanges();
                     }
                     else if (DateTime.Compare(endTime, Convert.ToDateTime(tutorCommits[i].StartTime)) <= 0)
-                    {
+                    {//if its not, break out of the loop
                         break;
                     }
                 }
             }
-            else
+            else   //if the admin chooses to have this be a weekly appointment
             {
                 for (int j = 0; j < tuteeCommits.Count(); j++)
                 {
                     if (DateTime.Compare(startTime, Convert.ToDateTime(tuteeCommits[j].StartTime)) <= 0 && DateTime.Compare(endTime, Convert.ToDateTime(tuteeCommits[j].StartTime)) > 0)
-                    {
-                        tuteeCommits[j].Location = tbxLocation.Text.ToString();
-                        tuteeCommits[j].Open = false;
-                        tuteeCommits[j].Tutoring = false;
-                        tuteeCommits[j].ID = tutorId;
-                        tuteeCommits[j].Class = classCode + "!";
+                    {//if the tutee commitment is between the time slot, put it to a finalized state
+                        if (!tuteeCommits[j].Class.ToString().Contains('!'))
+                        {
+                            tuteeCommits[j].Location = tbxLocation.Text.ToString();
+                            tuteeCommits[j].Open = false;
+                            tuteeCommits[j].Tutoring = false;
+                            tuteeCommits[j].ID = tutorId;
+                            tuteeCommits[j].Class = classCode + "!";
+                        }
                         db.SaveChanges();
                     }
                     else if (DateTime.Compare(endTime, Convert.ToDateTime(tuteeCommits[j].StartTime)) <= 0)
-                    {
+                    {//if its above our current endTime, then move startTime and endTime up a week
                         startTime = startTime.AddDays(7);
                         endTime = endTime.AddDays(7);
+                        j--;
                     }
                 }
-                startTime = saveFirst;
+                startTime = saveFirst;//reset the start and end times
                 endTime = saveEnd;
                 for (int i = 0; i < tutorCommits.Count(); i++)
                 {
                     if (DateTime.Compare(startTime, Convert.ToDateTime(tutorCommits[i].StartTime)) <= 0 && DateTime.Compare(endTime, Convert.ToDateTime(tutorCommits[i].StartTime)) > 0)
-                    {
-                        tutorCommits[i].Location = tbxLocation.Text.ToString();
-                        tutorCommits[i].Open = false;
-                        tutorCommits[i].Tutoring = true;
-                        tutorCommits[i].ID = tuteeId;
-                        tutorCommits[i].Class = classCode + "!";
+                    {//if the tutor commitment is between the time slot, put it to a finalized state
+                        if (!tutorCommits[i].Class.ToString().Contains('!'))
+                        {
+                            tutorCommits[i].Location = tbxLocation.Text.ToString();
+                            tutorCommits[i].Open = false;
+                            tutorCommits[i].Tutoring = true;
+                            tutorCommits[i].ID = tuteeId;
+                            tutorCommits[i].Class = classCode + "!";
+                        }
                         db.SaveChanges();
                     }
                     else if (DateTime.Compare(endTime, Convert.ToDateTime(tutorCommits[i].StartTime)) <= 0)
-                    {
+                    {//if its above our current endTime, then move startTime and endTime up a week
                         startTime = startTime.AddDays(7);
                         endTime = endTime.AddDays(7);
+                        i--;
                     }
                 }
             }
         }
 
+        //cancel button
         private void btnCancel_Click(object sender, EventArgs e)
         {
             AdminSeeSchedule g = new AdminSeeSchedule(id);
@@ -658,16 +666,17 @@ namespace TutorMaster
             this.Dispose();
         }
 
+        
         private void cbxClasses_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (tutoring)
+            if (tutoring)                                                               //if the signed in person is going to be a tutor
             {
-                if (!string.IsNullOrWhiteSpace(cbxClasses.Text.ToString()))
+                if (!string.IsNullOrWhiteSpace(cbxClasses.Text.ToString()))             //if classes has something in it, show partner objects
                 {
                     lblPartner.Show();
                     cbxStudents.Show();
                 }
-                else
+                else                                                                    //if it doesn't, hide the partner objects
                 {
                     lblPartner.Hide();
                     cbxStudents.Hide();
@@ -675,16 +684,16 @@ namespace TutorMaster
             }
             else
             {
-                if (!string.IsNullOrWhiteSpace(cbxClasses.Text.ToString()))
+                if (!string.IsNullOrWhiteSpace(cbxClasses.Text.ToString()))            //if the class has something in there and this student is a tutee
                 {
-                    bool tutors = loadTuteeStudentCheckBox();
+                    bool tutors = loadTuteeStudentCheckBox();                          //load the tutee student dropdown and return a bool saying if there are any tutors
 
-                    if (tutors)
+                    if (tutors)                                                        //if there are tutors, show the partner objects
                     {
                         lblPartner.Show();
                         cbxStudents.Show();
                     }
-                    else
+                    else                                                               //if not, hide most of the objects
                     {
                         tbxLocation.Hide();
                         lblLocation.Hide();
@@ -710,9 +719,9 @@ namespace TutorMaster
             
             TutorMasterDBEntities4 db = new TutorMasterDBEntities4();
             
-            string chosenClass = cbxClasses.Text.ToString();
+            string chosenClass = cbxClasses.Text.ToString();                                                                    //get the class that has been chosen
 
-            var approvedTutors = (from Classname in db.Classes
+            var approvedTutors = (from Classname in db.Classes                                                                  //find all of its tutors that have requested to tutor it
                                         where chosenClass == Classname.ClassName
                                         join stuClass in db.StudentClasses on Classname.ClassCode equals stuClass.ClassCode
                                         select stuClass.ID).ToList();
@@ -726,11 +735,11 @@ namespace TutorMaster
                 for (int i = 0; i < approvedTutors.Count; i++)
                 {
                     User tutor = (from row in db.Users.AsEnumerable() where row.ID == approvedTutors[i] select row).First();
-                    if (!tutor.Username.ToString().Contains('?'))
+                    if (!tutor.Username.ToString().Contains('?'))                                                               //see if any of them are approved
                     {
-                        cbxStudents.Items.Add(tutor.FirstName + " " + tutor.LastName);
-                        rememberStudIDs.Add(tutor.ID);
-                        tutorsExist = true;
+                        cbxStudents.Items.Add(tutor.FirstName + " " + tutor.LastName);                                          //put their names in the dropdown boxes
+                        rememberStudIDs.Add(tutor.ID);                                                                          //remember their ids
+                        tutorsExist = true;                                                                                     //say we have approved tutors for this course
                     }
                 }
             }
@@ -739,7 +748,7 @@ namespace TutorMaster
 
         private void cbxStudents_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (!string.IsNullOrWhiteSpace(cbxStudents.Text.ToString()))
+            if (!string.IsNullOrWhiteSpace(cbxStudents.Text.ToString()))                                                        //if they pick a student, show the rest of the objects and load them up
             {
                 lblLocation.Show();
                 lblMinutes.Show();
@@ -755,10 +764,10 @@ namespace TutorMaster
                 cbxHour.Text = "";
                 cbxMinutes.Text = "";
                 
-                btnSubmit.Enabled = false;
-                chosenStudentIndex = cbxStudents.SelectedIndex;
+                btnSubmit.Enabled = false;                                                                                     //have the submit button not enabled until they pick a time slot
+                chosenStudentIndex = cbxStudents.SelectedIndex;                                                                //get the chosen student's index
             }
-            else
+            else                                                                                                               //if it is null, hide most of the objects for proceeding to make an appointment
             {
                 lblLocation.Hide();
                 lblMinutes.Hide();
@@ -774,29 +783,29 @@ namespace TutorMaster
 
         private void cbxHour_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (!string.IsNullOrWhiteSpace(cbxHour.Text.ToString()) && !string.IsNullOrWhiteSpace(cbxMinutes.Text.ToString()))
+            if (!string.IsNullOrWhiteSpace(cbxHour.Text.ToString()) && !string.IsNullOrWhiteSpace(cbxMinutes.Text.ToString()))//if hour and minute have something
             {
-                resetListView();
+                resetListView();                                                                                              //reset the listview every time the hour is changed
             }
             else
             {
-                lvTimeMatches.Items.Clear();
+                lvTimeMatches.Items.Clear();                                                                                  //if either of them are null, then clear the listview
             }
         }
 
         private void cbxMinutes_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (!string.IsNullOrWhiteSpace(cbxHour.Text.ToString()) && !string.IsNullOrWhiteSpace(cbxMinutes.Text.ToString()))
+            if (!string.IsNullOrWhiteSpace(cbxHour.Text.ToString()) && !string.IsNullOrWhiteSpace(cbxMinutes.Text.ToString()))//if hour and minute have something
             {
-                resetListView();
+                resetListView();                                                                                              //reset the listview every time the hour is changed
             }
             else
             {
-                lvTimeMatches.Items.Clear();
+                lvTimeMatches.Items.Clear();                                                                                  //if either of them are null, then clear the listview
             }
         }
         
-        private void resetListView()
+        private void resetListView()                                                                                          //clear the listview and load it back up again
         {
             lvTimeMatches.Items.Clear();
             loadMatchingTimeSlots();
@@ -804,12 +813,13 @@ namespace TutorMaster
 
         private void cbWeekly_CheckedChanged(object sender, EventArgs e)
         {
-            if (!string.IsNullOrWhiteSpace(cbxHour.Text.ToString()) && !string.IsNullOrWhiteSpace(cbxMinutes.Text.ToString()))
+            if (!string.IsNullOrWhiteSpace(cbxHour.Text.ToString()) && !string.IsNullOrWhiteSpace(cbxMinutes.Text.ToString()))//if there is something in hour and minute dropdowns, then reset the listview each time
             {
                 resetListView();
             }
         }
 
+        //this function ensures that the user can only check one checkbox at a time
         private void lvTimeMatches_ItemCheck(object sender, ItemCheckEventArgs e)
         {
              if (lastItemChecked != null && lastItemChecked.Checked
@@ -823,7 +833,7 @@ namespace TutorMaster
 
         private void lvTimeMatches_ItemChecked(object sender, ItemCheckedEventArgs e)
         {
-            if (lvTimeMatches.CheckedItems.Count > 0)
+            if (lvTimeMatches.CheckedItems.Count > 0)                               //if user checks more than one item, disable the submit button
             {
                 btnSubmit.Enabled = true;
             }

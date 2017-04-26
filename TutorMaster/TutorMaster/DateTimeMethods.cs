@@ -69,19 +69,19 @@ namespace TutorMaster
             return result;
         }
 
-        public static DateTime getStartTime(string slot)
+        public static DateTime getStartTime(string slot) //take a time slot of the format time,time and get the first time
         {
-            string startDateTime = slot.Split(',')[0];
-            string startDate = startDateTime.Split(' ')[0];
-            string startTime = startDateTime.Split(' ')[1];
-            string amPm = startDateTime.Split(' ')[2];
+            string startDateTime = slot.Split(',')[0];                  //get the first DateTime
+            string startDate = startDateTime.Split(' ')[0];             //get the start date
+            string startTime = startDateTime.Split(' ')[1];             //get the start time
+            string amPm = startDateTime.Split(' ')[2];                  //get whether this is am or pm
 
-            int month = Convert.ToInt32(startDate.Split('/')[0]);
-            int day = Convert.ToInt32(startDate.Split('/')[1]);
-            int year = Convert.ToInt32(startDate.Split('/')[2]);
+            int month = Convert.ToInt32(startDate.Split('/')[0]);       //get the month
+            int day = Convert.ToInt32(startDate.Split('/')[1]);         //get the day
+            int year = Convert.ToInt32(startDate.Split('/')[2]);        //get the year
 
-            int hour = Convert.ToInt32(startTime.Split(':')[0]);
-            int min = Convert.ToInt32(startTime.Split(':')[1]);
+            int hour = Convert.ToInt32(startTime.Split(':')[0]);        //get the hour
+            int min = Convert.ToInt32(startTime.Split(':')[1]);         //get the minute
 
 
             if (hour < 12 && amPm == "PM")
@@ -96,7 +96,7 @@ namespace TutorMaster
             return date;
         }
 
-        public static DateTime getEndTime(string slot)
+        public static DateTime getEndTime(string slot)//take a time slot of the format time,time and get the second time
         {
             string startDateTime = slot.Split(',')[1];
             string startDate = startDateTime.Split(' ')[0];
