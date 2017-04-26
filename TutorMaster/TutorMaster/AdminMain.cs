@@ -803,6 +803,8 @@ namespace TutorMaster
 
         private void btnClassEdit_Click(object sender, EventArgs e)
         {
+            combDepartmentsAdd.Text = lvClass.CheckedItems[0].SubItems[2].Text.ToString();
+            combDepartmentsAdd.Enabled = false;
             setEditClassControls();                 //set controls for editing a class
             TutorMasterDBEntities4 db = new TutorMasterDBEntities4();
             string classCode = lvClass.CheckedItems[0].SubItems[0].Text;                                //get the classcode of the selected class
@@ -811,7 +813,7 @@ namespace TutorMaster
             txtClassCode.Text = cl.ClassCode.ToString();                    //set fields in class form to the selected class's
             txtClassCode.Enabled = false;
             txtClassName.Text = cl.ClassName.ToString();
-            combDepartmentsAdd.SelectedText = cl.Department.ToString();
+            //combDepartmentsAdd.SelectedText = cl.Department.ToString();
             lblID.Text = classCode;
 
         }
@@ -912,6 +914,7 @@ namespace TutorMaster
         private void btnClassCancel_Click(object sender, EventArgs e)
         {
             unsetEditClassControls();                   //reset class form
+            
             txtClassCode.Enabled = true;
             txtClassCode.Text = "";
             txtClassName.Text = "";
@@ -1087,6 +1090,8 @@ namespace TutorMaster
             btnFacultyDelete.Hide();
             btnFacultyEdit.Hide();
 
+            combDepartments.Text = lvFaculty.CheckedItems[0].SubItems[3].Text.ToString();
+            combDepartments.Enabled = false;
             btnFacSave.Show();
             btnFacCancel.Show();
         }
@@ -1094,9 +1099,13 @@ namespace TutorMaster
         private void unsetEditFacultyControls()
         //return controls to normal faculty ones
         {
+
             btnFacultyAdd.Show();
             btnFacultyDelete.Show();
             btnFacultyEdit.Show();
+
+            combDepartments.Enabled = true;
+            combDepartments.Text = combDepartments.Items[0].ToString();
 
             btnFacSave.Hide();
             btnFacCancel.Hide();
@@ -1109,6 +1118,7 @@ namespace TutorMaster
             btnClassDelete.Hide();
             btnClassEdit.Hide();
 
+            combDepartmentsAdd.Enabled = false;
             btnClassSave.Show();
             btnClassCancel.Show();
         }
@@ -1119,7 +1129,8 @@ namespace TutorMaster
             btnClassAdd.Show();
             btnClassDelete.Show();
             btnClassEdit.Show();
-
+            
+            combDepartmentsAdd.Enabled = true;
             btnClassSave.Hide();
             btnClassCancel.Hide();
         }
