@@ -561,8 +561,11 @@ namespace TutorMaster
             else
             {
                 btnAddAvailability.Enabled = true;
+                btnAddAvailability.BackColor = System.Drawing.Color.FromArgb(226, 226, 226);
                 btnCreateAppointment.Enabled = true;
+                btnCreateAppointment.BackColor = System.Drawing.Color.FromArgb(226, 226, 226);
                 btnRemoveAvailability.Enabled = false;
+                btnRemoveAvailability.BackColor = System.Drawing.Color.FromArgb(193, 200, 204);
             }
         }
 

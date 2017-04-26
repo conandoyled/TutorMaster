@@ -44,6 +44,7 @@
             this.lblMinutes = new System.Windows.Forms.Label();
             this.lblLocation = new System.Windows.Forms.Label();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.btnFindMatches = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -132,7 +133,6 @@
             this.cbxHour.Name = "cbxHour";
             this.cbxHour.Size = new System.Drawing.Size(167, 21);
             this.cbxHour.TabIndex = 6;
-            this.cbxHour.SelectedIndexChanged += new System.EventHandler(this.cbxHour_SelectedIndexChanged);
             // 
             // cbxMinutes
             // 
@@ -149,7 +149,6 @@
             this.cbxMinutes.Name = "cbxMinutes";
             this.cbxMinutes.Size = new System.Drawing.Size(167, 21);
             this.cbxMinutes.TabIndex = 7;
-            this.cbxMinutes.SelectedIndexChanged += new System.EventHandler(this.cbxMinutes_SelectedIndexChanged);
             // 
             // tbxLocation
             // 
@@ -213,12 +212,25 @@
             this.pictureBox1.TabIndex = 20;
             this.pictureBox1.TabStop = false;
             // 
+            // btnFindMatches
+            // 
+            this.btnFindMatches.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(208)))), ((int)(((byte)(222)))), ((int)(((byte)(229)))));
+            this.btnFindMatches.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btnFindMatches.Location = new System.Drawing.Point(307, 168);
+            this.btnFindMatches.Name = "btnFindMatches";
+            this.btnFindMatches.Size = new System.Drawing.Size(101, 23);
+            this.btnFindMatches.TabIndex = 21;
+            this.btnFindMatches.Text = "Find Matches";
+            this.btnFindMatches.UseVisualStyleBackColor = false;
+            this.btnFindMatches.Click += new System.EventHandler(this.btnSetAppointment_Click);
+            // 
             // AdminCreateAppointmentForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(218)))), ((int)(((byte)(232)))), ((int)(((byte)(239)))));
             this.ClientSize = new System.Drawing.Size(466, 492);
+            this.Controls.Add(this.btnFindMatches);
             this.Controls.Add(this.lblLocation);
             this.Controls.Add(this.lblMinutes);
             this.Controls.Add(this.lblHours);
@@ -262,6 +274,7 @@
         private System.Windows.Forms.Label lblMinutes;
         private System.Windows.Forms.Label lblLocation;
         private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.Button btnFindMatches;
 
     }
 }

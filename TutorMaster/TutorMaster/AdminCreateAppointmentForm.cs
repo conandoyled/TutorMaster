@@ -168,6 +168,7 @@ namespace TutorMaster
             cbWeekly.Hide();
             tbxLocation.Hide();
             lvTimeMatches.Hide();
+            btnFindMatches.Hide();
         }
 
         //put in the right features into the listview
@@ -711,6 +712,43 @@ namespace TutorMaster
             }
         }
 
+        private void cbxStudents_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (!string.IsNullOrWhiteSpace(cbxStudents.Text.ToString()))                                                        //if they pick a student, show the rest of the objects and load them up
+            {
+                lblLocation.Show();
+                lblMinutes.Show();
+                lblHours.Show();
+                tbxLocation.Show();
+                cbxHour.Show();
+                cbxMinutes.Show();
+                cbWeekly.Show();
+                lvTimeMatches.Show();
+                btnSubmit.Show();
+                lvTimeMatches.Items.Clear();
+                tbxLocation.Text = "";
+                cbxHour.Text = "";
+                cbxMinutes.Text = "";
+
+                btnFindMatches.Show();
+                btnSubmit.Enabled = false;                                                                                     //have the submit button not enabled until they pick a time slot
+                chosenStudentIndex = cbxStudents.SelectedIndex;                                                                //get the chosen student's index
+            }
+            else                                                                                                               //if it is null, hide most of the objects for proceeding to make an appointment
+            {
+                lblLocation.Hide();
+                lblMinutes.Hide();
+                lblHours.Hide();
+                btnSubmit.Hide();
+                tbxLocation.Hide();
+                cbxHour.Hide();
+                cbxMinutes.Hide();
+                cbWeekly.Hide();
+                lvTimeMatches.Hide();
+                btnFindMatches.Hide();
+            }
+        }
+
         private bool loadTuteeStudentCheckBox()
         {
             cbxStudents.Items.Clear();
@@ -744,65 +782,6 @@ namespace TutorMaster
                 }
             }
             return tutorsExist;
-        }
-
-        private void cbxStudents_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (!string.IsNullOrWhiteSpace(cbxStudents.Text.ToString()))                                                        //if they pick a student, show the rest of the objects and load them up
-            {
-                lblLocation.Show();
-                lblMinutes.Show();
-                lblHours.Show();
-                tbxLocation.Show();
-                cbxHour.Show();
-                cbxMinutes.Show();
-                cbWeekly.Show();
-                lvTimeMatches.Show();
-                btnSubmit.Show();
-                lvTimeMatches.Items.Clear();
-                tbxLocation.Text = "";
-                cbxHour.Text = "";
-                cbxMinutes.Text = "";
-                
-                btnSubmit.Enabled = false;                                                                                     //have the submit button not enabled until they pick a time slot
-                chosenStudentIndex = cbxStudents.SelectedIndex;                                                                //get the chosen student's index
-            }
-            else                                                                                                               //if it is null, hide most of the objects for proceeding to make an appointment
-            {
-                lblLocation.Hide();
-                lblMinutes.Hide();
-                lblHours.Hide();
-                btnSubmit.Hide();
-                tbxLocation.Hide();
-                cbxHour.Hide();
-                cbxMinutes.Hide();
-                cbWeekly.Hide();
-                lvTimeMatches.Hide();
-            }
-        }
-
-        private void cbxHour_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (!string.IsNullOrWhiteSpace(cbxHour.Text.ToString()) && !string.IsNullOrWhiteSpace(cbxMinutes.Text.ToString()))//if hour and minute have something
-            {
-                resetListView();                                                                                              //reset the listview every time the hour is changed
-            }
-            else
-            {
-                lvTimeMatches.Items.Clear();                                                                                  //if either of them are null, then clear the listview
-            }
-        }
-
-        private void cbxMinutes_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (!string.IsNullOrWhiteSpace(cbxHour.Text.ToString()) && !string.IsNullOrWhiteSpace(cbxMinutes.Text.ToString()))//if hour and minute have something
-            {
-                resetListView();                                                                                              //reset the listview every time the hour is changed
-            }
-            else
-            {
-                lvTimeMatches.Items.Clear();                                                                                  //if either of them are null, then clear the listview
-            }
         }
         
         private void resetListView()                                                                                          //clear the listview and load it back up again
@@ -846,6 +825,18 @@ namespace TutorMaster
         private void AdminCreateAppointmentForm_FormClosed(object sender, FormClosedEventArgs e)
         {
             this.Dispose();
+        }
+
+        private void btnSetAppointment_Click(object sender, EventArgs e)
+        {
+            if (!string.IsNullOrWhiteSpace(cbxHour.Text.ToString()) && !string.IsNullOrWhiteSpace(cbxMinutes.Text.ToString()))//if hour and minute have something
+            {
+                resetListView();                                                                                              //reset the listview every time the hour is changed
+            }
+            else
+            {
+                lvTimeMatches.Items.Clear();                                                                                  //if either of them are null, then clear the listview
+            }
         }
     }
 }
