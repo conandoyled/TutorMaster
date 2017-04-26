@@ -56,7 +56,7 @@
             this.combFirstChoice.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.combFirstChoice.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.combFirstChoice.FormattingEnabled = true;
-            this.combFirstChoice.Location = new System.Drawing.Point(66, 89);
+            this.combFirstChoice.Location = new System.Drawing.Point(81, 89);
             this.combFirstChoice.Name = "combFirstChoice";
             this.combFirstChoice.Size = new System.Drawing.Size(173, 21);
             this.combFirstChoice.Sorted = true;
@@ -67,7 +67,7 @@
             // 
             this.btnExit.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(208)))), ((int)(((byte)(222)))), ((int)(((byte)(229)))));
             this.btnExit.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.btnExit.Location = new System.Drawing.Point(79, 447);
+            this.btnExit.Location = new System.Drawing.Point(95, 459);
             this.btnExit.Name = "btnExit";
             this.btnExit.Size = new System.Drawing.Size(137, 23);
             this.btnExit.TabIndex = 15;
@@ -79,7 +79,7 @@
             // 
             this.lblFirstChoice.AutoSize = true;
             this.lblFirstChoice.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblFirstChoice.Location = new System.Drawing.Point(115, 71);
+            this.lblFirstChoice.Location = new System.Drawing.Point(130, 71);
             this.lblFirstChoice.Name = "lblFirstChoice";
             this.lblFirstChoice.Size = new System.Drawing.Size(72, 15);
             this.lblFirstChoice.TabIndex = 16;
@@ -89,7 +89,7 @@
             // 
             this.lblSecondChoice.AutoSize = true;
             this.lblSecondChoice.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblSecondChoice.Location = new System.Drawing.Point(100, 198);
+            this.lblSecondChoice.Location = new System.Drawing.Point(115, 198);
             this.lblSecondChoice.Name = "lblSecondChoice";
             this.lblSecondChoice.Size = new System.Drawing.Size(102, 15);
             this.lblSecondChoice.TabIndex = 17;
@@ -99,7 +99,7 @@
             // 
             this.lblAvailableTimes.AutoSize = true;
             this.lblAvailableTimes.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblAvailableTimes.Location = new System.Drawing.Point(104, 288);
+            this.lblAvailableTimes.Location = new System.Drawing.Point(119, 288);
             this.lblAvailableTimes.Name = "lblAvailableTimes";
             this.lblAvailableTimes.Size = new System.Drawing.Size(93, 15);
             this.lblAvailableTimes.TabIndex = 18;
@@ -109,7 +109,7 @@
             // 
             this.lblChoice.AutoSize = true;
             this.lblChoice.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblChoice.Location = new System.Drawing.Point(71, 16);
+            this.lblChoice.Location = new System.Drawing.Point(86, 16);
             this.lblChoice.Name = "lblChoice";
             this.lblChoice.Size = new System.Drawing.Size(155, 15);
             this.lblChoice.TabIndex = 19;
@@ -119,7 +119,7 @@
             // 
             this.btnByTutor.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(208)))), ((int)(((byte)(222)))), ((int)(((byte)(229)))));
             this.btnByTutor.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.btnByTutor.Location = new System.Drawing.Point(74, 35);
+            this.btnByTutor.Location = new System.Drawing.Point(89, 35);
             this.btnByTutor.Name = "btnByTutor";
             this.btnByTutor.Size = new System.Drawing.Size(75, 23);
             this.btnByTutor.TabIndex = 20;
@@ -131,7 +131,7 @@
             // 
             this.btnByClass.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(208)))), ((int)(((byte)(222)))), ((int)(((byte)(229)))));
             this.btnByClass.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.btnByClass.Location = new System.Drawing.Point(155, 35);
+            this.btnByClass.Location = new System.Drawing.Point(170, 35);
             this.btnByClass.Name = "btnByClass";
             this.btnByClass.Size = new System.Drawing.Size(75, 23);
             this.btnByClass.TabIndex = 21;
@@ -144,7 +144,7 @@
             this.combSecondChoice.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.combSecondChoice.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.combSecondChoice.FormattingEnabled = true;
-            this.combSecondChoice.Location = new System.Drawing.Point(66, 218);
+            this.combSecondChoice.Location = new System.Drawing.Point(81, 218);
             this.combSecondChoice.Name = "combSecondChoice";
             this.combSecondChoice.Size = new System.Drawing.Size(173, 21);
             this.combSecondChoice.TabIndex = 24;
@@ -153,7 +153,7 @@
             // 
             this.btnSendRequest.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(208)))), ((int)(((byte)(222)))), ((int)(((byte)(229)))));
             this.btnSendRequest.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.btnSendRequest.Location = new System.Drawing.Point(79, 419);
+            this.btnSendRequest.Location = new System.Drawing.Point(95, 431);
             this.btnSendRequest.Margin = new System.Windows.Forms.Padding(2);
             this.btnSendRequest.Name = "btnSendRequest";
             this.btnSendRequest.Size = new System.Drawing.Size(137, 23);
@@ -165,7 +165,7 @@
             // 
             this.lblHowLong.AutoSize = true;
             this.lblHowLong.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblHowLong.Location = new System.Drawing.Point(63, 125);
+            this.lblHowLong.Location = new System.Drawing.Point(78, 125);
             this.lblHowLong.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblHowLong.Name = "lblHowLong";
             this.lblHowLong.Size = new System.Drawing.Size(178, 15);
@@ -177,7 +177,7 @@
             this.cbxWeekly.AutoSize = true;
             this.cbxWeekly.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.cbxWeekly.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.cbxWeekly.Location = new System.Drawing.Point(121, 170);
+            this.cbxWeekly.Location = new System.Drawing.Point(136, 170);
             this.cbxWeekly.Margin = new System.Windows.Forms.Padding(2);
             this.cbxWeekly.Name = "cbxWeekly";
             this.cbxWeekly.Size = new System.Drawing.Size(63, 19);
@@ -189,7 +189,7 @@
             // 
             this.btnFindMatches.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(208)))), ((int)(((byte)(222)))), ((int)(((byte)(229)))));
             this.btnFindMatches.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.btnFindMatches.Location = new System.Drawing.Point(95, 258);
+            this.btnFindMatches.Location = new System.Drawing.Point(110, 258);
             this.btnFindMatches.Name = "btnFindMatches";
             this.btnFindMatches.Size = new System.Drawing.Size(111, 23);
             this.btnFindMatches.TabIndex = 34;
@@ -199,18 +199,20 @@
             // 
             // lvAvailableTimes
             // 
-            this.lvAvailableTimes.Location = new System.Drawing.Point(25, 310);
+            this.lvAvailableTimes.Location = new System.Drawing.Point(12, 306);
             this.lvAvailableTimes.Name = "lvAvailableTimes";
-            this.lvAvailableTimes.Size = new System.Drawing.Size(248, 97);
+            this.lvAvailableTimes.Size = new System.Drawing.Size(307, 119);
             this.lvAvailableTimes.TabIndex = 36;
             this.lvAvailableTimes.UseCompatibleStateImageBehavior = false;
+            this.lvAvailableTimes.View = System.Windows.Forms.View.Details;
+            this.lvAvailableTimes.ItemChecked += new System.Windows.Forms.ItemCheckedEventHandler(this.lvAvailableTimes_ItemChecked);
             // 
             // lblMin
             // 
             this.lblMin.AutoSize = true;
             this.lblMin.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblMin.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(61)))), ((int)(((byte)(71)))), ((int)(((byte)(76)))));
-            this.lblMin.Location = new System.Drawing.Point(142, 148);
+            this.lblMin.Location = new System.Drawing.Point(157, 148);
             this.lblMin.Name = "lblMin";
             this.lblMin.Size = new System.Drawing.Size(31, 15);
             this.lblMin.TabIndex = 40;
@@ -221,7 +223,7 @@
             this.lblHour.AutoSize = true;
             this.lblHour.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblHour.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(61)))), ((int)(((byte)(71)))), ((int)(((byte)(76)))));
-            this.lblHour.Location = new System.Drawing.Point(76, 148);
+            this.lblHour.Location = new System.Drawing.Point(91, 148);
             this.lblHour.Name = "lblHour";
             this.lblHour.Size = new System.Drawing.Size(23, 15);
             this.lblHour.TabIndex = 39;
@@ -237,7 +239,7 @@
             "15",
             "30",
             "45"});
-            this.combStartMinute.Location = new System.Drawing.Point(176, 145);
+            this.combStartMinute.Location = new System.Drawing.Point(191, 145);
             this.combStartMinute.Name = "combStartMinute";
             this.combStartMinute.Size = new System.Drawing.Size(39, 21);
             this.combStartMinute.TabIndex = 38;
@@ -248,19 +250,11 @@
             this.combStartHour.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.combStartHour.FormattingEnabled = true;
             this.combStartHour.Items.AddRange(new object[] {
+            "00",
             "01",
             "02",
-            "03",
-            "04",
-            "05",
-            "06",
-            "07",
-            "08",
-            "09",
-            "10",
-            "11",
-            "12"});
-            this.combStartHour.Location = new System.Drawing.Point(102, 145);
+            "03"});
+            this.combStartHour.Location = new System.Drawing.Point(117, 145);
             this.combStartHour.Name = "combStartHour";
             this.combStartHour.Size = new System.Drawing.Size(37, 21);
             this.combStartHour.TabIndex = 37;
@@ -268,7 +262,7 @@
             // pictureBox1
             // 
             this.pictureBox1.Image = global::TutorMaster.Properties.Resources.WatermarkR2;
-            this.pictureBox1.Location = new System.Drawing.Point(224, 430);
+            this.pictureBox1.Location = new System.Drawing.Point(255, 431);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(76, 74);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -280,7 +274,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(218)))), ((int)(((byte)(232)))), ((int)(((byte)(239)))));
-            this.ClientSize = new System.Drawing.Size(299, 503);
+            this.ClientSize = new System.Drawing.Size(331, 503);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.lblMin);
             this.Controls.Add(this.lblHour);
@@ -304,6 +298,7 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "AdvancedRequest";
             this.Text = "TutorMaster";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.AdvancedRequest_FormClosed);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
