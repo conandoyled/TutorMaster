@@ -97,15 +97,15 @@ namespace TutorMaster
                     compare = begin.CompareTo(endTime);
                     
                 }
-                if (recorded)
+                if (recorded)                            //if we have any of the time blocks already recorded, pop up a message about it
                 {
                     string message = "These times are already in the database and have not been added as availability ";
                     for (int i = 0; i < alreadyRecordedTimes.Count-1; i++)
                     {
-                        message += alreadyRecordedTimes[i] + ", ";
+                        message += alreadyRecordedTimes[i] + ", ";              //add all of the already recorded datetimes to the message
                     }
                     message += alreadyRecordedTimes[alreadyRecordedTimes.Count - 1];
-                    MessageBox.Show(message);
+                    MessageBox.Show(message);                                   //show the message
                     alreadyRecordedTimes.Clear();
                 }
                 MessageBox.Show("All 15 minute time blocks that were not already occupied have been added to your availability.");
@@ -136,12 +136,6 @@ namespace TutorMaster
                     alreadyRecordedTimes.Add(date[i].ToString());
                 }
             }
-
-            //if (found)
-            //{
-            //    MessageBox.Show(begin.ToString() + " is already in the database, this will not be added");
-            //}
-
             return found;
         }
 
@@ -194,6 +188,7 @@ namespace TutorMaster
                     newCommitW.ID = -1;
                     addCommit(newCommitW);
 
+                    //add the student commitment weekly
                     TutorMaster.StudentCommitment newStudentCommitW = new TutorMaster.StudentCommitment();
                     newStudentCommitW.CmtID = lastCR;
                     newStudentCommitW.ID = id;
@@ -205,12 +200,12 @@ namespace TutorMaster
 
         private void addCommit(TutorMaster.Commitment commit)
         {
-            TutorMasterDBEntities4 db = new TutorMasterDBEntities4();
+            TutorMasterDBEntities4 db = new TutorMasterDBEntities4();                                  //add a commitment
             db.Commitments.AddObject(commit);
             db.SaveChanges();
         }
 
-        private void addStudentCommit(TutorMaster.StudentCommitment studentCommit)
+        private void addStudentCommit(TutorMaster.StudentCommitment studentCommit)                      //add a student commitment
         {
             TutorMasterDBEntities4 db = new TutorMasterDBEntities4();
             db.StudentCommitments.AddObject(studentCommit);
@@ -253,7 +248,7 @@ namespace TutorMaster
 
         private void AddAvailability_FormClosed(object sender, FormClosedEventArgs e)
         {
-                this.Dispose();
+            this.Dispose();
         }
     }
 }

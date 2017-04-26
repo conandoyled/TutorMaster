@@ -208,11 +208,11 @@ namespace TutorMaster
                     DialogResult choice = MessageBox.Show("Would you like to delete the weekly time slots until the end of the semester?", "Delete weekly timeslots?", MessageBoxButtons.YesNo);
                     if (choice == DialogResult.Yes)                                                       //if the user says yes
                     {
-                        deleteAvail(true);
+                        deleteAvail(true);                                  //delete the time block and all of its weekly future ones
                     }
-                    else if (choice == DialogResult.No)
+                    else if (choice == DialogResult.No)                     //if they say no
                     {
-                        deleteAvail(false);
+                        deleteAvail(false);                                 //delete the time slots of only the ones that have checked off
                     }
                 }
                 else
@@ -220,7 +220,7 @@ namespace TutorMaster
                     deleteAvail(false);
                 }
 
-                for (int c = 0; c < lvTimeSlots.CheckedItems.Count; c++)     //remove all of the selected time slots from the listview
+                for (int c = 0; c < lvTimeSlots.CheckedItems.Count; c++)    //remove all of the selected time slots from the listview
                 {
                     lvTimeSlots.CheckedItems[c].Remove();
                     c--;
@@ -228,13 +228,13 @@ namespace TutorMaster
 
                 if (!admin)
                 {
-                    StudentMain g = new StudentMain(id);                         //send the user back to the student main
+                    StudentMain g = new StudentMain(id);                    //send the user back to the student main
                     g.Show();
                     this.Dispose();
                 }
                 else
                 {
-                    AdminSeeSchedule g = new AdminSeeSchedule(id);
+                    AdminSeeSchedule g = new AdminSeeSchedule(id);         //send the user to admin
                     g.Show();
                     this.Dispose();
                 }
@@ -267,13 +267,13 @@ namespace TutorMaster
 
         private void btnCancel_Click(object sender, EventArgs e)
         {
-            if (!admin)
+            if (!admin)//send the user to student main
             {
                 StudentMain g = new StudentMain(id);
                 g.Show();
                 this.Dispose();
             }
-            else
+            else//otherwise, send the user to admin
             {
                 AdminSeeSchedule g = new AdminSeeSchedule(id);
                 g.Show();
