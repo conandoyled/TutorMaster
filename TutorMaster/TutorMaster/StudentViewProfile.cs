@@ -19,7 +19,7 @@ namespace TutorMaster
 
             accID = id;
             setInformation();
-            hideListViews();
+            
         }
 
         private void setInformation()

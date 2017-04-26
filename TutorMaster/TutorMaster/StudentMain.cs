@@ -114,7 +114,7 @@ namespace TutorMaster
             addToListView(commit, Convert.ToDateTime(commit.StartTime).DayOfWeek.ToString(), Commits.getCommitTime(commit), Commits.getCommitTime15(commit));
         }
 
-        private System.Drawing.Color getColor(Commitment commit)
+        private System.Drawing.Color getColor(Commitment commit)//this function sets the colors in the listviews. the legend for the colors are on the student main form
         {
             if(Commits.isOpen(commit))
             {
@@ -155,7 +155,7 @@ namespace TutorMaster
             }
         }
 
-        private void setSelectedTab(DateTime setDate)
+        private void setSelectedTab(DateTime setDate)                           //gets the selected day and selecting the appropriate tab for the user to view
         {
             DayOfWeek a = setDate.DayOfWeek;
             switch (a)
@@ -927,36 +927,36 @@ namespace TutorMaster
         {
             List<string> commits = new List<string>();
 
-            for (int i = 0; i < lvPendingTutor.CheckedItems.Count; i++)
+            for (int i = 0; i < lvPendingTutor.CheckedItems.Count; i++)                   //get all the information from the checked items in the listview pending tutor
             {
                 commits.Add(getlvPendingTutorCheckedInfo(i));
             }
 
-            for (int n = 0; n < lvTutor.CheckedItems.Count; n++)
+            for (int n = 0; n < lvTutor.CheckedItems.Count; n++)                          //get all the information from the checked items in the listview tutor
             {
                 commits.Add(getlvTutorCheckedInfo(n));
             }
 
-            for (int f = 0; f < commits.Count(); f++)
+            for (int f = 0; f < commits.Count(); f++)                                     //for each of the checked item in the pending tutor and tutor, cancel the appointments for the student
             {
                 int accID = id;
                 cancelAppointments(commits, accID, false);
 
-                int partnerID = Convert.ToInt32(commits[f].Split(',')[2]);
+                int partnerID = Convert.ToInt32(commits[f].Split(',')[2]);                //for each  checked item cancel the appointment for the partner
                 cancelAppointments(commits, partnerID, true);
             }
-            DateTime start = DateTime.Now;
+            DateTime start = DateTime.Now;                                                //reset the appointment listviews
             clearAppointmentListviews();
 
-            loadAvail(start);
-            loadAppointments(true);
+            loadAvail(start);                                                             //reload the availability
+            loadAppointments(true);                                                       //reload the appointments
         }
         
         private void btnCancelFinalized_Click(object sender, EventArgs e)
         {
             List<string> commits = new List<string>();
 
-            for (int d = 0; d < lvFinalized.CheckedItems.Count; d++)
+            for (int d = 0; d < lvFinalized.CheckedItems.Count; d++)                      //get all of the information from the checked items in the finalized listview
             {
                 commits.Add(getlvFinalizedCheckedInfo(d));
             }
@@ -964,12 +964,12 @@ namespace TutorMaster
             for (int f = 0; f < commits.Count(); f++)
             {
                 int accID = id;
-                cancelAppointments(commits, accID, false);
+                cancelAppointments(commits, accID, false);                                //cancel the appointments for the student
 
-                int partnerID = Convert.ToInt32(commits[f].Split(',')[2]);
+                int partnerID = Convert.ToInt32(commits[f].Split(',')[2]);                //cancel the appointments for the partner of the student
                 cancelAppointments(commits, partnerID, true);
             }
-            DateTime start = DateTime.Now;
+            DateTime start = DateTime.Now;                                                //reset the listviews and reload them all
             clearAppointmentListviews();
 
             loadAvail(start);
@@ -980,12 +980,12 @@ namespace TutorMaster
         {
             List<string> commits = new List<string>();
 
-            for (int v = 0; v < lvTutee.CheckedItems.Count; v++)
+            for (int v = 0; v < lvTutee.CheckedItems.Count; v++)                          //get all of the necessary information of the lvTutee checked items
             {
                 commits.Add(getlvTuteeCheckedInfo(v));
             }
             
-            for (int x = 0; x < lvPendingTutee.CheckedItems.Count; x++)
+            for (int x = 0; x < lvPendingTutee.CheckedItems.Count; x++)                   //get all of the necessary information of the lvTuteePending checked items
             {
                 commits.Add(getlvTuteePendingInfo(x));
             }
@@ -993,13 +993,13 @@ namespace TutorMaster
             for (int f = 0; f < commits.Count(); f++)
             {
                 int accID = id;
-                cancelAppointments(commits, accID, false);
+                cancelAppointments(commits, accID, false);                                //cancel the appointments for the student we are signed in as
 
-                int partnerID = Convert.ToInt32(commits[f].Split(',')[2]);
+                int partnerID = Convert.ToInt32(commits[f].Split(',')[2]);                //cancel the appointments for the student's partner
                 cancelAppointments(commits, partnerID, true);
             }
             DateTime start = DateTime.Now;
-            clearAppointmentListviews();
+            clearAppointmentListviews();                                                  //clear the listviews and reload them with the updated information
 
             loadAvail(start);
             loadAppointments(true);
@@ -1101,7 +1101,7 @@ namespace TutorMaster
                 DateTime endDate = getListViewTime(lvPendingTutee.CheckedItems[i].SubItems[1].Text);                       //get the dateTime of the time in the end time column
                 for (int c = 0; c < cmtList.Count(); c++)
                 {
-                    if (DateTimeMethods.inTheTimeSlot(startDate, endDate, cmtList[c]))                                                     //take off question mark if the commitment is in between the two times
+                    if (DateTimeMethods.inTheTimeSlot(startDate, endDate, cmtList[c]))                                     //take off question mark if the commitment is in between the two times
                     {
                         cmtList[c].Location = takeOffLocationQuestionMark(cmtList[c]);
                         db.SaveChanges();                                                                                  //save the changes
@@ -1126,7 +1126,7 @@ namespace TutorMaster
                 DateTime endDate = getListViewTime(lvPendingTutee.CheckedItems[i].SubItems[1].Text);               //get the dateTime of the time in the end time column
                 for (int c = 0; c < cmtList.Count(); c++)
                 {
-                    if (DateTimeMethods.inTheTimeSlot(startDate, endDate, cmtList[c]))                                             //if the commitment is between the times, take off the question mark
+                    if (DateTimeMethods.inTheTimeSlot(startDate, endDate, cmtList[c]))                             //if the commitment is between the times, take off the question mark
                     {
                         cmtList[c].Class = cmtList[c].Class + "!";
                         cmtList[c].Location = takeOffLocationQuestionMark(cmtList[c]);
@@ -1233,16 +1233,15 @@ namespace TutorMaster
             }
             else
             {
-                RemoveAvailForm g = new RemoveAvailForm(id, removeList, false);                                           //else, send that information to the remove availability form
+                RemoveAvailForm g = new RemoveAvailForm(id, removeList, false);                                    //else, send that information to the remove availability form
                 g.Show();
                 this.Dispose();
             }
         }
 
+        //this function iterates through all of the day listviews and gets every item that is selected and puts the start date, end date, and partner id in a string and adds that string to a list
         private List<string> loadItemsForRemoval()
         {
-            //this function iterates through all of the day listviews and gets every item that is selected and puts the start date, end date, and partner id in a string and adds that string to a list
-
             List<string> all = new List<string>();
             string monthDay = "";
 
@@ -1447,8 +1446,10 @@ namespace TutorMaster
                 btnRejectTutee.BackColor = System.Drawing.Color.FromArgb(193, 200, 204);
             }
         }
-
+        
+        //-------------------------------------------------------------------------------------------------------------------------------------------------------------
         //these functions check to make sure every selected item in the day listviews are open, it one is not in any of them, it disables the remove availability button
+        
         private void lvSunday_ItemChecked(object sender, ItemCheckedEventArgs e)
         {
 
@@ -1681,6 +1682,9 @@ namespace TutorMaster
         }
         
         //end of functions check to make sure every selected item in the day listviews are open, it one is not in any of them, it disables the remove availability button
+        //---------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+        //this function deselects all of the items in each day listview when the user moves to another tab
         private void dayTabs_Selected(object sender, TabControlEventArgs e)
         {
             for (int i = 0; i < lvSunday.CheckedItems.Count; i++)
@@ -1721,6 +1725,8 @@ namespace TutorMaster
             btnRemoveAvail.BackColor = System.Drawing.Color.FromArgb(193, 200, 204);
         }
 
+
+        //this function deselects every item in the appointment listviews when a new tab is selected
         private void tabControl2_Selected(object sender, TabControlEventArgs e)
         {
             for (int i = 0; i < lvTutor.CheckedItems.Count; i++)
@@ -1757,6 +1763,7 @@ namespace TutorMaster
             this.Dispose();
         }
 
+        //go the advanced request
         private void btnAdvanceRequest_Click(object sender, EventArgs e)
         {
             AdvancedRequest g = new AdvancedRequest(id);
@@ -1764,12 +1771,14 @@ namespace TutorMaster
             this.Dispose();
         }
 
+        //go to change password form
         private void btnChangePassword_Click(object sender, EventArgs e)
         {
             StudentViewProfile g = new StudentViewProfile(id);
             g.Show();
         }
 
+        //when you close this, logout and go back to student main
         private void StudentMain_FormClosed(object sender, FormClosedEventArgs e)
         {
             Login g = new Login();
@@ -1777,6 +1786,7 @@ namespace TutorMaster
             this.Dispose();
         }
 
+        //go to add availability form
         private void btnAddOpenBlock_Click(object sender, EventArgs e)
         {
             AddAvailability g = new AddAvailability(id);
@@ -1784,6 +1794,7 @@ namespace TutorMaster
             //this.Dispose();
         }
 
+        //reset each of the listviews and reload them with the information
         private void btnReload_Click(object sender, EventArgs e)
         {
             clearDayListViews();
@@ -1798,6 +1809,8 @@ namespace TutorMaster
 
         }
 
+        //--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+        //these functions ensure that only one item is selected in the day listviews at anygiven time
         private void lvSunday_ItemCheck(object sender, ItemCheckEventArgs e)
         {
             if (lastItemChecked != null && lastItemChecked.Checked
@@ -1874,7 +1887,7 @@ namespace TutorMaster
 
             lastItemChecked = lvSaturday.Items[e.Index];
         }
-        
+        //-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
         
     }
 }
