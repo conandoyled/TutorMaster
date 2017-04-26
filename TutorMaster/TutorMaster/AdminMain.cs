@@ -418,6 +418,18 @@ namespace TutorMaster
                 newFaculty.Department = department;
                 addFaculty(newFaculty);                                         //add the faculty object
 
+                List<string> classCodes = (from row in db.Classes where row.Department.Equals(department) select row.ClassCode).ToList();
+                foreach (string cc in classCodes)
+                {
+                    TutorMaster.FacultyClass fc = new TutorMaster.FacultyClass();
+                    fc.Key = getNextFacultyClassID().ToString();
+                    fc.ClassCode = cc;
+                    fc.FacultyID = newUser.ID;
+
+                    db.AddToFacultyClasses(fc);
+                    db.SaveChanges();
+                }
+
                 txtFirstname.Text = "";                                         //reset the faculty form
                 txtLastname.Text = "";
                 txtUsername.Text = "";
@@ -672,6 +684,8 @@ namespace TutorMaster
 
         private void btnClassAdd_Click(object sender, EventArgs e)
         {
+            TutorMasterDBEntities4 db = new TutorMasterDBEntities4();
+
             string classCode = txtClassCode.Text.ToString();                    //get info from form
             string className = txtClassName.Text.ToString();
             int classSelection = combDepartmentsAdd.SelectedIndex;
@@ -707,6 +721,17 @@ namespace TutorMaster
                     newClass.ClassName = className;
                     newClass.Department = classDepartment;
                     addClass(newClass);                                                     //add the class to the database
+
+                    List<int> faculty = (from row in db.Faculties where row.Department == classDepartment select row.ID).ToList();
+                    foreach (int id in faculty)
+                    {
+                        TutorMaster.FacultyClass fc = new TutorMaster.FacultyClass();
+                        fc.Key = getNextFacultyClassID().ToString();
+                        fc.ClassCode = classCode;
+                        fc.FacultyID = id;
+                        db.AddToFacultyClasses(fc);
+                        db.SaveChanges();
+                    }
 
                     txtClassCode.Text = "";                                                 //reset the form fields
                     txtClassName.Text = "";
@@ -750,6 +775,17 @@ namespace TutorMaster
                     newClass.ClassName = className;
                     newClass.Department = classDepartment;
                     addClass(newClass);                                                 //add class to database
+
+                    List<int> faculty = (from row in db.Faculties where row.Department == classDepartment select row.ID).ToList();
+                    foreach (int id in faculty)
+                    {
+                        TutorMaster.FacultyClass fc = new TutorMaster.FacultyClass();
+                        fc.Key = getNextFacultyClassID().ToString();
+                        fc.ClassCode = classCode;
+                        fc.FacultyID = id;
+                        db.AddToFacultyClasses(fc);
+                        db.SaveChanges();
+                    }
 
                     txtClassCode.Text = "";                                             //reset the form
                     txtClassName.Text = "";
@@ -941,6 +977,22 @@ namespace TutorMaster
             int rowNum = db.Users.Count();
 
             var lastRow = db.Users.OrderByDescending(u => u.ID).Select(r => r.ID).First();
+            return lastRow + 1;
+        }
+
+        private int getNextFacultyClassID()         //get unused ID from the database
+        {
+            TutorMasterDBEntities4 db = new TutorMasterDBEntities4();
+            List<string> idStrings = (from row in db.FacultyClasses select row.Key).ToList();
+            List<int> ids = new List<int>();
+
+            foreach (string s in idStrings)
+            {
+                ids.Add(Convert.ToInt32(s));
+            }
+
+            int lastRow = ids.Max();
+
             return lastRow + 1;
         }
 
