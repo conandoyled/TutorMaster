@@ -119,7 +119,7 @@
             this.btnStudentSchedule.Name = "btnStudentSchedule";
             this.btnStudentSchedule.Size = new System.Drawing.Size(140, 23);
             this.btnStudentSchedule.TabIndex = 5;
-            this.btnStudentSchedule.Text = "See and Edit Student Schedule";
+            this.btnStudentSchedule.Text = "See Student Schedule";
             this.btnStudentSchedule.UseVisualStyleBackColor = false;
             this.btnStudentSchedule.Click += new System.EventHandler(this.btnStudentSchedule_Click);
             // 
