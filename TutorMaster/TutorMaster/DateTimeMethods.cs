@@ -166,27 +166,27 @@ namespace TutorMaster
         }
 
         public static bool endOfSemesIsLater(DateTime endSemes, DateTime weekForward)
-        {
+        {//function sees if the first date time is later than the second
             return DateTime.Compare(endSemes, weekForward) > 0;
         }
 
         public static bool forwardEarlierThanStart(DateTime weekForward, Commitment commit)
-        {
+        {//this function sees if the the weekforward is in the future of a commitment
             return DateTime.Compare(weekForward, Convert.ToDateTime(commit.StartTime)) < 0;
         }
 
         public static bool startEarlierThanEnd(DateTime startTime, DateTime endTime)
-        {
+        {//see if the first date time is before the seconde datetime
             return startTime.CompareTo(endTime) < 0;
         }
 
         public static bool betweenGivenStartAndEndTime(DateTime startDate, DateTime endDate, Commitment commit)
-        {
+        {//function to see if a commitment is between a given start and end datetime
             return DateTime.Compare(startDate, Convert.ToDateTime(commit.StartTime)) <= 0 && DateTime.Compare(endDate, Convert.ToDateTime(commit.StartTime)) > 0;
         }
 
         public static bool inTheTimeSlot(DateTime startDate, DateTime endDate, Commitment commit)
-        {
+        {//function to see if a commitment is between a given start and end datetime
             return (DateTime.Compare(startDate, Convert.ToDateTime(commit.StartTime)) <= 0 && DateTime.Compare(endDate, Convert.ToDateTime(commit.StartTime)) > 0);
         }
     }
