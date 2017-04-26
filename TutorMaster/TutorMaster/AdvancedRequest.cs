@@ -288,24 +288,26 @@ namespace TutorMaster
 
                 List<string> tutorValidSlots = getValidSlots(ref tutorCommits, length); //create a list of all the valid tutor slots
 
-                if (tuteeValidSlots.Count() == 0)//If there are no mathcing slots, direct the user to try again
+                int numMatches = 0;
+                lvAvailableTimes.Show();
+                for (int j = 0; j < tutorValidSlots.Count(); j++) //iterate through all the available tutor slots 
+                {
+                    if (SortsAndSearches.BinarySearch(tuteeValidSlots, tutorValidSlots[j]))
+                    {
+                        //add all the slots to the tutor availibility timeslot
+                        ListViewItem item = new ListViewItem(new string[] { tutorValidSlots[j].Split(',')[0], tutorValidSlots[j].Split(',')[1] });
+                        lvAvailableTimes.Items.Add(item);//adds the time slot to the combo box 
+
+                        numMatches++;
+                    }
+                }
+
+                if (numMatches == 0)
                 {
                     MessageBox.Show("This Tutor has no matching availibility.");
                 }
-                else
-                {
-                    lvAvailableTimes.Show();
-                    for (int j = 0; j < tutorValidSlots.Count(); j++) //iterate through all the available tutor slots 
-                    {
-                        if (SortsAndSearches.BinarySearch(tuteeValidSlots, tutorValidSlots[j]))
-                        {
-                            //add all the slots to the tutor availibility timeslot
-                            ListViewItem item = new ListViewItem(new string[] { tutorValidSlots[j].Split(',')[0], tutorValidSlots[j].Split(',')[1] });
-                            lvAvailableTimes.Items.Add(item);//adds the time slot to the combo box 
-                        }
-                    }
-                    btnSendRequest.Click += (sender, e) => btnSendRequest_Click(sender, e, tutorValidSlots, TutID, TuteeID, tutorCommits, tuteeCommits, classCode, db, weekly, length);
-                }
+                btnSendRequest.Click += (sender, e) => btnSendRequest_Click(sender, e, tutorValidSlots, TutID, TuteeID, tutorCommits, tuteeCommits, classCode, db, weekly, length);
+                
             } 
         }
 
@@ -543,7 +545,7 @@ namespace TutorMaster
             if (lvAvailableTimes.CheckedItems.Count == 1)
             {
                 btnSendRequest.Enabled = true;
-                btnSendRequest.BackColor = System.Drawing.Color.FromArgb(226, 226, 226);
+                btnSendRequest.BackColor = System.Drawing.Color.FromArgb(208, 222, 229);
             }
             else
             {
