@@ -84,7 +84,7 @@ namespace TutorMaster
             {
                 if (u.ID != ACCID)
                 {
-                    tutorIDs.Add(u.ID);
+                    tutorIDs.Insert(0, u.ID);
                     combFirstChoice.Items.Add(u.FirstName + " " + u.LastName);
                 }
             }
@@ -127,16 +127,19 @@ namespace TutorMaster
         {
             combSecondChoice.Items.Clear();
 
-            if (lblFirstChoice.Text.Equals("Tutor Name"))
+            if (combFirstChoice.SelectedIndex != -1)
             {
-                loadTutorClassList();
-            }
-            else
-            {
-                loadClassTutorList();
-            }
+                if (lblFirstChoice.Text.Equals("Tutor Name"))
+                {
+                    loadTutorClassList();
+                }
+                else
+                {
+                    loadClassTutorList();
+                }
 
-            showSecondChoice();
+                showSecondChoice();
+            }
         }
 
         //load second choice options based on what the first choice was
@@ -176,7 +179,7 @@ namespace TutorMaster
             {
                 if (u.ID != ACCID)
                 {
-                    tutorIDs.Add(u.ID);
+                    tutorIDs.Insert(0, u.ID);
                     combSecondChoice.Items.Add(u.FirstName + " " + u.LastName);
                 }
             }
@@ -229,7 +232,8 @@ namespace TutorMaster
 
         private void btnSendRequest_Click(object sender, EventArgs e, List<string> tutorValidSlot, int TutID, int TuteeID, List<TutorMaster.Commitment> tutorCommits, List<TutorMaster.Commitment> tuteeCommits, string classCode, TutorMasterDBEntities4 db, bool weekly, int length)
         {
-            addCommits(tutorValidSlot[lvAvailableTimes.CheckedIndices[0]], TutID, TuteeID, tutorCommits, tuteeCommits, classCode, db, weekly, length);      //add the commits!  
+            string slot = lvAvailableTimes.CheckedItems[0].SubItems[0].Text.ToString()+","+lvAvailableTimes.CheckedItems[0].SubItems[1].Text.ToString();
+            addCommits(slot, TutID, TuteeID, tutorCommits, tuteeCommits, classCode, db, weekly, length);      //add the commits!  
             MessageBox.Show("Your appointments has been Scheduled!");                                                                                       //Let them know that it worked!
             btnExit_Click(this, e);                                                                                                                         //close this form and send them back to the student form!
         }
