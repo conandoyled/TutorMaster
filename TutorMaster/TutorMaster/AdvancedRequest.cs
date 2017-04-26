@@ -200,7 +200,7 @@ namespace TutorMaster
         {
             StudentMain g = new StudentMain(ACCID);
             g.Show();
-            this.Close();
+            this.Dispose();
         }
 
         private void btnFindMatches_Click(object sender, EventArgs e)
@@ -550,6 +550,13 @@ namespace TutorMaster
                 btnSendRequest.Enabled = false;
                 btnSendRequest.BackColor = System.Drawing.Color.FromArgb(193, 200, 204);
             }
+        }
+
+        private void AdvancedRequest_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            StudentMain g = new StudentMain(ACCID);
+            g.Show();
+            this.Dispose();
         }
     }
 }
