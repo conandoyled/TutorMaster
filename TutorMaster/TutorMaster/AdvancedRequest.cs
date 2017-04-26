@@ -13,8 +13,6 @@ namespace TutorMaster
     {
         //Initial Set up
         private int ACCID;
-        private bool leftside;
-        private bool Auto = true;
         private List<int> tutorIDs = new List<int>();
         
         public AdvancedRequest(int accID)  
@@ -22,8 +20,8 @@ namespace TutorMaster
             ACCID = accID;
             InitializeComponent();
 
-            //hide everything so you can show it when appropriate
             hideControls();
+            setupListView();
         }
 
         private void hideControls()
@@ -41,6 +39,12 @@ namespace TutorMaster
             btnFindMatches.Hide();
             lblAvailableTimes.Hide();
             lvAvailableTimes.Hide();
+        }
+
+        private void setupListView()
+        {
+            lvAvailableTimes.Columns.Add("Start Time");
+            lvAvailableTimes.Columns.Add("End Time");
         }
 
         //User selects tutor
@@ -172,8 +176,6 @@ namespace TutorMaster
 
         private void btnFindMatches_Click(object sender, EventArgs e)
         {
-            Auto = true;
-
             if (formComplete())                                                         //If we're good to go then we move onto the matching process
             {
                 if (lblFirstChoice.Text.Equals("Tutor Name"))
@@ -197,13 +199,8 @@ namespace TutorMaster
                 && !String.IsNullOrEmpty(combStartMinute.SelectedText));
         }
 
-        private void btnSendRequest_Click(object sender, EventArgs e, List<string> tutorValidSlot, int TutID, int TuteeID, List<TutorMaster.Commitment> tutorCommits, List<TutorMaster.Commitment> tuteeCommits, string classCode, TutorMasterDBEntities4 db, bool weekly, int length)
-        {
-            
-        }
-
         //Match Function and it's helpers
-        private int MatchTimes(ComboBox TutBox, ComboBox ClsBox)
+        private void MatchTimes(ComboBox TutBox, ComboBox ClsBox)
         {
             TutorMasterDBEntities4 db = new TutorMasterDBEntities4();
             lvAvailableTimes.Items.Clear();
@@ -230,7 +227,7 @@ namespace TutorMaster
                                                 join cmt in db.Commitments.AsEnumerable() on stucmt.CmtID equals cmt.CmtID
                                                 select cmt).ToList();
 
-            QuickSort(ref tuteeCommits, tuteeCommits.Count()); //sort the tutee commits so that they are in chronological order
+            SortsAndSearches.QuickSort(ref tuteeCommits, tuteeCommits.Count()); //sort the tutee commits so that they are in chronological order
 
             checkMax(ref tuteeCommits);
 
@@ -239,39 +236,39 @@ namespace TutorMaster
             if (tuteeCommits.Count == 0) //If the tuttee doesn't have any compatible availibility then give a pop up box to let them know
             {
                 MessageBox.Show("You currently have no available slots, please add some availability before attempting to schedule a session of this length");
-                return 1;
             }
             else
             {
                 List<string> tuteeValidSlots = getValidSlots(ref tuteeCommits, length);//this is returning 0 for some reason
 
-                List<AdvancedRequest.Commitment> tutorCommits = (from stucmt in db.StudentCommitments.AsEnumerable() //This creates a list of all the tutor commitments. 
+                List<TutorMaster.Commitment> tutorCommits = (from stucmt in db.StudentCommitments.AsEnumerable() //This creates a list of all the tutor commitments. 
                                                                 where stucmt.ID == TutID
                                                                 join cmt in db.Commitments.AsEnumerable() on stucmt.CmtID equals cmt.CmtID
                                                                 select cmt).ToList();
 
-                QuickSort(ref tutorCommits, tutorCommits.Count()); //sort it so we can use it
+                SortsAndSearches.QuickSort(ref tutorCommits, tutorCommits.Count()); //sort it so we can use it
                 checkMax(ref tutorCommits); 
                 removeNotOpens(ref tutorCommits, start, weekly); //remove the occupied commitments
 
                 List<string> tutorValidSlots = getValidSlots(ref tutorCommits, length); //create a list of all the valid tutor slots
 
-                if (tuteeValidSlots.Count() == 0)//If there are no mathcing slots, direct the user to try again or do a manual time. 
+                if (tuteeValidSlots.Count() == 0)//If there are no mathcing slots, direct the user to try again
                 {
-                    MessageBox.Show("This Tutor has no matching availibility long enough. Please consider a either a shorter session or a different tutor.");
-                    return 1;
+                    MessageBox.Show("This Tutor has no matching availibility.");
                 }
-                for (int j = 0; j < tutorValidSlots.Count(); j++) //iterate through all the available tutor slots 
+                else
                 {
-                    if (BinarySearch(tuteeValidSlots, tutorValidSlots[j]))
+                    for (int j = 0; j < tutorValidSlots.Count(); j++) //iterate through all the available tutor slots 
                     {
-                        //add all the slots to the tutor availibility timeslot
-                        string MatchedTime = tutorValidSlots[j].Split(',')[0] + " - " + tutorValidSlots[j].Split(',')[1]; //this string is the matched time
-                        combTutorAvailability.Items.Add(MatchedTime);//adds the time slot to the combo box 
+                        if (SortsAndSearches.BinarySearch(tuteeValidSlots, tutorValidSlots[j]))
+                        {
+                            //add all the slots to the tutor availibility timeslot
+                            ListViewItem item = new ListViewItem(new string[] { tutorValidSlots[j].Split(',')[0], tutorValidSlots[j].Split(',')[1] });
+                            lvAvailableTimes.Items.Add(item);//adds the time slot to the combo box 
+                        }
                     }
-                }
-            }
-            return 0;
+                } 
+            } 
         }
 
         private void addCommits(string timeSlot, int tutorId, int tuteeId, List<TutorMaster.Commitment> tutorCommits, List<TutorMaster.Commitment> tuteeCommits, string classCode, TutorMasterDBEntities4 db, bool weekly, int numSessions)
@@ -439,6 +436,32 @@ namespace TutorMaster
                     && commitFirst.ID == commitSecond.ID);
         }
 
+        private void removeNotOpens(ref List<TutorMaster.Commitment> cmtList, DateTime start, bool weekly)
+        {
+            if (weekly)
+            {
+                for (int i = 0; i < cmtList.Count() - 1; i++)
+                {
+                    if (!Commits.isOpen(cmtList[i]) || DateTime.Compare(start, Convert.ToDateTime(cmtList[i].StartTime)) > 0 || cmtList[i].Weekly != weekly)
+                    {
+                        cmtList.Remove(cmtList[i]);
+                        i--;
+                    }
+                }
+            }
+            else
+            {
+                for (int i = 0; i < cmtList.Count() - 1; i++)
+                {
+                    if (!Commits.isOpen(cmtList[i]) || DateTime.Compare(start, Convert.ToDateTime(cmtList[i].StartTime)) > 0)
+                    {
+                        cmtList.Remove(cmtList[i]);
+                        i--;
+                    }
+                }
+            }
+        }
+
         private void checkMax(ref List<TutorMaster.Commitment> cmtList)
         {
             int consec = 1;
@@ -455,7 +478,7 @@ namespace TutorMaster
                     i--;
                     consec = 1;
                 }
-                if (DateTime.Compare(currentCommit.AddMinutes(15), nextCommit) == 0 && sameCategory(cmtList[i], cmtList[i + 1]) && !isOpen(cmtList[i]))
+                if (DateTime.Compare(currentCommit.AddMinutes(15), nextCommit) == 0 && sameCategory(cmtList[i], cmtList[i + 1]) && !Commits.isOpen(cmtList[i]))
                 {
                     consec++;
                 }
@@ -464,7 +487,7 @@ namespace TutorMaster
                     consec = 1;
                 }
             }
-        }     
+        }
     }
 }
 

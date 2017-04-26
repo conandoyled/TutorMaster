@@ -148,7 +148,6 @@
             this.combSecondChoice.Name = "combSecondChoice";
             this.combSecondChoice.Size = new System.Drawing.Size(173, 21);
             this.combSecondChoice.TabIndex = 24;
-            this.combSecondChoice.SelectedIndexChanged += new System.EventHandler(this.combTutorNameRight_SelectedIndexChanged);
             // 
             // btnSendRequest
             // 
@@ -159,7 +158,7 @@
             this.btnSendRequest.Name = "btnSendRequest";
             this.btnSendRequest.Size = new System.Drawing.Size(137, 23);
             this.btnSendRequest.TabIndex = 26;
-            this.btnSendRequest.Text = "Send Request";
+            this.btnSendRequest.Text = "Submit Request";
             this.btnSendRequest.UseVisualStyleBackColor = false;
             // 
             // lblHowLong
