@@ -13,176 +13,158 @@ namespace TutorMaster
     {
         //Initial Set up
         private int ACCID;
-        private bool leftside;
-        private bool Auto = true;
+        private List<int> tutorIDs = new List<int>();
         
         public AdvancedRequest(int accID)  
         {
             ACCID = accID;
             InitializeComponent();
 
-            //hide everything so you can show it when appropriate
-            lblAvailableTimes.Hide();
-            lblClasses.Hide();
-            lblClassesAvailable.Hide();
-            lblTutorName.Hide();
-            label1.Hide();
-            combClassBoxRight.Hide();
-            combTutorNameLeft.Hide();
-            combTutorNameRight.Hide();
-            combTutorAvailability.Hide();
+            hideControls();
+            setupListView();
+        }
+
+        private void hideControls()
+        {
+            lblFirstChoice.Hide();
+            combFirstChoice.Hide();
             lblHowLong.Hide();
-            combMeetingLength.Hide();
-            cbxWeekly.Hide();
-            label2.Hide();
-            btnManualTime.Hide();
-            btnSendRequest.Hide();
-            combClassBoxLeft.Hide();
-            btnFindMatches.Hide();
-            label3.Hide();
-            dayStartDateTime.Hide();
-            combStartAmPm.Hide();
+            lblHour.Hide();
+            lblMin.Hide();
             combStartHour.Hide();
             combStartMinute.Hide();
-
-            //initialize the tutor names and list of classes
-            setupTutorList();           //populate combTutorName
-            setupComboClassesRight(); //populate the right combo box with all the available classes
-            dayStartDateTime.Value = DateTime.Today;
-
+            cbxWeekly.Hide();
+            lblSecondChoice.Hide();
+            combSecondChoice.Hide();
+            btnFindMatches.Hide();
+            lblAvailableTimes.Hide();
+            lvAvailableTimes.Hide();
         }
+
+        private void setupListView()
+        {
+            lvAvailableTimes.Columns.Add("Start Time");
+            lvAvailableTimes.Columns.Add("End Time");
+        }
+
+        //User selects tutor
+        private void btnByTutor_Click(object sender, EventArgs e)
+        {
+            //hide the right side of the form
+            hideControls();
+
+            //show lblTutorName and combTutorName
+            setupTutorList();
+            tutorIDs.Clear();
+
+            lblFirstChoice.Text = "Tutor Name";
+            lblFirstChoice.Show();
+            combFirstChoice.Show();
+        }
+
         private void setupTutorList() //add extra validation to this to prevent a double slotted student from seeing themselves
         {
             //1. pull all of the students that are available as tutors into a list
             TutorMasterDBEntities4 db = new TutorMasterDBEntities4();
 
-            //1.1 Identify all the student IDs and put them in a list
-            var T = (from row in db.Students where row.Tutor == true select row.ID);
-            List<int> TutorID = new List<int>();
-            TutorID = T.ToList<int>();
-            
-            //1.2 find all the tutors using the ids and put them in a list
-            List<string> Tutors = new List<string>(); 
-            foreach (User usrr in db.Users)
-            {
-                foreach (int i in TutorID)
-                {
-                    if (usrr.ID == i)
-                        Tutors.Add(usrr.FirstName + ' ' + usrr.LastName);
-                }
-            }
-   
+            //1.1 Identify all the tutors and put them in a list
+            List<User> tutors = (from stu in db.Students
+                                   where stu.Tutor == true
+                                   join u in db.Users on stu.ID equals u.ID
+                                   select u).ToList();
 
             //2. set them up in the combo box 
-
-            foreach (string name in Tutors)
+            foreach (User u in tutors)
             {
-                combTutorNameLeft.Items.Add(name);
-            }
-        }
-        private void AdvancedRequest_Load(object sender, EventArgs e)
-        {
-
-        }
-
-        //Left Side
-        private void btnByTutor_Click(object sender, EventArgs e)
-        {
-            //hide the right side of the form
-            combClassBoxRight.Hide();
-            combTutorNameRight.Hide();
-            lblClasses.Hide();
-            label1.Hide();
-            label2.Hide();
-            btnManualTime.Hide();
-            btnSendRequest.Hide();
-            combMeetingLength.Hide();
-            lblHowLong.Hide();
-            cbxWeekly.Hide();
-
-            //show lblTutorName and combTutorName
-            lblTutorName.Show();
-            combTutorNameLeft.Show();
-
-            //Set the bool for later
-            leftside = true;
-        }
-
-        private void setupComboClassesLeft()
-        {
-            TutorMasterDBEntities4 db = new TutorMasterDBEntities4();
-
-            string[] Tutorname = combTutorNameLeft.Text.Split(); //Get the Tutor's ID
-            string fname = Tutorname[0];
-            string lname = Tutorname[1];
-            int TutID = (from row in db.Users where row.FirstName == fname && row.LastName == lname select row.ID).First();
-            
-            var Classes = (from row in db.StudentClasses where row.ID == TutID select row.Class); // pull out all the classes that are being tutored by the particular student [including duplicates]
-           
-            List<Class> ListOfClasses = Classes.ToList<Class>(); //put all of those classes into a list to manipuate
-            foreach (Class SC in ListOfClasses)
-            {
-                combClassBoxLeft.Items.Add(SC.ClassName);
+                tutorIDs.Add(u.ID);
+                combFirstChoice.Items.Add(u.FirstName + " " + u.LastName);
             }
         }
 
-        private void combTutorNameLeft_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            //show the appropriate objects 
-            combClassBoxLeft.Show();
-            lblClassesAvailable.Show();
-            combMeetingLength.Show();
-            lblHowLong.Show();
-            cbxWeekly.Show();
-            btnFindMatches.Show();
-            label3.Show();
-            combClassBoxLeft.Items.Clear();         //clears the class box
-            setupComboClassesLeft();    //fills it with the appropriate classes
-            
-        }
-
-        private void combClassBoxLeft_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        //Right Side 
+        //User selects class
         private void btnByClass_Click(object sender, EventArgs e)
         {
             //Hide left side of form
-            lblTutorName.Hide();
-            lblClassesAvailable.Hide();
-            lblAvailableTimes.Hide();
-            combTutorNameLeft.Hide();
-            combTutorAvailability.Hide();
-            label2.Hide();
-            btnManualTime.Hide();
-            btnSendRequest.Hide();
-            combClassBoxLeft.Hide();
-            lblClassesAvailable.Hide();
-            combMeetingLength.Hide();
-            lblHowLong.Hide();
-            cbxWeekly.Hide();
-            label3.Hide();
-            btnSendRequest.Hide();
+            hideControls();
+            tutorIDs.Clear();
 
             //Show Class Options
-            lblClasses.Show();
-            combClassBoxRight.Show();
+            setupClassList();
 
-            //Set Left for use in matching
-            leftside = false;
+            lblFirstChoice.Text = "Class Name";
+            lblFirstChoice.Show();
+            combFirstChoice.Show();
         }
 
-        private void setupComboClassesRight()
+        private void setupClassList()
         {
             TutorMasterDBEntities4 db = new TutorMasterDBEntities4();
-            var Classes = (from row in db.StudentClasses select row.Class); // pull out all the classes that are being tutored [including duplicates]
-            List<Class> ListOfClasses = Classes.ToList<Class>(); //put all of those classes into a list to manipuate
-            foreach (Class SC in ListOfClasses)
+
+            foreach (Class c in db.Classes)
             {
-                combClassBoxRight.Items.Add(SC.ClassName);
+                combFirstChoice.Items.Add(c.ClassName);
             }
+        }
+
+        //User makes a choice
+        private void combFirstChoice_DropDownClosed(object sender, EventArgs e)
+        {
+            if (lblFirstChoice.Text.Equals("Tutor Name"))
+            {
+                loadTutorClassList();
+            }
+            else
+            {
+                loadClassTutorList();
+            }
+
+            showSecondChoice();
+        }
+
+        //load second choice options based on what the first choice was
+        private void loadTutorClassList()
+        {
+            TutorMasterDBEntities4 db = new TutorMasterDBEntities4();
+
+            List<Class> classes = (from row in db.StudentClasses where row.ID == tutorIDs[combFirstChoice.SelectedIndex] select row.Class).ToList();
+            foreach (Class SC in classes)
+            {
+                combSecondChoice.Items.Add(SC.ClassName);
+            }
+        }
+
+        private void loadClassTutorList()
+        {
+            //1. pull all of the students that are available as tutors into a list
+            TutorMasterDBEntities4 db = new TutorMasterDBEntities4();
+
+            //Get classcode of selected class
+            string classCode = (from row in db.Classes where row.ClassName == combFirstChoice.SelectedText.ToString() select row.ClassCode).First();
+
+            //1.1 Identify all the tutors and put them in a list
+            List<User> tutors = (from userCla in db.StudentClasses
+                                 where userCla.ClassCode == classCode
+                                 join u in db.Users on userCla.ID equals u.ID
+                                 select u).ToList();
+
+            //2. set them up in the combo box 
+            foreach (User u in tutors)
+            {
+                tutorIDs.Add(u.ID);
+                combSecondChoice.Items.Add(u.FirstName + " " + u.LastName);
+            }
+        }
+
+        private void showSecondChoice()
+        {
+            lblHowLong.Show();
+            lblHour.Show();
+            lblMin.Show();
+            combStartHour.Show();
+            combStartMinute.Show();
+            cbxWeekly.Show();
+            lblSecondChoice.Show();
+            combSecondChoice.Show();
         }
 
         private void btnExit_Click(object sender, EventArgs e) 
@@ -192,166 +174,42 @@ namespace TutorMaster
             this.Close();
         }
 
-        private void combClassBoxRight_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            //1. Show and clear all the appropriate items
-            label1.Show();
-            label3.Show();
-            combTutorNameRight.Show();
-            combTutorNameRight.Items.Clear();
-            combMeetingLength.Show();
-            lblHowLong.Show();
-            cbxWeekly.Show();
-            btnFindMatches.Show();
-
-            //This populates the available tutors for the selected class
-            TutorMasterDBEntities4 db = new TutorMasterDBEntities4();
-
-            //Create a list of all the Users that tutor the class that was selected
-            List<User> ListOfTutors =
-                (from row in db.StudentClasses
-                 where row.Class.ClassName == combClassBoxRight.Text
-                 join usr in db.Users 
-                 on row.ID equals usr.ID
-                 select usr).ToList<User>();
-
-            //display them in the combo box
-            foreach(User usr in ListOfTutors) 
-            {
-                combTutorNameRight.Items.Add(usr.FirstName+' '+usr.LastName);
-            }
-        }
-
-        private void combTutorNameRight_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            //call our tutor match function
-        }
-
-        //Middle
         private void btnFindMatches_Click(object sender, EventArgs e)
         {
-            bool g2 = false;
-            Auto = true;
-            //Validate
-            if (leftside && combClassBoxLeft.SelectedItem != null && combTutorNameLeft.SelectedItem != null && combMeetingLength.SelectedItem != null) //If we're looking at the left side and everything is filled in
+            if (formComplete())                                                         //If we're good to go then we move onto the matching process
             {
-                g2 = true;
-            }
-
-            if (!leftside && combClassBoxRight.SelectedItem != null && combTutorNameRight.SelectedItem != null && combMeetingLength.SelectedItem != null) //If we're looking at the right side and everything is filled in
-            {
-                g2 = true;
-            }
-
-
-            if (g2) //If we're good to go then we move onto the matching process
-            {
-                //show the appropriate boxes
-                lblAvailableTimes.Show();
-                combTutorAvailability.Show();
-                btnSendRequest.Show();
-                label2.Show();
-                btnManualTime.Show();
-                dayStartDateTime.Hide();
-                combStartAmPm.Hide();
-                combStartHour.Hide();
-                combStartMinute.Hide();
-
-                if (leftside)
-                    MatchTimes(combTutorNameLeft, combClassBoxLeft); //match the left
-                if (!leftside)
-                    MatchTimes(combTutorNameRight, combClassBoxRight); //call the match for the right side
+                if (lblFirstChoice.Text.Equals("Tutor Name"))
+                {
+                    MatchTimes(combFirstChoice, combSecondChoice);
+                }
+                else
+                {
+                    MatchTimes(combSecondChoice, combFirstChoice);
+                }
             }
             else
             {
-                DialogResult choice = MessageBox.Show("Please select a tutor, class, and a session length."); 
+                MessageBox.Show("Please select a tutor, class, and a session length."); 
             }
         }
 
-        private void combMeetingLength_SelectedIndexChanged(object sender, EventArgs e)
+        private bool formComplete()
         {
+            return (!String.IsNullOrEmpty(combSecondChoice.SelectedText) && !String.IsNullOrEmpty(combStartHour.SelectedText)
+                && !String.IsNullOrEmpty(combStartMinute.SelectedText));
         }
-
-        private void btnManualTime_Click(object sender, EventArgs e)
-        {
-            //Show everything
-            Auto = false;
-            combTutorAvailability.Items.Clear(); // do this to prevent some potential errors
-            dayStartDateTime.Show();
-            combStartAmPm.Show();
-            combStartHour.Show();
-            combStartMinute.Show();
-            combTutorAvailability.Hide();
-
-        }
-
-        private void btnSendRequest_Click(object sender, EventArgs e,List<string> tutorValidSlot, int TutID, int TuteeID, List<TutorMaster.Commitment> tutorCommits, List<TutorMaster.Commitment> tuteeCommits, string classCode, TutorMasterDBEntities4 db, bool weekly, int length)
-        {
-            if (Auto)
-            {
-                if (combTutorAvailability.SelectedItem == null)
-                    MessageBox.Show("Please select a time before trying to submit an appointment");
-                else
-                {
-                    addCommits(tutorValidSlot[combTutorAvailability.SelectedIndex], TutID, TuteeID, tutorCommits, tuteeCommits, classCode, db, weekly, length);//add the commits!  
-                    MessageBox.Show("Your appointments has been Scheduled!"); //Let them know that it worked!
-                    btnExit_Click(this, e); //close this form and send them back to the student form!
-                }
-            }
-            else      //If we are using the manual addition ------ This was scrapped last minute. I've left it here because it shouldn't cause any problems and we could use this as a spring board for an additional feature in Tutor Master 2.0
-            {
-                //1. check to make sure all the info has been entered
-
-                if (ValidTimeBoxes())
-                {
-                    //2. Actually add the commitments to the DB
-                    //z. base case of there being an existing conflict with a confirmed appointment, give a message and tell the user requesting that they should try a different time. 
-                    //a. case for when there is no availibility at all in the the db
-                    //b. case where this overides some or all of an open time
-                }
-            }
-        }
-
-
-        //Helper function for Send Request
-        private bool ValidTimeBoxes()
-        {
-            bool valid = true;
-            if (combStartHour.SelectedItem == null)
-            {
-                MessageBox.Show("Please select a valid start hour.");
-                valid = false;
-            }
-            if (combStartMinute.SelectedItem == null)
-            {
-                MessageBox.Show("Please select a valid start minute.");
-                valid = false;
-            }
-            if (combStartAmPm.SelectedItem == null)
-            {
-                MessageBox.Show("Please select whether the time is Am or Pm.");
-                valid = false;
-            }
-            return valid;
-        }
-
 
         //Match Function and it's helpers
-        private int MatchTimes(ComboBox TutBox, ComboBox ClsBox)
+        private void MatchTimes(ComboBox TutBox, ComboBox ClsBox)
         {
-
             TutorMasterDBEntities4 db = new TutorMasterDBEntities4();
-            combTutorAvailability.Items.Clear(); //clear the box so that it is 
-            //0. Info needed to match
+            lvAvailableTimes.Items.Clear();
 
             //a. Name of Tutor, use it to find their ID
-            string[] Tutorname = TutBox.Text.Split();
-            string fname = Tutorname[0];
-            string lname = Tutorname[1];
-            int TutID = (from row in db.Users where row.FirstName == fname && row.LastName == lname select row.ID).First();
+            int TutID = tutorIDs[TutBox.SelectedIndex];
 
             //b. Length of tutoring session in minutes
-            int length = (int.Parse(combMeetingLength.Text))/15;
+            int length = Convert.ToInt32(combStartHour.Text) * 4 + (Convert.ToInt32(combStartMinute.Text) / 15);
 
             //c. whether it is weekly
             bool weekly = cbxWeekly.Checked;
@@ -369,7 +227,7 @@ namespace TutorMaster
                                                 join cmt in db.Commitments.AsEnumerable() on stucmt.CmtID equals cmt.CmtID
                                                 select cmt).ToList();
 
-            QuickSort(ref tuteeCommits, tuteeCommits.Count()); //sort the tutee commits so that they are in chronological order
+            SortsAndSearches.QuickSort(ref tuteeCommits, tuteeCommits.Count()); //sort the tutee commits so that they are in chronological order
 
             checkMax(ref tuteeCommits);
 
@@ -378,7 +236,6 @@ namespace TutorMaster
             if (tuteeCommits.Count == 0) //If the tuttee doesn't have any compatible availibility then give a pop up box to let them know
             {
                 MessageBox.Show("You currently have no available slots, please add some availability before attempting to schedule a session of this length");
-                return 1;
             }
             else
             {
@@ -389,36 +246,36 @@ namespace TutorMaster
                                                                 join cmt in db.Commitments.AsEnumerable() on stucmt.CmtID equals cmt.CmtID
                                                                 select cmt).ToList();
 
-                QuickSort(ref tutorCommits, tutorCommits.Count()); //sort it so we can use it
+                SortsAndSearches.QuickSort(ref tutorCommits, tutorCommits.Count()); //sort it so we can use it
                 checkMax(ref tutorCommits); 
                 removeNotOpens(ref tutorCommits, start, weekly); //remove the occupied commitments
 
                 List<string> tutorValidSlots = getValidSlots(ref tutorCommits, length); //create a list of all the valid tutor slots
 
-                if (tuteeValidSlots.Count() == 0)//If there are no mathcing slots, direct the user to try again or do a manual time. 
+                if (tuteeValidSlots.Count() == 0)//If there are no mathcing slots, direct the user to try again
                 {
-                    MessageBox.Show("This Tutor has no matching availibility long enough. Please consider a either a shorter session or a different tutor.");
-                    return 1;
+                    MessageBox.Show("This Tutor has no matching availibility.");
                 }
-                for (int j = 0; j < tutorValidSlots.Count(); j++) //iterate through all the available tutor slots 
+                else
                 {
-                    if (BinarySearch(tuteeValidSlots, tutorValidSlots[j]))
+                    for (int j = 0; j < tutorValidSlots.Count(); j++) //iterate through all the available tutor slots 
                     {
-                        //add all the slots to the tutor availibility timeslot
-                        string MatchedTime = tutorValidSlots[j].Split(',')[0] + " - " + tutorValidSlots[j].Split(',')[1]; //this string is the matched time
-                        combTutorAvailability.Items.Add(MatchedTime);//adds the time slot to the combo box 
+                        if (SortsAndSearches.BinarySearch(tuteeValidSlots, tutorValidSlots[j]))
+                        {
+                            //add all the slots to the tutor availibility timeslot
+                            ListViewItem item = new ListViewItem(new string[] { tutorValidSlots[j].Split(',')[0], tutorValidSlots[j].Split(',')[1] });
+                            lvAvailableTimes.Items.Add(item);//adds the time slot to the combo box 
+                        }
                     }
-                }
-                btnSendRequest.Click += (sender, e) => btnSendRequest_Click(sender, e, tutorValidSlots, TutID, TuteeID, tutorCommits, tuteeCommits, classCode, db, weekly, length);
-            }
-            return 0;
+                } 
+            } 
         }
 
         private void addCommits(string timeSlot, int tutorId, int tuteeId, List<TutorMaster.Commitment> tutorCommits, List<TutorMaster.Commitment> tuteeCommits, string classCode, TutorMasterDBEntities4 db, bool weekly, int numSessions)
         {
             //TutorMasterDBEntities4 db = new TutorMasterDBEntities4();
-            DateTime startTime = getStartTime(timeSlot);
-            DateTime endTime = getEndTime(timeSlot);
+            DateTime startTime = DateTimeMethods.getStartTime(timeSlot);
+            DateTime endTime = DateTimeMethods.getEndTime(timeSlot);
             DateTime saveFirst = startTime;
             DateTime saveEnd = endTime;
 
@@ -493,37 +350,6 @@ namespace TutorMaster
                     {
                         startTime = startTime.AddDays(7);
                         endTime = endTime.AddDays(7);
-                    }
-                }
-            }
-        }
-        
-        private bool isOpen(TutorMaster.Commitment commit)
-        {
-            return (commit.Class == "-" && commit.Location == "-" && commit.Open == true && commit.Tutoring == false && commit.ID == -1);
-        }
-
-        private void removeNotOpens(ref List<TutorMaster.Commitment> cmtList, DateTime start, bool weekly)
-        {
-            if (weekly)
-            {
-                for (int i = 0; i < cmtList.Count() - 1; i++)
-                {
-                    if (!isOpen(cmtList[i]) || DateTime.Compare(start, Convert.ToDateTime(cmtList[i].StartTime)) > 0 || cmtList[i].Weekly != weekly)
-                    {
-                        cmtList.Remove(cmtList[i]);
-                        i--;
-                    }
-                }
-            }
-            else
-            {
-                for (int i = 0; i < cmtList.Count() - 1; i++)
-                {
-                    if (!isOpen(cmtList[i]) || DateTime.Compare(start, Convert.ToDateTime(cmtList[i].StartTime)) > 0)
-                    {
-                        cmtList.Remove(cmtList[i]);
-                        i--;
                     }
                 }
             }
@@ -610,6 +436,32 @@ namespace TutorMaster
                     && commitFirst.ID == commitSecond.ID);
         }
 
+        private void removeNotOpens(ref List<TutorMaster.Commitment> cmtList, DateTime start, bool weekly)
+        {
+            if (weekly)
+            {
+                for (int i = 0; i < cmtList.Count() - 1; i++)
+                {
+                    if (!Commits.isOpen(cmtList[i]) || DateTime.Compare(start, Convert.ToDateTime(cmtList[i].StartTime)) > 0 || cmtList[i].Weekly != weekly)
+                    {
+                        cmtList.Remove(cmtList[i]);
+                        i--;
+                    }
+                }
+            }
+            else
+            {
+                for (int i = 0; i < cmtList.Count() - 1; i++)
+                {
+                    if (!Commits.isOpen(cmtList[i]) || DateTime.Compare(start, Convert.ToDateTime(cmtList[i].StartTime)) > 0)
+                    {
+                        cmtList.Remove(cmtList[i]);
+                        i--;
+                    }
+                }
+            }
+        }
+
         private void checkMax(ref List<TutorMaster.Commitment> cmtList)
         {
             int consec = 1;
@@ -626,7 +478,7 @@ namespace TutorMaster
                     i--;
                     consec = 1;
                 }
-                if (DateTime.Compare(currentCommit.AddMinutes(15), nextCommit) == 0 && sameCategory(cmtList[i], cmtList[i + 1]) && !isOpen(cmtList[i]))
+                if (DateTime.Compare(currentCommit.AddMinutes(15), nextCommit) == 0 && sameCategory(cmtList[i], cmtList[i + 1]) && !Commits.isOpen(cmtList[i]))
                 {
                     consec++;
                 }
@@ -635,197 +487,6 @@ namespace TutorMaster
                     consec = 1;
                 }
             }
-        }
-
-        private DateTime getStartTime(string slot)
-        {
-            string startDateTime = slot.Split(',')[0];
-            string startDate = startDateTime.Split(' ')[0];
-            string startTime = startDateTime.Split(' ')[1];
-            string amPm = startDateTime.Split(' ')[2];
-
-            int month = Convert.ToInt32(startDate.Split('/')[0]);
-            int day = Convert.ToInt32(startDate.Split('/')[1]);
-            int year = Convert.ToInt32(startDate.Split('/')[2]);
-
-            int hour = Convert.ToInt32(startTime.Split(':')[0]);
-            int min = Convert.ToInt32(startTime.Split(':')[1]);
-
-
-            if (hour < 12 && amPm == "PM")
-            {
-                hour += 12;
-            }
-            else if (hour == 12 && amPm == "AM")
-            {
-                hour = 0;
-            }
-            DateTime date = new DateTime(year, month, day, hour, min, 0);
-            return date;
-        }
-
-        private DateTime getEndTime(string slot)
-        {
-            string startDateTime = slot.Split(',')[1];
-            string startDate = startDateTime.Split(' ')[0];
-            string startTime = startDateTime.Split(' ')[1];
-            string amPm = startDateTime.Split(' ')[2];
-
-            int month = Convert.ToInt32(startDate.Split('/')[0]);
-            int day = Convert.ToInt32(startDate.Split('/')[1]);
-            int year = Convert.ToInt32(startDate.Split('/')[2]);
-
-            int hour = Convert.ToInt32(startTime.Split(':')[0]);
-            int min = Convert.ToInt32(startTime.Split(':')[1]);
-
-
-            if (hour < 12 && amPm == "PM")
-            {
-                hour += 12;
-            }
-            else if (hour == 12 && amPm == "AM")
-            {
-                hour = 0;
-            }
-
-            DateTime date = new DateTime(year, month, day, hour, min, 0);
-            return date;
-        }
-
-        private bool BinarySearch(List<string> cmtList, string commit)
-        {
-            bool found = false;
-            int first = 0;
-            int last = cmtList.Count() - 1;
-            while (first <= last && !found)
-            {
-                int midpoint = (first + last) / 2;
-                if (DateTime.Compare(getStartTime(cmtList[midpoint]), getStartTime(commit)) == 0)
-                {
-                    found = true;
-                    return found;
-                }
-                else
-                {
-                    if (DateTime.Compare(getStartTime(commit), getStartTime(cmtList[midpoint])) < 0)
-                    {
-                        last = midpoint - 1;
-                    }
-                    else
-                    {
-                        first = midpoint + 1;
-                    }
-                }
-            }
-            return found;
-        }
-
-        //QuickSort functions
-        private void Split(ref List<TutorMaster.Commitment> values, int first, int last, ref int splitPoint)
-        {
-            int center = (first + last) / 2;
-            int median = 0;
-            DateTime valueF = Convert.ToDateTime(values[first].StartTime);
-            DateTime valueC = Convert.ToDateTime(values[center].StartTime);
-            DateTime valueL = Convert.ToDateTime(values[last].StartTime);
-
-            if ((DateTime.Compare(valueF, valueC) >= 0 && DateTime.Compare(valueF, valueL) <= 0) ||
-                (DateTime.Compare(valueF, valueL) >= 0 && DateTime.Compare(valueF, valueL) <= 0))
-            {
-                median = first;
-            }
-            else if (DateTime.Compare(valueC, valueF) >= 0 && (DateTime.Compare(valueC, valueL) <= 0) ||
-                   (DateTime.Compare(valueC, valueF)) >= 0 && (DateTime.Compare(valueC, valueL) <= 0))
-            {
-                median = center;
-            }
-            else
-            {
-                median = last;
-            }
-            //Swap the median and first committments in the list
-            TutorMaster.Commitment temp = values[first];
-            values[first] = values[median];
-            values[median] = temp;
-
-            valueF = Convert.ToDateTime(values[first].StartTime); //get current first datetime
-            valueC = Convert.ToDateTime(values[center].StartTime);//get current center datetime;
-            valueL = Convert.ToDateTime(values[last].StartTime);
-
-            TutorMaster.Commitment splitVal = values[first];
-            DateTime splitDate = Convert.ToDateTime(values[first].StartTime);
-
-            int saveFirst = first;
-            bool onCorrectSide = true;
-
-            first++;
-            valueF = Convert.ToDateTime(values[first].StartTime);
-            do
-            {
-                onCorrectSide = true;
-                while (onCorrectSide)
-                {
-                    if (DateTime.Compare(valueF, splitDate) > 0)
-                    {
-                        onCorrectSide = false;
-                    }
-                    else
-                    {
-                        first++;
-                        valueF = Convert.ToDateTime(values[first].StartTime);
-                        onCorrectSide = (first <= last);
-                    }
-                }
-
-                onCorrectSide = (first <= last);
-                while (onCorrectSide)
-                {
-                    if (DateTime.Compare(valueL, splitDate) <= 0)
-                    {
-                        onCorrectSide = false;
-                    }
-                    else
-                    {
-                        last--;
-                        valueL = Convert.ToDateTime(values[last].StartTime);
-                        onCorrectSide = (first <= last);
-                    }
-                }
-
-                if (first < last)
-                {
-                    TutorMaster.Commitment temp2 = values[first];
-                    values[first] = values[last];
-                    values[last] = temp2;
-                    first++;
-                    last--;
-
-                    valueF = Convert.ToDateTime(values[first].StartTime);
-                    valueL = Convert.ToDateTime(values[last].StartTime);
-                }
-            } while (first <= last);
-
-            splitPoint = last;
-            TutorMaster.Commitment temp3 = values[saveFirst];
-            values[saveFirst] = values[splitPoint];
-            values[splitPoint] = temp3;
-        }
-
-        private void QuickSort2(ref List<TutorMaster.Commitment> values, int first, int last)
-        {
-            if (first < last)
-            {
-                int splitPoint = -99;
-
-                Split(ref values, first, last, ref splitPoint);
-                QuickSort2(ref values, first, splitPoint - 1);
-                QuickSort2(ref values, splitPoint + 1, last);
-            }
-        }
-
-        private void QuickSort(ref List<TutorMaster.Commitment> values, int numValues)
-        {
-            QuickSort2(ref values, 0, numValues - 1);
         }
     }
 }
