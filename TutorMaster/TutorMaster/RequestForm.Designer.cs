@@ -81,9 +81,9 @@
             this.cbxWeekly.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.cbxWeekly.Location = new System.Drawing.Point(18, 96);
             this.cbxWeekly.Name = "cbxWeekly";
-            this.cbxWeekly.Size = new System.Drawing.Size(163, 17);
+            this.cbxWeekly.Size = new System.Drawing.Size(60, 17);
             this.cbxWeekly.TabIndex = 18;
-            this.cbxWeekly.Text = "Is this a weekly appointment?";
+            this.cbxWeekly.Text = "Weekly";
             this.cbxWeekly.UseVisualStyleBackColor = true;
             // 
             // combCourseName
